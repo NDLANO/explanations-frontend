@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const ROOT_URL = "http://localhost:63365";
+const ROOT_URL = "http://http://18.194.35.165";
 
 const API_URL = `${ROOT_URL}/api`;
 
