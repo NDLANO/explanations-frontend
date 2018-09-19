@@ -31,7 +31,7 @@ phases:
       #- docker push $REPOSITORY_NAME:latest
       - echo $REPOSITORY_URI:$IMAGE_TAG
       - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - printf '[{"name":"ndla-app","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imageDefinitions.json
+      - printf '[{"name":"%s","imageUri":"%s"}]' $REPOSITORY_NAME $REPOSITORY_URI:$IMAGE_TAG > imageDefinitions.json
       - echo imageDefinitions.json
 artifacts:
     files:

@@ -19,8 +19,8 @@ COPY server/package*.json ./
 RUN npm install -qy
 COPY server/ ./
 
-ENV PORT 8000
+ENV PORT 80
 
-EXPOSE 8000
+EXPOSE 80
 
 CMD npm run start-production
