@@ -1,14 +1,21 @@
-import React from 'react';
-import { Hero, OneColumn, SearchField, Concept,LayoutItem } from 'ndla-ui';
+/**
+ * Copyright (c) 2018-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 
-import { addShowConceptDefinitionClickListeners } from 'ndla-article-scripts';
+import React from 'react'
+import { Hero, OneColumn, SearchField, Concept,LayoutItem } from 'ndla-ui'
+import { addShowConceptDefinitionClickListeners } from 'ndla-article-scripts'
 import {getConcepts} from "../api";
 
 class SearchPage extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {search_term: '', search_result_text: '', result_as_content: [],concepts: [], search_query: ''};
+        this.state = {search_term: '',concepts: [], search_query: ''};
 
         this.onSearch = this.onSearch.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -24,7 +31,6 @@ class SearchPage extends React.Component {
         e.preventDefault(); // Prevent loading a new page
 
         getConcepts(this.state.search_query).then( data => {
-            console.log(data.data)
             this.setState({concepts: data.data})
         });
 
@@ -36,10 +42,10 @@ class SearchPage extends React.Component {
         let query = "";
 
         if (terms.length > 0) {
-            query += "title=" +  terms[0].trimStart().trimEnd();
+            query += `title=${terms[0].trimStart().trimEnd()}`;
         }
         if (terms.length > 1) {
-            query += "&language=" +  terms[1].trimStart().trimEnd();
+            query += `&language=${terms[1].trimStart().trimEnd()}`;
         }
         this.setState({search_term: term, search_query: query})
     }
@@ -55,7 +61,7 @@ class SearchPage extends React.Component {
                 if (concept.content == null)
                     return null;
                 if (concept.language === 'nn')
-                    concept.id = concept.id + 1000;
+                    concept.id += 1000;
                 return <li key={`${concept.id}-${concept.language}`}>
                     <Concept
                         {...concept}
@@ -79,8 +85,7 @@ class SearchPage extends React.Component {
     render() {
         return (
             <LayoutItem layout="center">
-                <Hero contentType="learning-path">
-                </Hero>
+                <Hero contentType="tasks-and-activities" />
                 <OneColumn>
                     <SearchField placeholder="Søk etter begrep"
                                 messages={{searchFieldTitle: "title"}}

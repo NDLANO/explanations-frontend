@@ -6,6 +6,7 @@
  *
  */
 
+
 import { formatNestedMessages } from 'ndla-i18n';
 import { messagesNB, messagesEN, messagesNN } from 'ndla-ui';
 import additionalMessagesNB from './messages/messagesNB';
@@ -33,7 +34,6 @@ export const preferredLocales = [NB, NN, EN];
 
 export const getLocaleObject = localeAbbreviation => {
   const locale = appLocales.find(l => l.abbreviation === localeAbbreviation);
-
   return locale || NB; // defaults to NB
 };
 
