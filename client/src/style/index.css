@@ -151,3 +151,7 @@ form .c-save-button--saved, form .c-save-button--saved:hover, form .c-save-butto
   transition: all 0.5s ease;
   background-color: var(--green-1);
   border-color: var(--green-1); }
+
+input {
+  margin: 0;
+  /* Bug where leftmost side is 1 px below the rest of the input */ }

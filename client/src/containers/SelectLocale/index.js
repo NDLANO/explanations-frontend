@@ -1,3 +1,3 @@
-import SelectLocale from './SelectLocale';
+import SelectLocale from './SelectLocaleContainer';
 
 export default SelectLocale;

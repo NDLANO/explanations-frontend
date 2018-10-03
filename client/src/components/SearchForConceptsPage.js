@@ -9,9 +9,19 @@
 import React from 'react'
 import { Hero, OneColumn, SearchField, Concept,LayoutItem } from 'ndla-ui'
 import { addShowConceptDefinitionClickListeners } from 'ndla-article-scripts'
-import {getConcepts} from "../api";
+import {searchForConcepts} from "../api";
 
-class SearchPage extends React.Component {
+const WhiteHero = () =>
+    <Hero contentType="tasks-and-activities" >
+        <style>{`
+                      .c-hero--tasks-and-activities {
+                        background-color: #fff;
+                      }
+                      `}
+        </style>
+    </Hero>;
+
+class SearchForConceptsPage extends React.Component {
 
     constructor(props) {
         super(props);
@@ -30,7 +40,7 @@ class SearchPage extends React.Component {
     onSearch(e) {
         e.preventDefault(); // Prevent loading a new page
 
-        getConcepts(this.state.search_query).then( data => {
+        searchForConcepts(this.state.search_query).then( data => {
             this.setState({concepts: data.data})
         });
 
@@ -85,7 +95,7 @@ class SearchPage extends React.Component {
     render() {
         return (
             <LayoutItem layout="center">
-                <Hero contentType="tasks-and-activities" />
+                <WhiteHero />
                 <OneColumn>
                     <SearchField placeholder="Søk etter begrep"
                                 messages={{searchFieldTitle: "title"}}
@@ -95,15 +105,14 @@ class SearchPage extends React.Component {
                                 />
                 </OneColumn>
 
-                <Hero contentType="learning-path">
-
+                <WhiteHero>
                     <LayoutItem>
                         {this.renderConcept()}
                     </LayoutItem>
-                </Hero>
+                </WhiteHero>
             </LayoutItem>
         );
     }
 }
 
-export default SearchPage;
+export default SearchForConceptsPage;

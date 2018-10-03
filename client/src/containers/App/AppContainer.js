@@ -14,10 +14,11 @@ import Helmet from 'react-helmet';
 
 import './style.css'
 
-import NotFoundPage from '../NotFoundPage'
-import SearchPage from '../../components/SearchPage';
+import NotFoundPage from '../../components/NotFoundPage'
+import SearchPage from '../SearchPage/SearchPageContainer';
 import Footer from '../../components/Footer';
 import Header from "../../components/Header/Header";
+import SearchForConceptsPage from "../../components/SearchForConceptsPage";
 
 const App = ({t}) =>
     <PageContainer>
@@ -28,6 +29,7 @@ const App = ({t}) =>
         <Content>
             <Header t={t} />
             <Switch>
+                <Route path="/searchConcept" exact component={SearchForConceptsPage}/>
                 <Route path="/search" exact component={SearchPage}/>
                 <Redirect exact from="/" to="/search"/>
                 <Route path="*" component={NotFoundPage}/>

@@ -11,12 +11,11 @@ import ReactDOM from 'react-dom';
 import {Provider} from "react-redux";
 import {IntlProvider} from "ndla-i18n";
 import {BrowserRouter} from "react-router-dom";
-import App from './containers/App/App';
-import {getLocaleInfoFromPath, isValidLocale} from "./i18n";
+import App from './containers/App';
+import {getLocaleInfoFromPath} from "./i18n";
 import {store} from './store';
 
-const paths = window.location.pathname.split('/');
-const basename = isValidLocale(paths[1]) ? `${paths[1]}` : '';
+const {basename} = getLocaleInfoFromPath(window.location.pathname);
 
 const { abbreviation, messages } = getLocaleInfoFromPath(
     window.location.pathname,

@@ -11,3 +11,8 @@
 @import 'vars.scss';
 @import '_dropdown.scss';
 @import '_form.scss';
+
+
+input {
+  margin: 0; /* Bug where leftmost side is 1 px below the rest of the input */
+}

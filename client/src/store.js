@@ -7,15 +7,15 @@
  */
 
 import { compose, createStore} from 'redux';
+import rootReducers from "./reducers";
 
 /* eslint-disable no-underscore-dangle */
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 /* eslint-enable */
 
-const reducer = (state = {}) => state;
 
 export const store = createStore(
-    reducer,
+    rootReducers,
     composeEnhancers(
         /* applyMiddlewate() */
     ));

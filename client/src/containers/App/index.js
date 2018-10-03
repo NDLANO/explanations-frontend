@@ -6,6 +6,6 @@
  *
  */
 
-import App from './App';
+import App from './AppContainer';
 
 export default App;

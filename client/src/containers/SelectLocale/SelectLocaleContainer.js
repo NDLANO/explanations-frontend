@@ -13,8 +13,9 @@ import { withRouter } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 
 import { appLocales } from '../../i18n';
+import {updateLocale} from "./Actions";
 
-const SelectLocale = ({ locale, location: { pathname, search } }) => {
+const SelectLocale = ({ locale, location: { pathname, search }, updateLocale }) => {
     const handleChange = newLocale => {
         // Next 3 lines is to trim previous locale
         let path = pathname.slice();
@@ -22,8 +23,9 @@ const SelectLocale = ({ locale, location: { pathname, search } }) => {
         path = path.startsWith('/') ? path.substring(1) : path;
         createHistory().push(`/${newLocale}/${path}${search}`); // Need create new history or else basename is included
         window.location.reload();
+        updateLocale(newLocale)
     };
-
+    console.log(locale)
     return (
         <select
             onChange={evt => {
@@ -47,8 +49,10 @@ SelectLocale.propTypes = {
     }),
 };
 
-const mapStateToProps = state => ({
-    locale: state.language || 'nb',
+const mapStateToProps = ({locale}) => ({
+    locale,
 });
 
-export default withRouter(connect(mapStateToProps)(SelectLocale));
+
+
+export default withRouter(connect(mapStateToProps, {updateLocale})(SelectLocale));

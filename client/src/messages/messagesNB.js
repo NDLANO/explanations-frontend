@@ -19,6 +19,24 @@ const NB = {
     subNavigation: {
         search: "Søk"
     },
+    search: {
+        concept: {
+            placeholder: "Begrep",
+            title: "Forklaring"
+        },
+        subSubject: {
+            placeholder: "Emne",
+            title: "Emne"
+        },
+        subject: {
+            placeholder: "Fag",
+            title: "Fag"
+        },
+        language: {
+            placeholder: "Språk",
+            title: "Språk"
+        }
+    }
 };
 
 export default NB;
