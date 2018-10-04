@@ -24,7 +24,7 @@ const SearchResultItem = ({item}) =>
             </div>
 
             <div {...classes('content')}>
-                {item.content.slice(0, 220)}...
+                {Boolean(item.content) && item.content.slice(0, 220)}...
             </div>
 
             {Boolean(item.metadata.length) && <TagList tags={item.metadata} />}
