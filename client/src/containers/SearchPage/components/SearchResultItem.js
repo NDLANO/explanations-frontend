@@ -1,24 +1,29 @@
 import React from 'react';
 import BEMHelper from "react-bem-helper";
 
-const TagList = ({tags}) => <ul>{tags.map(tag => <li>{tag.description ? tag.description : tag.code}</li>)}</ul>;
+const classes = new BEMHelper({
+    name: 'search-result-list__item',
+    prefix: 'c-',
+});
 
-const searchResultItemClasses = BEMHelper('c-search-result-item');
+
+
+const TagList = ({tags}) => <div {...classes('tags')}><ul>{tags.map(tag => <li key={tag.code}>{tag.description ? tag.description : tag.code}</li>)}</ul></div>;
 
 const SearchResultItem = ({item}) =>
-    <li key={item.id} {...searchResultItemClasses()}>
+    <li key={item.id} {...classes()}>
         <article>
-            <header {...searchResultItemClasses('header')}>
+            <header {...classes('header')}>
                 <h1>
                     <a href={`/test`}>{item.title}</a>
                 </h1>
             </header>
 
-            <div {...searchResultItemClasses('author')}>
+            <div {...classes('author')}>
                 {item.author}
             </div>
 
-            <div {...searchResultItemClasses('content')}>
+            <div {...classes('content')}>
                 {item.content.slice(0, 220)}...
             </div>
 

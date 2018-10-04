@@ -16,6 +16,7 @@ import {compose} from "redux";
 import './style.css'
 import {updateSearchResult} from "./Actions";
 import SearchResultItem from "./components/SearchResultItem";
+import BEMHelper from "react-bem-helper";
 
 /*
 const SearchResultList = () =>
@@ -35,6 +36,10 @@ const SearchResultList = () =>
         />
     </div>*/
 
+const classes = new BEMHelper({
+    name: 'search-result-list',
+    prefix: 'c-',
+});
 
 class SearchContainer extends React.Component {
     constructor(props) {
@@ -45,7 +50,7 @@ class SearchContainer extends React.Component {
         return (
             <OneColumn>
                 <SearchForm t={this.props.t} search={this.props.updateSearchResult}/>
-                <ul>{this.props.searchResult.map(result => <SearchResultItem key={result.id} item={result}/>)}</ul>
+                <ul {...classes()}>{this.props.searchResult.map(result => <SearchResultItem key={result.id} item={result}/>)}</ul>
             </OneColumn>
         );
     }

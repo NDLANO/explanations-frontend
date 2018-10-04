@@ -5,23 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-.c-masthead {
-  background-color: #f8f8f8; }
-  .c-masthead__placeholder {
-    display: none; }
-  .c-masthead__component {
-    display: flex;
-    margin: 0 auto;
-    justify-content: space-between;
-    text-align: center;
-    padding-left: var(--spacing);
-    padding-right: var(--spacing);
-    max-width: 1024px;
-    width: 100%; }
-    .c-masthead__component > * {
-      align-self: center; }
-    .c-masthead__component > *:not(*:first-child) {
-      margin-left: 1rem; }
+.c-masthead__placeholder {
+  display: none; }
+
+.c-masthead__component {
+  display: flex;
+  margin: 0 auto;
+  justify-content: space-between;
+  text-align: center;
+  padding-left: var(--spacing);
+  padding-right: var(--spacing);
+  max-width: 1024px;
+  width: 100%; }
+  .c-masthead__component > * {
+    align-self: center; }
+  .c-masthead__component > *:not(*:first-child) {
+    margin-left: 1rem; }
 
 .masthead > div {
   padding: 18px -1px 52px 52px; }
