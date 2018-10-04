@@ -14,51 +14,21 @@ import SearchForm from "./components/SearchForm";
 import {compose} from "redux";
 
 import './style.css'
-import {updateSearchResult} from "./Actions";
-import SearchResultItem from "./components/SearchResultItem";
-import BEMHelper from "react-bem-helper";
+import {searchForConcept} from "./Actions";
+import SearchResultList from "./components/SearchResultList";
 
-/*
-const SearchResultList = () =>
-    <div>
-        <SearchList
-            query={searchObject.query}
-            locale={searchObject.language || locale}
-            results={results.results}
-            searching={searching}
-            type={type}
-        />
-        <Pager
-            page={searchObject.page ? parseInt(searchObject.page, 10) : 1}
-            lastPage={lastPage}
-            query={searchObject}
-            pathname={toSearch(undefined, type)}
-        />
-    </div>*/
 
-const classes = new BEMHelper({
-    name: 'search-result-list',
-    prefix: 'c-',
-});
+const SearchContainer = ({searchResult, searchForConcept, changePagination, t}) =>
+    <OneColumn>
+        <SearchForm t={t}
+                    search={searchForConcept}/>
+        <SearchResultList results={searchResult}
+                          onPaginationChange={changePagination}/>
+    </OneColumn>;
 
-class SearchContainer extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-
-    render() {
-        return (
-            <OneColumn>
-                <SearchForm t={this.props.t} search={this.props.updateSearchResult}/>
-                <ul {...classes()}>{this.props.searchResult.map(result => <SearchResultItem key={result.id} item={result}/>)}</ul>
-            </OneColumn>
-        );
-    }
-}
-
-const mapStateToProps = state => ({searchResult: state.searchResult});
+const mapStateToProps = state => ({searchResult: state.search.results});
 
 export default compose(
-    connect(mapStateToProps, {updateSearchResult}),
+    connect(mapStateToProps, {searchForConcept}),
     injectT,
 )(SearchContainer);

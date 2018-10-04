@@ -8,7 +8,7 @@ const classes = new BEMHelper({
 
 
 
-const TagList = ({tags}) => <div {...classes('tags')}><ul>{tags.map(tag => <li key={tag.code}>{tag.description ? tag.description : tag.code}</li>)}</ul></div>;
+const TagList = ({tags}) => <div {...classes('tags')}><ul>{tags.map(({metadata}) => <li key={metadata.code}>{metadata.description ? metadata.description : metadata.code}</li>)}</ul></div>;
 
 const SearchResultItem = ({item}) =>
     <li key={item.id} {...classes()}>

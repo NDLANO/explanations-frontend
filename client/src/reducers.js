@@ -9,11 +9,11 @@
 import { combineReducers } from 'redux';
 
 import {locale} from './containers/SelectLocale/localeReducer';
-import {searchResult} from "./containers/SearchPage/searchResultReducer";
+import {search} from "./containers/SearchPage/searchReducer";
 
 const rootReducers = combineReducers({
     locale,
-    searchResult
+    search
 });
 
 export default rootReducers;
