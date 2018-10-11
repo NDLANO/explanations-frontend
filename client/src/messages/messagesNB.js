@@ -36,7 +36,16 @@ const NB = {
             placeholder: "Språk",
             title: "Språk"
         }
-    }
+    },
+    author: "Forfatter",
+    title: "Tittel",
+    content: "Innhold",
+    addLanguage: "Legg til språk",
+    addSubject: "Legg til emne",
+    labelSubjects: "Emne",
+    labelLanguages: "Språk",
+    updateConcept: "Oppdater begrep",
+    externalId: "Ekstern id",
 };
 
 export default NB;

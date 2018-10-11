@@ -25,7 +25,7 @@ const SelectLocale = ({ locale, location: { pathname, search }, updateLocale }) 
         window.location.reload();
         updateLocale(newLocale)
     };
-    console.log(locale)
+
     return (
         <select
             onChange={evt => {

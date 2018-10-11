@@ -10,32 +10,47 @@ import React from 'react';
 import {  PageContainer, Content } from 'ndla-ui';
 import {Route, Redirect, Switch} from 'react-router';
 import {injectT} from "ndla-i18n";
-import Helmet from 'react-helmet';
 
 import './style.css'
 
 import NotFoundPage from '../../components/NotFoundPage'
 import SearchPage from '../SearchPage/SearchPageContainer';
+import UpdatePage from '../UpdatePage/UpdatePageContainer';
 import Footer from '../../components/Footer';
 import Header from "../../components/Header/Header";
-import SearchForConceptsPage from "../../components/SearchForConceptsPage";
+import {CreateRoute, SearchRoute, UpdateRoute} from "../../routes";
+import {loadLanguageMeta, loadSubjectMeta} from "./Actions";
+import {connect} from "react-redux";
+import {compose} from "redux";
+import CreatePageContainer from "../UpdatePage/CreatePageContainer";
 
-const App = ({t}) =>
-    <PageContainer>
-        <Helmet
-            title="NDLA"
-            meta={[{ name: 'description', content: t('meta.description') }]}
-        />
-        <Content>
-            <Header t={t} />
-            <Switch>
-                <Route path="/searchConcept" exact component={SearchForConceptsPage}/>
-                <Route path="/search" exact component={SearchPage}/>
-                <Redirect exact from="/" to="/search"/>
-                <Route path="*" component={NotFoundPage}/>
-            </Switch>
-            <Footer t={t} />
-        </Content>
-    </PageContainer>;
+class App extends React.Component {
+    componentDidMount() {
+        this.props.loadSubjectMeta();
+        this.props.loadLanguageMeta();
+    }
+    render() {
+        const {t} =this.props;
+        return (
+            <PageContainer>
+                <Content>
+                    <Header t={t} />
+                    <Switch>
+                        <Route path={SearchRoute} exact component={SearchPage}/>
+                        <Route path={UpdateRoute} exact component={UpdatePage}/>
+                        <Route path={CreateRoute} exact component={CreatePageContainer}/>
+                        <Redirect exact from="/" to="/search"/>
+                        <Route path="*" component={NotFoundPage}/>
+                    </Switch>
+                    <Footer t={t} />
+                </Content>
+            </PageContainer>
+        )
+    }
+}
 
-export default injectT(App);
+
+export default compose(
+    connect(null, {loadSubjectMeta, loadLanguageMeta}),
+    injectT,
+)(App);

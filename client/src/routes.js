@@ -7,3 +7,5 @@
  */
 
 export const SearchRoute = "/search";
+export const UpdateRoute = "/update/:id";
+export const CreateRoute = "/create";
