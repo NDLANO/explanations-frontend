@@ -45,6 +45,8 @@ const NB = {
     labelSubjects: "Emne",
     labelLanguages: "Språk",
     updateConcept: "Oppdater begrep",
+    createConcept: "Opprett begrep",
+    source: "Kilde",
     externalId: "Ekstern id",
 };
 

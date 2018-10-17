@@ -14,15 +14,18 @@ const API_URL = `${ROOT_URL}/api`;
 
 const API_ENDPOINTS = {
     concept: `${API_URL}/concept`,
-    meta: `${API_URL}/meta`,
+    meta: `${API_URL}/metadata`,
     category: `${API_URL}/category`,
+    concept_search: `${API_URL}/concept/search`,
+    meta_search: `${API_URL}/metadata/search`,
+    category_search: `${API_URL}/category/search`,
 };
 
-export const searchForConcepts = query => axios.get(`${API_ENDPOINTS.concept}${query}`);
+export const searchForConcepts = query => axios.get(`${API_ENDPOINTS.concept_search}${query}`);
 
 export const getConceptById = id => axios.get(`${API_ENDPOINTS.concept}/${id}`);
 
-export const getListOfMetaBy = meta => axios.get(`${API_ENDPOINTS.category}/${meta}`);
+export const getListOfMetaBy = meta => axios.get(`${API_ENDPOINTS.meta_search}?category=${meta}`);
 
 export const updateConcept = concept => axios.put(`${API_ENDPOINTS.concept}`,concept);
 

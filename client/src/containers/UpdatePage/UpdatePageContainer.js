@@ -33,6 +33,7 @@ class UpdatePageContainer extends React.Component {
         this.authorChange = this.onChangeConcept.bind(this, "author");
         this.titleChange = this.onChangeConcept.bind(this, "title");
         this.contentChange = this.onChangeConcept.bind(this, "content");
+        this.sourceChange = this.onChangeConcept.bind(this, "source");
         this.submit = this.submit.bind(this);
         this.onChangeMeta = this.onChangeMeta.bind(this);
     }
@@ -52,28 +53,21 @@ class UpdatePageContainer extends React.Component {
         this.setState({concept: {...concept, [key]: value}})
     }
 
-    onChangeMeta(key, meta) {
-        if (!this.state.concept.metadata) {
+    onChangeMeta(key, id) {
+        let metaId = parseInt(id, 10);
+        let meta = this.props[key].find(x => x.id === metaId);
+
+        if (!this.state.concept.meta) {
+            this.setState((state) => ({concept: {...state.concept, meta: [meta]}}));
+        } else {
             this.setState((state) => {
-                const metadata = {
-                    isActive: true,
-                    data: {
-                        languages: [],
-                        subjects: []
-                    }
-                };
-                metadata.data = {...metadata.data, [key]: [meta]};
-                return {concept: {...state.concept, metadata}};
+                const metaList = state.concept.meta.filter(x => x.category.name !== meta.category.name);
+                metaList.push(meta);
+                return ({concept: {...state.concept, meta: metaList}})
             });
         }
 
-        this.setState((state) => {
 
-            const {metadata} = state.concept;
-
-            metadata.data = {...metadata.data, [key]: [meta]};
-            return ({concept: {...state.concept, metadata}})
-        });
     }
 
 
@@ -94,12 +88,12 @@ class UpdatePageContainer extends React.Component {
             return <div>Loading...</div>;
 
         let currentLang = "";
-        if (concept.metadata)
-            currentLang = concept.metadata.data.languages[0];
-
         let currentSubject = "";
-        if (concept.metadata)
-            currentSubject = concept.metadata.data.subjects[0];
+        if (concept.meta){
+            currentLang = concept.meta.find(m => m.category.name === "Language");
+            currentSubject = concept.meta.find(m => m.category.name === "Subject");
+        }
+
 
         return (
             <OneColumn>
@@ -107,6 +101,7 @@ class UpdatePageContainer extends React.Component {
                     <Input id="author" value={this.state.concept.author} label={t("author")} onChange={this.authorChange} {...classes('form-field')} />
                     <Input id="title" value={this.state.concept.title} label={t("title")} onChange={this.titleChange} {...classes('form-field')} />
                     <Input id="content" value={this.state.concept.content} label={t("content")} onChange={this.contentChange} {...classes('form-field')} />
+                    <Input id="source" value={this.state.concept.source} label={t("source")} onChange={this.sourceChange} {...classes('form-field')} />
                     <Meta onChange={this.onChangeMeta} t={t} choices={languages} id="languages" buttonText={t("addLanguage")} labelText={t("labelLanguages")} classes={classes('form-field')}  current={currentLang} />
                     <Meta onChange={this.onChangeMeta} t={t} choices={subjects} id="subjects" buttonText={t("addSubject")} labelText={t("labelSubjects")} classes={classes('form-field')}  current={currentSubject}/>
                     <button className="c-button" type="submit">{t("updateConcept")}</button>

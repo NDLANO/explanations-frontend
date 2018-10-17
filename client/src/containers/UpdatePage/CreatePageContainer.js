@@ -34,11 +34,14 @@ class CreatePageContainer extends React.Component {
             content: "",
             externalId: -1,
             author: "",
+            source: "",
+            meta: []
             }, errorMessage: ""};
         this.authorChange = this.onChangeConcept.bind(this, "author");
         this.titleChange = this.onChangeConcept.bind(this, "title");
         this.contentChange = this.onChangeConcept.bind(this, "content");
         this.externalIdChange = this.onChangeConcept.bind(this, "externalId");
+        this.sourceChange = this.onChangeConcept.bind(this, "source");
         this.submit = this.submit.bind(this);
         this.onChangeMeta = this.onChangeMeta.bind(this);
     }
@@ -48,28 +51,20 @@ class CreatePageContainer extends React.Component {
         this.setState({concept: {...concept, [key]: value}})
     }
 
-    onChangeMeta(key, meta) {
-        if (!this.state.concept.metadata) {
+    onChangeMeta(key, id) {
+        let metaId = parseInt(id, 10);
+        let meta = this.props[key].find(x => x.id === metaId);
+
+        if (!this.state.concept.meta) {
+            this.setState((state) => ({concept: {...state.concept, meta: [meta]}}));
+        } else {
             this.setState((state) => {
-                const metadata = {
-                    isActive: true,
-                    data: {
-                        languages: [],
-                        subjects: []
-                    }
-                };
-                metadata.data = {...metadata.data, [key]: [meta]};
-                return {concept: {...state.concept, metadata}};
+                const metaList = state.concept.meta.filter(x => x.category.name !== meta.category.name);
+                metaList.push(meta);
+                return ({concept: {...state.concept, meta: metaList}})
             });
         }
 
-        this.setState((state) => {
-
-            const {metadata} = state.concept;
-
-            metadata.data = {...metadata.data, [key]: [meta]};
-            return ({concept: {...state.concept, metadata}})
-        });
     }
 
 
@@ -84,16 +79,17 @@ class CreatePageContainer extends React.Component {
     }
 
     render() {
+        
         const {concept} = this.state;
         const {languages, subjects, t} = this.props;
 
-        let currentLang = "";
-        if (concept && concept.metadata)
-            currentLang = concept.metadata.data.languages[0];
 
+        let currentLang = "";
         let currentSubject = "";
-        if (concept && concept.metadata)
-            currentSubject = concept.metadata.data.subjects[0];
+        if (concept.meta){
+            currentLang = concept.meta.find(m => m.category.name === "Language");
+            currentSubject = concept.meta.find(m => m.category.name === "Subject");
+        }
 
         return (
             <OneColumn>
@@ -102,9 +98,10 @@ class CreatePageContainer extends React.Component {
                     <Input id="title" value={this.state.concept.title} label={t("title")} onChange={this.titleChange} {...classes('form-field')} />
                     <Input id="content" value={this.state.concept.content} label={t("content")} onChange={this.contentChange} {...classes('form-field')} />
                     <Input id="externalId" value={this.state.concept.externalId} label={t("externalId")} onChange={this.externalIdChange} {...classes('form-field')} />
+                    <Input id="source" value={this.state.concept.source} label={t("source")} onChange={this.sourceChange} {...classes('form-field')} />
                     <Meta onChange={this.onChangeMeta} t={t} choices={languages} id="languages" buttonText={t("addLanguage")} labelText={t("labelLanguages")} classes={classes('form-field')}  current={currentLang} />
                     <Meta onChange={this.onChangeMeta} t={t} choices={subjects} id="subjects" buttonText={t("addSubject")} labelText={t("labelSubjects")} classes={classes('form-field')}  current={currentSubject}/>
-                    <button className="c-button" type="submit">{t("updateConcept")}</button>
+                    <button className="c-button" type="submit">{t("createConcept")}</button>
                 </form>
             </OneColumn>
         )

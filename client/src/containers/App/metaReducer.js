@@ -15,21 +15,9 @@ const initialState = {
 export const meta = (state=initialState, action) => {
     switch(action.type) {
         case UPDATE_LANGUAGES:
-            let languages = action.payload.map(item => {
-                if (item.categoryName) {
-                        return {id: item.id, description: item.categoryName[0]};
-                    }
-
-                });
-            return {...state, languages: languages.filter(x => x)};
+            return {...state, languages: action.payload};
         case UPDATE_SUBJECTS:
-            let subjects = action.payload.map(item => {
-                if (item.categoryName) {
-                    return {id: item.id, description: item.categoryName[0]};
-                }
-            });
-
-            return {...state, subjects: subjects.filter(x => x)};
+            return {...state, subjects: action.payload};
         default:
             return state;
     }
