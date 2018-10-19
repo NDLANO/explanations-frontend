@@ -100,6 +100,7 @@ class UpdatePageContainer extends React.Component {
 
         return (
             <OneColumn>
+                <h1>{t("updateConcept")}</h1>
                 <form onSubmit={this.submit} {...classes()}>
                     <Input id="author" value={this.state.concept.author} label={t("author")} onChange={this.authorChange} {...classes('form-field')} />
                     <Input id="title" value={this.state.concept.title} label={t("title")} onChange={this.titleChange} {...classes('form-field')} />
