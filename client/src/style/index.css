@@ -1,0 +1,163 @@
+/**
+ * Copyright (c) 2018-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+@import url(../../node_modules/flatpickr/dist/flatpickr.min.css);
+@import url(../../node_modules/ndla-ui/lib/main.css);
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+:root {
+  --font-size--medium: 18px;
+  --gray-1: gray(34);
+  --gray-2: gray(68);
+  --gray-3: gray(92);
+  --gray-4: gray(102);
+  --gray-5: gray(121);
+  --gray-6: gray(136);
+  --gray-7: gray(216);
+  --gray-8: gray(221);
+  --gray-9: gray(230);
+  --gray-10: gray(234);
+  --gray-11: gray(238);
+  --gray-12: gray(248);
+  --red-1: #fe5f55;
+  --yellow-1: #ead854;
+  --green-1: #5cbc80;
+  --green-2: rgb(110, 160, 140);
+  --disabled-color: rgba(80, 144, 164, 0.2);
+  --lighter-color: rgba(226, 226, 226, 0.1);
+  --error-color: rgba(209, 55, 46, 0.7);
+  --primary: #20588f;
+  --header-icon: var(--primary);
+  @custom-media --xlarge-viewport (min-width: 1200px);
+  @custom-media --large-viewport (min-width: 800px);
+  @custom-media --medium-viewport (max-width: 800px);
+  @custom-media --small-viewport (max-width: 600px);
+  @custom-media --xsmall-viewport (max-width: 400px); }
+
+/**
+ * Copyright (c) 2017-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+.c-dropdown {
+  width: 100%;
+  position: relative; }
+  .c-dropdown__multiselect {
+    display: flex;
+    flex-wrap: wrap;
+    outline: none;
+    align-items: center;
+    flex: 1 1 auto;
+    padding: 4px;
+    border: 1px #c5c4c4 solid;
+    border-radius: 1px; }
+  .c-dropdown__single {
+    padding: 0.522rem;
+    padding-right: var(--spacing--medium); }
+  .c-dropdown__items {
+    margin-top: -0.2rem;
+    border: 1px solid #d4d4d4;
+    max-height: 10rem;
+    overflow-y: scroll;
+    position: absolute;
+    z-index: 999;
+    background-color: white;
+    width: 100%;
+    margin-bottom: 0;
+    border-top: 0; }
+    .c-dropdown__items--resourceMenu {
+      max-height: inherit;
+      position: static;
+      margin-top: 0; }
+  .c-dropdown__item {
+    border-radius: 1px;
+    cursor: pointer; }
+  .c-dropdown__item, .c-dropdown__empty {
+    padding: 0.522rem; }
+  .c-dropdown__item--active {
+    background-color: var(--brand-grey--light); }
+  .c-dropdown__action {
+    position: absolute;
+    right: 0.8rem;
+    top: 0.1rem;
+    color: var(--brand-grey); }
+    .c-dropdown__action:hover, .c-dropdown__action:focus {
+      outline: none;
+      color: var(--brand-grey); }
+
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+input,
+textarea {
+  color: var(--brand-grey-dark);
+  width: 100%;
+  max-width: 100%;
+  padding: 0.3rem;
+  margin: 0 0 0.1rem;
+  box-sizing: border-box;
+  border: 1px solid #d4d4d4;
+  font-size: 1rem;
+  border-radius: 1px; }
+
+label {
+  font-weight: 600; }
+
+select {
+  border: 1px solid var(--brand-grey-dark);
+  border-radius: 1px;
+  background: #fff;
+  min-height: 1.5em;
+  color: var(--brand-grey-dark);
+  padding: 0.4em 1.4em 0.4em 1em;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20fill%3D%22%23555555%22%20%0A%09%20width%3D%2224px%22%20height%3D%2224px%22%20viewBox%3D%22-261%20145.2%2024%2024%22%20style%3D%22enable-background%3Anew%20-261%20145.2%2024%2024%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0A%3Cpath%20d%3D%22M-245.3%2C156.1l-3.6-6.5l-3.7%2C6.5%20M-252.7%2C159l3.7%2C6.5l3.6-6.5%22%2F%3E%0A%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: 100%; }
+
+input::placeholder {
+  color: #999999; }
+
+form a.c-button {
+  display: inline-block; }
+
+form .c-save-button span {
+  display: flex;
+  justify-content: space-evenly; }
+  form .c-save-button span svg {
+    width: 1.45rem;
+    height: 1.45rem; }
+
+form .c-save-button--saving, form .c-save-button--saving:hover, form .c-save-button--saving:disabled {
+  transition: all 0.5s ease;
+  background-color: var(--green-2);
+  border-color: var(--green-2); }
+
+form .c-save-button--saved, form .c-save-button--saved:hover, form .c-save-button--saved:disabled {
+  transition: all 0.5s ease;
+  background-color: var(--green-1);
+  border-color: var(--green-1); }
+
+input {
+  margin: 0;
+  /* Bug where leftmost side is 1 px below the rest of the input */ }
+
+body {
+  background-color: #f8f8f8; }

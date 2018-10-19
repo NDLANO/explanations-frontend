@@ -5,3 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+export const SearchRoute = "/";
+export const UpdateRoute = "/update/:id";
+export const CreateRoute = "/create";

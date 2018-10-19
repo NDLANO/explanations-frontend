@@ -138,7 +138,7 @@ my-app/
     favicon.ico
   src/
     App.css
-    App.js
+    AppContainer.js
     App.test.js
     index.css
     index.js
@@ -442,7 +442,7 @@ const moduleA = 'Hello';
 
 export { moduleA };
 ```
-### `App.js`
+### `AppContainer.js`
 
 ```js
 import React, { Component } from 'react';
@@ -576,7 +576,7 @@ Then in `package.json`, add the following lines to `scripts`:
 
 >Note: To use a different preprocessor, replace `build-css` and `watch-css` commands according to your preprocessor’s documentation.
 
-Now you can rename `src/App.css` to `src/App.scss` and run `npm run watch-css`. The watcher will find every Sass file in `src` subdirectories, and create a corresponding CSS file next to it, in our case overwriting `src/App.css`. Since `src/App.js` still imports `src/App.css`, the styles become a part of your application. You can now edit `src/App.scss`, and `src/App.css` will be regenerated.
+Now you can rename `src/App.css` to `src/App.scss` and run `npm run watch-css`. The watcher will find every Sass file in `src` subdirectories, and create a corresponding CSS file next to it, in our case overwriting `src/App.css`. Since `src/AppContainer.js` still imports `src/App.css`, the styles become a part of your application. You can now edit `src/App.scss`, and `src/App.css` will be regenerated.
 
 To share variables between Sass files, you can use Sass imports. For example, `src/App.scss` and other component style files could include `@import "./shared.scss";` with variable definitions.
 
@@ -783,13 +783,13 @@ import 'bootstrap/dist/css/bootstrap-theme.css';
 // components takes precedence over default styles.
 ```
 
-Import required React Bootstrap components within ```src/App.js``` file or your custom component files:
+Import required React Bootstrap components within ```src/AppContainer.js``` file or your custom component files:
 
 ```js
 import { Navbar, Jumbotron, Button } from 'react-bootstrap';
 ```
 
-Now you are ready to use the imported React Bootstrap components within your component hierarchy defined in the render method. Here is an example [`App.js`](https://gist.githubusercontent.com/gaearon/85d8c067f6af1e56277c82d19fd4da7b/raw/6158dd991b67284e9fc8d70b9d973efe87659d72/App.js) redone using React Bootstrap.
+Now you are ready to use the imported React Bootstrap components within your component hierarchy defined in the render method. Here is an example [`AppContainer.js`](https://gist.githubusercontent.com/gaearon/85d8c067f6af1e56277c82d19fd4da7b/raw/6158dd991b67284e9fc8d70b9d973efe87659d72/App.js) redone using React Bootstrap.
 
 ### Using a Custom Theme
 
@@ -813,7 +813,7 @@ To add Flow to a Create React App project, follow these steps:
 1. Run `npm install --save flow-bin` (or `yarn add flow-bin`).
 2. Add `"flow": "flow"` to the `scripts` section of your `package.json`.
 3. Run `npm run flow init` (or `yarn flow init`) to create a [`.flowconfig` file](https://flowtype.org/docs/advanced-configuration.html) in the root directory.
-4. Add `// @flow` to any files you want to type check (for example, to `src/App.js`).
+4. Add `// @flow` to any files you want to type check (for example, to `src/AppContainer.js`).
 
 Now you can run `npm run flow` (or `yarn flow`) to check the files for type errors.
 You can optionally use an IDE like [Nuclide](https://nuclide.io/docs/languages/flow/) for a better integrated experience.
@@ -837,7 +837,7 @@ Alternatively you may use `yarn`:
 yarn add react-router-dom
 ```
 
-To try it, delete all the code in `src/App.js` and replace it with any of the examples on its website. The [Basic Example](https://reacttraining.com/react-router/web/example/basic) is a good place to get started.
+To try it, delete all the code in `src/AppContainer.js` and replace it with any of the examples on its website. The [Basic Example](https://reacttraining.com/react-router/web/example/basic) is a good place to get started.
 
 Note that [you may need to configure your production server to support client-side routing](#serving-apps-with-client-side-routing) before deploying your app.
 
@@ -1287,7 +1287,7 @@ Jest will look for test files with any of the following popular naming conventio
 
 The `.test.js` / `.spec.js` files (or the `__tests__` folders) can be located at any depth under the `src` top level folder.
 
-We recommend to put the test files (or `__tests__` folders) next to the code they are testing so that relative imports appear shorter. For example, if `App.test.js` and `App.js` are in the same folder, the test just needs to `import App from './App'` instead of a long relative path. Colocation also helps find tests more quickly in larger projects.
+We recommend to put the test files (or `__tests__` folders) next to the code they are testing so that relative imports appear shorter. For example, if `App.test.js` and `AppContainer.js` are in the same folder, the test just needs to `import App from './App'` instead of a long relative path. Colocation also helps find tests more quickly in larger projects.
 
 ### Command Line Interface
 
@@ -1840,12 +1840,12 @@ that your web app is reliably fast, even on a slow or unreliable network.
 
 If you would prefer not to enable service workers prior to your initial
 production deployment, then remove the call to `registerServiceWorker()`
-from [`src/index.js`](client/src/index.js).
+from [`src/index.js`](src/index.js).
 
 If you had previously enabled service workers in your production deployment and
 have decided that you would like to disable them for all your existing users,
 you can swap out the call to `registerServiceWorker()` in
-[`src/index.js`](client/src/index.js) first by modifying the service worker import:
+[`src/index.js`](src/index.js) first by modifying the service worker import:
 ```javascript
 import { unregister } from './registerServiceWorker';
 ```
@@ -1863,7 +1863,7 @@ If your production web server does not support HTTPS, then the service worker
 registration will fail, but the rest of your web app will remain functional.
 
 1. Service workers are [not currently supported](https://jakearchibald.github.io/isserviceworkerready/)
-in all web browsers. Service worker registration [won't be attempted](client/src/registerServiceWorker.js)
+in all web browsers. Service worker registration [won't be attempted](src/registerServiceWorker.js)
 on browsers that lack support.
 
 1. The service worker is only enabled in the [production environment](#deployment),
@@ -1897,7 +1897,7 @@ app works offline!" message) and also let them know when the service worker has
 fetched the latest updates that will be available the next time they load the
 page (showing a "New content is available; please refresh." message). Showing
 this messages is currently left as an exercise to the developer, but as a
-starting point, you can make use of the logic included in [`src/registerServiceWorker.js`](client/src/registerServiceWorker.js), which
+starting point, you can make use of the logic included in [`src/registerServiceWorker.js`](src/registerServiceWorker.js), which
 demonstrates which service worker lifecycle events to listen for to detect each
 scenario, and which as a default, just logs appropriate messages to the
 JavaScript console.
@@ -1914,11 +1914,11 @@ option in the `SWPrecacheWebpackPlugin` section of
 ### Progressive Web App Metadata
 
 The default configuration includes a web app manifest located at
-[`public/manifest.json`](client/public/manifest.json), that you can customize with
+[`public/manifest.json`](public/manifest.json), that you can customize with
 details specific to your web application.
 
 When a user adds a web app to their homescreen using Chrome or Firefox on
-Android, the metadata in [`manifest.json`](client/public/manifest.json) determines what
+Android, the metadata in [`manifest.json`](public/manifest.json) determines what
 icons, names, and branding colors to use when the web app is displayed.
 [The Web App Manifest guide](https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/)
 provides more context about what each field means, and how your customizations
@@ -2046,7 +2046,7 @@ service worker navigation routing can be configured or disabled by
 and [`navigateFallbackWhitelist`](https://github.com/GoogleChrome/sw-precache#navigatefallbackwhitelist-arrayregexp)
 options of the `SWPreachePlugin` [configuration](../config/webpack.config.prod.js).
 
-When users install your app to the homescreen of their device the default configuration will make a shortcut to `/index.html`. This may not work for client-side routers which expect the app to be served from `/`. Edit the web app manifest at [`public/manifest.json`](client/public/manifest.json) and change `start_url` to match the required URL scheme, for example:
+When users install your app to the homescreen of their device the default configuration will make a shortcut to `/index.html`. This may not work for client-side routers which expect the app to be served from `/`. Edit the web app manifest at [`public/manifest.json`](public/manifest.json) and change `start_url` to match the required URL scheme, for example:
 
 ```js
   "start_url": ".",

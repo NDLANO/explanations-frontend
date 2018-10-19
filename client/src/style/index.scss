@@ -1,0 +1,22 @@
+/**
+ * Copyright (c) 2018-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+@import '../../node_modules/flatpickr/dist/flatpickr.min.css';
+@import '../../node_modules/ndla-ui/lib/main.css';
+@import 'vars.scss';
+@import '_dropdown.scss';
+@import '_form.scss';
+
+
+input {
+  margin: 0; /* Bug where leftmost side is 1 px below the rest of the input */
+}
+
+body {
+  background-color: rgb(248, 248, 248);
+}

@@ -1,0 +1,118 @@
+/**
+ * Copyright (c) 2018-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import React from 'react'
+import { Hero, OneColumn, SearchField, Concept,LayoutItem } from 'ndla-ui'
+import { addShowConceptDefinitionClickListeners } from 'ndla-article-scripts'
+import {searchForConcepts} from "../api";
+
+const WhiteHero = () =>
+    <Hero contentType="tasks-and-activities" >
+        <style>{`
+                      .c-hero--tasks-and-activities {
+                        background-color: #fff;
+                      }
+                      `}
+        </style>
+    </Hero>;
+
+class SearchForConceptsPage extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {search_term: '',concepts: [], search_query: ''};
+
+        this.onSearch = this.onSearch.bind(this);
+        this.onChange = this.onChange.bind(this);
+    }
+
+
+    componentDidUpdate() {
+     addShowConceptDefinitionClickListeners();
+    }
+
+
+    onSearch(e) {
+        e.preventDefault(); // Prevent loading a new page
+
+        searchForConcepts(this.state.search_query).then( data => {
+            this.setState({concepts: data.data})
+        });
+
+    }
+
+    onChange(event) {
+        const term = event.target.value;
+        const terms = term.split(",");
+        let query = "";
+
+        if (terms.length > 0) {
+            query += `title=${terms[0].trimStart().trimEnd()}`;
+        }
+        if (terms.length > 1) {
+            query += `&language=${terms[1].trimStart().trimEnd()}`;
+        }
+        this.setState({search_term: term, search_query: query})
+    }
+
+
+    renderConcept() {
+        const {concepts} = this.state;
+        if (!concepts || concepts.length === 0)
+        return null;
+
+        const list = concepts.map(concept =>
+            {
+                if (concept.content == null)
+                    return null;
+                if (concept.language === 'nn')
+                    concept.id += 1000;
+                return <li key={`${concept.id}-${concept.language}`}>
+                    <Concept
+                        {...concept}
+                        authors={[]}
+                        messages={{
+                            ariaLabel: 'Vis begrep beskrivelse',
+                            close: 'Lukk',
+                        }}>
+                        {concept.title}
+                    </Concept>
+                </li>
+            }
+        )
+        return (
+            <ul>
+                {list}
+            </ul>
+        )
+    }
+
+    render() {
+        return (
+            <LayoutItem layout="center">
+                <WhiteHero />
+                <OneColumn>
+                    <SearchField placeholder="Søk etter begrep"
+                                messages={{searchFieldTitle: "title"}}
+                                value={this.state.search_term}
+                                onSearch={this.onSearch}
+                                onChange={this.onChange}
+                                />
+                </OneColumn>
+
+                <WhiteHero>
+                    <LayoutItem>
+                        {this.renderConcept()}
+                    </LayoutItem>
+                </WhiteHero>
+            </LayoutItem>
+        );
+    }
+}
+
+export default SearchForConceptsPage;

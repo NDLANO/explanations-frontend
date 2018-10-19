@@ -1,0 +1,118 @@
+.c-search-field {
+  padding-top: 5px;
+  &__input-wrapper {
+    padding-top: 5px;
+  }
+}
+
+.c-search-result-list {
+
+  background: #fff;
+  padding: 0;
+  margin-top: 32.5px;
+  margin-bottom: 52px;
+  border: 1px solid #e8e3e3;
+
+  > li {
+    line-height: 1.7rem;
+  }
+
+  &__item {
+
+    &:first-child {
+      margin-top: 26px;
+    }
+
+    &:last-child {
+      border: none;
+    }
+
+    border-bottom: 1px solid #e8e3e3;
+    padding: 0 26px 0 26px;
+    margin: 0 0 26px;
+
+    &__header {
+
+      h1 {
+        margin: 0;
+        font-weight: 600;
+        font-size: 0.88889rem;
+        line-height: 20px;
+      }
+    }
+
+    &__author {
+      list-style: none;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      color: #757575;
+      padding-top: 6.5px;
+      font-size: 0.77778rem;
+      line-height: 18px;
+    }
+
+    &__content {
+      margin: 13px 0;
+      font-size: 0.77778rem;
+      line-height: 22px;
+      -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+      flex-grow: 1;
+      font-family: "Source Serif Pro", Georgia, STKaiti, 华文楷体, KaiTi, SimKai, 楷体, KaiU, DFKai-SB, 標楷體, SongTi, 宋体, serif
+    }
+
+    &__tags {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      margin-bottom: 26px;
+      font-size: 0.77778rem;
+      line-height: 22px;
+
+      ul {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        li {
+          position: relative;
+          padding: 0 6.5px;
+          margin: 0;
+          font-size: 0.65rem;
+          color: #757575;
+
+          &:after {
+            content: '';
+            width: 1px;
+            height: 15px;
+            background: #e8e3e3;
+            display: block;
+            position: absolute;
+            right: 0;
+            top: 8px;
+          }
+
+        }
+      }
+    }
+  }
+}
