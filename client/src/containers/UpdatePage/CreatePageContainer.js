@@ -51,10 +51,7 @@ class CreatePageContainer extends React.Component {
         this.setState({concept: {...concept, [key]: value}})
     }
 
-    onChangeMeta(key, id) {
-        let metaId = parseInt(id, 10);
-        let meta = this.props[key].find(x => x.id === metaId);
-
+    onChangeMeta(key, meta) {
         if (!this.state.concept.meta) {
             this.setState((state) => ({concept: {...state.concept, meta: [meta]}}));
         } else {
@@ -73,7 +70,7 @@ class CreatePageContainer extends React.Component {
         console.log("submitting",this.state.concept)
         createConcept(this.state.concept)
             .then(data => {
-                console.log(data)
+                this.props.history.push(`update/${data.data.data.id}`)
             })
             .catch(err => console.log(err.response.data));
     }
@@ -81,14 +78,16 @@ class CreatePageContainer extends React.Component {
     render() {
         
         const {concept} = this.state;
-        const {languages, subjects, t} = this.props;
+        const {languages, subjects, t, licences} = this.props;
 
 
         let currentLang = "";
         let currentSubject = "";
+        let currentLicence = "";
         if (concept.meta){
             currentLang = concept.meta.find(m => m.category.name === "Language");
             currentSubject = concept.meta.find(m => m.category.name === "Subject");
+            currentLicence = concept.meta.find(m => m.category.name === "Licence");
         }
 
         return (
@@ -101,6 +100,7 @@ class CreatePageContainer extends React.Component {
                     <Input id="source" value={this.state.concept.source} label={t("source")} onChange={this.sourceChange} {...classes('form-field')} />
                     <Meta onChange={this.onChangeMeta} t={t} choices={languages} id="languages" buttonText={t("addLanguage")} labelText={t("labelLanguages")} classes={classes('form-field')}  current={currentLang} />
                     <Meta onChange={this.onChangeMeta} t={t} choices={subjects} id="subjects" buttonText={t("addSubject")} labelText={t("labelSubjects")} classes={classes('form-field')}  current={currentSubject}/>
+                    <Meta onChange={this.onChangeMeta} t={t} choices={licences} id="licences" buttonText={t("addLicence")} labelText={t("labelLicence")} classes={classes('form-field')}  current={currentLicence}/>
                     <button className="c-button" type="submit">{t("createConcept")}</button>
                 </form>
             </OneColumn>
@@ -108,9 +108,10 @@ class CreatePageContainer extends React.Component {
     }
 }
 
-const mapStateToProps = ({meta: {subjects, languages}}) => ({
+const mapStateToProps = ({meta: {subjects, languages, licences}}) => ({
     languages,
-    subjects
+    subjects,
+    licences
 });
 
 

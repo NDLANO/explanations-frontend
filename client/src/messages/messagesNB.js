@@ -17,7 +17,8 @@ const NB = {
         label: "Nasjonal digital læringsarena"
     },
     subNavigation: {
-        search: "Søk"
+        search: "Søk",
+        create: "Opprett"
     },
     search: {
         concept: {
@@ -42,8 +43,10 @@ const NB = {
     content: "Innhold",
     addLanguage: "Legg til språk",
     addSubject: "Legg til emne",
+    addLicence: "Legg til lisens",
     labelSubjects: "Emne",
     labelLanguages: "Språk",
+    labelLicence: "Lisens",
     updateConcept: "Oppdater begrep",
     createConcept: "Opprett begrep",
     source: "Kilde",

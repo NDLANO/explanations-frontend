@@ -13,7 +13,7 @@ import { Button } from 'ndla-ui';
 import { injectT } from 'ndla-i18n';
 import { withRouter, Link } from 'react-router-dom';
 import {DetailSearch} from 'ndla-icons/editor';
-import {SearchRoute} from "../../../routes";
+import {SearchRoute, CreateRoute} from "../../../routes";
 
 import './style.css'
 
@@ -70,6 +70,13 @@ export class Navigation extends Component {
                             onClick={this.toggleOpen}>
                             <DetailSearch className="c-icon--large" />
                             <span>{t('subNavigation.search')}</span>
+                        </Link>
+                        <Link
+                            to={CreateRoute}
+                            {...classes('item')}
+                            onClick={this.toggleOpen}>
+                            <Plus className="c-icon--large" />
+                            <span>{t('subNavigation.create')}</span>
                         </Link>
                     </div>
                 </div>

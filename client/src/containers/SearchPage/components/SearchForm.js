@@ -72,7 +72,6 @@ class SearchForm extends React.Component {
 
 
         const param = `meta=${encodeURI(JSON.stringify(object))}`;
-        console.log(param, object)
         if (query)
             return `&${param}`;
         else

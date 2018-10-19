@@ -16,7 +16,7 @@ const initialState = basename;
 export const locale = (state=initialState, action) => {
     switch(action.type) {
         case UPDATE_LOCALE:
-            return action.payload;
+            return action.payload.data;
         default:
             return state;
     }

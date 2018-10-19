@@ -6,7 +6,7 @@ const DropDown = ({items, selected, onChange, id, classes, label}) => (
         <select value={selected.id} onChange={onChange}>
             {items.map(item => <
                 option key={item.id} value={item.id}>
-                {item.description}
+                {item.name}
             </option>)}
         </select>
     </div>

@@ -14,7 +14,7 @@ const initialState = {
 export const search = (state=initialState, action) => {
     switch(action.type) {
         case SEARCH_FOR_CONCEPT:
-            return {...state, results: action.payload};
+            return {...state, results: action.payload.data};
         default:
             return state;
     }

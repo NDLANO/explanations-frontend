@@ -42,8 +42,9 @@ class UpdatePageContainer extends React.Component {
         const {id} = this.props.match.params;
         getConceptById(id)
             .then(data => {
+                console.log(data.data.data)
                 if (data.data) {
-                    this.setState({concept: data.data});
+                    this.setState({concept: data.data.data});
                 }
             })
     }
@@ -82,16 +83,18 @@ class UpdatePageContainer extends React.Component {
 
     render() {
         const {concept} = this.state;
-        const {languages, subjects, t} = this.props;
+        const {languages, subjects, t, licences} = this.props;
 
         if (!concept)
             return <div>Loading...</div>;
 
         let currentLang = "";
         let currentSubject = "";
+        let currentLicence = "";
         if (concept.meta){
             currentLang = concept.meta.find(m => m.category.name === "Language");
             currentSubject = concept.meta.find(m => m.category.name === "Subject");
+            currentLicence = concept.meta.find(m => m.category.name === "Licence");
         }
 
 
@@ -104,6 +107,7 @@ class UpdatePageContainer extends React.Component {
                     <Input id="source" value={this.state.concept.source} label={t("source")} onChange={this.sourceChange} {...classes('form-field')} />
                     <Meta onChange={this.onChangeMeta} t={t} choices={languages} id="languages" buttonText={t("addLanguage")} labelText={t("labelLanguages")} classes={classes('form-field')}  current={currentLang} />
                     <Meta onChange={this.onChangeMeta} t={t} choices={subjects} id="subjects" buttonText={t("addSubject")} labelText={t("labelSubjects")} classes={classes('form-field')}  current={currentSubject}/>
+                    <Meta onChange={this.onChangeMeta} t={t} choices={licences} id="licences" buttonText={t("addLicence")} labelText={t("labelLicence")} classes={classes('form-field')}  current={currentLicence}/>
                     <button className="c-button" type="submit">{t("updateConcept")}</button>
                 </form>
             </OneColumn>
@@ -111,9 +115,10 @@ class UpdatePageContainer extends React.Component {
     }
 }
 
-const mapStateToProps = ({meta: {subjects, languages}}) => ({
+const mapStateToProps = ({meta: {subjects, languages, licences}}) => ({
     languages,
-    subjects
+    subjects,
+    licences
 });
 
 

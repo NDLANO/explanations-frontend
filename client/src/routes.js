@@ -6,6 +6,6 @@
  *
  */
 
-export const SearchRoute = "/search";
+export const SearchRoute = "/";
 export const UpdateRoute = "/update/:id";
 export const CreateRoute = "/create";
