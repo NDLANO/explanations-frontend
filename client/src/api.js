@@ -8,7 +8,7 @@
 
 import axios from 'axios';
 
-const ROOT_URL = process.env['NODE_ENV'] === 'development' ? 'http://localhost:63365' : 'NDLA-api-1275813378.eu-west-1.elb.amazonaws.com';
+const ROOT_URL = process.env['NODE_ENV'] === 'development' ? 'http://localhost:63365' : 'http://ndla-api-1275813378.eu-west-1.elb.amazonaws.com';
 
 const API_URL = `${ROOT_URL}/api`;
 
