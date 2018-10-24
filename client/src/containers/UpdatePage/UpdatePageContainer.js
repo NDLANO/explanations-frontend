@@ -54,10 +54,7 @@ class UpdatePageContainer extends React.Component {
         this.setState({concept: {...concept, [key]: value}})
     }
 
-    onChangeMeta(key, id) {
-        let metaId = parseInt(id, 10);
-        let meta = this.props[key].find(x => x.id === metaId);
-
+    onChangeMeta(key, meta) {
         if (!this.state.concept.meta) {
             this.setState((state) => ({concept: {...state.concept, meta: [meta]}}));
         } else {
@@ -67,7 +64,6 @@ class UpdatePageContainer extends React.Component {
                 return ({concept: {...state.concept, meta: metaList}})
             });
         }
-
 
     }
 
