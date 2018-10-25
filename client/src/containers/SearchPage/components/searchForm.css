@@ -1,0 +1,9 @@
+.c-search-form__filter-dropdown {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0; }
+  .c-search-form__filter-dropdown select {
+    border-radius: 5px;
+    height: 63px;
+    width: 100%; }

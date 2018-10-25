@@ -3,7 +3,10 @@ import SearchField from "./SearchField";
 import BEMHelper from "react-bem-helper";
 
 import {Search as SearchIcon,} from 'ndla-icons/common';
-import { Subject as SubjectIcon} from 'ndla-icons/contentType';
+import Meta from "../../UpdatePage/components/Meta";
+
+import './searchForm.css';
+import DropDown from "../../UpdatePage/components/DropDown";
 
 const classes = new BEMHelper({
     name: 'search-form',
@@ -15,10 +18,13 @@ class SearchForm extends React.Component {
     constructor(props) {
         super(props);
 
+        const [lang=null, ...rest] = this.props.languages;
+        const [sub=null, ...subRest] = this.props.subjects;
+
         this.state = {
             term: "",
-            language: "",
-            subject: ""
+            language: lang,
+            subject: sub
         };
 
         this.onSearch = this.onSearch.bind(this);
@@ -40,8 +46,8 @@ class SearchForm extends React.Component {
     onSearch(e){
         e.preventDefault();
 
-        let query = this.createMetaGetParam("", "language", this.state.language);
-        query += this.createMetaGetParam(query, "subject", this.state.subject);
+        let query = this.createMetaGetParam("", "language", this.state.language.name);
+        query += this.createMetaGetParam(query, "subject", this.state.subject.name);
         query += this.createGetParam(query, "title", this.state.term);
 
         console.log(query);
@@ -69,8 +75,6 @@ class SearchForm extends React.Component {
             "name": prop
         };
 
-
-
         const param = `meta=${encodeURI(JSON.stringify(object))}`;
         if (query)
             return `&${param}`;
@@ -79,9 +83,15 @@ class SearchForm extends React.Component {
 
     }
 
+    onChange(key, metaId) {
+        const meta = this.props[key + "s"].find(x => x.id+"" === metaId);
+        console.log(key, metaId, meta, typeof metaId)
+        this.setState((state) => ({[key]: meta}));
+    }
+
 
     render() {
-        const {t} = this.props;
+        const {t, languages, subjects} = this.props;
 
         return (
             <div {...classes()}>
@@ -94,23 +104,8 @@ class SearchForm extends React.Component {
                              {...classes('inputfield')}
                              icon={<SearchIcon />}
                 />
-                <div {...classes('filter')}>
-                    <SearchField placeholder={t('search.language.placeholder')}
-                                 value={this.state.language}
-                                 onSearch={this.onSearch}
-                                 onChange={this.onLanguageFieldChange}
-                                 id="search-language"
-                                 {...classes('inputfield')}
-                    />
-                    <SearchField placeholder={t('search.subject.placeholder')}
-                                 value={this.state.subject}
-                                 onSearch={this.onSearch}
-                                 onChange={this.onSubjectFieldChange}
-                                 id="search-subject"
-                                 {...classes('inputfield')}
-                                 icon={<SubjectIcon />}
-                    />
-                </div>
+                <DropDown items={languages} selected={this.state.language} onChange={(e) => this.onChange("language",e.target.value)} id="languages" classes={classes('filter-dropdown')} />
+                <DropDown items={subjects} selected={this.state.subject} onChange={(e) => this.onChange("subject",e.target.value)} id="subjects" classes={classes('filter-dropdown')} />
             </div>
         );
     }

@@ -52,6 +52,7 @@ class CreatePageContainer extends React.Component {
     }
 
     onChangeMeta(key, meta) {
+        console.log(key, this.state.concept.meta, meta)
         if (!this.state.concept.meta) {
             this.setState((state) => ({concept: {...state.concept, meta: [meta]}}));
         } else {

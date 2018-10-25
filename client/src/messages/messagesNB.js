@@ -25,10 +25,6 @@ const NB = {
             placeholder: "Begrep",
             title: "Forklaring"
         },
-        subSubject: {
-            placeholder: "Emne",
-            title: "Emne"
-        },
         subject: {
             placeholder: "Fag",
             title: "Fag"
@@ -42,9 +38,9 @@ const NB = {
     title: "Tittel",
     content: "Innhold",
     addLanguage: "Legg til språk",
-    addSubject: "Legg til emne",
+    addSubject: "Legg til fag",
     addLicence: "Legg til lisens",
-    labelSubjects: "Emne",
+    labelSubjects: "Fag",
     labelLanguages: "Språk",
     labelLicence: "Lisens",
     updateConcept: "Oppdater begrep",

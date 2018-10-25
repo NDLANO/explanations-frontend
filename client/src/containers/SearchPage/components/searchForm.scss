@@ -1,0 +1,14 @@
+.c-search-form {
+  &__filter-dropdown {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+
+    select {
+      border-radius: 5px;
+      height: 63px;
+      width: 100%;
+    }
+  }
+}

@@ -16,17 +16,39 @@ import {compose} from "redux";
 import './style.css'
 import {searchForConcept} from "./Actions";
 import SearchResultList from "./components/SearchResultList";
+import BEMHelper from "react-bem-helper";
 
 
-const SearchContainer = ({searchResult, searchForConcept, changePagination, t}) =>
-    <OneColumn>
-        <SearchForm t={t}
-                    search={searchForConcept}/>
-        <SearchResultList results={searchResult}
-                          onPaginationChange={changePagination}/>
-    </OneColumn>;
+class SearchContainer extends React.Component {
+    render() {
 
-const mapStateToProps = state => ({searchResult: state.search.results});
+        const {t, languages=[], subjects=[], searchResult,searchForConcept} = this.props;
+
+        if (languages.length === 0 || subjects.length === 0) {
+            return (
+                <OneColumn>
+                    <div>
+                        <h4>Loading...</h4>
+                    </div>
+                </OneColumn>
+            )
+        }
+
+        return (
+            <OneColumn>
+                <SearchForm t={t}
+                            languages={languages}
+                            subjects={subjects}
+                            search={searchForConcept}/>
+                <SearchResultList results={searchResult}/>
+            </OneColumn>
+        )
+    }
+}
+
+
+
+const mapStateToProps = state => ({searchResult: state.search.results, languages: state.meta.languages, subjects: state.meta.subjects});
 
 export default compose(
     connect(mapStateToProps, {searchForConcept}),
