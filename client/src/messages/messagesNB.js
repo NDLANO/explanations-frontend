@@ -47,6 +47,8 @@ const NB = {
     createConcept: "Opprett begrep",
     source: "Kilde",
     externalId: "Ekstern id",
+    deleteConcept: "Slett (arkiver)",
+    status: "Status"
 };
 
 export default NB;

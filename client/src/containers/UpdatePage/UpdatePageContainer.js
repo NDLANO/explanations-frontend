@@ -9,7 +9,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import {getConceptById, updateConcept} from "../../api";
+import {getConceptById, updateConcept, archiveConcept} from "../../api";
 import {OneColumn} from "ndla-ui";
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
@@ -36,9 +36,14 @@ class UpdatePageContainer extends React.Component {
         this.sourceChange = this.onChangeConcept.bind(this, "source");
         this.submit = this.submit.bind(this);
         this.onChangeMeta = this.onChangeMeta.bind(this);
+        this.onDeleteClicked = this.onDeleteClicked.bind(this);
     }
 
     componentDidMount() {
+        this.loadConcept();
+    }
+
+    loadConcept() {
         const {id} = this.props.match.params;
         getConceptById(id)
             .then(data => {
@@ -55,6 +60,8 @@ class UpdatePageContainer extends React.Component {
     }
 
     onChangeMeta(key, meta) {
+        if (typeof meta !== "object")
+            meta = this.props[key].find(x => x.id+"" === meta)
         if (!this.state.concept.meta) {
             this.setState((state) => ({concept: {...state.concept, meta: [meta]}}));
         } else {
@@ -65,6 +72,11 @@ class UpdatePageContainer extends React.Component {
             });
         }
 
+    }
+
+
+    onDeleteClicked() {
+        archiveConcept(this.state.concept.id).then(data => this.loadConcept());
     }
 
 
@@ -105,7 +117,9 @@ class UpdatePageContainer extends React.Component {
                     <Meta onChange={this.onChangeMeta} t={t} choices={languages} id="languages" buttonText={t("addLanguage")} labelText={t("labelLanguages")} classes={classes('form-field')}  current={currentLang} />
                     <Meta onChange={this.onChangeMeta} t={t} choices={subjects} id="subjects" buttonText={t("addSubject")} labelText={t("labelSubjects")} classes={classes('form-field')}  current={currentSubject}/>
                     <Meta onChange={this.onChangeMeta} t={t} choices={licences} id="licences" buttonText={t("addLicence")} labelText={t("labelLicence")} classes={classes('form-field')}  current={currentLicence}/>
+                    <Input id="status" value={this.state.concept.status.name} label={t("status")} {...classes('form-field')} isReadOnly={true}/>
                     <button className="c-button" type="submit">{t("updateConcept")}</button>
+                    <button className="c-button" type="button" onClick={this.onDeleteClicked} >{t("deleteConcept")}</button>
                 </form>
             </OneColumn>
         )
@@ -122,6 +136,6 @@ const mapStateToProps = ({meta: {subjects, languages, licences}}) => ({
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, null),
+    connect(mapStateToProps, {archiveConcept}),
     injectT
 )(UpdatePageContainer);

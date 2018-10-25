@@ -19,7 +19,7 @@ import UpdatePage from '../UpdatePage/UpdatePageContainer';
 import Footer from '../../components/Footer';
 import Header from "../../components/Header/Header";
 import {CreateRoute, SearchRoute, UpdateRoute} from "../../routes";
-import {loadLanguageMeta, loadSubjectMeta, loadLicenceMeta} from "./Actions";
+import {loadLanguageMeta, loadSubjectMeta, loadLicenceMeta, loadStatus} from "./Actions";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import CreatePageContainer from "../UpdatePage/CreatePageContainer";
@@ -29,9 +29,11 @@ class App extends React.Component {
         this.props.loadSubjectMeta();
         this.props.loadLanguageMeta();
         this.props.loadLicenceMeta();
+        this.props.loadStatus();
     }
+
     render() {
-        const {t} =this.props;
+        const {t} = this.props;
         return (
             <PageContainer>
                 <Content>
@@ -52,6 +54,6 @@ class App extends React.Component {
 
 export default compose(
     withRouter,
-    connect(null, {loadSubjectMeta, loadLanguageMeta,loadLicenceMeta}),
+    connect(null, {loadSubjectMeta, loadLanguageMeta,loadLicenceMeta, loadStatus}),
     injectT,
 )(App);

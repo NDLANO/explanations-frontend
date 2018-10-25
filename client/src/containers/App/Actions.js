@@ -3,7 +3,7 @@ import * as Api from "../../api";
 export const UPDATE_SUBJECTS = 'UPDATE_SUBJECTS';
 export const UPDATE_LANGUAGES = 'UPDATE_LANGAUGES';
 export const UPDATE_LICENCES = 'UPDATE_LICENCES';
-
+export const UPDATE_STATUS = "UPDATE_STATUS";
 
 export const loadSubjectMeta = () => {
     return dispatch => {
@@ -25,4 +25,13 @@ export const loadLicenceMeta = () => {
             .then(data => dispatch({type: UPDATE_LICENCES, payload: data.data.data}));
     };
 };
+
+
+export const loadStatus = () => {
+    return dispatch => {
+        const request = Api.getAllStatus()
+            .then(data => dispatch({type: UPDATE_STATUS, payload: data.data.data}));
+    };
+};
+
 

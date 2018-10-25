@@ -52,7 +52,8 @@ class CreatePageContainer extends React.Component {
     }
 
     onChangeMeta(key, meta) {
-        console.log(key, this.state.concept.meta, meta)
+        if (typeof meta !== "object")
+            meta = this.props[key].find(x => x.id+"" === meta)
         if (!this.state.concept.meta) {
             this.setState((state) => ({concept: {...state.concept, meta: [meta]}}));
         } else {
@@ -62,18 +63,21 @@ class CreatePageContainer extends React.Component {
                 return ({concept: {...state.concept, meta: metaList}})
             });
         }
-
     }
 
 
     submit(e) {
         e.preventDefault();
-        console.log("submitting",this.state.concept)
-        createConcept(this.state.concept)
-            .then(data => {
-                this.props.history.push(`update/${data.data.data.id}`)
-            })
-            .catch(err => console.log(err.response.data));
+
+        this.setState(state =>
+                ({concept: {...state.concept, status: this.props.status}}),
+            () => createConcept(this.state.concept)
+                .then(data => {
+                    this.props.history.push(`update/${data.data.data.id}`)
+                })
+                .catch(err => console.log(err.response.data))
+        );
+        console.log("submitting",this.state.concept);
     }
 
     render() {
@@ -110,11 +114,14 @@ class CreatePageContainer extends React.Component {
     }
 }
 
-const mapStateToProps = ({meta: {subjects, languages, licences}}) => ({
-    languages,
-    subjects,
-    licences
-});
+const mapStateToProps = ({meta: {subjects, languages, licences}, status}) => {
+    return {
+        languages,
+        subjects,
+        licences,
+        status: status.current
+    }
+};
 
 
 

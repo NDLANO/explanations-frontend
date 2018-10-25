@@ -8,13 +8,14 @@
 
 import axios from 'axios';
 
-const ROOT_URL = process.env['NODE_ENV'] === 'development' ? 'http://localhost:63365' : 'http://ndla-api-1275813378.eu-west-1.elb.amazonaws.com';
+const ROOT_URL = process.env['NODE_ENV'] === 'development' ? 'http://localhost:5000' : 'http://ndla-api-1275813378.eu-west-1.elb.amazonaws.com';
 
 const API_URL = `${ROOT_URL}/api`;
 
 const API_ENDPOINTS = {
     concept: `${API_URL}/concept`,
     meta: `${API_URL}/metadata`,
+    status: `${API_URL}/status`,
     concept_search: `${API_URL}/concept/search`,
     meta_search: `${API_URL}/metadata/search`,
 };
@@ -23,8 +24,12 @@ export const searchForConcepts = query => axios.get(`${API_ENDPOINTS.concept_sea
 
 export const getConceptById = id => axios.get(`${API_ENDPOINTS.concept}/${id}`);
 
+export const getAllStatus = () => axios.get(`${API_ENDPOINTS.status}`);
+
 export const getListOfMetaBy = meta => axios.get(`${API_ENDPOINTS.meta_search}?category=${meta}`);
 
 export const updateConcept = concept => axios.put(`${API_ENDPOINTS.concept}`,concept);
 
 export const createConcept = concept => axios.post(`${API_ENDPOINTS.concept}`,concept);
+
+export const archiveConcept = id => axios.delete(`${API_ENDPOINTS.concept}/${id}`,);
