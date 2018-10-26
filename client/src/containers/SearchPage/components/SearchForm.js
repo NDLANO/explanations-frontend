@@ -46,8 +46,8 @@ class SearchForm extends React.Component {
     onSearch(e){
         e.preventDefault();
 
-        let query = this.createMetaGetParam("", "language", this.state.language.name);
-        query += this.createMetaGetParam(query, "subject", this.state.subject.name);
+        let query = this.createMetaGetParam("",this.state.language.id);
+        query += this.createMetaGetParam(query, this.state.subject.id);
         query += this.createGetParam(query, "title", this.state.term);
 
         console.log(query);
@@ -66,7 +66,17 @@ class SearchForm extends React.Component {
 
     }
 
-    createMetaGetParam(query, key, prop) {
+    createMetaGetParam(query, id) {
+
+        const param = `meta=${id}`;
+        if (query)
+            return `&${param}`;
+        else
+            return`?${param}`;
+
+    }
+
+    createMetaGetParamWithObjects(query, key, prop) {
         if(!prop)
             return "";
 
