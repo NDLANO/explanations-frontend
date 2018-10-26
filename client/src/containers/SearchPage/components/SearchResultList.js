@@ -12,7 +12,10 @@ const classes = new BEMHelper({
 const SearchResultList = ({results=[]})=>
     <div>
         <ul {...classes()}>
-            {results.map(result => <SearchResultItem key={result.id} item={result}/>)}
+            {results
+                .sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase()))
+                .map(result => <SearchResultItem key={result.id} item={result}/>)
+            }
         </ul>
     </div>;
 
