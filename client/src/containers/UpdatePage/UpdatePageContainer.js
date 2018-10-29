@@ -13,6 +13,7 @@ import {getConceptById, updateConcept, archiveConcept} from "../../api";
 import {OneColumn} from "ndla-ui";
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
+import TextArea from "./components/TextArea";
 import Input from "./components/Input";
 import BEMHelper from "react-bem-helper";
 
@@ -112,7 +113,7 @@ class UpdatePageContainer extends React.Component {
                 <form onSubmit={this.submit} {...classes()}>
                     <Input id="author" value={this.state.concept.author} label={t("author")} onChange={this.authorChange} {...classes('form-field')} />
                     <Input id="title" value={this.state.concept.title} label={t("title")} onChange={this.titleChange} {...classes('form-field')} />
-                    <Input id="content" value={this.state.concept.content} label={t("content")} onChange={this.contentChange} {...classes('form-field')} />
+                    <TextArea id="content" value={this.state.concept.content} label={t("content")} onChange={this.contentChange} {...classes('form-field')} />
                     <Input id="source" value={this.state.concept.source} label={t("source")} onChange={this.sourceChange} {...classes('form-field')} />
                     <Meta onChange={this.onChangeMeta} t={t} choices={languages} id="languages" buttonText={t("addLanguage")} labelText={t("labelLanguages")} classes={classes('form-field')}  current={currentLang} />
                     <Meta onChange={this.onChangeMeta} t={t} choices={subjects} id="subjects" buttonText={t("addSubject")} labelText={t("labelSubjects")} classes={classes('form-field')}  current={currentSubject}/>
