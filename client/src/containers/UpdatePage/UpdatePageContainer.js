@@ -10,33 +10,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {getConceptById, updateConcept, archiveConcept} from "../../api";
-import {OneColumn} from "ndla-ui";
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
-import TextArea from "./components/TextArea";
-import Input from "./components/Input";
-import BEMHelper from "react-bem-helper";
 
 import './style.css';
-import Meta from "./components/Meta";
+import Concept from "./components/Concept";
+import {OneColumn} from "ndla-ui";
 
 
-
-const classes = new BEMHelper({
-    name: 'update-form',
-    prefix: 'c-',
-});
 
 class UpdatePageContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {concept: null, errorMessage: ""};
-        this.authorChange = this.onChangeConcept.bind(this, "author");
-        this.titleChange = this.onChangeConcept.bind(this, "title");
-        this.contentChange = this.onChangeConcept.bind(this, "content");
-        this.sourceChange = this.onChangeConcept.bind(this, "source");
         this.submit = this.submit.bind(this);
-        this.onChangeMeta = this.onChangeMeta.bind(this);
         this.onDeleteClicked = this.onDeleteClicked.bind(this);
     }
 
@@ -55,26 +42,6 @@ class UpdatePageContainer extends React.Component {
             })
     }
 
-    onChangeConcept(key, {target: {value}}) {
-        const {concept} = this.state;
-        this.setState({concept: {...concept, [key]: value}})
-    }
-
-    onChangeMeta(key, meta) {
-        if (typeof meta !== "object")
-            meta = this.props[key].find(x => x.id+"" === meta)
-        if (!this.state.concept.meta) {
-            this.setState((state) => ({concept: {...state.concept, meta: [meta]}}));
-        } else {
-            this.setState((state) => {
-                const metaList = state.concept.meta.filter(x => x.category.name !== meta.category.name);
-                metaList.push(meta);
-                return ({concept: {...state.concept, meta: metaList}})
-            });
-        }
-
-    }
-
 
     onDeleteClicked() {
         archiveConcept(this.state.concept.id).then(data => this.loadConcept());
@@ -91,47 +58,32 @@ class UpdatePageContainer extends React.Component {
     }
 
     render() {
-        const {concept} = this.state;
-        const {languages, subjects, t, licences} = this.props;
+        const {t, meta=[], status=[]} = this.props;
+        if (this.state.concept && meta.length > 0 && status.length > 0)
+            return (
+                <div>
+                    <Concept status={status}
+                             t={t}
+                             concept={this.state.concept}
+                             metas={meta}
+                             title="createConcept"
+                             onConceptDone={this.submit}/>
+                    <OneColumn>
+                        <button className="c-button" type="submit" onClick={this.onDeleteClicked}>{t("deleteConcept")}</button>
+                    </OneColumn>
+                </div>
+            );
 
-        if (!concept)
-            return <div>Loading...</div>;
-
-        let currentLang = "";
-        let currentSubject = "";
-        let currentLicence = "";
-        if (concept.meta){
-            currentLang = concept.meta.find(m => m.category.name === "Language");
-            currentSubject = concept.meta.find(m => m.category.name === "Subject");
-            currentLicence = concept.meta.find(m => m.category.name === "Licence");
-        }
-
-
-        return (
-            <OneColumn>
-                <h1>{t("updateConcept")}</h1>
-                <form onSubmit={this.submit} {...classes()}>
-                    <Input id="author" value={this.state.concept.author} label={t("author")} onChange={this.authorChange} {...classes('form-field')} />
-                    <Input id="title" value={this.state.concept.title} label={t("title")} onChange={this.titleChange} {...classes('form-field')} />
-                    <TextArea id="content" value={this.state.concept.content} label={t("content")} onChange={this.contentChange} {...classes('form-field')} />
-                    <Input id="source" value={this.state.concept.source} label={t("source")} onChange={this.sourceChange} {...classes('form-field')} />
-                    <Meta onChange={this.onChangeMeta} t={t} choices={languages} id="languages" buttonText={t("addLanguage")} labelText={t("labelLanguages")} classes={classes('form-field')}  current={currentLang} />
-                    <Meta onChange={this.onChangeMeta} t={t} choices={subjects} id="subjects" buttonText={t("addSubject")} labelText={t("labelSubjects")} classes={classes('form-field')}  current={currentSubject}/>
-                    <Meta onChange={this.onChangeMeta} t={t} choices={licences} id="licences" buttonText={t("addLicence")} labelText={t("labelLicence")} classes={classes('form-field')}  current={currentLicence}/>
-                    <Input id="status" value={this.state.concept.status.name} label={t("status")} {...classes('form-field')} isReadOnly={true}/>
-                    <button className="c-button" type="submit">{t("updateConcept")}</button>
-                    <button className="c-button" type="button" onClick={this.onDeleteClicked} >{t("deleteConcept")}</button>
-                </form>
-            </OneColumn>
-        )
+        return <div>Loading ...</div>
     }
 }
 
-const mapStateToProps = ({meta: {subjects, languages, licences}}) => ({
-    languages,
-    subjects,
-    licences
-});
+const mapStateToProps = ({meta, status}) => {
+    return {
+        meta,
+        status: status.all
+    }
+};
 
 
 

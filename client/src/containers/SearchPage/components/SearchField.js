@@ -3,15 +3,11 @@ import PropTypes from 'prop-types';
 import BEMHelper from "react-bem-helper";
 
 import {ActiveFilters} from "ndla-ui";
+import {Search as SearchIcon} from "ndla-icons/es/common";
 
 const classes = new BEMHelper('c-search-field');
 
 class SearchField extends React.Component {
-    renderAutoComplete() {
-        const {autoCompleteResults, id} = this.props;
-
-        return null;
-    }
 
 
     render() {
@@ -56,7 +52,6 @@ class SearchField extends React.Component {
                         {icon}
                     </button>
                 </div>
-                {this.renderAutoComplete()}
             </form>
         );
     }
@@ -75,7 +70,7 @@ SearchField.propTypes = {
 
 SearchField.defaultProps = {
     isRequired: false,
-    icon: null
+    icon: <SearchIcon />
 };
 
 export default SearchField;

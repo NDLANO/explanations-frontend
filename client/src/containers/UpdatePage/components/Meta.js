@@ -4,9 +4,13 @@ import DropDown from "./DropDown";
 class Meta extends React.Component {
 
     render() {
-        const {choices, current, labelText, id, buttonText, classes} = this.props;
+        const {choices, current, labelText, id, buttonText, classes, defaultValue=null} = this.props;
+        let dropDownDefault = defaultValue;
+        if (!dropDownDefault)
+            dropDownDefault = this.props.choices[0];
+
         if (!current)
-            return <button  className="c-button--outline" type="button" onClick={() => this.props.onChange(this.props.id, this.props.choices[0])}>{buttonText}</button>;
+            return <button  className="c-button--outline" type="button" onClick={() => this.props.onChange(this.props.id, dropDownDefault.id)}>{buttonText}</button>;
 
 
         return (

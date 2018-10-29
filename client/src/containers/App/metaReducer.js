@@ -5,22 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {UPDATE_LANGUAGES, UPDATE_LICENCES, UPDATE_SUBJECTS} from './Actions';
+import {UPDATE_METAS} from './Actions';
 
-const initialState = {
-    subjects: [],
-    languages: [],
-    licences: []
-};
-
-export const meta = (state=initialState, action) => {
+export const meta = (state=[], action) => {
     switch(action.type) {
-        case UPDATE_LANGUAGES:
-            return {...state, languages: action.payload};
-        case UPDATE_SUBJECTS:
-            return {...state, subjects: action.payload};
-        case UPDATE_LICENCES:
-            return {...state, licences: action.payload};
+        case UPDATE_METAS:
+            return action.payload;
         default:
             return state;
     }

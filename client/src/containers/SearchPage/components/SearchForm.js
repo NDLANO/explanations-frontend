@@ -110,9 +110,8 @@ class SearchForm extends React.Component {
                              onSearch={this.onSearch}
                              onChange={this.onSearchFieldChange}
                              id="search-concepts"
-                             autoCompleteResults={["aj", "ad"]}
                              {...classes('inputfield')}
-                             icon={<SearchIcon />}
+
                 />
                 <DropDown items={languages} selected={this.state.language} onChange={(e) => this.onChange("language",e.target.value)} id="languages" classes={classes('filter-dropdown')} />
                 <DropDown items={subjects} selected={this.state.subject} onChange={(e) => this.onChange("subject",e.target.value)} id="subjects" classes={classes('filter-dropdown')} />

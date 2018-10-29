@@ -1,7 +1,15 @@
 import React from "react";
+import BEMHelper from "react-bem-helper";
 
-const DropDown = ({items, selected, onChange, id, classes, label}) => (
-    <div {...classes}>
+import './DropDown.style.css'
+
+const classes = new BEMHelper({
+    name: 'dropdown',
+    prefix: 'c-',
+});
+
+const DropDown = ({items, selected, onChange, id, label}) => (
+    <div {...classes()}>
         <label htmlFor={id}>{label}</label>
         <select value={selected.id} onChange={onChange}>
             {items.map(item => <
