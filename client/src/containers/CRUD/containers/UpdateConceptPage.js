@@ -16,6 +16,7 @@ import {injectT} from "ndla-i18n";
 import '../style.css';
 import Concept from "../components/Concept";
 import {OneColumn} from "ndla-ui";
+import ConfirmModal from "../components/ConfirmModal";
 
 
 
@@ -26,6 +27,7 @@ class UpdateConceptPage extends React.Component {
         this.submit = this.submit.bind(this);
         this.onDeleteClicked = this.onDeleteClicked.bind(this);
         this.onCloneClicked = this.onCloneClicked.bind(this);
+        this.renderDeleteButton  = this.renderDeleteButton.bind(this)
     }
 
     componentDidMount() {
@@ -60,20 +62,28 @@ class UpdateConceptPage extends React.Component {
             .catch(err => console.log(err.response.data));
     }
 
+    renderDeleteButton() {
+        return <button className="c-button" type="submit" onClick={this.onDeleteClicked}>{this.props.t("deleteConcept")}</button>
+    }
+
     render() {
         const {t, meta=[], status=[]} = this.props;
         if (this.state.concept && meta.length > 0 && status.length > 0)
             return (
                 <div>
+
                     <Concept status={status}
                              t={t}
                              concept={this.state.concept}
                              metas={meta}
-                             title="createConcept"
+                             title={t("updateConcept")}
                              onConceptDone={this.submit}/>
+
                     <OneColumn>
-                        <button className="c-button" type="submit" onClick={this.onDeleteClicked}>{t("deleteConcept")}</button>
+                        <ConfirmModal triggerButton={this.renderDeleteButton} />
+
                     </OneColumn>
+
                     <OneColumn>
                         <button className="c-button" type="submit" onClick={this.onCloneClicked}>{t("cloneConcept")}</button>
                     </OneColumn>

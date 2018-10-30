@@ -4979,6 +4979,10 @@ ndla-licenses@^0.2.0:
   dependencies:
     defined "1.0.0"
 
+ndla-modal@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/ndla-modal/-/ndla-modal-0.1.4.tgz#c850a8bfc17faf5308c2dbb319cd778e6b9ae835"
+
 ndla-tabs@^0.6.3:
   version "0.6.4"
   resolved "https://registry.yarnpkg.com/ndla-tabs/-/ndla-tabs-0.6.4.tgz#cd3a568155ae2b1466e3cde3cbcc60b8062b209b"

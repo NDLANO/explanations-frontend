@@ -10,7 +10,7 @@ const classes = new BEMHelper({
 
 const DropDown = ({items, selected, onChange, id, label}) => (
     <div {...classes()}>
-        <label htmlFor={id}>{label}</label>
+        {label && <label htmlFor={id}>{label}</label>}
         <select value={selected.id} onChange={onChange}>
             {items.map(item => <
                 option key={item.id} value={item.id}>

@@ -20,6 +20,7 @@
     "ndla-i18n": "^0.3.0",
     "ndla-icons": "^0.3.10",
     "ndla-licenses": "^0.2.0",
+    "ndla-modal": "^0.1.4",
     "ndla-tabs": "^0.6.3",
     "ndla-ui": "^0.15.1",
     "ndla-util": "^0.2.7",

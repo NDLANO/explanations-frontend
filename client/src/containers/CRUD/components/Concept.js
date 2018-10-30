@@ -16,7 +16,7 @@ import PropTypes from 'prop-types';
 import Meta from "./Meta";
 import DropDown from "./DropDown";
 
-
+import ConfirmModal from './ConfirmModal'
 
 const classes = new BEMHelper({
     name: 'update-form',
@@ -26,7 +26,7 @@ const classes = new BEMHelper({
 class Concept extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props)
+
         const metas = {};
         props.concept.meta.forEach(m => metas[m.category.name.toLowerCase()] = m);
 
@@ -91,7 +91,7 @@ class Concept extends React.Component {
         const {author, title, content, externalId, source} = this.state.concept;
         return (
             <OneColumn>
-                <h1>{t(pageTitle)}</h1>
+                <h1>{pageTitle}</h1>
                 <form onSubmit={this.submit} {...classes()}>
                     <Input id="author" value={author} label={t("author")} onChange={this.authorChange} {...classes('form-field')}  />
                     <Input id="title" value={title} label={t("title")} onChange={this.titleChange} {...classes('form-field')} />
@@ -104,7 +104,7 @@ class Concept extends React.Component {
                               id={"status"}
                               label={this.capitalizeText(t("status"))}
                               {...classes('form-field')} />
-
+                <ConfirmModal />
                     {this.props.metas.map(
                         meta => <Meta onChange={this.onChangeMeta}
                                       key={meta.category.name.toLowerCase()}
