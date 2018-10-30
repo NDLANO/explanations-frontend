@@ -15,6 +15,7 @@ import {injectT} from "ndla-i18n";
 import './style.css';
 import Concept from "./components/Concept";
 import {createConcept} from "../../api";
+import {OneColumn} from "ndla-ui";
 
 class CreatePageContainer extends React.Component {
     constructor(props) {
@@ -40,7 +41,11 @@ class CreatePageContainer extends React.Component {
                          onConceptDone={this.submit}/>
             );
 
-        return <div>Loading ...</div>
+        return (
+            <OneColumn>
+                <div>Loading ...</div>
+            </OneColumn>
+        )
     }
 }
 

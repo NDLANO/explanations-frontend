@@ -24,8 +24,6 @@ class UpdatePageContainer extends React.Component {
         super(props);
         this.state = {concept: null, errorMessage: ""};
         this.submit = this.submit.bind(this);
-        this.onDeleteClicked = this.onDeleteClicked.bind(this);
-        this.onCloneClicked = this.onCloneClicked.bind(this);
     }
 
     componentDidMount() {
@@ -42,15 +40,6 @@ class UpdatePageContainer extends React.Component {
                 }
             })
     }
-
-    onCloneClicked() {
-
-    }
-
-    onDeleteClicked() {
-        archiveConcept(this.state.concept.id).then(data => this.loadConcept());
-    }
-
 
     submit(e) {
         e.preventDefault();
@@ -72,12 +61,6 @@ class UpdatePageContainer extends React.Component {
                              metas={meta}
                              title="createConcept"
                              onConceptDone={this.submit}/>
-                    <OneColumn>
-                        <button className="c-button" type="submit" onClick={this.onDeleteClicked}>{t("deleteConcept")}</button>
-                    </OneColumn>
-                    <OneColumn>
-                        <button className="c-button" type="submit" onClick={this.onCloneClicked}>{t("cloneConcept")}</button>
-                    </OneColumn>
                 </div>
             );
 
