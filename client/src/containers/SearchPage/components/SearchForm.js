@@ -3,10 +3,10 @@ import SearchField from "./SearchField";
 import BEMHelper from "react-bem-helper";
 
 import {Search as SearchIcon,} from 'ndla-icons/common';
-import Meta from "../../UpdatePage/components/Meta";
+import Meta from "../../CRUD/components/Meta";
 
 import './searchForm.css';
-import DropDown from "../../UpdatePage/components/DropDown";
+import DropDown from "../../CRUD/components/DropDown";
 
 const classes = new BEMHelper({
     name: 'search-form',

@@ -26,7 +26,7 @@ const classes = new BEMHelper({
 class Concept extends React.Component {
     constructor(props) {
         super(props);
-
+        console.log(props)
         const metas = {};
         props.concept.meta.forEach(m => metas[m.category.name.toLowerCase()] = m);
 

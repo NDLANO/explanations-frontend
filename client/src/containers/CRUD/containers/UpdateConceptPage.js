@@ -9,21 +9,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import {getConceptById, updateConcept, archiveConcept} from "../../api";
+import {getConceptById, updateConcept, archiveConcept} from "../../../api";
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 
-import './style.css';
-import Concept from "./components/Concept";
+import '../style.css';
+import Concept from "../components/Concept";
 import {OneColumn} from "ndla-ui";
 
 
 
-class UpdatePageContainer extends React.Component {
+class UpdateConceptPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {concept: null, errorMessage: ""};
         this.submit = this.submit.bind(this);
+        this.onDeleteClicked = this.onDeleteClicked.bind(this);
+        this.onCloneClicked = this.onCloneClicked.bind(this);
     }
 
     componentDidMount() {
@@ -34,12 +36,20 @@ class UpdatePageContainer extends React.Component {
         const {id} = this.props.match.params;
         getConceptById(id)
             .then(data => {
-                console.log(data.data.data)
                 if (data.data) {
                     this.setState({concept: data.data.data});
                 }
             })
     }
+
+    onCloneClicked() {
+        this.props.history.push(`/clone/${this.state.concept.id}`);
+    }
+
+    onDeleteClicked() {
+        archiveConcept(this.state.concept.id).then(data => this.loadConcept());
+    }
+
 
     submit(e) {
         e.preventDefault();
@@ -61,6 +71,12 @@ class UpdatePageContainer extends React.Component {
                              metas={meta}
                              title="createConcept"
                              onConceptDone={this.submit}/>
+                    <OneColumn>
+                        <button className="c-button" type="submit" onClick={this.onDeleteClicked}>{t("deleteConcept")}</button>
+                    </OneColumn>
+                    <OneColumn>
+                        <button className="c-button" type="submit" onClick={this.onCloneClicked}>{t("cloneConcept")}</button>
+                    </OneColumn>
                 </div>
             );
 
@@ -86,4 +102,4 @@ export default compose(
     withRouter,
     connect(mapStateToProps, {archiveConcept}),
     injectT
-)(UpdatePageContainer);
+)(UpdateConceptPage);

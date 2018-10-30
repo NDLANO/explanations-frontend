@@ -15,14 +15,13 @@ import './style.css'
 
 import NotFoundPage from '../../components/NotFoundPage'
 import SearchPage from '../SearchPage/SearchPageContainer';
-import UpdatePage from '../UpdatePage/UpdatePageContainer';
 import Footer from '../../components/Footer';
 import Header from "../../components/Header/Header";
-import {CreateRoute, SearchRoute, UpdateRoute} from "../../routes";
+import {CreateRoute, SearchRoute, UpdateRoute, CloneRoute} from "../../routes";
 import {loadMeta, loadStatus} from "./Actions";
 import {connect} from "react-redux";
 import {compose} from "redux";
-import CreatePageContainer from "../UpdatePage/CreatePageContainer";
+import {CloneConceptPage, UpdateConceptPage, CreateConceptPage} from "../CRUD";
 
 class App extends React.Component {
     componentDidMount() {
@@ -38,8 +37,9 @@ class App extends React.Component {
                     <Header t={t} />
                     <Switch>
                         <Route path={SearchRoute} exact component={SearchPage}/>
-                        <Route path={UpdateRoute} exact component={UpdatePage}/>
-                        <Route path={CreateRoute} exact component={CreatePageContainer}/>
+                        <Route path={UpdateRoute} exact component={UpdateConceptPage}/>
+                        <Route path={CreateRoute} exact component={CreateConceptPage}/>
+                        <Route path={CloneRoute} exact component={CloneConceptPage}/>
                         <Route path="*" component={NotFoundPage}/>
                     </Switch>
                     <Footer t={t} />

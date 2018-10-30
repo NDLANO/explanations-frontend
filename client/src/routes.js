@@ -9,3 +9,5 @@
 export const SearchRoute = "/";
 export const UpdateRoute = "/update/:id";
 export const CreateRoute = "/create";
+export const CloneRoute = "/clone/:id";
+

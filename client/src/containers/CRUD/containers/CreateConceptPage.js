@@ -12,12 +12,12 @@ import { withRouter } from 'react-router-dom';
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 
-import './style.css';
-import Concept from "./components/Concept";
-import {createConcept} from "../../api";
+import '../style.css';
+import Concept from "../components/Concept";
+import {createConcept} from "../../../api";
 import {OneColumn} from "ndla-ui";
 
-class CreatePageContainer extends React.Component {
+class CreateConceptPage extends React.Component {
     constructor(props) {
         super(props);
         this.submit = this.submit.bind(this);
@@ -38,7 +38,9 @@ class CreatePageContainer extends React.Component {
                          t={t}
                          metas={meta}
                          title="createConcept"
-                         onConceptDone={this.submit}/>
+                         onConceptDone={this.submit}
+                            concept={this.props.concept}
+                    />
             );
 
         return (
@@ -62,4 +64,4 @@ export default compose(
     withRouter,
     connect(mapStateToProps, null),
     injectT
-)(CreatePageContainer);
+)(CreateConceptPage);
