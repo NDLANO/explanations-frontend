@@ -8,10 +8,9 @@
 
 import {getLocaleInfoFromPath} from "../../i18n";
 import {UPDATE_LOCALE} from './Actions';
+const {abbreviation} = getLocaleInfoFromPath(window.location.pathname);
 
-const {basename} = getLocaleInfoFromPath(window.location.pathname);
-
-const initialState = basename;
+const initialState = abbreviation;
 
 export const locale = (state=initialState, action) => {
     switch(action.type) {

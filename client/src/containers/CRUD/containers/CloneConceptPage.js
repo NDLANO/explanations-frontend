@@ -13,7 +13,6 @@ import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 
 import CreateConceptPage from "./CreateConceptPage";
-import {OneColumn} from "ndla-ui";
 import Loading from "../../../components/Loading/Component";
 
 
@@ -34,6 +33,8 @@ class CloneConceptPage extends React.Component {
                 if (data.data) {
                     const {data: concept} = data.data;
                     concept.id = -1;
+                    concept.created = null;
+                    concept.updated = null;
                     this.setState({concept});
                 }
             })

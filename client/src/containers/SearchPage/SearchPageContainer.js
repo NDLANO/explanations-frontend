@@ -19,25 +19,23 @@ import SearchResultList from "./components/SearchResultList";
 import {sortObjectsByKey} from "../../utilities";
 import Loading from "../../components/Loading/Component";
 
-class SearchContainer extends React.Component {
-    render() {
+const SearchContainer = ({t, languages, subjects, searchResult,searchForConcept,locale}) =>
+{
 
-        const {t, languages, subjects, searchResult,searchForConcept} = this.props;
-
-        if (languages.length === 0 || subjects.length === 0) {
-            return <Loading/>
-        }
-
-        return (
-            <OneColumn>
-                <SearchForm t={t}
-                            languages={languages}
-                            subjects={subjects}
-                            search={searchForConcept}/>
-                <SearchResultList results={searchResult}/>
-            </OneColumn>
-        )
+    if (languages.length === 0 || subjects.length === 0) {
+        return <Loading/>
     }
+
+    return (
+        <OneColumn>
+            <SearchForm t={t}
+                        locale={locale}
+                        languages={languages}
+                        subjects={subjects}
+                        search={searchForConcept}/>
+            <SearchResultList results={searchResult}/>
+        </OneColumn>
+    )
 }
 
 
@@ -59,7 +57,8 @@ const mapStateToProps = state =>{
         searchResult: state.search.results,
         meta: state.meta,
         languages: lang.sort(sortObjectsByKey('name')),
-        subjects: sub.sort(sortObjectsByKey('name'))
+        subjects: sub.sort(sortObjectsByKey('name')),
+        locale: state.locale
     })
 };
 

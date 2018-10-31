@@ -15,12 +15,12 @@ class SearchForm extends React.Component {
     constructor(props) {
         super(props);
 
-        const [lang=null] = props.languages;
+        let [lang=null] = props.languages;
         const [sub=null] = props.subjects;
-        console.log(lang, props.languages);
+
         this.state = {
             term: "",
-            language: lang,
+            language: props.languages.find(x => x.abbreviation === props.locale) || lang,
             subject: sub
         };
 

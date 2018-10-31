@@ -68,6 +68,8 @@ const NB = {
         externalId: "Ekstern id",
         status: "Status",
         author: "Forfatter",
+        created: "Opprettet",
+        updated: "Oppdatert",
         button: {
             addMeta: "Legg til "
         }

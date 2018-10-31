@@ -14,7 +14,6 @@ import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 
 import Concept from "../components/Concept";
-import {OneColumn} from "ndla-ui";
 import ConfirmModal from "../components/ConfirmModal";
 import Loading from "../../../components/Loading/Component";
 
@@ -70,15 +69,17 @@ class UpdateConceptPage extends React.Component {
     }
 
     render() {
-        const {t, meta=[], status=[]} = this.props;
+        const {t, meta=[], status=[], locale} = this.props;
         if (this.state.concept && meta.length > 0 && status.length > 0)
             return (
                 <Concept status={status}
                          t={t}
+                         locale={locale}
                          concept={this.state.concept}
                          metas={meta}
                          title={t("updateConcept.title")}
-                         onConceptDone={this.submit}>
+                         onConceptDone={this.submit}
+                        showTimestamps={true}>
                     <ConfirmModal triggerButton={this.renderDeleteButton} onConfirm={this.onDeleteClicked} title="updateConcept.confirmModal.delete.title"  content="updateConcept.confirmModal.delete.action" />
                     <ConfirmModal triggerButton={this.renderCloneButton} onConfirm={this.onCloneClicked} title="updateConcept.confirmModal.clone.title"  content="updateConcept.confirmModal.clone.action" />
                 </Concept>
@@ -89,10 +90,11 @@ class UpdateConceptPage extends React.Component {
     }
 }
 
-const mapStateToProps = ({meta, status}) => {
+const mapStateToProps = ({meta, status, locale}) => {
     return {
         meta,
-        status: status.all
+        status: status.all,
+        locale
     }
 };
 

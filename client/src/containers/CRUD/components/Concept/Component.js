@@ -18,6 +18,7 @@ import DropDown from "../DropDown";
 import ConfirmModal from "../ConfirmModal/index";
 
 import './style.css'
+import DateTime from "../DateTime";
 
 const classes = new BEMHelper({
     name: 'concept-form',
@@ -92,12 +93,12 @@ class Concept extends React.Component {
     }
 
     renderSubmitButton() {
-        return <button className="c-button" type="submit">{this.props.t(this.props.title)}</button>;
+        return <button className="c-button" type="submit">{(this.props.title)}</button>;
     }
 
     render() {
-        const { t, title: pageTitle} = this.props;
-        const {author, title, content, externalId, source} = this.state.concept;
+        const { t, title: pageTitle, locale} = this.props;
+        const {author, title, content, externalId, source, created, updated} = this.state.concept;
         return (
             <OneColumn>
                 <h1>{pageTitle}</h1>
@@ -113,6 +114,8 @@ class Concept extends React.Component {
                               id={"status"}
                               label={this.capitalizeText(t("conceptForm.status"))}
                               {...classes('form-field')} />
+                    {this.props.showTimestamps && <DateTime id="created" value={created} label={t("conceptForm.created")} locale={locale} {...classes('form-field')} />}
+                    {this.props.showTimestamps && <DateTime id="updated" value={updated} label={t("conceptForm.updated")} locale={locale} {...classes('form-field')} />}
 
                     <div {...classes('meta')}>
                         <hr />
@@ -149,6 +152,7 @@ Concept.defaultProps = {
         source: "",
         meta: []
     },
+    showTimestamps: false,
 };
 
 Concept.propTypes = {
@@ -157,7 +161,9 @@ Concept.propTypes = {
     t: PropTypes.func.isRequired,
     metas: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
-    onConceptDone: PropTypes.func
+    onConceptDone: PropTypes.func,
+    showTimestamps: PropTypes.bool,
+    locale: PropTypes.string,
 }
 
 export default Concept;

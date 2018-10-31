@@ -13,6 +13,10 @@ import {injectT} from "ndla-i18n";
 import {connect} from "react-redux";
 import {compose} from "redux";
 
+
+import "moment/min/locales";
+import Moment from 'react-moment';
+
 import NotFoundPage from '../../components/NotFoundPage'
 import SearchPage from '../SearchPage/SearchPageContainer';
 import Footer from '../../components/Footer';
@@ -22,6 +26,8 @@ import {loadMeta, loadStatus} from "./Actions";
 import {CloneConceptPage, UpdateConceptPage, CreateConceptPage} from "../CRUD";
 
 import './style.css'
+
+Moment.globalFormat = 'lll';
 
 class App extends React.Component {
     componentDidMount() {

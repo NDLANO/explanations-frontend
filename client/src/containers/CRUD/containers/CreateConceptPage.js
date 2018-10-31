@@ -14,7 +14,6 @@ import {injectT} from "ndla-i18n";
 
 import Concept from "../components/Concept";
 import {createConcept} from "../../../api";
-import {OneColumn} from "ndla-ui";
 import Loading from "../../../components/Loading/Component";
 
 class CreateConceptPage extends React.Component {
@@ -50,7 +49,7 @@ class CreateConceptPage extends React.Component {
 const mapStateToProps = ({meta, status}) => {
     return {
         meta,
-        status: status.all
+        status: status.all,
     }
 };
 
