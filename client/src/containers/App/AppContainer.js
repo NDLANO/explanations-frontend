@@ -10,8 +10,8 @@ import React from 'react';
 import {  PageContainer, Content } from 'ndla-ui';
 import {Route, Switch, withRouter} from 'react-router';
 import {injectT} from "ndla-i18n";
-
-import './style.css'
+import {connect} from "react-redux";
+import {compose} from "redux";
 
 import NotFoundPage from '../../components/NotFoundPage'
 import SearchPage from '../SearchPage/SearchPageContainer';
@@ -19,9 +19,9 @@ import Footer from '../../components/Footer';
 import Header from "../../components/Header/Header";
 import {CreateRoute, SearchRoute, UpdateRoute, CloneRoute} from "../../routes";
 import {loadMeta, loadStatus} from "./Actions";
-import {connect} from "react-redux";
-import {compose} from "redux";
 import {CloneConceptPage, UpdateConceptPage, CreateConceptPage} from "../CRUD";
+
+import './style.css'
 
 class App extends React.Component {
     componentDidMount() {

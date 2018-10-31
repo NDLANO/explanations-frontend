@@ -1,3 +1,6 @@
+.c-concept-form h1 {
+  text-align: center; }
+
 .c-concept-form button {
   padding: 5px;
   display: block;
@@ -15,7 +18,7 @@
     width: 150px; }
 
 .c-concept-form__meta {
-  padding-top: 10px;
+  padding: 10px;
   display: flex;
   align-items: center; }
   .c-concept-form__meta hr {
