@@ -164,6 +164,6 @@ Concept.propTypes = {
     onConceptDone: PropTypes.func,
     showTimestamps: PropTypes.bool,
     locale: PropTypes.string,
-}
+};
 
 export default Concept;
