@@ -45,14 +45,14 @@ class SearchForm extends React.Component {
 
     onSearch(e){
         e.preventDefault();
-
-     let query = this.createMetaGetParam("",this.state.language.id);
-        query += this.createMetaGetParam(query, this.state.subject.id);
-        query += this.createGetParam(query, "title", this.state.term);
-        /*   
-                let query = this.createMetaGetParamWithObjects("", "languages", this.state.language);
-                query += this.createMetaGetParamWithObjects(query, "subjects", this.state.subject);
-                query += this.createGetParam(query, "title", this.state.term);*/
+        /*
+             let query = this.createMetaGetParam("",this.state.language.id);
+                query += this.createMetaGetParam(query, this.state.subject.id);
+                query += this.createGetParam(query, "title", this.state.term);
+                 */
+                        let query = this.createMetaGetParamWithObjects("", "language", this.state.language.name);
+                        query += this.createMetaGetParamWithObjects(query, "subject", this.state.subject.name);
+                        query += this.createGetParam(query, "title", this.state.term);
 
         console.log(query);
         this.props.search(query);
@@ -117,8 +117,8 @@ class SearchForm extends React.Component {
                              {...classes('inputfield')}
 
                 />
-                <DropDown items={languages} selected={this.state.language} onChange={(e) => this.onChange("language",e.target.value)} id="languages" classes={classes('filter-dropdown')} />
-                <DropDown items={subjects} selected={this.state.subject} onChange={(e) => this.onChange("subject",e.target.value)} id="subjects" classes={classes('filter-dropdown')} />
+                <DropDown items={languages .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))} selected={this.state.language} onChange={(e) => this.onChange("language",e.target.value)} id="languages" classes={classes('filter-dropdown')} />
+                <DropDown items={subjects .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))} selected={this.state.subject} onChange={(e) => this.onChange("subject",e.target.value)} id="subjects" classes={classes('filter-dropdown')} />
             </div>
         );
     }

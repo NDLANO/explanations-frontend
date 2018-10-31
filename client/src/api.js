@@ -25,6 +25,7 @@ const API_ENDPOINTS = {
 };
 
 
+
 export const searchForConcepts = query => axios.get(`${API_ENDPOINTS.concept_search}${query}`);
 
 export const getConceptById = id => axios.get(`${API_ENDPOINTS.concept}/${id}`);

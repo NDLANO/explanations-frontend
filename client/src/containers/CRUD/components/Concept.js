@@ -104,7 +104,7 @@ class Concept extends React.Component {
                               id={"status"}
                               label={this.capitalizeText(t("status"))}
                               {...classes('form-field')} />
-                <ConfirmModal />
+
                     {this.props.metas.map(
                         meta => <Meta onChange={this.onChangeMeta}
                                       key={meta.category.name.toLowerCase()}

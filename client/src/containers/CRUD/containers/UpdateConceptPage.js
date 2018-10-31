@@ -27,7 +27,8 @@ class UpdateConceptPage extends React.Component {
         this.submit = this.submit.bind(this);
         this.onDeleteClicked = this.onDeleteClicked.bind(this);
         this.onCloneClicked = this.onCloneClicked.bind(this);
-        this.renderDeleteButton  = this.renderDeleteButton.bind(this)
+        this.renderDeleteButton  = this.renderDeleteButton.bind(this);
+        this.renderCloneButton = this.renderCloneButton.bind(this);
     }
 
     componentDidMount() {
@@ -44,17 +45,17 @@ class UpdateConceptPage extends React.Component {
             })
     }
 
+
     onCloneClicked() {
         this.props.history.push(`/clone/${this.state.concept.id}`);
     }
 
     onDeleteClicked() {
-        archiveConcept(this.state.concept.id).then(data => this.loadConcept());
+        archiveConcept(this.state.concept.id);
     }
 
 
-    submit(e) {
-        e.preventDefault();
+    submit() {
         updateConcept(this.state.concept)
             .then(data => {
                 console.log(data)
@@ -62,8 +63,12 @@ class UpdateConceptPage extends React.Component {
             .catch(err => console.log(err.response.data));
     }
 
+    renderCloneButton() {
+        return <button className="c-button" type="submit" onClick={this.onCloneClicked}>{this.props.t("cloneConcept")}</button>
+    }
+
     renderDeleteButton() {
-        return <button className="c-button" type="submit" onClick={this.onDeleteClicked}>{this.props.t("deleteConcept")}</button>
+        return <button className="c-button" type="submit" >{this.props.t("deleteConcept")}</button>
     }
 
     render() {
@@ -80,12 +85,13 @@ class UpdateConceptPage extends React.Component {
                              onConceptDone={this.submit}/>
 
                     <OneColumn>
-                        <ConfirmModal triggerButton={this.renderDeleteButton} />
+                        <ConfirmModal triggerButton={this.renderDeleteButton} onConfirm={this.onDeleteClicked} />
+                        <ConfirmModal triggerButton={this.renderCloneButton} onConfirm={this.onCloneClicked} />
 
                     </OneColumn>
 
                     <OneColumn>
-                        <button className="c-button" type="submit" onClick={this.onCloneClicked}>{t("cloneConcept")}</button>
+
                     </OneColumn>
                 </div>
             );
