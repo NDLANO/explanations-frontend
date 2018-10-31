@@ -8,7 +8,7 @@ export const UPDATE_METAS = "UPDATE_METAS";
 
 export const loadStatus = () => {
     return dispatch => {
-        const request = Api.getAllStatus()
+        Api.getAllStatus()
             .then(data => dispatch({type: UPDATE_STATUS, payload: data.data.data}));
     };
 };
@@ -20,7 +20,7 @@ export const loadMeta = () => {
         // TODO remove getAllCategories
         Promise.all([Api.getAllCategories(), Api.getAllMetas()])
             .then(([{data: {data: categories}}, {data: {data: metas}}]) => {
-                categories.map(category => {
+                categories.forEach(category => {
                     const metaList = metas.filter(x => x.category.id === category.id);
                     let defaultValue = null;
                     if (metaList)

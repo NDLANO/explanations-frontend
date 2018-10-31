@@ -13,7 +13,6 @@ const SearchResultList = ({results=[]})=>
     <div>
         <ul {...classes()}>
             {results
-                .sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase()))
                 .map(result => <SearchResultItem key={result.id} item={result}/>)
             }
         </ul>

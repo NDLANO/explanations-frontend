@@ -6,6 +6,7 @@
  *
  */
 import {SEARCH_FOR_CONCEPT} from './Actions';
+import {sortObjectsByKey} from "../../utilities";
 
 const initialState = {
     results: [],
@@ -14,7 +15,7 @@ const initialState = {
 export const search = (state=initialState, action) => {
     switch(action.type) {
         case SEARCH_FOR_CONCEPT:
-            return {...state, results: action.payload.data};
+            return {...state, results: action.payload.data.sort(sortObjectsByKey('title'))};
         default:
             return state;
     }

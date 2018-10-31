@@ -2,9 +2,6 @@ import React from 'react';
 import SearchField from "./SearchField";
 import BEMHelper from "react-bem-helper";
 
-import {Search as SearchIcon,} from 'ndla-icons/common';
-import Meta from "../../CRUD/components/Meta";
-
 import './searchForm.css';
 import DropDown from "../../CRUD/components/DropDown";
 
@@ -18,9 +15,9 @@ class SearchForm extends React.Component {
     constructor(props) {
         super(props);
 
-        const [lang=null, ...rest] = this.props.languages;
-        const [sub=null, ...subRest] = this.props.subjects;
-
+        const [lang=null] = props.languages;
+        const [sub=null] = props.subjects;
+        console.log(lang, props.languages);
         this.state = {
             term: "",
             language: lang,
@@ -99,8 +96,7 @@ class SearchForm extends React.Component {
 
     onChange(key, metaId) {
         const meta = this.props[key + "s"].find(x => x.id+"" === metaId);
-        console.log(key, metaId, meta, typeof metaId)
-        this.setState((state) => ({[key]: meta}));
+        this.setState({[key]: meta});
     }
 
 
@@ -117,8 +113,8 @@ class SearchForm extends React.Component {
                              {...classes('inputfield')}
 
                 />
-                <DropDown items={languages .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))} selected={this.state.language} onChange={(e) => this.onChange("language",e.target.value)} id="languages" classes={classes('filter-dropdown')} />
-                <DropDown items={subjects .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))} selected={this.state.subject} onChange={(e) => this.onChange("subject",e.target.value)} id="subjects" classes={classes('filter-dropdown')} />
+                <DropDown items={languages} selected={this.state.language} onChange={(e) => this.onChange("language",e.target.value)} id="languages" classes={classes('filter-dropdown')} />
+                <DropDown items={subjects} selected={this.state.subject} onChange={(e) => this.onChange("subject",e.target.value)} id="subjects" classes={classes('filter-dropdown')} />
             </div>
         );
     }

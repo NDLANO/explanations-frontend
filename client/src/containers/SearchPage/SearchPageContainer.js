@@ -16,13 +16,13 @@ import {compose} from "redux";
 import './style.css'
 import {searchForConcept} from "./Actions";
 import SearchResultList from "./components/SearchResultList";
+import {sortObjectsByKey} from "../../utilities";
 
 class SearchContainer extends React.Component {
     render() {
 
         const {t, languages, subjects, searchResult,searchForConcept} = this.props;
 
-        console.log("render", this.props, languages, subjects)
         if (languages.length === 0 || subjects.length === 0) {
             return (
                 <OneColumn>
@@ -63,8 +63,8 @@ const mapStateToProps = state =>{
     return  ({
         searchResult: state.search.results,
         meta: state.meta,
-        languages: lang,
-        subjects: sub
+        languages: lang.sort(sortObjectsByKey('name')),
+        subjects: sub.sort(sortObjectsByKey('name'))
     })
 };
 

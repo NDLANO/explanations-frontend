@@ -64,11 +64,11 @@ class UpdateConceptPage extends React.Component {
     }
 
     renderCloneButton() {
-        return <button className="c-button" type="submit" onClick={this.onCloneClicked}>{this.props.t("cloneConcept")}</button>
+        return <button className="c-button c-button--outline" type="submit" onClick={this.onCloneClicked}>{this.props.t("cloneConcept")}</button>
     }
 
     renderDeleteButton() {
-        return <button className="c-button" type="submit" >{this.props.t("deleteConcept")}</button>
+        return <button className="c-button c-button--outline" type="submit" >{this.props.t("deleteConcept")}</button>
     }
 
     render() {
@@ -84,10 +84,10 @@ class UpdateConceptPage extends React.Component {
                              title={t("updateConcept")}
                              onConceptDone={this.submit}/>
 
+
                     <OneColumn>
                         <ConfirmModal triggerButton={this.renderDeleteButton} onConfirm={this.onDeleteClicked} />
                         <ConfirmModal triggerButton={this.renderCloneButton} onConfirm={this.onCloneClicked} />
-
                     </OneColumn>
 
                     <OneColumn>

@@ -15,8 +15,7 @@ import PropTypes from 'prop-types';
 
 import Meta from "./Meta";
 import DropDown from "./DropDown";
-
-import ConfirmModal from './ConfirmModal'
+import ConfirmModal from "./ConfirmModal";
 
 const classes = new BEMHelper({
     name: 'update-form',
@@ -45,6 +44,7 @@ class Concept extends React.Component {
         this.onChangeStatus = this.onChangeStatus.bind(this);
         this.submit = this.submit.bind(this);
         this.onChangeMeta = this.onChangeMeta.bind(this);
+        this.renderSubmitButton = this.renderSubmitButton.bind(this);
     }
 
     onChangeStatus(e) {
@@ -81,9 +81,16 @@ class Concept extends React.Component {
         return text.slice(0, 1).toUpperCase() + text.slice(1, text.length);
     }
 
-    submit(e) {
-        e.preventDefault();
+    submit() {
         this.props.onConceptDone({...this.state.concept, meta: Object.values(this.state.metas), status: this.state.currentStatus});
+    }
+
+    preventFormSubmission(e) {
+        e.preventDefault();
+    }
+
+    renderSubmitButton() {
+        return <button className="c-button" type="submit">{this.props.t(this.props.title)}</button>;
     }
 
     render() {
@@ -92,7 +99,7 @@ class Concept extends React.Component {
         return (
             <OneColumn>
                 <h1>{pageTitle}</h1>
-                <form onSubmit={this.submit} {...classes()}>
+                <form onSubmit={this.preventFormSubmission} {...classes()}>
                     <Input id="author" value={author} label={t("author")} onChange={this.authorChange} {...classes('form-field')}  />
                     <Input id="title" value={title} label={t("title")} onChange={this.titleChange} {...classes('form-field')} />
                     <TextArea id="content" value={content} label={t("content")} onChange={this.contentChange} {...classes('form-field')} />
@@ -115,7 +122,8 @@ class Concept extends React.Component {
                                       classes={classes('form-field')}
                                       current={this.getCurrentMeta(meta.category.description)} />
                     )}
-                    <button className="c-button" type="submit">{t(pageTitle)}</button>
+
+                    <ConfirmModal triggerButton={this.renderSubmitButton} onConfirm={this.submit} />
                 </form>
             </OneColumn>
         )

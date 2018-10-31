@@ -1,3 +1,4 @@
+
 /**
  * Copyright (c) 2016-present, NDLA.
  *
@@ -43,7 +44,16 @@ const NB = {
     source: "Kilde",
     externalId: "Ekstern id",
     deleteConcept: "Slett (arkiver)",
-    status: "Status"
+    status: "Status",
+    confirmModal: {
+        button: {
+            close: "lukk",
+            cancel: "Avbryt",
+            confirm: "Bekreft"
+        },
+        title: "Bekreft handling",
+        action: "Er du sikker på at du vil gjøre dette?"
+    }
 };
 
 export default NB;
