@@ -17,6 +17,7 @@ import './style.css'
 import {searchForConcept} from "./Actions";
 import SearchResultList from "./components/SearchResultList";
 import {sortObjectsByKey} from "../../utilities";
+import Loading from "../../components/Loading/Component";
 
 class SearchContainer extends React.Component {
     render() {
@@ -24,13 +25,7 @@ class SearchContainer extends React.Component {
         const {t, languages, subjects, searchResult,searchForConcept} = this.props;
 
         if (languages.length === 0 || subjects.length === 0) {
-            return (
-                <OneColumn>
-                    <div>
-                        <h4>Loading...</h4>
-                    </div>
-                </OneColumn>
-            )
+            return <Loading/>
         }
 
         return (

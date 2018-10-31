@@ -16,6 +16,7 @@ import {injectT} from "ndla-i18n";
 import Concept from "../components/Concept";
 import {OneColumn} from "ndla-ui";
 import ConfirmModal from "../components/ConfirmModal";
+import Loading from "../../../components/Loading/Component";
 
 class UpdateConceptPage extends React.Component {
     constructor(props) {
@@ -83,11 +84,7 @@ class UpdateConceptPage extends React.Component {
                 </Concept>
             );
 
-        return (
-            <OneColumn>
-                <div>Loading ...</div>
-            </OneColumn>
-        )
+        return <Loading/>
 
     }
 }

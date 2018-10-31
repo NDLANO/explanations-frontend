@@ -15,6 +15,7 @@ import {injectT} from "ndla-i18n";
 import Concept from "../components/Concept";
 import {createConcept} from "../../../api";
 import {OneColumn} from "ndla-ui";
+import Loading from "../../../components/Loading/Component";
 
 class CreateConceptPage extends React.Component {
     constructor(props) {
@@ -42,11 +43,7 @@ class CreateConceptPage extends React.Component {
                     />
             );
 
-        return (
-            <OneColumn>
-                <div>Loading ...</div>
-            </OneColumn>
-        )
+        return <Loading/>
     }
 }
 

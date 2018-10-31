@@ -14,6 +14,7 @@ import {injectT} from "ndla-i18n";
 
 import CreateConceptPage from "./CreateConceptPage";
 import {OneColumn} from "ndla-ui";
+import Loading from "../../../components/Loading/Component";
 
 
 class CloneConceptPage extends React.Component {
@@ -42,12 +43,7 @@ class CloneConceptPage extends React.Component {
         if (this.state.concept)
             return <CreateConceptPage concept={this.state.concept} />;
 
-
-        return (
-            <OneColumn>
-                <div>Loading ...</div>
-            </OneColumn>
-        )
+        return <Loading/>
     }
 }
 
