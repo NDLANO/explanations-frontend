@@ -2,7 +2,7 @@ import React from "react";
 import BEMHelper from "react-bem-helper";
 
 import './style.css'
-import {sortObjectsByKey} from "../../utilities/index";
+import {sortObjectsByKey} from "../../utilities";
 
 const classes = new BEMHelper({
     name: 'dropdown',

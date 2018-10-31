@@ -12,7 +12,7 @@ import { withRouter } from 'react-router-dom';
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 
-import Concept from "../../../components/Concept";
+import Concept from "../components/Concept";
 import {createConcept} from "../../../api";
 import Loading from "../../../components/Loading";
 

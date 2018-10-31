@@ -8,17 +8,17 @@
 
 import React from 'react';
 import {OneColumn} from "ndla-ui";
-import TextArea from "../TextArea";
-import Input from "../Input";
+import TextArea from "../../../../components/TextArea";
+import Input from "../../../../components/Input";
 import BEMHelper from "react-bem-helper";
 import PropTypes from 'prop-types';
 
-import Meta from "../../containers/CRUD/components/Meta";
-import Dropdown from "../Dropdown/index";
-import ConfirmModal from "../ConfirmModal/index";
+import Meta from "../Meta";
+import Dropdown from "../../../../components/Dropdown";
+import ConfirmModal from "../../../../components/ConfirmModal";
+import DateTime from "../../../../components/DateTime";
 
 import './style.css'
-import DateTime from "../DateTime";
 
 const classes = new BEMHelper({
     name: 'concept-form',

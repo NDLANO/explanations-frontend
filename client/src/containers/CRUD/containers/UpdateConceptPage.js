@@ -13,7 +13,7 @@ import {getConceptById, updateConcept, archiveConcept} from "../../../api";
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 
-import Concept from "../../../components/Concept";
+import Concept from "../components/Concept";
 import ConfirmModal from "../../../components/ConfirmModal";
 import Loading from "../../../components/Loading";
 
