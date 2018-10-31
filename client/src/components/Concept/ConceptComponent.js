@@ -13,8 +13,8 @@ import Input from "../Input";
 import BEMHelper from "react-bem-helper";
 import PropTypes from 'prop-types';
 
-import Meta from "../Meta";
-import DropDown from "../DropDown";
+import Meta from "../../containers/CRUD/components/Meta";
+import Dropdown from "../Dropdown/index";
 import ConfirmModal from "../ConfirmModal/index";
 
 import './style.css'
@@ -108,7 +108,7 @@ class Concept extends React.Component {
                     <TextArea id="content" value={content} label={t("conceptForm.content")} onChange={this.contentChange} {...classes('form-field')} />
                     <Input id="externalId" value={externalId} label={t("conceptForm.externalId")} onChange={this.externalIdChange} {...classes('form-field')} />
                     <Input id="source" value={source} label={t("conceptForm.source")} onChange={this.sourceChange} {...classes('form-field')} />
-                    <DropDown items={this.props.status}
+                    <Dropdown items={this.props.status}
                               selected={this.state.currentStatus}
                               onChange={this.onChangeStatus}
                               id={"status"}

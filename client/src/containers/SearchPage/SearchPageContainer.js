@@ -17,7 +17,7 @@ import './style.css'
 import {searchForConcept} from "./Actions";
 import SearchResultList from "./components/SearchResultList";
 import {sortObjectsByKey} from "../../utilities";
-import Loading from "../../components/Loading/Component";
+import Loading from "../../components/Loading";
 
 const SearchContainer = ({t, languages, subjects, searchResult,searchForConcept,locale}) =>
 {

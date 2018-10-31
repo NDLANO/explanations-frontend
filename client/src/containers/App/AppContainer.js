@@ -20,7 +20,7 @@ import Moment from 'react-moment';
 import NotFoundPage from '../../components/NotFoundPage'
 import SearchPage from '../SearchPage/SearchPageContainer';
 import Footer from '../../components/Footer';
-import Header from "../../components/Header/Header";
+import Header from "../../components/Header/";
 import {CreateRoute, SearchRoute, UpdateRoute, CloneRoute} from "../../routes";
 import {loadMeta, loadStatus} from "./Actions";
 import {CloneConceptPage, UpdateConceptPage, CreateConceptPage} from "../CRUD";

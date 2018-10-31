@@ -1,15 +1,15 @@
 import React from "react";
 import BEMHelper from "react-bem-helper";
 
-import './DropDown.style.css'
-import {sortObjectsByKey} from "../../../utilities";
+import './style.css'
+import {sortObjectsByKey} from "../../utilities/index";
 
 const classes = new BEMHelper({
     name: 'dropdown',
     prefix: 'c-',
 });
 
-const DropDown = ({items, selected, onChange, id, label}) => (
+const Dropdown = ({items, selected, onChange, id, label}) => (
     <div {...classes()}>
         {label && <label htmlFor={id}>{label}</label>}
         <select value={selected.id} onChange={onChange}>
@@ -25,4 +25,4 @@ const DropDown = ({items, selected, onChange, id, label}) => (
 
 );
 
-export default DropDown;
+export default Dropdown;

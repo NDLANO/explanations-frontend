@@ -3,7 +3,7 @@ import SearchField from "./SearchField";
 import BEMHelper from "react-bem-helper";
 
 import './searchForm.css';
-import DropDown from "../../CRUD/components/DropDown";
+import Dropdown from "../../../components/Dropdown";
 
 const classes = new BEMHelper({
     name: 'search-form',
@@ -113,8 +113,8 @@ class SearchForm extends React.Component {
                              {...classes('inputfield')}
 
                 />
-                <DropDown items={languages} selected={this.state.language} onChange={(e) => this.onChange("language",e.target.value)} id="languages" classes={classes('filter-dropdown')} />
-                <DropDown items={subjects} selected={this.state.subject} onChange={(e) => this.onChange("subject",e.target.value)} id="subjects" classes={classes('filter-dropdown')} />
+                <Dropdown items={languages} selected={this.state.language} onChange={(e) => this.onChange("language",e.target.value)} id="languages" classes={classes('filter-dropdown')} />
+                <Dropdown items={subjects} selected={this.state.subject} onChange={(e) => this.onChange("subject",e.target.value)} id="subjects" classes={classes('filter-dropdown')} />
             </div>
         );
     }

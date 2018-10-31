@@ -13,7 +13,7 @@ import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 
 import CreateConceptPage from "./CreateConceptPage";
-import Loading from "../../../components/Loading/Component";
+import Loading from "../../../components/Loading";
 
 
 class CloneConceptPage extends React.Component {

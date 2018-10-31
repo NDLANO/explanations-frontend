@@ -1,5 +1,5 @@
 import React from 'react';
-import DropDown from "./DropDown";
+import Dropdown from "../../../components/Dropdown";
 
 class Meta extends React.Component {
 
@@ -14,7 +14,7 @@ class Meta extends React.Component {
 
 
         return (
-            <DropDown items={choices} selected={current} onChange={(e) => this.props.onChange(this.props.id,e.target.value)} id={id} label={labelText} classes={classes} />
+            <Dropdown items={choices} selected={current} onChange={(e) => this.props.onChange(this.props.id,e.target.value)} id={id} label={labelText} classes={classes} />
         )
     }
 }
