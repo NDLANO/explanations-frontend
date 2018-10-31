@@ -1,4 +1,7 @@
 .c-concept-form {
+  h1 {
+    text-align: center;
+  }
   button{
     padding: 5px;
     display: block;
@@ -19,8 +22,9 @@
       width: 150px;
     }
   }
+
   &__meta{
-    padding-top: 10px;
+    padding: 10px;
     display: flex;
     align-items: center;
 
