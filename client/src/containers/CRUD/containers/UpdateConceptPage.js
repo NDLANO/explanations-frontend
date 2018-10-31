@@ -13,12 +13,9 @@ import {getConceptById, updateConcept, archiveConcept} from "../../../api";
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 
-import '../style.css';
 import Concept from "../components/Concept";
 import {OneColumn} from "ndla-ui";
 import ConfirmModal from "../components/ConfirmModal";
-
-
 
 class UpdateConceptPage extends React.Component {
     constructor(props) {
@@ -64,36 +61,26 @@ class UpdateConceptPage extends React.Component {
     }
 
     renderCloneButton() {
-        return <button className="c-button c-button--outline" type="submit" onClick={this.onCloneClicked}>{this.props.t("cloneConcept")}</button>
+        return <button className="c-button c-button--outline" type="submit" onClick={this.onCloneClicked}>{this.props.t("updateConcept.button.clone")}</button>
     }
 
     renderDeleteButton() {
-        return <button className="c-button c-button--outline" type="submit" >{this.props.t("deleteConcept")}</button>
+        return <button className="c-button c-button--outline" type="submit" >{this.props.t("updateConcept.button.delete")}</button>
     }
 
     render() {
         const {t, meta=[], status=[]} = this.props;
         if (this.state.concept && meta.length > 0 && status.length > 0)
             return (
-                <div>
-
-                    <Concept status={status}
-                             t={t}
-                             concept={this.state.concept}
-                             metas={meta}
-                             title={t("updateConcept")}
-                             onConceptDone={this.submit}/>
-
-
-                    <OneColumn>
-                        <ConfirmModal triggerButton={this.renderDeleteButton} onConfirm={this.onDeleteClicked} />
-                        <ConfirmModal triggerButton={this.renderCloneButton} onConfirm={this.onCloneClicked} />
-                    </OneColumn>
-
-                    <OneColumn>
-
-                    </OneColumn>
-                </div>
+                <Concept status={status}
+                         t={t}
+                         concept={this.state.concept}
+                         metas={meta}
+                         title={t("updateConcept.title")}
+                         onConceptDone={this.submit}>
+                    <ConfirmModal triggerButton={this.renderDeleteButton} onConfirm={this.onDeleteClicked} title="updateConcept.confirmModal.delete.title"  content="updateConcept.confirmModal.delete.action" />
+                    <ConfirmModal triggerButton={this.renderCloneButton} onConfirm={this.onCloneClicked} title="updateConcept.confirmModal.clone.title"  content="updateConcept.confirmModal.clone.action" />
+                </Concept>
             );
 
         return (

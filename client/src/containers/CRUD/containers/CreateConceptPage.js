@@ -12,7 +12,6 @@ import { withRouter } from 'react-router-dom';
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 
-import '../style.css';
 import Concept from "../components/Concept";
 import {createConcept} from "../../../api";
 import {OneColumn} from "ndla-ui";
@@ -37,7 +36,7 @@ class CreateConceptPage extends React.Component {
                 <Concept status={status}
                          t={t}
                          metas={meta}
-                         title="createConcept"
+                         title={t("createConcept.title")}
                          onConceptDone={this.submit}
                             concept={this.props.concept}
                     />

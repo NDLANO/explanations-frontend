@@ -1,0 +1,42 @@
+.c-concept-form {
+  button{
+    padding: 5px;
+    display: block;
+    margin-bottom: 5px;
+    width: 100%;
+  }
+
+  &__form-field {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+
+    select {
+      width: 100%;
+    }
+    label {
+      width: 150px;
+    }
+  }
+  &__meta{
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+
+    hr {
+      border: .5px solid black !important;
+      margin: 0;
+      width: 100%;
+      &:before {
+        content: none;
+      }
+    }
+
+    h2 {
+      margin: 0;
+    }
+  }
+
+
+}

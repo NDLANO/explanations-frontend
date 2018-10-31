@@ -12,7 +12,6 @@ import {getConceptById} from "../../../api";
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 
-import '../style.css';
 import CreateConceptPage from "./CreateConceptPage";
 import {OneColumn} from "ndla-ui";
 
@@ -41,7 +40,7 @@ class CloneConceptPage extends React.Component {
 
     render() {
         if (this.state.concept)
-            return <CreateConceptPage concept={this.state.concept} />
+            return <CreateConceptPage concept={this.state.concept} />;
 
 
         return (

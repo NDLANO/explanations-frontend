@@ -35,24 +35,53 @@ const NB = {
             title: "Språk"
         }
     },
-    author: "Forfatter",
-    title: "Tittel",
-    content: "Innhold",
-    addButton: "Legg til ",
-    updateConcept: "Oppdater begrep",
-    createConcept: "Opprett begrep",
-    source: "Kilde",
-    externalId: "Ekstern id",
-    deleteConcept: "Slett (arkiver)",
-    status: "Status",
-    confirmModal: {
-        button: {
-            close: "lukk",
-            cancel: "Avbryt",
-            confirm: "Bekreft"
+
+    updateConcept: {
+        title: "Oppdater begrep",
+        confirmModal: {
+            clone: {
+                title: "Bekreft kloning",
+                action: "Er du sikker på at du vil klone begrepet?"
+            },
+            delete: {
+                title: "Bekreft sletting",
+                action: "Er du sikker på at du vil slette begrepet?"
+            }
         },
-        title: "Bekreft handling",
-        action: "Er du sikker på at du vil gjøre dette?"
+        button: {
+            delete: "Slett begrep",
+            clone: "Klon begrep"
+        }
+    },
+    createConcept: {
+        title: "Opprett begrep"
+    },
+    deleteConcept: {
+        title: "Slett (arkiver)"
+    },
+
+    conceptForm: {
+        title: "Tittel",
+        content: "Innhold",
+        addButton: "Legg til ",
+        source: "Kilde",
+        externalId: "Ekstern id",
+        status: "Status",
+        author: "Forfatter",
+        button: {
+            addMeta: "Legg til "
+        }
+    },
+    confirmModal: {
+        default: {
+            title: "Bekreft handling",
+            action: "Er du sikker på at du vil gjøre dette?",
+            button: {
+                close: "lukk",
+                cancel: "Avbryt",
+                confirm: "Bekreft"
+            },
+        }
     }
 };
 

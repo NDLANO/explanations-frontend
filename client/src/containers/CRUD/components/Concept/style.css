@@ -1,0 +1,28 @@
+.c-concept-form button {
+  padding: 5px;
+  display: block;
+  margin-bottom: 5px;
+  width: 100%; }
+
+.c-concept-form__form-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0; }
+  .c-concept-form__form-field select {
+    width: 100%; }
+  .c-concept-form__form-field label {
+    width: 150px; }
+
+.c-concept-form__meta {
+  padding-top: 10px;
+  display: flex;
+  align-items: center; }
+  .c-concept-form__meta hr {
+    border: .5px solid black !important;
+    margin: 0;
+    width: 100%; }
+    .c-concept-form__meta hr:before {
+      content: none; }
+  .c-concept-form__meta h2 {
+    margin: 0; }

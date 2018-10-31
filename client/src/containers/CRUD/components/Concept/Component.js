@@ -8,17 +8,19 @@
 
 import React from 'react';
 import {OneColumn} from "ndla-ui";
-import TextArea from "./TextArea";
-import Input from "./Input";
+import TextArea from "../TextArea";
+import Input from "../Input";
 import BEMHelper from "react-bem-helper";
 import PropTypes from 'prop-types';
 
-import Meta from "./Meta";
-import DropDown from "./DropDown";
-import ConfirmModal from "./ConfirmModal";
+import Meta from "../Meta";
+import DropDown from "../DropDown";
+import ConfirmModal from "../ConfirmModal/index";
+
+import './style.css'
 
 const classes = new BEMHelper({
-    name: 'update-form',
+    name: 'concept-form',
     prefix: 'c-',
 });
 
@@ -100,29 +102,36 @@ class Concept extends React.Component {
             <OneColumn>
                 <h1>{pageTitle}</h1>
                 <form onSubmit={this.preventFormSubmission} {...classes()}>
-                    <Input id="author" value={author} label={t("author")} onChange={this.authorChange} {...classes('form-field')}  />
-                    <Input id="title" value={title} label={t("title")} onChange={this.titleChange} {...classes('form-field')} />
-                    <TextArea id="content" value={content} label={t("content")} onChange={this.contentChange} {...classes('form-field')} />
-                    <Input id="externalId" value={externalId} label={t("externalId")} onChange={this.externalIdChange} {...classes('form-field')} />
-                    <Input id="source" value={source} label={t("source")} onChange={this.sourceChange} {...classes('form-field')} />
+                    <Input id="author" value={author} label={t("conceptForm.author")} onChange={this.authorChange} {...classes('form-field')}  />
+                    <Input id="title" value={title} label={t("conceptForm.title")} onChange={this.titleChange} {...classes('form-field')} />
+                    <TextArea id="content" value={content} label={t("conceptForm.content")} onChange={this.contentChange} {...classes('form-field')} />
+                    <Input id="externalId" value={externalId} label={t("conceptForm.externalId")} onChange={this.externalIdChange} {...classes('form-field')} />
+                    <Input id="source" value={source} label={t("conceptForm.source")} onChange={this.sourceChange} {...classes('form-field')} />
                     <DropDown items={this.props.status}
                               selected={this.state.currentStatus}
                               onChange={this.onChangeStatus}
                               id={"status"}
-                              label={this.capitalizeText(t("status"))}
+                              label={this.capitalizeText(t("conceptForm.status"))}
                               {...classes('form-field')} />
+
+                    <div {...classes('meta')}>
+                        <hr />
+                        <h2>Meta</h2>
+                        <hr/>
+                    </div>
 
                     {this.props.metas.map(
                         meta => <Meta onChange={this.onChangeMeta}
                                       key={meta.category.name.toLowerCase()}
                                       t={t} choices={meta.metaList}
                                       id={meta.category.name.toLowerCase()}
-                                      buttonText={`${t("addButton")} ${meta.category.description.toLowerCase()}`}
+                                      buttonText={`${t("conceptForm.button.addMeta")} ${meta.category.description.toLowerCase()}`}
                                       labelText={this.capitalizeText(meta.category.description.toLowerCase())}
                                       classes={classes('form-field')}
                                       current={this.getCurrentMeta(meta.category.description)} />
                     )}
 
+                    {this.props.children}
                     <ConfirmModal triggerButton={this.renderSubmitButton} onConfirm={this.submit} />
                 </form>
             </OneColumn>

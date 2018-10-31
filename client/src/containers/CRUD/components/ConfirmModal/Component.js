@@ -4,12 +4,12 @@ import {injectT} from "ndla-i18n";
 
 import './style.css'
 
-const ConfirmModal = ({title="confirmModal.title", content="confirmModal.action", onConfirm, t, triggerButton}) =>
+const ConfirmModal = ({title="confirmModal.default.title", content="confirmModal.default.action", onConfirm, t, triggerButton}) =>
     <Modal activateButton={triggerButton()}>
         {(onClose) => (
             <div>
                 <ModalHeader>
-                    <ModalCloseButton title={t("confirmModal.button.close")} onClick={onClose} />
+                    <ModalCloseButton title={t("confirmModal.default.button.close")} onClick={onClose} />
                 </ModalHeader>
                 <ModalBody>
                     <h1>{t(title)}</h1>
@@ -17,10 +17,10 @@ const ConfirmModal = ({title="confirmModal.title", content="confirmModal.action"
                     <p>{t(content)}</p>
                     <div className="u-horisontal-list">
                         <div>
-                            <button className="c-button" onClick={() => {onConfirm(); onClose();}}>{t("confirmModal.button.confirm")}</button>
+                            <button className="c-button" onClick={() => {onConfirm(); onClose();}}>{t("confirmModal.default.button.confirm")}</button>
                             <div></div>
                         </div>
-                        <button className="c-button c-button--outline" onClick={onClose}>{t("confirmModal.button.cancel")}</button>
+                        <button className="c-button c-button--outline" onClick={onClose}>{t("confirmModal.default.button.cancel")}</button>
                     </div>
                 </ModalBody>
             </div>
