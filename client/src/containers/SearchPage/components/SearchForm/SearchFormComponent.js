@@ -1,9 +1,9 @@
 import React from 'react';
-import SearchField from "./SearchField";
+import SearchField from "../SearchField";
 import BEMHelper from "react-bem-helper";
 
-import './searchForm.css';
-import Dropdown from "../../../components/Dropdown";
+import './style.css';
+import Dropdown from "../../../../components/Dropdown";
 
 const classes = new BEMHelper({
     name: 'search-form',

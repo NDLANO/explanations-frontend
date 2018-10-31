@@ -5,6 +5,8 @@ import BEMHelper from "react-bem-helper";
 import {ActiveFilters} from "ndla-ui";
 import {Search as SearchIcon} from "ndla-icons/es/common";
 
+import './style.css';
+
 const classes = new BEMHelper('c-search-field');
 
 class SearchField extends React.Component {
