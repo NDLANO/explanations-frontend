@@ -1,5 +1,5 @@
 import React from 'react';
-import Dropdown from "../../../components/Dropdown";
+import Dropdown from "./Dropdown/index";
 
 class Meta extends React.Component {
 

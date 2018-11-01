@@ -9,13 +9,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import {getConceptById, updateConcept, archiveConcept} from "../../../api";
+import {getConceptById, updateConcept, archiveConcept} from "../api";
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 
-import Concept from "../components/Concept";
-import ConfirmModal from "../../../components/ConfirmModal";
-import Loading from "../../../components/Loading";
+import Concept from "../components/Concept/index";
+import ConfirmModal from "../components/ConfirmModal/index";
+import Loading from "../components/Loading/index";
 
 class UpdateConceptPage extends React.Component {
     constructor(props) {

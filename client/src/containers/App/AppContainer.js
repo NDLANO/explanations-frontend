@@ -23,7 +23,9 @@ import Footer from '../../components/Footer';
 import Header from "../../components/Header/";
 import {CreateRoute, SearchRoute, UpdateRoute, CloneRoute} from "../../routes";
 import {loadMeta, loadStatus} from "./Actions";
-import {CloneConceptPage, UpdateConceptPage, CreateConceptPage} from "../CRUD";
+import CloneConceptPage from "../CloneConceptPage";
+import UpdateConceptPage from "../UpdateConceptPage";
+import CreateConceptPage from "../CreateConceptPage";
 
 import './style.css'
 

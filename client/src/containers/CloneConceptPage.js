@@ -8,12 +8,12 @@
 
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import {getConceptById} from "../../../api";
+import {getConceptById} from "../api";
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 
 import CreateConceptPage from "./CreateConceptPage";
-import Loading from "../../../components/Loading";
+import Loading from "../components/Loading/index";
 
 
 class CloneConceptPage extends React.Component {
