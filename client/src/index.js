@@ -15,6 +15,8 @@ import App from './containers/App';
 import {getLocaleInfoFromPath} from "./i18n";
 import {store} from './store';
 
+import './style/index.css';
+
 const {basename} = getLocaleInfoFromPath(window.location.pathname);
 
 const { abbreviation, messages } = getLocaleInfoFromPath(
