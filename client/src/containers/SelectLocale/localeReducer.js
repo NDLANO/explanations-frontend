@@ -7,7 +7,7 @@
  */
 
 import {getLocaleInfoFromPath} from "../../i18n";
-import {UPDATE_LOCALE} from './Actions';
+import {UPDATE_LOCALE} from './actions';
 const {abbreviation} = getLocaleInfoFromPath(window.location.pathname);
 
 const initialState = abbreviation;

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {SEARCH_FOR_CONCEPT} from './Actions';
+import {SEARCH_FOR_CONCEPT} from './actions';
 import {sortObjectsByKey} from "../../utilities";
 
 const initialState = {
