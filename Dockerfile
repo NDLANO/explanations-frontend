@@ -5,6 +5,7 @@ WORKDIR /usr/app/client/
 COPY client/package*.json ./
 RUN npm install -qy
 COPY client/ ./
+RUN npm run build-css
 RUN npm run build
 
 # Setup the server
