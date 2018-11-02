@@ -33,8 +33,8 @@ class CloneConceptPage extends React.Component {
                 if (data.data) {
                     const {data: concept} = data.data;
                     concept.id = -1;
-                    concept.created = null;
-                    concept.updated = null;
+                    delete concept.created;
+                    delete concept.updated;
                     this.setState({concept});
                 }
             })

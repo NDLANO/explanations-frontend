@@ -56,8 +56,8 @@ class Concept extends React.Component {
 
 
     onChangeConcept(key, {target: {value}}) {
-        const {concept} = this.state;
-        this.setState({concept: {...concept, [key]: value}})
+        console.log(key, value, this.state)
+        this.setState(state => ({concept: {...state.concept, [key]: value}}), () => console.log("after update", this.state))
     }
 
     onChangeMeta(categoryName, metaId) {
@@ -85,6 +85,7 @@ class Concept extends React.Component {
     }
 
     submit() {
+        console.log({...this.state.concept})
         this.props.onConceptDone({...this.state.concept, meta: Object.values(this.state.metas), status: this.state.currentStatus});
     }
 

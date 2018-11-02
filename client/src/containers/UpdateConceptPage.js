@@ -52,8 +52,8 @@ class UpdateConceptPage extends React.Component {
     }
 
 
-    submit() {
-        updateConcept(this.state.concept)
+    submit(concept) {
+        updateConcept(concept)
             .then(data => {
                 console.log(data)
             })
