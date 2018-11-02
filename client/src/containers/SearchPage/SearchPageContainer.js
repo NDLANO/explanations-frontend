@@ -13,7 +13,7 @@ import {injectT} from "ndla-i18n";
 import SearchForm from "./components/SearchForm";
 import {compose} from "redux";
 
-import {searchForConcept} from "./Actions";
+import {searchForConcept} from "./actions";
 import SearchResultList from "./components/SearchResult";
 import {sortObjectsByKey} from "../../utilities";
 import Loading from "../../components/Loading";

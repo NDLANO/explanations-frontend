@@ -27,7 +27,6 @@ import CloneConceptPage from "../CloneConceptPage";
 import UpdateConceptPage from "../UpdateConceptPage";
 import CreateConceptPage from "../CreateConceptPage";
 
-import './style.css'
 
 Moment.globalFormat = 'lll';
 

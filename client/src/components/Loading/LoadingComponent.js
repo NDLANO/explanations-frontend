@@ -1,4 +1,4 @@
-import React from 'react';
+import  React from 'react';
 import {OneColumn} from "ndla-ui";
 import BEMHelper from "react-bem-helper";
 
