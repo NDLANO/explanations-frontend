@@ -1,10 +1,9 @@
-import React from "react";
-import Moment from 'react-moment';
+import React from "react"
 
 const DateTime = ({value, id, label, className, locale}) => (
     <div  className={className}>
         <label htmlFor={id}>{label}</label>
-        <Moment id={id} locale={locale}>{value}</Moment>
+        <time id={id} locale={locale}>{value}</time>
     </div>
 );
 export default DateTime;

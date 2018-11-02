@@ -14,21 +14,21 @@ import {connect} from "react-redux";
 import {compose} from "redux";
 
 
-import "moment/min/locales";
-import Moment from 'react-moment';
+//import "moment/min/locales";
+//import Moment from 'react-moment';
 
 import NotFoundPage from '../../components/NotFoundPage'
 import SearchPage from '../SearchPage/SearchPageContainer';
 import Footer from '../../components/Footer';
 import Header from "../../components/Header/";
 import {CreateRoute, SearchRoute, UpdateRoute, CloneRoute} from "../../routes";
-import {loadMeta, loadStatus} from "./Actions";
+import {loadMeta, loadStatus} from "./actions";
 import CloneConceptPage from "../CloneConceptPage";
 import UpdateConceptPage from "../UpdateConceptPage";
 import CreateConceptPage from "../CreateConceptPage";
 
 
-Moment.globalFormat = 'lll';
+//Moment.globalFormat = 'lll';
 
 class App extends React.Component {
     componentDidMount() {

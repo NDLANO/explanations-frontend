@@ -13,7 +13,7 @@ import { withRouter } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 
 import { appLocales } from '../../i18n';
-import {updateLocale} from "./Actions";
+import {updateLocale} from "./actions";
 
 const SelectLocale = ({ locale, location: { pathname, search }, updateLocale }) => {
     const handleChange = newLocale => {
