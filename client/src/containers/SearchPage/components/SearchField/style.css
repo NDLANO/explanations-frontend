@@ -2,3 +2,15 @@
   padding-top: 5px; }
   .c-search-field__input-wrapper {
     padding-top: 5px; }
+    @media (min-width: 37.5625em) {
+      .c-search-field__input-wrapper {
+        padding: 0; } }
+  .c-search-field__submit-button {
+    height: 56px;
+    width: 200px;
+    margin-left: 10px; }
+    @media (max-width: 37.5625em) {
+      .c-search-field__submit-button {
+        height: 46px; } }
+    .c-search-field__submit-button svg {
+      transform: scale(2); }

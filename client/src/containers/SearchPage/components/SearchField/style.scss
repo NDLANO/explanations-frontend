@@ -2,5 +2,23 @@
   padding-top: 5px;
   &__input-wrapper {
     padding-top: 5px;
+
+    @media (min-width: 37.5625em) {
+      padding: 0;
+    }
+  }
+
+  &__submit-button {
+    height: 56px;
+    width: 200px;
+    margin-left: 10px;
+
+    @media (max-width: 37.5625em) {
+      height: 46px;
+    }
+
+    svg {
+      transform: scale(2);
+    }
   }
 }

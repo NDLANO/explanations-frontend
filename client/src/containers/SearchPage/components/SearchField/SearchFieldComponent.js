@@ -27,6 +27,13 @@ class SearchField extends React.Component {
         return (
             <form {...classes()} onSubmit={onSearch}>
                 <div {...classes('input-wrapper')}>
+                    <button
+                        tabIndex="-1"
+                        className={`c-button ${classes("submit-button")['className']}`}
+                        type="submit"
+                        value="Search">
+                        {icon}
+                    </button>
                     <input
                         title={placeholder}
                         type="search"
@@ -46,13 +53,6 @@ class SearchField extends React.Component {
                     <div {...classes('filters')}>
                         <ActiveFilters filters={[]} onFilterRemove={() => ({})} />
                     </div>
-                    <button
-                        tabIndex="-1"
-                        {...classes('button')}
-                        type="submit"
-                        value="Search">
-                        {icon}
-                    </button>
                 </div>
             </form>
         );

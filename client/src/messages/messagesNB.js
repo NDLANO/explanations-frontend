@@ -9,7 +9,7 @@
 
 const NB = {
     header: {
-        title: "Forklarings-tjeneste"
+        title: "Forklaringstjeneste"
     },
     meta: {
         description: "description"
