@@ -69,6 +69,9 @@ class SearchForm extends React.Component {
 
     createMetaGetParam(query, id) {
 
+        if (id === -1)
+            return '';
+
         const param = `meta=${id}`;
         if (query)
             return `&${param}`;

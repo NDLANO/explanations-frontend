@@ -18,6 +18,18 @@ import SearchResultList from "./components/SearchResult";
 import {sortObjectsByKey} from "../../utilities";
 import Loading from "../../components/Loading";
 
+const ALL_LANGUAGES = {
+    id: -1,
+    name: "Alle språk",
+    description: " "
+};
+
+const ALL_SUBJECTS = {
+    id: -1,
+    name: "Alle fag",
+    description: " "
+};
+
 const SearchContainer = ({t, languages, subjects, searchResult,searchForConcept,locale}) =>
 {
 
@@ -40,23 +52,35 @@ const SearchContainer = ({t, languages, subjects, searchResult,searchForConcept,
 
 
 const mapStateToProps = state =>{
-    let lang = state.meta.find(x => x.category.name === "Language");
-    if (!lang)
-        lang = [];
-    else
-        lang = lang.metaList;
+    let languages = state.meta.find(x => x.category.name === "Language");
+    if (!languages)
+        languages = [];
+    else{
+        languages = languages
+            .metaList
+            .sort(sortObjectsByKey('name'));
 
-    let sub = state.meta.find(x => x.category.name === "Subject");
-    if (!sub)
-        sub = [];
-    else
-        sub = sub.metaList;
+        if (!languages.find(x => x.id === -1))
+            languages.splice(0, 0, ALL_LANGUAGES);
+    }
+
+    let subjects = state.meta.find(x => x.category.name === "Subject");
+    if (!subjects)
+        subjects = [];
+    else{
+
+        subjects = subjects
+            .metaList
+            .sort(sortObjectsByKey('name'));
+        if (!subjects.find(x => x.id === -1))
+            subjects.splice(0, 0, ALL_SUBJECTS);
+    }
 
     return  ({
         searchResult: state.search.results,
         meta: state.meta,
-        languages: lang.sort(sortObjectsByKey('name')),
-        subjects: sub.sort(sortObjectsByKey('name')),
+        languages,
+        subjects,
         locale: state.locale
     })
 };
