@@ -50,37 +50,28 @@ const SearchContainer = ({t, languages, subjects, searchResult,searchForConcept,
 }
 
 
+const getMetaByCategory = (list, name, DEFAULT_OBJECT) => {
+    let fromState = list.find(x => x.category.name === name);
+    
+    if (fromState && fromState.metaList) {
+        let [...unpacked] = fromState.metaList;
+        unpacked = unpacked
+            .sort(sortObjectsByKey('name'));
+        if (!unpacked.find(x => x.id === -1))
+            unpacked.splice(0, 0, DEFAULT_OBJECT);
+        return unpacked;
+    }
+    return [];
+}
+
 
 const mapStateToProps = state =>{
-    let languages = state.meta.find(x => x.category.name === "Language");
-    if (!languages)
-        languages = [];
-    else{
-        languages = languages
-            .metaList
-            .sort(sortObjectsByKey('name'));
-
-        if (!languages.find(x => x.id === -1))
-            languages.splice(0, 0, ALL_LANGUAGES);
-    }
-
-    let subjects = state.meta.find(x => x.category.name === "Subject");
-    if (!subjects)
-        subjects = [];
-    else{
-
-        subjects = subjects
-            .metaList
-            .sort(sortObjectsByKey('name'));
-        if (!subjects.find(x => x.id === -1))
-            subjects.splice(0, 0, ALL_SUBJECTS);
-    }
 
     return  ({
         searchResult: state.search.results,
         meta: state.meta,
-        languages,
-        subjects,
+        languages: getMetaByCategory(state.meta, "Language", ALL_LANGUAGES),
+        subjects: getMetaByCategory(state.meta, "Subject", ALL_SUBJECTS),
         locale: state.locale
     })
 };
