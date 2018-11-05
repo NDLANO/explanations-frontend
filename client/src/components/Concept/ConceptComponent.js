@@ -104,11 +104,11 @@ class Concept extends React.Component {
             <OneColumn>
                 <h1>{pageTitle}</h1>
                 <form onSubmit={this.preventFormSubmission} {...classes()}>
-                    <Input id="author" value={author} label={t("conceptForm.author")} onChange={this.authorChange} {...classes('form-field')}  />
                     <Input id="title" value={title} label={t("conceptForm.title")} onChange={this.titleChange} {...classes('form-field')} />
                     <TextArea id="content" value={content} label={t("conceptForm.content")} onChange={this.contentChange} {...classes('form-field')} />
-                    <Input id="externalId" value={externalId} label={t("conceptForm.externalId")} onChange={this.externalIdChange} {...classes('form-field')} />
+                    {/*<Input id="externalId" value={externalId} label={t("conceptForm.externalId")} onChange={this.externalIdChange} {...classes('form-field')} />*/}
                     <Input id="source" value={source} label={t("conceptForm.source")} onChange={this.sourceChange} {...classes('form-field')} />
+                    <Input id="author" value={author} label={t("conceptForm.author")} onChange={this.authorChange} {...classes('form-field')}  />
                     <Dropdown items={this.props.status}
                               selected={this.state.currentStatus}
                               onChange={this.onChangeStatus}

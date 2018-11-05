@@ -67,7 +67,7 @@ const NB = {
         source: "Kilde",
         externalId: "Ekstern id",
         status: "Status",
-        author: "Forfatter",
+        author: "Opphaver til tekst",
         created: "Opprettet",
         updated: "Oppdatert",
         button: {
