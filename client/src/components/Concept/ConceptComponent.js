@@ -56,8 +56,7 @@ class Concept extends React.Component {
 
 
     onChangeConcept(key, {target: {value}}) {
-        console.log(key, value, this.state)
-        this.setState(state => ({concept: {...state.concept, [key]: value}}), () => console.log("after update", this.state))
+        this.setState(state => ({concept: {...state.concept, [key]: value}}));
     }
 
     onChangeMeta(categoryName, metaId) {
@@ -100,6 +99,18 @@ class Concept extends React.Component {
     render() {
         const { t, title: pageTitle, locale} = this.props;
         const {author, title, content, externalId, source, created, updated} = this.state.concept;
+
+        // TODO fjern
+        this.props.metas.forEach(elm => {
+            if (elm.category.description === "Subject")
+                elm.category.description = "Fag";
+            if (elm.category.description === "Language")
+                elm.category.description = "Språk";
+            if (elm.category.description === "Licence")
+                elm.category.description = "Lisens";
+        })
+
+
         return (
             <OneColumn>
                 <h1>{pageTitle}</h1>
@@ -132,7 +143,7 @@ class Concept extends React.Component {
                                       buttonText={`${t("conceptForm.button.addMeta")} ${meta.category.description.toLowerCase()}`}
                                       labelText={this.capitalizeText(meta.category.description.toLowerCase())}
                                       classes={classes('form-field')}
-                                      current={this.getCurrentMeta(meta.category.description)} />
+                                      current={this.getCurrentMeta(meta.category.name)} />
                     )}
 
                     {this.props.children}
