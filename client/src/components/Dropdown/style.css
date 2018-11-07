@@ -1,9 +1,0 @@
-.c-dropdown {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 0; }
-  .c-dropdown select {
-    width: 100%; }
-  .c-dropdown label {
-    width: 150px; }
