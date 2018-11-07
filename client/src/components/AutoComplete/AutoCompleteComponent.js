@@ -26,6 +26,7 @@ class AutoComplete extends React.Component {
             onChange,
             value,
             items,
+            placeholder,
             renderItem = AutoCompleteItem,
             renderMenu = AutoCompleteMenu,
             getItemValue = item => item,
@@ -34,6 +35,7 @@ class AutoComplete extends React.Component {
         return (
             <div {...classes()}>
                 <Autocomplete
+                    inputProps={{placeholder}}
                     items={items}
                     shouldItemRender={shouldItemRender}
                     getItemValue={getItemValue}
@@ -60,7 +62,8 @@ AutoComplete.propTypes = {
     renderItem: PropTypes.func,
     renderMenu: PropTypes.func,
     getItemValue: PropTypes.func,
-    shouldItemRender: PropTypes.func
+    shouldItemRender: PropTypes.func,
+    placeholder: PropTypes.string
 };
 
 export default AutoComplete;

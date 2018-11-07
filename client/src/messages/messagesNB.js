@@ -22,9 +22,9 @@ const NB = {
         create: "Opprett"
     },
     search: {
-        concept: {
-            placeholder: "Begrep",
-            title: "Forklaring"
+        title: "Søk etter begrep",
+        input: {
+            placeholder: "Skriv inn begrep tittel",
         },
         subject: {
             placeholder: "Fag",

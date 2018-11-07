@@ -12,13 +12,14 @@ const classes = new BEMHelper('c-search-field');
 
 class SearchField extends React.Component {
     render() {
-        const {icon, onChange, onSelect, value, items} = this.props;
+        const {icon, onChange, onSelect, value, items, placeholder} = this.props;
         return (
             <div {...classes()}>
                 <AutoComplete onChange={onChange}
                               value={value}
                               onSelect={onSelect}
-                              items={items}/>
+                              items={items}
+                              placeholder={placeholder}/>
                 <Button submit={true}
                         {...classes('submit-button')}>
                     {icon}
@@ -34,10 +35,14 @@ SearchField.propTypes = {
     onSelect: PropTypes.func.isRequired,
     value: PropTypes.any.isRequired,
     items: PropTypes.array.isRequired,
+
+    // Optionals
+    placeholder: PropTypes.string
 };
 
 SearchField.defaultProps = {
-    icon: <SearchIcon />
+    icon: <SearchIcon />,
+    placeholder: ''
 };
 
 export default SearchField;
