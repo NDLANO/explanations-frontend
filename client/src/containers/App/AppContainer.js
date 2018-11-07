@@ -22,7 +22,7 @@ import SearchPage from '../SearchPage/SearchPageContainer';
 import Footer from '../../components/Footer';
 import Header from "../../components/Header/";
 import {CreateRoute, SearchRoute, UpdateRoute, CloneRoute} from "../../routes";
-import {loadMeta, loadStatus} from "./actions";
+import {loadConceptTitles, loadMeta, loadStatus} from "./actions";
 import CloneConceptPage from "../CloneConceptPage";
 import UpdateConceptPage from "../UpdateConceptPage";
 import CreateConceptPage from "../CreateConceptPage";
@@ -34,6 +34,7 @@ class App extends React.Component {
     componentDidMount() {
         this.props.loadMeta();
         this.props.loadStatus();
+        this.props.loadConceptTitles();
     }
 
     render() {
@@ -59,6 +60,6 @@ class App extends React.Component {
 
 export default compose(
     withRouter,
-    connect(null, {loadMeta, loadStatus}),
+    connect(null, {loadMeta, loadStatus, loadConceptTitles}),
     injectT,
 )(App);

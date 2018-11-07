@@ -90,10 +90,10 @@ class UpdateConceptPage extends React.Component {
     }
 }
 
-const mapStateToProps = ({meta, status, locale}) => {
+const mapStateToProps = ({cacheFromServer, locale}) => {
     return {
-        meta,
-        status: status.all,
+        meta: cacheFromServer.meta,
+        status: cacheFromServer.status.all,
         locale
     }
 };

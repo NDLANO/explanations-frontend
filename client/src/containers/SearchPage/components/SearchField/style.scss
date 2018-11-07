@@ -1,5 +1,14 @@
 .c-search-field {
-  padding-top: 5px;
+  padding-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row !important;
+
+  @media (max-width: 37.5625em) {
+    flex-direction: column;
+  }
+
   &__input-wrapper {
     padding-top: 5px;
 
@@ -9,12 +18,15 @@
   }
 
   &__submit-button {
-    height: 56px;
+    height: 63px;
     width: 200px;
     margin-left: 10px;
 
     @media (max-width: 37.5625em) {
-      height: 46px;
+      height: 63px;
+      margin-top: 10px;
+      margin-left: 0;
+      width: 100%;
     }
 
     svg {

@@ -30,7 +30,7 @@ const ALL_SUBJECTS = {
     description: " "
 };
 
-const SearchContainer = ({t, languages, subjects, searchResult,searchForConcept,locale}) =>
+const SearchContainer = ({t, languages, subjects, searchResult,searchForConcept,locale, conceptTitles}) =>
 {
 
     if (languages.length === 0 || subjects.length === 0) {
@@ -43,7 +43,8 @@ const SearchContainer = ({t, languages, subjects, searchResult,searchForConcept,
                         locale={locale}
                         languages={languages}
                         subjects={subjects}
-                        search={searchForConcept}/>
+                        search={searchForConcept}
+                        conceptTitles={conceptTitles}/>
             <SearchResultList results={searchResult}/>
         </OneColumn>
     )
@@ -69,10 +70,11 @@ const mapStateToProps = state =>{
 
     return  ({
         searchResult: state.search.results,
-        meta: state.meta,
-        languages: getMetaByCategory(state.meta, "Language", ALL_LANGUAGES),
-        subjects: getMetaByCategory(state.meta, "Subject", ALL_SUBJECTS),
-        locale: state.locale
+        meta: state.cacheFromServer.meta,
+        languages: getMetaByCategory(state.cacheFromServer.meta, "Language", ALL_LANGUAGES),
+        subjects: getMetaByCategory(state.cacheFromServer.meta, "Subject", ALL_SUBJECTS),
+        locale: state.locale,
+        conceptTitles: state.cacheFromServer.conceptTitles
     })
 };
 

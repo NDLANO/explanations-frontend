@@ -5,11 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {UPDATE_METAS} from './actions';
+import {UPDATE_CONCEPT_TITLES} from '../actions';
 
-export const meta = (state=[], action) => {
+export const conceptTitles = (state=[], action) => {
     switch(action.type) {
-        case UPDATE_METAS:
+        case UPDATE_CONCEPT_TITLES:
             return action.payload;
         default:
             return state;

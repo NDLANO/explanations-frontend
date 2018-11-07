@@ -46,10 +46,10 @@ class CreateConceptPage extends React.Component {
     }
 }
 
-const mapStateToProps = ({meta, status}) => {
+const mapStateToProps = ({cacheFromServer}) => {
     return {
-        meta,
-        status: status.all,
+        meta: cacheFromServer.meta,
+        status: cacheFromServer.status.all,
     }
 };
 

@@ -22,6 +22,7 @@ const API_ENDPOINTS = {
     status: `${API_URL}/status`,
     concept_search: `${API_URL}/concept/search`,
     meta_search: `${API_URL}/metadata/search`,
+    concept_titles: `${API_URL}/concept/allTitles`,
 };
 
 
@@ -37,6 +38,7 @@ export const createConcept = concept => axios.post(`${API_ENDPOINTS.concept}`,co
 
 export const archiveConcept = id => axios.delete(`${API_ENDPOINTS.concept}/${id}`,);
 
+export const getAllConceptTitles = () => axios.get(`${API_ENDPOINTS.concept_titles}`);
 export const getAllMetas = () => axios.get(`${API_ENDPOINTS.meta}`);
 
 export const getAllCategories= () => axios.get(`${API_ENDPOINTS.category}`);

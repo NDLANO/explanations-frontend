@@ -26,6 +26,7 @@
     "ndla-util": "^0.2.7",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
+    "react-autocomplete": "^1.8.1",
     "react-bem-helper": "^1.4.1",
     "react-collapse": "^4.0.3",
     "react-dev-utils": "^5.0.2",

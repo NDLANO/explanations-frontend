@@ -6,6 +6,19 @@
  *
  */
 
+import { combineReducers } from 'redux';
+
 import App from './AppContainer';
+
+import {meta} from './reducers/metaReducer';
+import {status} from './reducers/statusReducer';
+import {conceptTitles} from './reducers/conceptTitlesReducer'
+
+
+export const appReducers = combineReducers({
+    meta,
+    status,
+    conceptTitles
+});
 
 export default App;

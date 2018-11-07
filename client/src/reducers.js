@@ -10,14 +10,12 @@ import { combineReducers } from 'redux';
 
 import {locale} from './containers/SelectLocale/localeReducer';
 import {search} from "./containers/SearchPage/searchReducer";
-import {meta} from "./containers/App/metaReducer";
-import {status} from "./containers/App/statusReducer";
+import {appReducers} from './containers/App';
 
 const rootReducers = combineReducers({
     locale,
     search,
-    meta,
-    status
+    cacheFromServer: appReducers
 });
 
 export default rootReducers;

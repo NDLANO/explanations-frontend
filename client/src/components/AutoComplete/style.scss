@@ -1,0 +1,35 @@
+.c-autocomplete {
+  position: relative;
+  width: 100%;
+  div {
+    width: 100%;
+  }
+
+  input {
+    height: 63px;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 100%;
+    padding-left: 18px;
+  }
+
+
+  &__menu {
+    left: initial;
+    top: initial;
+    position: absolute;
+    z-index: 999999;
+    background: white;
+    border-radius: 5px;
+    border: 1px solid black;
+    border-top: none;
+  }
+  &__item {
+    padding: 10px 18px;
+
+    :hover, &--active {
+      background: #444;
+      color: white;
+    }
+  }
+}
