@@ -1,0 +1,13 @@
+.footer-text-wrapper {
+  display: flex;
+  justify-content: space-between;
+  @media (max-width: 37.5625em) {
+    flex-direction: column;
+  }
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

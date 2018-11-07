@@ -29,7 +29,6 @@ const Header = ({t}) => (
                 <h1>{t('header.title')}</h1>
             </MastheadItem>
             <MastheadItem>
-                <Logo to="/" label={t('logo.label')} />
             </MastheadItem>
         </div>
     </Masthead>
