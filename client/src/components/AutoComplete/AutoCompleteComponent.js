@@ -27,10 +27,10 @@ class AutoComplete extends React.Component {
             value,
             items,
             placeholder,
-            renderItem = AutoCompleteItem,
-            renderMenu = AutoCompleteMenu,
-            getItemValue = item => item,
-            shouldItemRender = (item, value) => item.toLowerCase().indexOf(value.toLowerCase()) > -1
+            renderItem,
+            renderMenu,
+            getItemValue,
+            shouldItemRender
         } = this.props;
         return (
             <div {...classes()}>
@@ -64,6 +64,16 @@ AutoComplete.propTypes = {
     getItemValue: PropTypes.func,
     shouldItemRender: PropTypes.func,
     placeholder: PropTypes.string
+};
+
+
+AutoComplete.defaultProps = {
+    // Optional
+    renderItem: AutoCompleteItem,
+    renderMenu: AutoCompleteMenu,
+    getItemValue: item => item,
+    shouldItemRender: (item, value) => item.toLowerCase().indexOf(value.toLowerCase()) > -1,
+    placeholder: ''
 };
 
 export default AutoComplete;

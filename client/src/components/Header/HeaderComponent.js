@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Masthead, MastheadItem, Logo } from 'ndla-ui';
+import { Masthead, MastheadItem } from 'ndla-ui';
 import BEMHelper from 'react-bem-helper';
 
 import Navigation from "./Navigation";

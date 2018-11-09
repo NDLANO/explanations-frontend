@@ -42,7 +42,7 @@ class Concept extends React.Component {
         this.authorChange = this.onChangeConcept.bind(this, "author");
         this.titleChange = this.onChangeConcept.bind(this, "title");
         this.contentChange = this.onChangeConcept.bind(this, "content");
-        this.externalIdChange = this.onChangeConcept.bind(this, "externalId");
+        //this.externalIdChange = this.onChangeConcept.bind(this, "externalId");
         this.sourceChange = this.onChangeConcept.bind(this, "source");
         this.onChangeStatus = this.onChangeStatus.bind(this);
         this.submit = this.submit.bind(this);
@@ -84,7 +84,6 @@ class Concept extends React.Component {
     }
 
     submit() {
-        console.log({...this.state.concept})
         this.props.onConceptDone({...this.state.concept, meta: Object.values(this.state.metas), status: this.state.currentStatus});
     }
 
@@ -98,7 +97,7 @@ class Concept extends React.Component {
 
     render() {
         const { t, title: pageTitle, locale} = this.props;
-        const {author, title, content, externalId, source, created, updated} = this.state.concept;
+        const {author, title, content, source, created, updated} = this.state.concept;
 
         // TODO fjern
         this.props.metas.forEach(elm => {
