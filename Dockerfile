@@ -1,12 +1,14 @@
 
 FROM node:9.4.0-alpine as client
+ARG CONCEPT_API_URL=NO_VALUE_FOR_API
+ENV REACT_APP_CONCEPT_API_ROOT=${CONCEPT_API_URL}
 
 WORKDIR /usr/app/client/
 COPY client/package*.json ./
 RUN npm install -qy
 COPY client/ ./
 RUN npm run build-css
-RUN npm run build
+RUN REACT_APP_CONCEPT_API_ROOT=${REACT_APP_CONCEPT_API_ROOT} npm run build
 
 # Setup the server
 

@@ -8,25 +8,8 @@
 
 import axios from 'axios';
 
-
-const ENVIRONMENT_PRODUCTION = "production";
-const ENVIRONMENT_TESTING = "testing";
-const ENVIRONMENT_DEVELOPMENT = "development";
-
-const getUrlBasedOnEnvironment = env => {
-    switch (env) {
-        case ENVIRONMENT_DEVELOPMENT:
-            return 'http://localhost:63365';
-        case ENVIRONMENT_TESTING:
-            return 'http://ndla-api-testing-777208375.eu-west-1.elb.amazonaws.com';
-        case ENVIRONMENT_PRODUCTION:
-            return 'http://ndla-api-1275813378.eu-west-1.elb.amazonaws.com';
-        default:
-            return 'COULD_NOT_READ_URL_FROM_ENVIRONMENT';
-    }
-};
-
-const ROOT_URL = getUrlBasedOnEnvironment(process.env['RUNTIME_ENV'] || process.env['NODE_ENV']);
+const ROOT_URL = process.env['NODE_ENV'] == "development"
+    ? 'http://localhost:63365' : process.env['REACT_APP_CONCEPT_API_ROOT'];
 
 const API_URL = `${ROOT_URL}/api`;
 
