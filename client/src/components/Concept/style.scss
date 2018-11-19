@@ -11,11 +11,16 @@
 
   &__form-field {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
     padding: 10px 0;
 
-    select {
+    .field-validation-error {
+      font-size: 12px;
+     color: rgba(209, 55, 46, .9);
+    }
+
+    select, div {
       width: 100%;
     }
     label {

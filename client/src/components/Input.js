@@ -1,9 +1,15 @@
 import React from "react";
 
-const Input = ({value, type="text", id, label, onChange,className, isReadOnly=false}) => (
+
+const Input = ({className, t, input, label, meta, placeholder}) => (
     <div  className={className}>
-        <label htmlFor={id}>{label}</label>
-        <input type={type} value={value} id={id} onChange={onChange} placeholder={label} readOnly={isReadOnly} />
+        <label htmlFor={input.id}>{t(label)}</label>
+        <div>
+            <input {...input}  placeholder={t(placeholder)}/>
+            {meta.touched && meta.error
+                ? <span className="field-validation-error" {...input}>{t(meta.error)}</span>
+                : null}
+        </div>
     </div>
 );
 export default Input;

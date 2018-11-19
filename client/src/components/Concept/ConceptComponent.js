@@ -8,8 +8,6 @@
 
 import React from 'react';
 import {OneColumn} from "ndla-ui";
-import TextArea from "../TextArea";
-import Input from "../Input";
 import BEMHelper from "react-bem-helper";
 import PropTypes from 'prop-types';
 
@@ -19,6 +17,12 @@ import ConfirmModal from "../ConfirmModal/index";
 import DateTime from "../DateTime";
 
 import './style.css'
+import {FIELDS} from "./fields";
+import {Field, reduxForm} from "redux-form";
+
+import {validate} from "./validate";
+import {onChange} from "./onchange";
+
 
 const classes = new BEMHelper({
     name: 'concept-form',
@@ -38,12 +42,6 @@ class Concept extends React.Component {
             currentStatus: props.concept.status || props.status[0]
         };
 
-
-        this.authorChange = this.onChangeConcept.bind(this, "author");
-        this.titleChange = this.onChangeConcept.bind(this, "title");
-        this.contentChange = this.onChangeConcept.bind(this, "content");
-        //this.externalIdChange = this.onChangeConcept.bind(this, "externalId");
-        this.sourceChange = this.onChangeConcept.bind(this, "source");
         this.onChangeStatus = this.onChangeStatus.bind(this);
         this.submit = this.submit.bind(this);
         this.onChangeMeta = this.onChangeMeta.bind(this);
@@ -52,11 +50,6 @@ class Concept extends React.Component {
 
     onChangeStatus(e) {
         this.setState({currentStatus: this.props.status.find(x => x.id+"" === e.target.value)});
-    }
-
-
-    onChangeConcept(key, {target: {value}}) {
-        this.setState(state => ({concept: {...state.concept, [key]: value}}));
     }
 
     onChangeMeta(categoryName, metaId) {
@@ -87,7 +80,8 @@ class Concept extends React.Component {
         this.props.onConceptDone({...this.state.concept, meta: Object.values(this.state.metas), status: this.state.currentStatus});
     }
 
-    preventFormSubmission(e) {
+    preventFormSubmission(e, values) {
+        console.log(e, values)
         e.preventDefault();
     }
 
@@ -110,23 +104,19 @@ class Concept extends React.Component {
         })
 
 
+
         return (
             <OneColumn>
                 <h1>{pageTitle}</h1>
                 <form onSubmit={this.preventFormSubmission} {...classes()}>
-                    <Input id="title" value={title} label={t("conceptForm.title")} onChange={this.titleChange} {...classes('form-field')} />
-                    <TextArea id="content" value={content} label={t("conceptForm.content")} onChange={this.contentChange} {...classes('form-field')} />
-                    {/*<Input id="externalId" value={externalId} label={t("conceptForm.externalId")} onChange={this.externalIdChange} {...classes('form-field')} />*/}
-                    <Input id="source" value={source} label={t("conceptForm.source")} onChange={this.sourceChange} {...classes('form-field')} />
-                    <Input id="author" value={author} label={t("conceptForm.author")} onChange={this.authorChange} {...classes('form-field')}  />
-                    <Dropdown items={this.props.status}
-                              selected={this.state.currentStatus}
-                              onChange={this.onChangeStatus}
-                              id={"status"}
-                              label={this.capitalizeText(t("conceptForm.status"))}
-                              {...classes('form-field')} />
-                    {this.props.showTimestamps && <DateTime id="created" value={created} label={t("conceptForm.created")} locale={locale} {...classes('form-field')} />}
-                    {this.props.showTimestamps && <DateTime id="updated" value={updated} label={t("conceptForm.updated")} locale={locale} {...classes('form-field')} />}
+                    <Field {...FIELDS.title} t={t} {...classes('form-field')} />
+                    <Field {...FIELDS.content} t={t} {...classes('form-field')} />
+                    <Field {...FIELDS.source} t={t} {...classes('form-field')} />
+                    <Field {...FIELDS.author} t={t} {...classes('form-field')} />
+
+                    <Dropdown {...FIELDS.status} t={t} {...classes('form-field')} items={this.props.status} />
+                    {this.props.showTimestamps && <Field {...FIELDS.created} t={t} {...classes('form-field')} />}
+                    {this.props.showTimestamps && <Field {...FIELDS.updated} t={t} {...classes('form-field')} />}
 
                     <div {...classes('meta')}>
                         <hr />
@@ -134,7 +124,7 @@ class Concept extends React.Component {
                         <hr/>
                     </div>
 
-                    {this.props.metas.map(
+                    {/*this.props.metas.map(
                         meta => <Meta onChange={this.onChangeMeta}
                                       key={meta.category.name.toLowerCase()}
                                       t={t} choices={meta.metaList}
@@ -143,7 +133,7 @@ class Concept extends React.Component {
                                       labelText={this.capitalizeText(meta.category.description.toLowerCase())}
                                       classes={classes('form-field')}
                                       current={this.getCurrentMeta(meta.category.name)} />
-                    )}
+                    )*/}
 
                     {this.props.children}
                     <ConfirmModal triggerButton={this.renderSubmitButton} onConfirm={this.submit} />
@@ -177,4 +167,8 @@ Concept.propTypes = {
     locale: PropTypes.string,
 };
 
-export default Concept;
+export default reduxForm({
+    validate,
+    form: 'conceptForm',
+    onChange,
+})(Concept);

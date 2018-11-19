@@ -1,9 +1,15 @@
 import React from "react";
 
-const TextArea = ({value, type="text", id, label, onChange,className, isReadOnly=false, rows=5, columns=50}) => (
+const TextArea = ({className, t, input, placeholder, label, meta, rows=5, columns=50}) => (
     <div  className={className}>
-        <label htmlFor={id}>{label}</label>
-        <textarea rows={rows} cols={columns} value={value} id={id} onChange={onChange} placeholder={label} readOnly={isReadOnly} />
+        <label htmlFor={input.id}>{t(label)}</label>
+        <div>
+            <textarea {...input} rows={rows} cols={columns} placeholder={t(placeholder)} />
+            {meta.touched && meta.error
+                ? <span className="field-validation-error" {...input}>{t(meta.error)}</span>
+                : null}
+        </div>
+
     </div>
 );
 export default TextArea;

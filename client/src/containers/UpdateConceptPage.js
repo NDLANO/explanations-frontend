@@ -70,11 +70,13 @@ class UpdateConceptPage extends React.Component {
 
     render() {
         const {t, meta=[], status=[], locale} = this.props;
+        console.log(this.state.concept)
         if (this.state.concept && meta.length > 0 && status.length > 0)
             return (
                 <Concept status={status}
                          t={t}
                          locale={locale}
+                         initialValues={{...this.state.concept}}
                          concept={this.state.concept}
                          metas={meta}
                          title={t("updateConcept.title")}

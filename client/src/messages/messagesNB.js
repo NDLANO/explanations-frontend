@@ -70,6 +70,7 @@ const NB = {
         author: "Opphaver til tekst",
         created: "Opprettet",
         updated: "Oppdatert",
+        requiredField: "Dette feltet er obligatorisk",
         button: {
             addMeta: "Legg til "
         }
