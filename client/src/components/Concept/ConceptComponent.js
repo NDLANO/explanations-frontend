@@ -13,7 +13,6 @@ import PropTypes from 'prop-types';
 
 import Meta from "../Meta";
 import ConfirmModal from "../ConfirmModal/index";
-import DateTime from "../DateTime";
 
 import './style.css'
 import {FIELDS} from "./fields";
@@ -21,9 +20,6 @@ import {Field, reduxForm} from "redux-form";
 
 import {validate} from "./validate";
 import {onChange} from "./onchange";
-import Select from "react-select";
-import Dropdown from "../Dropdown";
-
 
 const classes = new BEMHelper({
     name: 'concept-form',
@@ -65,19 +61,8 @@ class Concept extends React.Component {
         this.setState(state => ({metas: {...state.metas, [categoryName]: meta}}));
     }
 
-    getCurrentMeta(key) {
-        try{
-            return this.state.metas[key.toLowerCase()]
-        }catch(e) {
-            return ""
-        }
-    }
-
-    capitalizeText(text) {
-        return text.slice(0, 1).toUpperCase() + text.slice(1, text.length);
-    }
-
     submit() {
+        // TODO map values to concept
         this.props.onConceptDone({...this.state.concept, meta: Object.values(this.state.metas), status: this.state.currentStatus});
     }
 
@@ -110,7 +95,7 @@ class Concept extends React.Component {
         let selectedStatus = {value: draft.id, label: draft.name};
 
         const options = this.props.status.map(x => ({value: x.id, label: x.name}));
-        console.log({...classes('form-field')})
+        console.log(this.props.metas)
         return (
             <OneColumn>
                 <h1>{pageTitle}</h1>
@@ -121,7 +106,7 @@ class Concept extends React.Component {
                     <Field {...FIELDS.author} t={t} {...classes('form-field')} />
 
                     <div {...classes('form-field')}>
-                        <label  htmlFor={FIELDS.status.id}>lael</label>
+                        <label  htmlFor={FIELDS.status.id}>{t("conceptForm.status")}</label>
                         <Field {...FIELDS.status} t={t} selected={selectedStatus} options={options}/>
                     </div>
                     {this.props.showTimestamps && <Field {...FIELDS.created} t={t} {...classes('form-field')} />}
@@ -133,16 +118,8 @@ class Concept extends React.Component {
                         <hr/>
                     </div>
 
-                    {/*this.props.metas.map(
-                        meta => <Meta onChange={this.onChangeMeta}
-                                      key={meta.category.name.toLowerCase()}
-                                      t={t} choices={meta.metaList}
-                                      id={meta.category.name.toLowerCase()}
-                                      buttonText={`${t("conceptForm.button.addMeta")} ${meta.category.description.toLowerCase()}`}
-                                      labelText={this.capitalizeText(meta.category.description.toLowerCase())}
-                                      classes={classes('form-field')}
-                                      current={this.getCurrentMeta(meta.category.name)} />
-                    )*/}
+                    {this.props.metas.map(meta => <Meta meta={meta} t={t} classes={classes} />)}
+
 
                     {this.props.children}
                     <ConfirmModal triggerButton={this.renderSubmitButton} onConfirm={this.submit} />

@@ -5,7 +5,7 @@ import './style.css'
 import {sortObjectsByKey} from "../../../../utilities";
 
 const classes = new BEMHelper({
-    name: 'dropdown',
+    name: 'searchDropdown',
     prefix: 'c-',
 });
 

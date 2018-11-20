@@ -10,28 +10,27 @@ import AutoComplete from "../../../../components/AutoComplete/AutoCompleteCompon
 
 const classes = new BEMHelper('c-search-field');
 
-class SearchField extends React.Component {
-    render() {
-        const {icon, onChange, onSelect, value, items, placeholder} = this.props;
-        return (
-            <div {...classes()}>
-                <AutoComplete onChange={onChange}
-                              value={value}
-                              onSelect={onSelect}
-                              items={items}
-                              placeholder={placeholder}/>
-                <Button submit={true}
-                        {...classes('submit-button')}>
-                    {icon}
-                </Button>
-            </div>
-        );
-    }
-}
+const SearchField  = ({icon, input, onSelect, items=[], placeholder}) =>  {
+    let itemsList = [];
+    if (input.value)
+        itemsList = items.filter(x => x.toLowerCase().includes(input.value.toLowerCase()));
+    return (
+        <div {...classes()}>
+            <AutoComplete onChange={(value) => input.onChange(value)}
+                          value={input.value}
+                          onSelect={(value) => input.onChange(value)}
+                          items={itemsList}
+                          placeholder={placeholder}/>
+            <Button submit={true}
+                    {...classes('submit-button')}>
+                {icon}
+            </Button>
+        </div>
+    )
+};
 
 SearchField.propTypes = {
     // Required
-    onChange: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
     value: PropTypes.any.isRequired,
     items: PropTypes.array.isRequired,

@@ -1,22 +1,18 @@
 import React from 'react';
-import Dropdown from "./Dropdown/index";
+import Dropdown from "./Dropdown";
+import {Field} from "redux-form";
+import {capitalizeText} from "../utilities";
 
-class Meta extends React.Component {
-
-    render() {
-        const {choices, current, labelText, id, buttonText, classes, defaultValue=null} = this.props;
-        let dropDownDefault = defaultValue;
-        if (!dropDownDefault)
-            dropDownDefault = this.props.choices[0];
-
-        if (!current)
-            return <button  className="c-button--outline" type="button" onClick={() => this.props.onChange(this.props.id, dropDownDefault.id)}>{buttonText}</button>;
-
-
-        return (
-            <Dropdown items={choices} selected={current} onChange={(e) => this.props.onChange(this.props.id,e.target.value)} id={id} label={labelText} classes={classes} />
-        )
-    }
-}
+const Meta = ({meta, t, classes}) => (
+    <div {...classes('form-field')} key={meta.category.id}>
+        <label  htmlFor="test">{capitalizeText(meta.category.description.toLowerCase())}</label>
+        <Field name={meta.category.name.toLowerCase()}
+               component={Dropdown}
+               id={meta.category.id}
+               t={t}
+               selected={{value: meta.defaultValue.id, label: meta.defaultValue.name}}
+               options={meta.metaList.map(x => ({value: x.id, label: x.name}))}/>
+    </div>
+)
 
 export default Meta;

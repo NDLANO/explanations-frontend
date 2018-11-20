@@ -26,3 +26,6 @@ export const createMetaGetParam = (query, id) => {
         return`?${param}`;
 
 }
+
+
+export const capitalizeText = (text) => text.slice(0, 1).toUpperCase() + text.slice(1, text.length);

@@ -23,32 +23,40 @@ class Dropdown extends React.Component {
 
     onChange(value) {
         this.setState({selected: value});
-        if (value)
-            this.props.input.onChange(value.value);
+        if (value) {
+            if (this.props.input)
+                this.props.input.onChange(value.value);
+            else
+                this.props.onChange(value.value);
+        }
+
     }
 
     onBlur() {
-        if (this.state.selected)
-            this.props.input.onChange(this.state.selected.value)
+        if (this.state.selected) {
+            if (this.props.input)
+                this.props.input.onChange(this.state.selected.value);
+            else
+                this.props.onChange(this.state.selected.value);
+        }
     }
 
     render() {
         const {input, placeholder, t, ...rest} = this.props;
-        return <Select
-            {...input}
-            {...rest}
-            {...classes()}
-            placeholder={t(placeholder)}
-            onBlur={this.onBlur}
-            value={this.state.selected}
-            onChange={this.onChange}
-        />
+        return <Select {...input}
+                       {...rest}
+                       {...classes()}
+                       placeholder={t(placeholder)}
+                       onBlur={this.onBlur}
+                       value={this.state.selected}
+                       onChange={this.onChange}
+                />
     }
 }
 
 Dropdown.propTypes = {
-    input: PropTypes.object.isRequired,
     t: PropTypes.func.isRequired,
+    input: PropTypes.object,
     isSearchable: PropTypes.bool,
     isClearable: PropTypes.bool,
     placeholder: PropTypes.string,
@@ -56,7 +64,7 @@ Dropdown.propTypes = {
 
 Dropdown.defaultProps = {
     isSearchable: true,
-    isClearable: true,
+    isClearable: false,
     placeholder: 'dropdown.placeholder',
 };
 

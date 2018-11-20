@@ -1,10 +1,13 @@
 import React from 'react';
-import SearchField from "../SearchField";
 import BEMHelper from "react-bem-helper";
-import './style.css';
-import SearchDropdown from "../SearchDropdown";
 import {createGetParam, createMetaGetParam} from "../../../../utilities";
 import {debounce} from 'lodash';
+import {Field, reduxForm} from "redux-form";
+import {FIELDS} from "./fields";
+
+
+import './style.css';
+
 const classes = new BEMHelper({
     name: 'search-form',
     prefix: 'c-',
@@ -19,14 +22,11 @@ class SearchForm extends React.Component {
         const [sub=null] = props.subjects;
 
         this.state = {
-            searchTerm: "",
             language: props.languages.find(x => x.abbreviation === props.locale) || lang,
             subject: sub,
-            matchedTitles: []
         };
 
         this.onSearch = this.onSearch.bind(this);
-        this.onSearchFieldChange = this.onSearchFieldChange.bind(this);
         this.onLanguageFieldChange = this.onLanguageFieldChange.bind(this);
         this.onSubjectFieldChange = this.onSubjectFieldChange.bind(this);
 
@@ -54,52 +54,37 @@ class SearchForm extends React.Component {
         this.props.search(query);
     }
 
-
-    onChange(key, metaId) {
-        const meta = this.props[key + "s"].find(x => x.id+"" === metaId);
-        this.setState({[key]: meta}, () => this.search());
-    }
-
-
-    onSearchFieldChange = (searchTerm) => {
-        if (searchTerm.length > 0 && searchTerm !== this.state.searchTerm){
-            this.setState({
-                searchTerm: searchTerm,
-                matchedTitles: this.props.conceptTitles
-                    .filter(x => x.toLowerCase().includes(searchTerm.toLowerCase()))
-            },
-                () => this.search());
-        }
-        else
-            this.setState({searchTerm: searchTerm})
-
-    }
-
     render() {
         const {languages, subjects, t} = this.props;
-
+        console.log(subjects)
         return (
 
             <form {...classes()} onSubmit={this.onSearch}>
                 <h1>{t('search.title')}</h1>
-                <SearchField onChange={this.onSearchFieldChange}
-                             onSelect={this.onSearchFieldChange}
-                             value={this.state.searchTerm}
-                             items={this.state.matchedTitles}
-                            placeholder={t('search.input.placeholder')}/>
-                <SearchDropdown items={languages}
+                <Field items={this.props.conceptTitles}
+                       placeholder={t('search.input.placeholder')}
+                       {...FIELDS.conceptTitle}/>
+
+                {/*
+                <Dropdown options={languages.map(x => ({value: x.id, label: x.name}))}
                           selected={this.state.language}
                           onChange={(e) => this.onChange("language",e.target.value)}
                           id="languages"
+                          t={t}
                           classes={classes('filter-dropdown')} />
-                <SearchDropdown items={subjects}
-                          selected={this.state.subject}
+                <Dropdown options={subjects.map(x => ({value: x.id, label: x.name}))}
+                          selected={{value: this.state.subject.id, label: this.state.subject.name}}
                           onChange={(e) => this.onChange("subject",e.target.value)}
                           id="subjects"
+                          t={t}
                           classes={classes('filter-dropdown')} />
+                */}
+
             </form>
         );
     }
 }
 
-export default SearchForm;
+export default reduxForm({
+    form: 'conceptForm'
+})(SearchForm);
