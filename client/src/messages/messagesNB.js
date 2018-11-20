@@ -35,6 +35,10 @@ const NB = {
             title: "Språk"
         }
     },
+    
+    dropdown: {
+        placeholder: "Velg..."
+    },
 
     updateConcept: {
         title: "Oppdater begrep",

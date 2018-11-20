@@ -2,7 +2,7 @@ import React from 'react';
 import SearchField from "../SearchField";
 import BEMHelper from "react-bem-helper";
 import './style.css';
-import Dropdown from "../../../../components/Dropdown";
+import SearchDropdown from "../SearchDropdown";
 import {createGetParam, createMetaGetParam} from "../../../../utilities";
 import {debounce} from 'lodash';
 const classes = new BEMHelper({
@@ -87,12 +87,12 @@ class SearchForm extends React.Component {
                              value={this.state.searchTerm}
                              items={this.state.matchedTitles}
                             placeholder={t('search.input.placeholder')}/>
-                <Dropdown items={languages}
+                <SearchDropdown items={languages}
                           selected={this.state.language}
                           onChange={(e) => this.onChange("language",e.target.value)}
                           id="languages"
                           classes={classes('filter-dropdown')} />
-                <Dropdown items={subjects}
+                <SearchDropdown items={subjects}
                           selected={this.state.subject}
                           onChange={(e) => this.onChange("subject",e.target.value)}
                           id="subjects"

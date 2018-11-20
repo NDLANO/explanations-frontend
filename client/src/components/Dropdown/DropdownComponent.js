@@ -2,51 +2,62 @@ import React from "react";
 import BEMHelper from "react-bem-helper";
 
 import './style.css'
-import {sortObjectsByKey} from "../../utilities";
-import {FIELDS} from "../Concept/fields";
-import {Field} from "redux-form";
+
+import PropTypes from "prop-types";
+import Select from "react-select";
 
 const classes = new BEMHelper({
     name: 'dropdown',
     prefix: 'c-',
 });
 
-const d = ({items, input,t, onChange, id, label}) => (
-    <div {...classes()}>
-        {label && <label htmlFor={id}>{t(label)}</label>}
-        <select value={input.value.id}>
-            {items
-                .sort(sortObjectsByKey('name'))
-                .map(item =>
-                    <option key={item.id} value={item.id}>
-                        {item.name}
-                    </option>
-            )}
-        </select>
-    </div>
+class Dropdown extends React.Component {
+    constructor(props) {
+        super(props);
+        const {selected} = this.props;
+        this.state = {selected};
 
-);
+        this.onChange = this.onChange.bind(this);
+        this.onBlur = this.onBlur.bind(this);
+    }
 
-const parse = event => {
-    // This is what redux-form will hold:
-    return JSON.parse(event.target.value);
+    onChange(value) {
+        this.setState({selected: value});
+        if (value)
+            this.props.input.onChange(value.value);
+    }
+
+    onBlur() {
+        if (this.state.selected)
+            this.props.input.onChange(this.state.selected.value)
+    }
+
+    render() {
+        const {input, placeholder, t, ...rest} = this.props;
+        return <Select
+            {...input}
+            {...rest}
+            {...classes()}
+            placeholder={t(placeholder)}
+            onBlur={this.onBlur}
+            value={this.state.selected}
+            onChange={this.onChange}
+        />
+    }
 }
 
-const Dropdown = ({items, id, t, label}) => {
-    // TODO
-   return  <div {...classes()}>
-       {label && <label htmlFor={id}>{t(label)}</label>}
-       <Field name="status" component="select"  onChange={input => event => parse(input.onChange(event))}>
-           {items
-               .sort(sortObjectsByKey('name'))
-               .map(item =>
-                   <option key={item.id} value={JSON.stringify(item)}>
-                       {item.name}
-                   </option>
-               )}
-       </Field>
-   </div>
+Dropdown.propTypes = {
+    input: PropTypes.object.isRequired,
+    t: PropTypes.func.isRequired,
+    isSearchable: PropTypes.bool,
+    isClearable: PropTypes.bool,
+    placeholder: PropTypes.string,
 };
 
+Dropdown.defaultProps = {
+    isSearchable: true,
+    isClearable: true,
+    placeholder: 'dropdown.placeholder',
+};
 
 export default Dropdown;

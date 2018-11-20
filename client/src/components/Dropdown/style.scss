@@ -1,13 +1,7 @@
 .c-dropdown {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 0;
+  width: 100%;
 
-  select {
+  div:first-of-type {
     width: 100%;
-  }
-  label {
-    width: 150px;
   }
 }

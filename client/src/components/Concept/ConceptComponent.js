@@ -12,7 +12,6 @@ import BEMHelper from "react-bem-helper";
 import PropTypes from 'prop-types';
 
 import Meta from "../Meta";
-import Dropdown from "../Dropdown/index";
 import ConfirmModal from "../ConfirmModal/index";
 import DateTime from "../DateTime";
 
@@ -22,6 +21,8 @@ import {Field, reduxForm} from "redux-form";
 
 import {validate} from "./validate";
 import {onChange} from "./onchange";
+import Select from "react-select";
+import Dropdown from "../Dropdown";
 
 
 const classes = new BEMHelper({
@@ -90,8 +91,7 @@ class Concept extends React.Component {
     }
 
     render() {
-        const { t, title: pageTitle, locale} = this.props;
-        const {author, title, content, source, created, updated} = this.state.concept;
+        const { t, title: pageTitle} = this.props;
 
         // TODO fjern
         this.props.metas.forEach(elm => {
@@ -104,7 +104,13 @@ class Concept extends React.Component {
         })
 
 
+        let draft = this.props.status.find(x => x.name === "Draft");
+        if (!draft)
+            draft = this.props.status[0];
+        let selectedStatus = {value: draft.id, label: draft.name};
 
+        const options = this.props.status.map(x => ({value: x.id, label: x.name}));
+        console.log({...classes('form-field')})
         return (
             <OneColumn>
                 <h1>{pageTitle}</h1>
@@ -114,7 +120,10 @@ class Concept extends React.Component {
                     <Field {...FIELDS.source} t={t} {...classes('form-field')} />
                     <Field {...FIELDS.author} t={t} {...classes('form-field')} />
 
-                    <Dropdown {...FIELDS.status} t={t} {...classes('form-field')} items={this.props.status} />
+                    <div {...classes('form-field')}>
+                        <label  htmlFor={FIELDS.status.id}>lael</label>
+                        <Field {...FIELDS.status} t={t} selected={selectedStatus} options={options}/>
+                    </div>
                     {this.props.showTimestamps && <Field {...FIELDS.created} t={t} {...classes('form-field')} />}
                     {this.props.showTimestamps && <Field {...FIELDS.updated} t={t} {...classes('form-field')} />}
 
@@ -142,7 +151,6 @@ class Concept extends React.Component {
         )
     }
 }
-
 
 Concept.defaultProps = {
     concept:  {

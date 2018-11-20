@@ -2,7 +2,7 @@ import React from "react";
 import TextArea from "../TextArea";
 import Input from "../Input";
 import DateTime from "../DateTime";
-import Dropdown from "../Dropdown/DropdownComponent";
+import Dropdown from "../Dropdown";
 
 export const FIELDS = {
     title: {
@@ -50,7 +50,10 @@ export const FIELDS = {
         component: DateTime
     },
     status: {
-        name: "status",
-        label: "conceptForm.status"
+        name: "statusId",
+        label: "conceptForm.status",
+        isClearable: false,
+        id: "status",
+        component: Dropdown
     }
 };
