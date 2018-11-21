@@ -32,19 +32,49 @@ class CreateConceptPage extends React.Component {
 
     render() {
         return <Concept status={this.props.status}
+                        initialValues={this.props.initialValues}
                         t={this.props.t}
                         metas={this.props.meta}
                         title={this.props.t("createConcept.title")}
-                        submit={this.submit}
-                        concept={this.props.concept}
+                        submitConcept={this.submit}
         />
     }
 }
 
-const mapStateToProps = ({cacheFromServer}) => {
+const mapStateToProps = ({cacheFromServer: {status, meta}, locale}) => {
+    let draft = status.find(x => x.name === "Draft") || status[0];
+    if (draft) {
+        draft = {value: draft.id, label: draft.name};
+    } else {
+        draft  = null;
+    }
+
+    const initialValues = {statusId: draft};
+    const initialValueName = (name) => `meta_${name}`;
+    meta.forEach(x => {
+        let name = x.category.name.toLowerCase();
+
+        let value = {
+            value: x.defaultValue.id,
+            label: x.defaultValue.name
+        };
+        if (name === "language") {
+            let defaultLang = x.metaList.find(x => x.abbreviation === locale);
+            if (!defaultLang)
+                defaultLang = x.metaList[0];
+
+            value = {
+                value: defaultLang.id,
+                label: defaultLang.name
+            }
+        }
+        initialValues[initialValueName(name)] = value;
+    });
+
     return {
-        meta: cacheFromServer.meta,
-        status: cacheFromServer.status.all,
+        meta: meta,
+        status: status.map(x => ({value: x.id, label: x.name})),
+        initialValues
     }
 };
 
@@ -56,13 +86,13 @@ CreateConceptPage.defaultProps = {
 const requiredPropsIsNotYetPresent = () => <Loading/>;
 const metaExists = ({meta}) =>  meta.length > 0;
 const statusExists = ({status}) => status.length > 0;
-const metaAndStatusShouldBePresent = compose(
-    WithEither(metaExists, requiredPropsIsNotYetPresent),
-    WithEither(statusExists, requiredPropsIsNotYetPresent)
-)(CreateConceptPage);
+const formHasInitialValues = ({initialValues}) => Object.values(initialValues).indexOf(null) === -1;
 
 export default compose(
     withRouter,
     connect(mapStateToProps, null),
-    injectT
-)(metaAndStatusShouldBePresent);
+    injectT,
+    WithEither(metaExists, requiredPropsIsNotYetPresent),
+    WithEither(statusExists, requiredPropsIsNotYetPresent),
+    WithEither(formHasInitialValues, requiredPropsIsNotYetPresent)
+)(CreateConceptPage);

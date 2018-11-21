@@ -52,7 +52,7 @@ export const FIELDS = {
         name: "statusId",
         label: "conceptForm.status",
         isClearable: false,
-        id: "status",
+        id: "statusId",
         component: Dropdown
     }
 };

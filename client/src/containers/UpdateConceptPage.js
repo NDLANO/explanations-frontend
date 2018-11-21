@@ -69,15 +69,14 @@ class UpdateConceptPage extends React.Component {
     }
 
     render() {
-        const {t, meta=[], status=[], locale} = this.props;
+        const {t, meta, status} = this.props;
         console.log(this.state.concept)
         if (this.state.concept && meta.length > 0 && status.length > 0)
             return (
                 <Concept status={status}
                          t={t}
-                         locale={locale}
                          initialValues={{...this.state.concept}}
-                         concept={this.state.concept}
+                         selectedStatus={this.state.concept.status}
                          metas={meta}
                          title={t("updateConcept.title")}
                          submit={this.submit}
@@ -91,11 +90,10 @@ class UpdateConceptPage extends React.Component {
 
     }
 }
-
 const mapStateToProps = ({cacheFromServer, locale}) => {
     return {
         meta: cacheFromServer.meta,
-        status: cacheFromServer.status.all,
+        status: cacheFromServer.status.all.map(x => ({value: x.id, label: x.name})),
         locale
     }
 };

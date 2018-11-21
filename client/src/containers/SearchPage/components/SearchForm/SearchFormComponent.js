@@ -1,32 +1,18 @@
 import React from 'react';
 import BEMHelper from "react-bem-helper";
-import {debounce} from 'lodash';
 import {Field, reduxForm} from "redux-form";
 import PropTypes from 'prop-types';
 import {Button} from "ndla-ui";
 import {Search as SearchIcon} from "ndla-icons/es/common";
 
 import {FIELDS} from "./fields";
+import {createSearchQueryFromValues, onChange} from "./onChange";
 import './style.css';
 
 const classes = new BEMHelper({
     name: 'search-form',
     prefix: 'c-',
 });
-
-
-const createSearchQueryFromValues = values => {
-    const {title, ...rest} = values;
-
-    let query = "?";
-    if (title)
-        query += `title=${title}&`;
-
-    query += Object.values(rest).map(x => x > -1 ? `meta=${x}&` : '').join('');
-
-    console.log("searchquery", query);
-    return query;
-}
 
 class SearchForm extends React.Component {
 
@@ -90,11 +76,7 @@ SearchForm.defaultProps = {
     autoComplete: []
 };
 
-let timeout = null;
 export default reduxForm({
     form: 'conceptForm',
-    onChange: (values, dispatch, props, previousValues) => {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => props.search(createSearchQueryFromValues(values)), 300);
-    },
+    onChange
 })(SearchForm);

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import '../SearchField/style.css';
 import AutoComplete from "../../../../components/AutoComplete/AutoCompleteComponent";
 
 

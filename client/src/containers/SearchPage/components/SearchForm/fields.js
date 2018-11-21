@@ -1,5 +1,5 @@
 import Dropdown from "../../../../components/Dropdown";
-import SearchField from "../SearchField";
+import SearchField from "./SearchFieldComponent";
 
 export const FIELDS = {
     title: {

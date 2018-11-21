@@ -7,19 +7,10 @@
  */
 import { UPDATE_STATUS} from '../actions';
 
-const initialState = {
-    current: null,
-    all: []
-}
-
-export const status = (state=initialState, action) => {
+export const status = (state=[], action) => {
     switch(action.type) {
         case UPDATE_STATUS:
-            return {
-                ...state,
-                all: action.payload,
-                current: action.payload.find(x => x.name === "Active")
-            };
+            return action.payload;
         default:
             return state;
     }
