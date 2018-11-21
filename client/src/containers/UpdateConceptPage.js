@@ -80,7 +80,7 @@ class UpdateConceptPage extends React.Component {
                          concept={this.state.concept}
                          metas={meta}
                          title={t("updateConcept.title")}
-                         onConceptDone={this.submit}
+                         submit={this.submit}
                         showTimestamps={true}>
                     <ConfirmModal triggerButton={this.renderDeleteButton} onConfirm={this.onDeleteClicked} title="updateConcept.confirmModal.delete.title"  content="updateConcept.confirmModal.delete.action" />
                     <ConfirmModal triggerButton={this.renderCloneButton} onConfirm={this.onCloneClicked} title="updateConcept.confirmModal.clone.title"  content="updateConcept.confirmModal.clone.action" />

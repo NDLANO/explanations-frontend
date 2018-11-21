@@ -5,6 +5,7 @@ export const FIELDS = {
     title: {
         id: "title",
         name: "title",
+        placeholder: "search.input.placeholder",
         component: SearchField
     },
     language: {

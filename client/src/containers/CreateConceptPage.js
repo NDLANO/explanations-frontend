@@ -15,6 +15,7 @@ import {injectT} from "ndla-i18n";
 import Concept from "../components/Concept/index";
 import {createConcept} from "../api";
 import Loading from "../components/Loading/index";
+import WithEither from "../components/HOC/WithEither";
 
 class CreateConceptPage extends React.Component {
     constructor(props) {
@@ -30,19 +31,13 @@ class CreateConceptPage extends React.Component {
     }
 
     render() {
-        const {t, meta=[], status=[]} = this.props;
-        if (meta.length > 0 && status.length > 0)
-            return (
-                <Concept status={status}
-                         t={t}
-                         metas={meta}
-                         title={t("createConcept.title")}
-                         onConceptDone={this.submit}
-                            concept={this.props.concept}
-                    />
-            );
-
-        return <Loading/>
+        return <Concept status={this.props.status}
+                        t={this.props.t}
+                        metas={this.props.meta}
+                        title={this.props.t("createConcept.title")}
+                        submit={this.submit}
+                        concept={this.props.concept}
+        />
     }
 }
 
@@ -53,10 +48,21 @@ const mapStateToProps = ({cacheFromServer}) => {
     }
 };
 
+CreateConceptPage.defaultProps = {
+    meta: [],
+    status: []
+};
 
+const requiredPropsIsNotYetPresent = () => <Loading/>;
+const metaExists = ({meta}) =>  meta.length > 0;
+const statusExists = ({status}) => status.length > 0;
+const metaAndStatusShouldBePresent = compose(
+    WithEither(metaExists, requiredPropsIsNotYetPresent),
+    WithEither(statusExists, requiredPropsIsNotYetPresent)
+)(CreateConceptPage);
 
 export default compose(
     withRouter,
     connect(mapStateToProps, null),
     injectT
-)(CreateConceptPage);
+)(metaAndStatusShouldBePresent);

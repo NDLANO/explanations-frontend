@@ -10,6 +10,7 @@ import React from 'react';
 import {OneColumn} from "ndla-ui";
 import BEMHelper from "react-bem-helper";
 import PropTypes from 'prop-types';
+import { uuid } from 'ndla-util';
 
 import Meta from "../Meta";
 import ConfirmModal from "../ConfirmModal/index";
@@ -30,45 +31,14 @@ class Concept extends React.Component {
     constructor(props) {
         super(props);
 
-        const metas = {};
-        props.concept.meta.forEach(m => metas[m.category.name.toLowerCase()] = m);
-
-        this.state = {
-            concept: props.concept,
-            metas: metas,
-            currentStatus: props.concept.status || props.status[0]
-        };
-
-        this.onChangeStatus = this.onChangeStatus.bind(this);
-        this.submit = this.submit.bind(this);
-        this.onChangeMeta = this.onChangeMeta.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
         this.renderSubmitButton = this.renderSubmitButton.bind(this);
     }
 
-    onChangeStatus(e) {
-        this.setState({currentStatus: this.props.status.find(x => x.id+"" === e.target.value)});
-    }
-
-    onChangeMeta(categoryName, metaId) {
-        const category = this.props.metas.find(x => x.category.name.toLowerCase() === categoryName.toLowerCase());
-        if (!category)
-            console.error("fant ingen kategory for ", categoryName);
-
-        const meta  = category.metaList.find(x => x.id+"" === metaId+"");
-        if (!meta)
-            console.error("fant ingen meta ved kategori", categoryName, "og id", metaId);
-
-        this.setState(state => ({metas: {...state.metas, [categoryName]: meta}}));
-    }
-
-    submit() {
+    onSubmit(values) {
+        console.log("submitting form", values)
         // TODO map values to concept
-        this.props.onConceptDone({...this.state.concept, meta: Object.values(this.state.metas), status: this.state.currentStatus});
-    }
-
-    preventFormSubmission(e, values) {
-        console.log(e, values)
-        e.preventDefault();
+        //this.props.submit({});
     }
 
     renderSubmitButton() {
@@ -76,7 +46,7 @@ class Concept extends React.Component {
     }
 
     render() {
-        const { t, title: pageTitle} = this.props;
+        const { t, title: pageTitle, handleSubmit} = this.props;
 
         // TODO fjern
         this.props.metas.forEach(elm => {
@@ -95,11 +65,11 @@ class Concept extends React.Component {
         let selectedStatus = {value: draft.id, label: draft.name};
 
         const options = this.props.status.map(x => ({value: x.id, label: x.name}));
-        console.log(this.props.metas)
+
         return (
             <OneColumn>
                 <h1>{pageTitle}</h1>
-                <form onSubmit={this.preventFormSubmission} {...classes()}>
+                <form onSubmit={handleSubmit(this.onSubmit)} {...classes()}>
                     <Field {...FIELDS.title} t={t} {...classes('form-field')} />
                     <Field {...FIELDS.content} t={t} {...classes('form-field')} />
                     <Field {...FIELDS.source} t={t} {...classes('form-field')} />
@@ -118,8 +88,7 @@ class Concept extends React.Component {
                         <hr/>
                     </div>
 
-                    {this.props.metas.map(meta => <Meta meta={meta} t={t} classes={classes} />)}
-
+                    {this.props.metas.map(meta => <Meta key={uuid()} meta={meta} t={t} classes={classes} />)}
 
                     {this.props.children}
                     <ConfirmModal triggerButton={this.renderSubmitButton} onConfirm={this.submit} />
@@ -130,24 +99,15 @@ class Concept extends React.Component {
 }
 
 Concept.defaultProps = {
-    concept:  {
-        title: "",
-        content: "",
-        externalId: -1,
-        author: "",
-        source: "",
-        meta: []
-    },
     showTimestamps: false,
 };
 
 Concept.propTypes = {
-    concept: PropTypes.object,
     status: PropTypes.array.isRequired,
     t: PropTypes.func.isRequired,
     metas: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
-    onConceptDone: PropTypes.func,
+    submit: PropTypes.func,
     showTimestamps: PropTypes.bool,
     locale: PropTypes.string,
 };
