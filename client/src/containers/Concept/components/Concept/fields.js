@@ -1,7 +1,7 @@
-import TextArea from "../TextArea";
-import Input from "../Input";
-import DateTime from "../DateTime";
-import Dropdown from "../Dropdown";
+import TextArea from "../../../../components/TextArea";
+import Input from "../../../../components/Input";
+import DateTime from "../../../../components/DateTime";
+import Dropdown from "../../../../components/Dropdown";
 
 export const FIELDS = {
     title: {

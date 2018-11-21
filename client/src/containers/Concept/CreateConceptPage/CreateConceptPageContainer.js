@@ -12,12 +12,14 @@ import { withRouter } from 'react-router-dom';
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 
-import Concept from "../components/Concept/index";
-import {createConcept} from "../api";
-import Loading from "../components/Loading/index";
-import WithEither from "../components/HOC/WithEither";
+import Concept from "../components/Concept/";
+import {createConcept} from "../../../api";
+import Loading from "../../../components/Loading/index";
+import WithEither from "../../../components/HOC/WithEither";
 
-class CreateConceptPage extends React.Component {
+import {mapStateToProps} from "./CreateConceptMapStateToProps";
+
+class CreateConceptPageContainer extends React.Component {
     constructor(props) {
         super(props);
         this.submit = this.submit.bind(this);
@@ -41,44 +43,7 @@ class CreateConceptPage extends React.Component {
     }
 }
 
-const mapStateToProps = ({cacheFromServer: {status, meta}, locale}) => {
-    let draft = status.find(x => x.name === "Draft") || status[0];
-    if (draft) {
-        draft = {value: draft.id, label: draft.name};
-    } else {
-        draft  = null;
-    }
-
-    const initialValues = {statusId: draft};
-    const initialValueName = (name) => `meta_${name}`;
-    meta.forEach(x => {
-        let name = x.category.name.toLowerCase();
-
-        let value = {
-            value: x.defaultValue.id,
-            label: x.defaultValue.name
-        };
-        if (name === "language") {
-            let defaultLang = x.metaList.find(x => x.abbreviation === locale);
-            if (!defaultLang)
-                defaultLang = x.metaList[0];
-
-            value = {
-                value: defaultLang.id,
-                label: defaultLang.name
-            }
-        }
-        initialValues[initialValueName(name)] = value;
-    });
-
-    return {
-        meta: meta,
-        status: status.map(x => ({value: x.id, label: x.name})),
-        initialValues
-    }
-};
-
-CreateConceptPage.defaultProps = {
+CreateConceptPageContainer.defaultProps = {
     meta: [],
     status: []
 };
@@ -95,4 +60,4 @@ export default compose(
     WithEither(metaExists, requiredPropsIsNotYetPresent),
     WithEither(statusExists, requiredPropsIsNotYetPresent),
     WithEither(formHasInitialValues, requiredPropsIsNotYetPresent)
-)(CreateConceptPage);
+)(CreateConceptPageContainer);

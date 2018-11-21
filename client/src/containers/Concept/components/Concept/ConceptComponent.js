@@ -12,14 +12,14 @@ import BEMHelper from "react-bem-helper";
 import PropTypes from 'prop-types';
 
 import Meta from "../Meta";
-import ConfirmModal from "../ConfirmModal/index";
+import ConfirmModal from "../../../../components/ConfirmModal/";
 
 import './style.css'
 import {FIELDS} from "./fields";
 import {Field, reduxForm} from "redux-form";
 
 import {validate} from "./validate";
-import { GetValuesFromObjectByKeyPrefix} from "../../utilities";
+import { GetValuesFromObjectByKeyPrefix} from "../../../../utilities";
 
 const classes = new BEMHelper({
     name: 'concept-form',

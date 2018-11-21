@@ -9,18 +9,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import {getConceptById, updateConcept, archiveConcept} from "../api";
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 
-import Concept from "../components/Concept/index";
-import ConfirmModal from "../components/ConfirmModal/index";
-import Loading from "../components/Loading/index";
+import Concept from "../components/Concept";
+import ConfirmModal from "../../../components/ConfirmModal";
+import Loading from "../../../components/Loading/index";
+import {getConceptById, updateConcept, archiveConcept} from "../../../api";
 
-class UpdateConceptPage extends React.Component {
+class UpdateConceptPageContainer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {concept: null, errorMessage: ""};
+
         this.submit = this.submit.bind(this);
         this.onDeleteClicked = this.onDeleteClicked.bind(this);
         this.onCloneClicked = this.onCloneClicked.bind(this);
@@ -61,16 +61,16 @@ class UpdateConceptPage extends React.Component {
     }
 
     renderCloneButton() {
-        return <button className="c-button c-button--outline" type="submit" onClick={this.onCloneClicked}>{this.props.t("updateConcept.button.clone")}</button>
+        return <button className="c-button c-button--outline" type="button" onClick={this.onCloneClicked}>{this.props.t("updateConcept.button.clone")}</button>
     }
 
     renderDeleteButton() {
-        return <button className="c-button c-button--outline" type="submit" >{this.props.t("updateConcept.button.delete")}</button>
+        return <button className="c-button c-button--outline" type="button" >{this.props.t("updateConcept.button.delete")}</button>
     }
 
     render() {
         const {t, meta, status} = this.props;
-        console.log(this.state.concept)
+
         if (this.state.concept && meta.length > 0 && status.length > 0)
             return (
                 <Concept status={status}
@@ -104,4 +104,4 @@ export default compose(
     withRouter,
     connect(mapStateToProps, {archiveConcept}),
     injectT
-)(UpdateConceptPage);
+)(UpdateConceptPageContainer);

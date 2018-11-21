@@ -8,15 +8,15 @@
 
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import {getConceptById} from "../api";
+import {getConceptById} from "../../../api";
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 
-import CreateConceptPage from "./CreateConceptPage";
-import Loading from "../components/Loading/index";
+import CreateConceptPage from "../CreateConceptPage";
+import Loading from "../../../components/Loading/index";
 
 
-class CloneConceptPage extends React.Component {
+class CloneConceptPageContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {concept: null};
@@ -52,4 +52,4 @@ class CloneConceptPage extends React.Component {
 export default compose(
     withRouter,
     injectT
-)(CloneConceptPage);
+)(CloneConceptPageContainer);
