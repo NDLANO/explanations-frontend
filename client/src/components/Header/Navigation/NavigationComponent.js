@@ -10,8 +10,7 @@ import React, { Component } from 'react';
 import BEMHelper from 'react-bem-helper';
 import { Plus, Minus } from 'ndla-icons/action';
 import { Button } from 'ndla-ui';
-import { injectT } from 'ndla-i18n';
-import { withRouter, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {DetailSearch} from 'ndla-icons/editor';
 import {SearchRoute, CreateRoute} from "../../../routes";
 
@@ -95,4 +94,4 @@ export class Navigation extends Component {
     }
 }
 
-export default withRouter(injectT(Navigation));
+export default Navigation;

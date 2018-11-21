@@ -89,6 +89,9 @@ const NB = {
                 confirm: "Bekreft"
             },
         }
+    },
+    notFound: {
+        description: "Fant dessverre ikke det du letet etter..."
     }
 };
 

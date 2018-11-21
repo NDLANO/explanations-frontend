@@ -1,6 +1,5 @@
 import React from 'react';
 import {ModalCloseButton, ModalHeader, ModalBody, Modal} from "ndla-ui";
-import {injectT} from "ndla-i18n";
 
 import './style.css'
 
@@ -27,4 +26,4 @@ const ConfirmModal = ({title="confirmModal.default.title", content="confirmModal
         )}
     </Modal>;
 
-export default injectT(ConfirmModal);
+export default ConfirmModal;
