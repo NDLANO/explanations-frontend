@@ -12,7 +12,7 @@ import {createConcept, getConceptById} from "../../../api";
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 
-import {mapStateToProps} from './CloneConceptMapStateToProps';
+import {mapStateToProps} from '../mapStateToProps';
 import Loading from "../../../components/Loading/index";
 import Concept from "../components/Concept";
 import {connect} from "react-redux";

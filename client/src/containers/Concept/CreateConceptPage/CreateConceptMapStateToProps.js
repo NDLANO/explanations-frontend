@@ -1,4 +1,6 @@
-export const mapStateToProps = ({cacheFromServer: {status, meta}, locale}) => {
+import {mapStateToProps as mstp} from '../mapStateToProps';
+
+export const mapStateToProps = ({cacheFromServer: {status, meta}, cacheFromServer, locale}) => {
     let draft = status.find(x => x.name === "Draft") || status[0];
     if (draft) {
         draft = {value: draft.id, label: draft.name};
@@ -27,10 +29,8 @@ export const mapStateToProps = ({cacheFromServer: {status, meta}, locale}) => {
         }
         initialValues[initialValueName(name)] = value;
     });
-
     return {
-        meta: meta,
-        status: status.map(x => ({value: x.id, label: x.name})),
+        ...mstp({cacheFromServer}),
         initialValues
     }
 };

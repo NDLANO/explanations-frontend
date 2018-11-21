@@ -18,7 +18,7 @@ import Loading from "../../../components/Loading/index";
 import {getConceptById, updateConcept, archiveConcept} from "../../../api";
 import WithEither from "../../../components/HOC/WithEither";
 
-import {mapStateToProps} from './UpdateConceptMapStateToProps';
+import {mapStateToProps} from '../mapStateToProps';
 
 class UpdateConceptPageContainer extends React.Component {
     constructor(props) {
