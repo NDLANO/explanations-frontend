@@ -99,7 +99,7 @@ class Concept extends React.Component {
                         )}
 
                     {this.props.children}
-                    <ConfirmModal triggerButton={this.renderSubmitButton} onConfirm={submit} />
+                    <ConfirmModal t={t} triggerButton={this.renderSubmitButton} onConfirm={submit} />
                 </form>
             </OneColumn>
         )

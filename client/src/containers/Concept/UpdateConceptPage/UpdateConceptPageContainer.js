@@ -79,8 +79,8 @@ class UpdateConceptPageContainer extends React.Component {
                          title={t("updateConcept.title")}
                          submit={this.submit}
                         showTimestamps={true}>
-                    <ConfirmModal triggerButton={this.renderDeleteButton} onConfirm={this.onDeleteClicked} title="updateConcept.confirmModal.delete.title"  content="updateConcept.confirmModal.delete.action" />
-                    <ConfirmModal triggerButton={this.renderCloneButton} onConfirm={this.onCloneClicked} title="updateConcept.confirmModal.clone.title"  content="updateConcept.confirmModal.clone.action" />
+                    <ConfirmModal t={t} triggerButton={this.renderDeleteButton} onConfirm={this.onDeleteClicked} title="updateConcept.confirmModal.delete.title"  content="updateConcept.confirmModal.delete.action" />
+                    <ConfirmModal t={t} triggerButton={this.renderCloneButton} onConfirm={this.onCloneClicked} title="updateConcept.confirmModal.clone.title"  content="updateConcept.confirmModal.clone.action" />
                 </Concept>
             );
 
