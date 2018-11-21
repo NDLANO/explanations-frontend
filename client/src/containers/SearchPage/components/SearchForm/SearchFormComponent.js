@@ -1,12 +1,13 @@
 import React from 'react';
 import BEMHelper from "react-bem-helper";
-import {createGetParam, createMetaGetParam} from "../../../../utilities";
 import {debounce} from 'lodash';
 import {Field, reduxForm} from "redux-form";
 import {FIELDS} from "./fields";
 
 
 import './style.css';
+import {Button} from "ndla-ui";
+import {Search as SearchIcon} from "ndla-icons/es/common";
 
 const classes = new BEMHelper({
     name: 'search-form',
@@ -18,67 +19,66 @@ class SearchForm extends React.Component {
     constructor(props) {
         super(props);
 
-        let [lang=null] = props.languages;
-        const [sub=null] = props.subjects;
-
-        this.state = {
-            language: props.languages.find(x => x.abbreviation === props.locale) || lang,
-            subject: sub,
-        };
-
         this.onSearch = this.onSearch.bind(this);
-        this.onLanguageFieldChange = this.onLanguageFieldChange.bind(this);
-        this.onSubjectFieldChange = this.onSubjectFieldChange.bind(this);
-
-        this.search = debounce(this.search,300);
+        this.submitButton = this.submitButton.bind(this);
+        this.onSearch = debounce(this.onSearch,300);
     }
 
-    onLanguageFieldChange(e){
-        this.setState({language: e.target.value})
-    }
-    onSubjectFieldChange(e){
-        this.setState({subject: e.target.value})
-    }
-
-    onSearch(e){
+    submitButton(e) {
         e.preventDefault();
-        this.search();
+        this.onSearch();
     }
 
-    search() {
-        let query = createMetaGetParam("",this.state.language.id);
-        query += createMetaGetParam(query, this.state.subject.id);
-        query += createGetParam(query, "title", this.state.searchTerm);
+    onSearch() {
+        if(!this.props.formValues)
+            return;
+
+        const {title, ...rest} = this.props.formValues;
+
+        let query = "?";
+        if (title)
+            query += `title=${title}&`;
+
+        query += Object.values(rest).map(x => x > -1 ? `meta=${x}&` : '').join('');
 
         console.log("searchquery", query);
         this.props.search(query);
     }
 
     render() {
-        const {languages, subjects, t} = this.props;
-        console.log(subjects)
+        const {languages, subjects, t, initialValues, conceptTitles, formValues} = this.props;
+
+        let autoComplete = [];
+        if(formValues && formValues.title)
+            autoComplete = conceptTitles.filter(x => x.toLowerCase().includes(formValues.title.toLowerCase()));
+
         return (
 
             <form {...classes()} onSubmit={this.onSearch}>
                 <h1>{t('search.title')}</h1>
-                <Field items={this.props.conceptTitles}
-                       placeholder={t('search.input.placeholder')}
-                       {...FIELDS.conceptTitle}/>
+                <div {...classes('search-field')}>
+                    <Field items={autoComplete}
+                           placeholder={t('search.input.placeholder')}
+                           {...FIELDS.title}
+                           onChange={this.onSearch}/>
 
-                {/*
-                <Dropdown options={languages.map(x => ({value: x.id, label: x.name}))}
-                          selected={this.state.language}
-                          onChange={(e) => this.onChange("language",e.target.value)}
-                          id="languages"
-                          t={t}
-                          classes={classes('filter-dropdown')} />
-                <Dropdown options={subjects.map(x => ({value: x.id, label: x.name}))}
-                          selected={{value: this.state.subject.id, label: this.state.subject.name}}
-                          onChange={(e) => this.onChange("subject",e.target.value)}
-                          id="subjects"
-                          t={t}
-                          classes={classes('filter-dropdown')} />
-                */}
+                    <Button submit={true}
+                            {...classes('submit-button')}
+                            onClick={this.submitButton}>
+                        <SearchIcon />
+                    </Button>
+                </div>
+
+                <Field {...FIELDS.language}
+                       t={t}
+                       selected={languages.find(x => x.value === initialValues.language)}
+                       options={languages}
+                       onChange={this.onSearch}/>
+                <Field {...FIELDS.subject}
+                       t={t}
+                       selected={subjects.find(x => x.value === -1)}
+                       options={subjects}
+                       onChange={this.onSearch}/>
 
             </form>
         );

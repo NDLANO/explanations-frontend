@@ -1,2 +1,2 @@
-import SearchField from './SearchFieldComponent'
+import SearchField from '../SearchForm/SearchFieldComponent'
 export default SearchField;

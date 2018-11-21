@@ -17,6 +17,7 @@ import {searchForConcept} from "./actions";
 import SearchResultList from "./components/SearchResult";
 import {sortObjectsByKey} from "../../utilities";
 import Loading from "../../components/Loading";
+import {getFormValues} from "redux-form";
 
 const ALL_LANGUAGES = {
     id: -1,
@@ -30,7 +31,7 @@ const ALL_SUBJECTS = {
     description: " "
 };
 
-const SearchContainer = ({t, languages, subjects, searchResult,searchForConcept,locale, conceptTitles}) =>
+const SearchContainer = ({t, languages, subjects, searchResult,searchForConcept,locale, conceptTitles, formValues, initialValues}) =>
 {
 
     if (languages.length === 0 || subjects.length === 0) {
@@ -44,7 +45,9 @@ const SearchContainer = ({t, languages, subjects, searchResult,searchForConcept,
                         languages={languages}
                         subjects={subjects}
                         search={searchForConcept}
-                        conceptTitles={conceptTitles}/>
+                        conceptTitles={conceptTitles}
+                        formValues={formValues}
+                        initialValues={initialValues}/>
             <SearchResultList results={searchResult}/>
         </OneColumn>
     )
@@ -63,17 +66,29 @@ const getMetaByCategory = (list, name, DEFAULT_OBJECT) => {
         return unpacked;
     }
     return [];
-}
+};
 
 
 const mapStateToProps = state =>{
+    const subjects = getMetaByCategory(state.cacheFromServer.meta, "Subject", ALL_SUBJECTS);
+
+    const languages = getMetaByCategory(state.cacheFromServer.meta, "Language", ALL_LANGUAGES);
+    let lang = languages.find(x => x.abbreviation === state.locale);
+    let defaultLanguage = null;
+    if (lang) {
+        defaultLanguage = lang.id;
+    }
 
     return  ({
+        formValues: getFormValues("conceptForm")(state),
         searchResult: state.search.results,
         meta: state.cacheFromServer.meta,
-        languages: getMetaByCategory(state.cacheFromServer.meta, "Language", ALL_LANGUAGES),
-        subjects: getMetaByCategory(state.cacheFromServer.meta, "Subject", ALL_SUBJECTS),
+        languages: languages.map(x => ({value: x.id, label: x.name})),
+        subjects: subjects.map(x => ({value: x.id, label: x.name})),
         locale: state.locale,
+        initialValues: {
+            language: defaultLanguage
+        },
         conceptTitles: state.cacheFromServer.conceptTitles
     })
 };

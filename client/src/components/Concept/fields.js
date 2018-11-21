@@ -1,4 +1,3 @@
-import React from "react";
 import TextArea from "../TextArea";
 import Input from "../Input";
 import DateTime from "../DateTime";

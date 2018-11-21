@@ -1,11 +1,10 @@
-import React from "react";
 import Dropdown from "../../../../components/Dropdown";
 import SearchField from "../SearchField";
 
 export const FIELDS = {
-    conceptTitle: {
-        id: "conceptTitle",
-        name: "conceptTitle",
+    title: {
+        id: "title",
+        name: "title",
         component: SearchField
     },
     language: {

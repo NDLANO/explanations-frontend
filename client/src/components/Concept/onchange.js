@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import {FIELDS} from './fields';
 
 export function onChange(values, dispatch, props, previousValues) {
 

@@ -26,17 +26,16 @@ class Dropdown extends React.Component {
         if (value) {
             if (this.props.input)
                 this.props.input.onChange(value.value);
-            else
+            if (this.props.onChange)
                 this.props.onChange(value.value);
         }
-
     }
 
     onBlur() {
         if (this.state.selected) {
             if (this.props.input)
                 this.props.input.onChange(this.state.selected.value);
-            else
+            if (this.props.onChange)
                 this.props.onChange(this.state.selected.value);
         }
     }
@@ -46,6 +45,7 @@ class Dropdown extends React.Component {
         return <Select {...input}
                        {...rest}
                        {...classes()}
+                        classNamePrefix={classes().className}
                        placeholder={t(placeholder)}
                        onBlur={this.onBlur}
                        value={this.state.selected}
