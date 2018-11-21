@@ -16,10 +16,15 @@ import Concept from "../components/Concept";
 import ConfirmModal from "../../../components/ConfirmModal";
 import Loading from "../../../components/Loading/index";
 import {getConceptById, updateConcept, archiveConcept} from "../../../api";
+import WithEither from "../../../components/HOC/WithEither";
+
+import {mapStateToProps} from './UpdateConceptMapStateToProps';
 
 class UpdateConceptPageContainer extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {initialValues: null};
 
         this.submit = this.submit.bind(this);
         this.onDeleteClicked = this.onDeleteClicked.bind(this);
@@ -37,7 +42,20 @@ class UpdateConceptPageContainer extends React.Component {
         getConceptById(id)
             .then(data => {
                 if (data.data) {
-                    this.setState({concept: data.data.data});
+                    const {data: concept} = data.data;
+                    const meta = {};
+
+                    concept.meta.forEach(x => {
+                        meta[`meta_${x.category.name.toLowerCase()}`] = {value: x.id, label: x.name};
+                    });
+
+                    this.setState({
+                        initialValues: {
+                            ...concept,
+                            statusId: {value: concept.status.id, label: concept.status.name},
+                            ...meta,
+                        },
+                    });
                 }
             })
     }
@@ -67,39 +85,33 @@ class UpdateConceptPageContainer extends React.Component {
     }
 
     render() {
-        const {t, meta, status} = this.props;
-
-        if (this.state.concept && meta.length > 0 && status.length > 0)
+        if (this.state.initialValues)
             return (
-                <Concept status={status}
-                         t={t}
-                         initialValues={{...this.state.concept}}
-                         selectedStatus={this.state.concept.status}
-                         metas={meta}
-                         title={t("updateConcept.title")}
-                         submit={this.submit}
-                        showTimestamps={true}>
-                    <ConfirmModal t={t} triggerButton={this.renderDeleteButton} onConfirm={this.onDeleteClicked} title="updateConcept.confirmModal.delete.title"  content="updateConcept.confirmModal.delete.action" />
-                    <ConfirmModal t={t} triggerButton={this.renderCloneButton} onConfirm={this.onCloneClicked} title="updateConcept.confirmModal.clone.title"  content="updateConcept.confirmModal.clone.action" />
+                <Concept status={this.props.status}
+                         initialValues={this.state.initialValues}
+                         t={this.props.t}
+                         metas={this.props.meta}
+                         title={this.props.t("updateConcept.title")}
+                         submitConcept={this.submit}
+                         showTimestamps={true}>
+
+                    <ConfirmModal t={this.props.t} triggerButton={this.renderDeleteButton} onConfirm={this.onDeleteClicked} title="updateConcept.confirmModal.delete.title"  content="updateConcept.confirmModal.delete.action" />
+                    <ConfirmModal t={this.props.t} triggerButton={this.renderCloneButton} onConfirm={this.onCloneClicked} title="updateConcept.confirmModal.clone.title"  content="updateConcept.confirmModal.clone.action" />
                 </Concept>
             );
 
         return <Loading/>
-
     }
 }
-const mapStateToProps = ({cacheFromServer, locale}) => {
-    return {
-        meta: cacheFromServer.meta,
-        status: cacheFromServer.status.all.map(x => ({value: x.id, label: x.name})),
-        locale
-    }
-};
 
-
+const requiredPropsIsNotYetPresent = () => <Loading/>;
+const metaExists = ({meta}) =>  meta.length > 0;
+const statusExists = ({status}) => status.length > 0;
 
 export default compose(
     withRouter,
     connect(mapStateToProps, {archiveConcept}),
-    injectT
+    injectT,
+    WithEither(metaExists, requiredPropsIsNotYetPresent),
+    WithEither(statusExists, requiredPropsIsNotYetPresent)
 )(UpdateConceptPageContainer);
