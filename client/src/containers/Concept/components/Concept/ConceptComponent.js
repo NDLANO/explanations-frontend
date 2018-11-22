@@ -16,7 +16,7 @@ import ConfirmModal from "../../../../components/ConfirmModal/";
 
 import './style.css'
 import {FIELDS} from "./fields";
-import {Field, reduxForm} from "redux-form";
+import {Field, reduxForm, SubmissionError} from "redux-form";
 
 import {validate} from "./validate";
 import { GetValuesFromObjectByKeyPrefix} from "../../../../utilities";
@@ -47,7 +47,14 @@ class Concept extends React.Component {
             source,
             metaIds: meta
         };
-        this.props.submitConcept(concept);
+        return this.props.submitConcept(concept).catch(err => {
+            const {errors} = err.response.data;
+            if (errors) {
+
+                console.log(errors)
+                throw new SubmissionError(errors);
+            }
+        });
     }
 
     renderSubmitButton() {
@@ -73,10 +80,10 @@ class Concept extends React.Component {
             <OneColumn>
                 <h1>{pageTitle}</h1>
                 <form onSubmit={submit} {...classes()}>
-                    <Field {...FIELDS.title} t={t} {...classes('form-field')} />
-                    <Field {...FIELDS.content} t={t} {...classes('form-field')} />
-                    <Field {...FIELDS.author} t={t} {...classes('form-field')} />
-                    <Field {...FIELDS.source} t={t} {...classes('form-field')} />
+                    <Field {...FIELDS.title} t={t} placeholder={t(FIELDS.title.placeholder)} label={t(FIELDS.title.label)} {...classes('form-field')} />
+                    <Field {...FIELDS.content} t={t} placeholder={t(FIELDS.content.placeholder)} label={t(FIELDS.content.label)} {...classes('form-field')} />
+                    <Field {...FIELDS.author} t={t} placeholder={t(FIELDS.author.placeholder)} label={t(FIELDS.author.label)} {...classes('form-field')} />
+                    <Field {...FIELDS.source} t={t} placeholder={t(FIELDS.source.placeholder)} label={t(FIELDS.source.label)} {...classes('form-field')} />
 
                     <div {...classes('form-field')}>
                         <label  htmlFor={FIELDS.status.id}>{t("conceptForm.status")}</label>

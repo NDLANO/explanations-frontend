@@ -1,13 +1,13 @@
 import React from "react";
 
 
-const Input = ({className, t, input, label, meta, placeholder}) => (
+const Input = ({className, input, label, meta, placeholder}) => (
     <div  className={className}>
-        <label htmlFor={input.id}>{t(label)}</label>
+        <label htmlFor={input.id}>{label}</label>
         <div className="input-group">
-            <input {...input}  placeholder={t(placeholder)}/>
+            <input {...input}  placeholder={placeholder}/>
             {meta.touched && meta.error
-                ? <span className="field-validation-error" {...input}>{t(meta.error)}</span>
+                ? <span className="field-validation-error" {...input}>{meta.error}</span>
                 : null}
         </div>
     </div>

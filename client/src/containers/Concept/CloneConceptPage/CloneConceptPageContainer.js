@@ -32,9 +32,8 @@ class CloneConceptPageContainer extends React.Component {
 
     submit(concept) {
         console.log("submitting",concept);
-        createConcept(concept)
+        return createConcept(concept)
             .then(data => this.props.history.push(`/update/${data.data.data.id}`))
-            .catch(data => console.log(data.response.data));
     }
 
     loadConcept() {

@@ -27,9 +27,8 @@ class CreateConceptPageContainer extends React.Component {
 
     submit(concept) {
         console.log("submitting",concept);
-        createConcept(concept)
-            .then(data => this.props.history.push(`/update/${data.data.data.id}`))
-            .catch(data => console.log(data.response.data));
+        return createConcept(concept)
+            .then(data => this.props.history.push(`/update/${data.data.data.id}`));
     }
 
     render() {
