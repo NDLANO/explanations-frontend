@@ -25,18 +25,18 @@ class Dropdown extends React.Component {
         this.setState({selected: value});
         if (value) {
             if (this.props.input)
-                this.props.input.onChange(value.value);
+                this.props.input.onChange(value);
             if (this.props.onChange)
-                this.props.onChange(value.value);
+                this.props.onChange(value);
         }
     }
 
     onBlur() {
         if (this.state.selected) {
             if (this.props.input)
-                this.props.input.onChange(this.state.selected.value);
+                this.props.input.onChange(this.state.selected);
             if (this.props.onChange)
-                this.props.onChange(this.state.selected.value);
+                this.props.onChange(this.state.selected);
         }
     }
 

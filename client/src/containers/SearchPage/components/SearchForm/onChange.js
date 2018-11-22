@@ -5,7 +5,11 @@ export const createSearchQueryFromValues = values => {
     if (title)
         query += `title=${title}&`;
 
-    query += Object.values(rest).map(x => x > -1 ? `meta=${x}&` : '').join('');
+    query += Object
+        .values(rest)
+        .filter(x => x.value > -1)
+        .map(x => `meta=${x.value}&`)
+        .join('');
 
     console.log("searchquery", query);
     return query;

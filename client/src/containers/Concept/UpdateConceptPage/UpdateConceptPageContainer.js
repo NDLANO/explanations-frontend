@@ -71,6 +71,7 @@ class UpdateConceptPageContainer extends React.Component {
 
 
     submit(concept) {
+        console.log("updating concept", concept)
         updateConcept(concept)
             .then(data => console.log(data))
             .catch(err => console.log(err.response.data));
