@@ -50,8 +50,7 @@ class Concept extends React.Component {
         return this.props.submitConcept(concept).catch(err => {
             const {errors} = err.response.data;
             if (errors) {
-
-                console.log(errors)
+                errors['_error'] = errors['metaIds'];
                 throw new SubmissionError(errors);
             }
         });
@@ -62,7 +61,7 @@ class Concept extends React.Component {
     }
 
     render() {
-        const { t, title: pageTitle, handleSubmit, status, initialValues} = this.props;
+        const { t, title: pageTitle, handleSubmit, status, initialValues, error, submitting} = this.props;
 
         // TODO fjern
         this.props.metas.forEach(elm => {
@@ -80,10 +79,10 @@ class Concept extends React.Component {
             <OneColumn>
                 <h1>{pageTitle}</h1>
                 <form onSubmit={submit} {...classes()}>
-                    <Field {...FIELDS.title} t={t} placeholder={t(FIELDS.title.placeholder)} label={t(FIELDS.title.label)} {...classes('form-field')} />
-                    <Field {...FIELDS.content} t={t} placeholder={t(FIELDS.content.placeholder)} label={t(FIELDS.content.label)} {...classes('form-field')} />
-                    <Field {...FIELDS.author} t={t} placeholder={t(FIELDS.author.placeholder)} label={t(FIELDS.author.label)} {...classes('form-field')} />
-                    <Field {...FIELDS.source} t={t} placeholder={t(FIELDS.source.placeholder)} label={t(FIELDS.source.label)} {...classes('form-field')} />
+                    <Field {...FIELDS.title} t={t} {...classes('form-field')} />
+                    <Field {...FIELDS.content} t={t} {...classes('form-field')} />
+                    <Field {...FIELDS.author} t={t} {...classes('form-field')} />
+                    <Field {...FIELDS.source} t={t} {...classes('form-field')} />
 
                     <div {...classes('form-field')}>
                         <label  htmlFor={FIELDS.status.id}>{t("conceptForm.status")}</label>
@@ -97,6 +96,7 @@ class Concept extends React.Component {
                         <h2>Meta</h2>
                         <hr/>
                     </div>
+                    {error && <span {...classes('form-field', 'validation-error--meta')}>{error}</span>}
 
                     {this.props.metas.map(meta => <Meta meta={meta}
                                                         initialValues={initialValues}
@@ -106,7 +106,7 @@ class Concept extends React.Component {
                         )}
 
                     {this.props.children}
-                    <ConfirmModal t={t} triggerButton={this.renderSubmitButton} onConfirm={submit} />
+                    <ConfirmModal t={t} triggerButton={this.renderSubmitButton} onConfirm={submit} disabled={submitting} />
                 </form>
             </OneColumn>
         )

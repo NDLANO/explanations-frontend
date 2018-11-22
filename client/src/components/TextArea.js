@@ -1,15 +1,20 @@
 import React from "react";
 
-const TextArea = ({className, input, placeholder, label, meta, rows=5, columns=50}) => (
-    <div  className={className}>
-        <label htmlFor={input.id}>{label}</label>
-        <div className="input-group">
-            <textarea {...input} rows={rows} cols={columns} placeholder={placeholder} />
-            {meta.touched && meta.error
-                ? <span className="field-validation-error" {...input}>{meta.error}</span>
-                : null}
-        </div>
+import FormElement from "./FormElement";
 
-    </div>
-);
+
+const TextArea = props =>
+    <FormElement {...props}>
+        <textarea  placeholder={props.t(props.placeholder)}
+                   rows={props.rows}
+                   cols={props.cols}
+                   {...props.input}/>
+    </FormElement>;
+
+
+TextArea.defaultProps = {
+    rows: 5,
+    cols: 50
+};
+
 export default TextArea;

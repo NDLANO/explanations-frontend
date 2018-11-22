@@ -1,15 +1,10 @@
 import React from "react";
+import FormElement from "./FormElement";
 
 
-const Input = ({className, input, label, meta, placeholder}) => (
-    <div  className={className}>
-        <label htmlFor={input.id}>{label}</label>
-        <div className="input-group">
-            <input {...input}  placeholder={placeholder}/>
-            {meta.touched && meta.error
-                ? <span className="field-validation-error" {...input}>{meta.error}</span>
-                : null}
-        </div>
-    </div>
-);
+const Input = props =>
+    <FormElement {...props}>
+        <input  placeholder={props.t(props.placeholder)}
+                {...props.input}/>
+    </FormElement>;
 export default Input;
