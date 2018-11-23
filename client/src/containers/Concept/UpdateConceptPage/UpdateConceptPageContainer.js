@@ -19,8 +19,9 @@ import {getConceptById, updateConcept, archiveConcept} from "../../../api";
 import WithEither from "../../../components/HOC/WithEither";
 
 import {mapStateToProps} from '../mapStateToProps';
-import {updateFlashMessage, clearFlashMessage} from "../../FlashMessage/flashMessageActions";
-import {SEVERITY} from "../../FlashMessage/FlashMessageContainer";
+import {updateFlashMessage} from "../../../components/FlashMessage/";
+import {SEVERITY} from "../../../components/FlashMessage/";
+import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE} from "./updateConceptActions";
 
 class UpdateConceptPageContainer extends React.Component {
     constructor(props) {
@@ -40,7 +41,7 @@ class UpdateConceptPageContainer extends React.Component {
     }
 
     componentWillUnmount() {
-        this.props.clearFlashMessage();
+        this.props.updateFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE);
     }
 
     loadConcept() {
@@ -70,12 +71,12 @@ class UpdateConceptPageContainer extends React.Component {
 
 
     onCloneClicked() {
-        this.props.clearFlashMessage();
+        this.props.updateFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE);
         this.props.history.push(`/clone/${this.state.initialValues.id}`);
     }
 
     onDeleteClicked() {
-        this.props.clearFlashMessage();
+        this.props.updateFlashMessage();
         archiveConcept(this.state.initialValues.id)
             .then(data =>  {
                 this.props.updateFlashMessage(SEVERITY.success, this.props.t('updateConcept.deleteMessage.success.title'));
@@ -86,7 +87,7 @@ class UpdateConceptPageContainer extends React.Component {
 
 
     submit(concept) {
-        this.props.clearFlashMessage();
+        this.props.updateFlashMessage();
         return updateConcept(concept)
             .then(x => {
                 this.props.updateFlashMessage(SEVERITY.success, this.props.t('updateConcept.updateMessage.success.title'));
@@ -132,7 +133,7 @@ const statusExists = ({status}) => status.length > 0;
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, {archiveConcept, updateFlashMessage, clearFlashMessage}),
+    connect(mapStateToProps, {archiveConcept, updateFlashMessage}),
     injectT,
     WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),
     WithEither(statusExists, () => <Loading message="loadingMessage.loadingStatus"/>),

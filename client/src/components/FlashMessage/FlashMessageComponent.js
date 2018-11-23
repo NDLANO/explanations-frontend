@@ -1,9 +1,7 @@
 import React from 'react';
-import {connect} from "react-redux";
 import BEMHelper from "react-bem-helper";
 import PropTypes from 'prop-types';
 import {OneColumn} from "ndla-ui";
-import {compose} from "redux";
 
 import WithEither from "../../components/HOC/WithEither";
 
@@ -22,7 +20,7 @@ const classes = new BEMHelper({
 });
 
 
-const FlashMessageContainer = ({message, title, severity}) =>
+const FlashMessageComponent = ({message, title, severity}) =>
     <div {...classes('', severity)}>
         <OneColumn {...classes('content')}>
             {title && <h1 className="o-heading">{title}</h1>}
@@ -30,21 +28,18 @@ const FlashMessageContainer = ({message, title, severity}) =>
         </OneColumn>
     </div>;
 
-FlashMessageContainer.propTypes = {
+FlashMessageComponent.propTypes = {
     message: PropTypes.string,
     title: PropTypes.string,
     severity: PropTypes.string,
 };
 
-FlashMessageContainer.defaultProps = {
+FlashMessageComponent.defaultProps = {
     message: '',
+    title: '',
     severity: SEVERITY.info,
 };
 
-const mapStateToProps = ({flashMessage: {message, severity, title}}) => ({message, severity, title});
 
 const hasMessage = ({message, title}) => message || title ;
-export default compose(
-    connect(mapStateToProps),
-    WithEither(hasMessage, () => null),
-)(FlashMessageContainer);
+export default WithEither(hasMessage, () => null)(FlashMessageComponent);

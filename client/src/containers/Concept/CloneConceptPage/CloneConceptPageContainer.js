@@ -12,13 +12,15 @@ import {createConcept, getConceptById} from "../../../api";
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 
-import {mapStateToProps} from '../mapStateToProps';
+import {mapStateToProps as mstp} from '../mapStateToProps';
 import Loading from '../../Loading';
 import Concept from "../components/Concept";
 import {connect} from "react-redux";
 import WithEither from "../../../components/HOC/WithEither";
-import {updateFlashMessage, clearFlashMessage } from "../../FlashMessage/flashMessageActions";
-import {SEVERITY} from "../../FlashMessage";
+import FlashMessage, {updateFlashMessage } from "../../../components/FlashMessage";
+import {SEVERITY} from "../../../components/FlashMessage";
+import {UPDATE_FLASH_MESSAGE_CONCEPT_CLONE} from "./cloneConceptActions";
+import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE} from "../UpdateConceptPage/updateConceptActions";
 
 
 class CloneConceptPageContainer extends React.Component {
@@ -32,14 +34,29 @@ class CloneConceptPageContainer extends React.Component {
         this.loadConcept();
     }
 
+    componentWillUnmount() {
+        this.props.updateFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_CLONE);
+    }
+
     submit(concept) {
-        this.props.clearFlashMessage();
+        this.props.updateFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_CLONE);
         return createConcept(concept)
             .then(data => {
-                this.props.updateFlashMessage(SEVERITY.success, this.props.t('cloneConcept.cloneMessage.success.title'));
+                const message = {
+                    severity: SEVERITY.success,
+                    title: this.props.t('cloneConcept.cloneMessage.success.title')
+                };
+                this.props.updateFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE, message);
                 return this.props.history.push(`/update/${data.data.data.id}`);
             })
-            .catch(x => this.props.updateFlashMessage(SEVERITY.error, this.props.t('cloneConcept.cloneMessage.error.title', 'cloneConcept.cloneMessage.error.message')));
+            .catch(x => {
+                const message = {
+                    severity: SEVERITY.error,
+                    title: this.props.t('cloneConcept.cloneMessage.error.title'),
+                    message: this.props.t('cloneConcept.cloneMessage.error.message')
+                };
+                this.props.updateFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_CLONE,message)
+            });
     }
 
     loadConcept() {
@@ -72,23 +89,31 @@ class CloneConceptPageContainer extends React.Component {
 
     render() {
         if (this.state.initialValues)
-            return <Concept status={this.props.status}
-                            initialValues={this.state.initialValues}
-                            t={this.props.t}
-                            metas={this.props.meta}
-                            title={this.props.t("createConcept.title")}
-                            submitConcept={this.submit} />;
+            return <React.Fragment>
+                <FlashMessage {...this.props.flashMessage} />
+                <Concept status={this.props.status}
+                         initialValues={this.state.initialValues}
+                         t={this.props.t}
+                         metas={this.props.meta}
+                         title={this.props.t("createConcept.title")}
+                         submitConcept={this.submit} />
+            </React.Fragment>;
 
         return <Loading/>
     }
 }
+
+const mapStateToProps = ({cacheFromServer, cloneConcept}) => ({
+    ...mstp({cacheFromServer}),
+    flashMessage: cloneConcept
+});
 
 const metaExists = ({meta}) =>  meta.length > 0;
 const statusExists = ({status}) => status.length > 0;
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, {updateFlashMessage,clearFlashMessage }),
+    connect(mapStateToProps, {updateFlashMessage }),
     injectT,
     WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),
     WithEither(statusExists, () => <Loading message="loadingMessage.loadingStatus"/>),

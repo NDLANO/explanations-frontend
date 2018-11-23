@@ -11,15 +11,18 @@ import {reducer as formReducer} from 'redux-form'
 
 import {locale} from './containers/SelectLocale/localeReducer';
 import {search} from "./containers/SearchPage/searchReducer";
-import {flashMessage} from "./containers/FlashMessage/flashMessageReducer";
+import {cloneConcept} from "./containers/Concept/CloneConceptPage/cloneConceptFlashMessageReducer";
+import {updateConcept} from "./containers/Concept/UpdateConceptPage/updateConceptFlashMessageReducer";
 import {appReducers} from './containers/App';
+
 
 const rootReducers = combineReducers({
     locale,
     search,
     cacheFromServer: appReducers,
-    flashMessage,
-    form: formReducer
+    form: formReducer,
+    cloneConcept,
+    updateConcept
 });
 
 export default rootReducers;

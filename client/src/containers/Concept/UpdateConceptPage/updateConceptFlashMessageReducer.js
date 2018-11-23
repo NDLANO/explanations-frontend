@@ -5,17 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {UPDATE_FLASH_MESSAGE} from './flashMessageActions';
+import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE} from './updateConceptActions';
+import {emptyFlashMessage} from "../../../components/FlashMessage";
 
-const initialState = {
-    message: '',
-    title: '',
-    severity: ''
-};
-
-export const flashMessage = (state=initialState, action) => {
+export const updateConcept = (state=emptyFlashMessage, action) => {
     switch(action.type) {
-        case UPDATE_FLASH_MESSAGE:
+        case UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE:
             return action.payload;
         default:
             return state;

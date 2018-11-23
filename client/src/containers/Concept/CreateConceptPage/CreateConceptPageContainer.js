@@ -18,8 +18,8 @@ import Loading from '../../Loading';
 import WithEither from "../../../components/HOC/WithEither";
 
 import {mapStateToProps} from "./CreateConceptMapStateToProps";
-import {updateFlashMessage, clearFlashMessage } from "../../FlashMessage/flashMessageActions";
-import {SEVERITY} from "../../FlashMessage";
+import {updateFlashMessage } from "../../../components/FlashMessage";
+import {SEVERITY} from "../../../components/FlashMessage";
 
 class CreateConceptPageContainer extends React.Component {
     constructor(props) {
@@ -28,7 +28,7 @@ class CreateConceptPageContainer extends React.Component {
     }
 
     submit(concept) {
-        this.props.clearFlashMessage();
+        this.props.updateFlashMessage();
         return createConcept(concept)
             .then(data =>  {
                 this.props.updateFlashMessage(SEVERITY.success, this.props.t('createConcept.createMessage.success.title'));
@@ -63,7 +63,7 @@ const formHasInitialValues = ({initialValues}) => {
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, {updateFlashMessage, clearFlashMessage }),
+    connect(mapStateToProps, {updateFlashMessage }),
     injectT,
     WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),
     WithEither(statusExists, () => <Loading message="loadingMessage.loadingStatus"/>),
