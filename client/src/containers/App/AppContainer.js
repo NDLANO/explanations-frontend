@@ -25,6 +25,7 @@ import {CreateRoute, SearchRoute, UpdateRoute, CloneRoute} from "../../routes";
 import CloneConceptPage from "../Concept/CloneConceptPage";
 import UpdateConceptPage from "../Concept/UpdateConceptPage";
 import CreateConceptPage from "../Concept/CreateConceptPage";
+import FlashMessage from "../FlashMessage";
 
 
 import {loadConceptTitles, loadMeta, loadStatus} from "./actions";
@@ -45,6 +46,7 @@ class App extends React.Component {
             <PageContainer>
                 <Content>
                     <Header t={t} />
+                    <FlashMessage />
                     <Switch>
                         <Route path={SearchRoute} exact component={SearchPage}/>
                         <Route path={UpdateRoute} exact component={UpdateConceptPage}/>

@@ -11,12 +11,14 @@ import {reducer as formReducer} from 'redux-form'
 
 import {locale} from './containers/SelectLocale/localeReducer';
 import {search} from "./containers/SearchPage/searchReducer";
+import {flashMessage} from "./containers/FlashMessage/flashMessageReducer";
 import {appReducers} from './containers/App';
 
 const rootReducers = combineReducers({
     locale,
     search,
     cacheFromServer: appReducers,
+    flashMessage,
     form: formReducer
 });
 

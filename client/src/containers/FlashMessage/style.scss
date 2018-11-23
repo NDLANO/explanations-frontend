@@ -1,0 +1,43 @@
+.c-flashmessage {
+  min-height: 100px;
+
+
+  &--warning {
+    h1  {
+      border-bottom: rgb(234, 216, 84) 2px solid;
+    }
+    background: rgba(234, 216, 84, 0.7);
+  }
+  &--info {
+    h1  {
+      border-bottom: rgb(206, 221, 234) 2px solid;
+    }
+    background: rgba(206, 221, 234, 0.7);
+  }
+  &--error {
+    h1  {
+      border-bottom: rgb(209, 55, 46) 2px solid;
+    }
+    background: rgba(209, 55, 46, 0.7);
+  }
+  &--success {
+    h1  {
+      border-bottom: rgb(92, 188, 128) 2px solid;
+    }
+    background: rgba(92, 188, 128, 0.7);
+  }
+
+  &__content {
+    padding: 13px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    h1 {
+      text-align: left;
+      width: 100%;
+    }
+
+  }
+}
