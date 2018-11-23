@@ -14,7 +14,7 @@ import {injectT} from "ndla-i18n";
 
 import Concept from "../components/Concept/";
 import {createConcept} from "../../../api";
-import Loading from "../../../components/Loading/index";
+import Loading from '../../Loading';
 import WithEither from "../../../components/HOC/WithEither";
 
 import {mapStateToProps} from "./CreateConceptMapStateToProps";
@@ -47,7 +47,6 @@ CreateConceptPageContainer.defaultProps = {
     status: []
 };
 
-const requiredPropsIsNotYetPresent = () => <Loading/>;
 const metaExists = ({meta}) =>  meta.length > 0;
 const statusExists = ({status}) => status.length > 0;
 const formHasInitialValues = ({initialValues}) => {
@@ -60,7 +59,7 @@ export default compose(
     withRouter,
     connect(mapStateToProps, null),
     injectT,
-    WithEither(metaExists, requiredPropsIsNotYetPresent),
-    WithEither(statusExists, requiredPropsIsNotYetPresent),
-    WithEither(formHasInitialValues, requiredPropsIsNotYetPresent)
+    WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),
+    WithEither(statusExists, () => <Loading message="loadingMessage.loadingStatus"/>),
+    WithEither(formHasInitialValues, () => <Loading message="loadingMessage.initializingForm"/>),
 )(CreateConceptPageContainer);

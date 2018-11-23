@@ -13,7 +13,7 @@ import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 
 import {mapStateToProps} from '../mapStateToProps';
-import Loading from "../../../components/Loading/index";
+import Loading from '../../Loading';
 import Concept from "../components/Concept";
 import {connect} from "react-redux";
 import WithEither from "../../../components/HOC/WithEither";
@@ -77,8 +77,6 @@ class CloneConceptPageContainer extends React.Component {
     }
 }
 
-
-const requiredPropsIsNotYetPresent = () => <Loading/>;
 const metaExists = ({meta}) =>  meta.length > 0;
 const statusExists = ({status}) => status.length > 0;
 
@@ -86,6 +84,6 @@ export default compose(
     withRouter,
     connect(mapStateToProps),
     injectT,
-    WithEither(metaExists, requiredPropsIsNotYetPresent),
-    WithEither(statusExists, requiredPropsIsNotYetPresent)
+    WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),
+    WithEither(statusExists, () => <Loading message="loadingMessage.loadingStatus"/>),
 )(CloneConceptPageContainer);

@@ -14,7 +14,7 @@ import {injectT} from "ndla-i18n";
 
 import Concept from "../components/Concept";
 import ConfirmModal from "../../../components/ConfirmModal";
-import Loading from "../../../components/Loading/index";
+import Loading from '../../Loading';
 import {getConceptById, updateConcept, archiveConcept} from "../../../api";
 import WithEither from "../../../components/HOC/WithEither";
 
@@ -104,7 +104,6 @@ class UpdateConceptPageContainer extends React.Component {
     }
 }
 
-const requiredPropsIsNotYetPresent = () => <Loading/>;
 const metaExists = ({meta}) =>  meta.length > 0;
 const statusExists = ({status}) => status.length > 0;
 
@@ -112,6 +111,6 @@ export default compose(
     withRouter,
     connect(mapStateToProps, {archiveConcept}),
     injectT,
-    WithEither(metaExists, requiredPropsIsNotYetPresent),
-    WithEither(statusExists, requiredPropsIsNotYetPresent)
+    WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),
+    WithEither(statusExists, () => <Loading message="loadingMessage.loadingStatus"/>),
 )(UpdateConceptPageContainer);

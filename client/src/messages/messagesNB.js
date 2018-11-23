@@ -92,6 +92,14 @@ const NB = {
     },
     notFound: {
         description: "Fant dessverre ikke det du letet etter..."
+    },
+    loadingMessage: {
+        default: 'Laster ...',
+        loadingMeta: 'Laster inn metadata ...',
+        loadingSubjects: 'Laster inn fag ...',
+        loadingLanguages: 'Laster inn språk ...',
+        loadingStatus: 'Laster inn status ...',
+        initializingForm: 'Henter data ...',
     }
 };
 
