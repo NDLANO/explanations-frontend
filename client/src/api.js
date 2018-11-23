@@ -41,8 +41,14 @@ const API_ENDPOINTS = {
 };
 
 
+const CancelToken = axios.CancelToken;
+let searchCancelToken = CancelToken.source();
 
-export const searchForConcepts = query => axios.get(`${API_ENDPOINTS.concept_search}${query}`);
+export const searchForConcepts = query => {
+    searchCancelToken.cancel('Cancelled by new search');
+    searchCancelToken = CancelToken.source();
+    return axios.get(`${API_ENDPOINTS.concept_search}${query}`, {cancelToken: searchCancelToken.token})
+};
 
 export const getConceptById = id => axios.get(`${API_ENDPOINTS.concept}/${id}`);
 

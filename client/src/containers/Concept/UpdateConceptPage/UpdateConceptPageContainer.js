@@ -62,11 +62,11 @@ class UpdateConceptPageContainer extends React.Component {
 
 
     onCloneClicked() {
-        this.props.history.push(`/clone/${this.state.concept.id}`);
+        this.props.history.push(`/clone/${this.state.initialValues.id}`);
     }
 
     onDeleteClicked() {
-        archiveConcept(this.state.concept.id);
+        archiveConcept(this.state.initialValues.id);
     }
 
 
