@@ -1,9 +1,20 @@
 import React from "react";
 
-const TextArea = ({value, type="text", id, label, onChange,className, isReadOnly=false, rows=5, columns=50}) => (
-    <div  className={className}>
-        <label htmlFor={id}>{label}</label>
-        <textarea rows={rows} cols={columns} value={value} id={id} onChange={onChange} placeholder={label} readOnly={isReadOnly} />
-    </div>
-);
+import FormElement from "./FormElement";
+
+
+const TextArea = props =>
+    <FormElement {...props}>
+        <textarea  placeholder={props.t(props.placeholder)}
+                   rows={props.rows}
+                   cols={props.cols}
+                   {...props.input}/>
+    </FormElement>;
+
+
+TextArea.defaultProps = {
+    rows: 5,
+    cols: 50
+};
+
 export default TextArea;

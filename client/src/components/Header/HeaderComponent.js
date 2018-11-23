@@ -14,24 +14,26 @@ import Navigation from "./Navigation";
 
 import './style.css'
 
+
 const classes = new BEMHelper({
     name: 'masthead',
     prefix: 'c-',
 });
 
-const Header = ({t}) => (
-    <Masthead>
-        <div {...classes('component')}>
-            <MastheadItem>
-                <Navigation />
-            </MastheadItem>
-            <MastheadItem>
-                <h1>{t('header.title')}</h1>
-            </MastheadItem>
-            <MastheadItem>
-            </MastheadItem>
-        </div>
-    </Masthead>
-);
-
+const Header = ({t}) => {
+    return (
+        <Masthead>
+            <div {...classes('component')}>
+                <MastheadItem>
+                    <Navigation t={t} />
+                </MastheadItem>
+                <MastheadItem>
+                    <h1>{t('header.title')}</h1>
+                </MastheadItem>
+                <MastheadItem>
+                </MastheadItem>
+            </div>
+        </Masthead>
+    );
+};
 export default Header;

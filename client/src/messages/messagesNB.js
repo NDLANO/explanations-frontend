@@ -35,6 +35,10 @@ const NB = {
             title: "Språk"
         }
     },
+    
+    dropdown: {
+        placeholder: "Velg..."
+    },
 
     updateConcept: {
         title: "Oppdater begrep",
@@ -70,6 +74,7 @@ const NB = {
         author: "Opphaver til tekst",
         created: "Opprettet",
         updated: "Oppdatert",
+        requiredField: "Dette feltet er obligatorisk",
         button: {
             addMeta: "Legg til "
         }
@@ -84,6 +89,9 @@ const NB = {
                 confirm: "Bekreft"
             },
         }
+    },
+    notFound: {
+        description: "Fant dessverre ikke det du letet etter..."
     }
 };
 

@@ -30,13 +30,20 @@ class AutoComplete extends React.Component {
             renderItem,
             renderMenu,
             getItemValue,
-            shouldItemRender
+            shouldItemRender,
+            displayMaxResults
         } = this.props;
+
+        let itemsList = items;
+        if (displayMaxResults) {
+            itemsList = items.slice(0, displayMaxResults);
+        }
+
         return (
             <div {...classes()}>
                 <Autocomplete
                     inputProps={{placeholder}}
-                    items={items}
+                    items={itemsList}
                     shouldItemRender={shouldItemRender}
                     getItemValue={getItemValue}
                     renderItem={renderItem}
@@ -63,7 +70,8 @@ AutoComplete.propTypes = {
     renderMenu: PropTypes.func,
     getItemValue: PropTypes.func,
     shouldItemRender: PropTypes.func,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    displayMaxResults: PropTypes.number
 };
 
 
@@ -73,6 +81,7 @@ AutoComplete.defaultProps = {
     renderMenu: AutoCompleteMenu,
     getItemValue: item => item,
     shouldItemRender: (item, value) => item.toLowerCase().indexOf(value.toLowerCase()) > -1,
+    displayMaxResults: null,
     placeholder: ''
 };
 

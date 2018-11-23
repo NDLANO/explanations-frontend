@@ -11,13 +11,25 @@
 
   &__form-field {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
     padding: 10px 0;
 
-    select {
+    &--input-group {
       width: 100%;
     }
+
+    &--validation-error, &--validation-error--meta {
+      font-size: 12px;
+      color: rgba(209, 55, 46, .9);
+
+    }
+    &--validation-error--meta {
+       display: flex;
+       justify-content: center;
+     }
+
+
     label {
       width: 150px;
     }

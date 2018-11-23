@@ -17,15 +17,17 @@ import {compose} from "redux";
 //import "moment/min/locales";
 //import Moment from 'react-moment';
 
-import NotFoundPage from '../../components/NotFoundPage'
+import NotFoundPage from '../NotFoundPage'
 import SearchPage from '../SearchPage/SearchPageContainer';
 import Footer from '../../components/Footer';
-import Header from "../../components/Header/";
+import Header from '../../components/Header/';
 import {CreateRoute, SearchRoute, UpdateRoute, CloneRoute} from "../../routes";
+import CloneConceptPage from "../Concept/CloneConceptPage";
+import UpdateConceptPage from "../Concept/UpdateConceptPage";
+import CreateConceptPage from "../Concept/CreateConceptPage";
+
+
 import {loadConceptTitles, loadMeta, loadStatus} from "./actions";
-import CloneConceptPage from "../CloneConceptPage";
-import UpdateConceptPage from "../UpdateConceptPage";
-import CreateConceptPage from "../CreateConceptPage";
 
 
 //Moment.globalFormat = 'lll';

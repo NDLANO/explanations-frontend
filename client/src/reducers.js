@@ -7,6 +7,7 @@
  */
 
 import { combineReducers } from 'redux';
+import {reducer as formReducer} from 'redux-form'
 
 import {locale} from './containers/SelectLocale/localeReducer';
 import {search} from "./containers/SearchPage/searchReducer";
@@ -15,7 +16,8 @@ import {appReducers} from './containers/App';
 const rootReducers = combineReducers({
     locale,
     search,
-    cacheFromServer: appReducers
+    cacheFromServer: appReducers,
+    form: formReducer
 });
 
 export default rootReducers;

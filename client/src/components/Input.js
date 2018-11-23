@@ -1,9 +1,10 @@
 import React from "react";
+import FormElement from "./FormElement";
 
-const Input = ({value, type="text", id, label, onChange,className, isReadOnly=false}) => (
-    <div  className={className}>
-        <label htmlFor={id}>{label}</label>
-        <input type={type} value={value} id={id} onChange={onChange} placeholder={label} readOnly={isReadOnly} />
-    </div>
-);
+
+const Input = props =>
+    <FormElement {...props}>
+        <input  placeholder={props.t(props.placeholder)}
+                {...props.input}/>
+    </FormElement>;
 export default Input;
