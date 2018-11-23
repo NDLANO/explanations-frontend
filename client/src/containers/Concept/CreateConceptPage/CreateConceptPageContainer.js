@@ -18,6 +18,8 @@ import Loading from '../../Loading';
 import WithEither from "../../../components/HOC/WithEither";
 
 import {mapStateToProps} from "./CreateConceptMapStateToProps";
+import {updateFlashMessage, clearFlashMessage } from "../../FlashMessage/flashMessageActions";
+import {SEVERITY} from "../../FlashMessage";
 
 class CreateConceptPageContainer extends React.Component {
     constructor(props) {
@@ -26,9 +28,13 @@ class CreateConceptPageContainer extends React.Component {
     }
 
     submit(concept) {
-        console.log("submitting",concept);
+        this.props.clearFlashMessage();
         return createConcept(concept)
-            .then(data => this.props.history.push(`/update/${data.data.data.id}`));
+            .then(data =>  {
+                this.props.updateFlashMessage(SEVERITY.success, this.props.t('createConcept.createMessage.success.title'));
+                return this.props.history.push(`/update/${data.data.data.id}`)
+            })
+            .catch(x => this.props.updateFlashMessage(SEVERITY.error, this.props.t('createConcept.createMessage.error.title'), this.props.t('createConcept.createMessage.error.message')));
     }
 
     render() {
@@ -57,7 +63,7 @@ const formHasInitialValues = ({initialValues}) => {
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, null),
+    connect(mapStateToProps, {updateFlashMessage, clearFlashMessage }),
     injectT,
     WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),
     WithEither(statusExists, () => <Loading message="loadingMessage.loadingStatus"/>),

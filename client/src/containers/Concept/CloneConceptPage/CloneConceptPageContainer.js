@@ -17,6 +17,8 @@ import Loading from '../../Loading';
 import Concept from "../components/Concept";
 import {connect} from "react-redux";
 import WithEither from "../../../components/HOC/WithEither";
+import {updateFlashMessage, clearFlashMessage } from "../../FlashMessage/flashMessageActions";
+import {SEVERITY} from "../../FlashMessage";
 
 
 class CloneConceptPageContainer extends React.Component {
@@ -31,9 +33,13 @@ class CloneConceptPageContainer extends React.Component {
     }
 
     submit(concept) {
-        console.log("submitting",concept);
+        this.props.clearFlashMessage();
         return createConcept(concept)
-            .then(data => this.props.history.push(`/update/${data.data.data.id}`))
+            .then(data => {
+                this.props.updateFlashMessage(SEVERITY.success, this.props.t('cloneConcept.cloneMessage.success.title'));
+                return this.props.history.push(`/update/${data.data.data.id}`);
+            })
+            .catch(x => this.props.updateFlashMessage(SEVERITY.error, this.props.t('cloneConcept.cloneMessage.error.title', 'cloneConcept.cloneMessage.error.message')));
     }
 
     loadConcept() {
@@ -82,7 +88,7 @@ const statusExists = ({status}) => status.length > 0;
 
 export default compose(
     withRouter,
-    connect(mapStateToProps),
+    connect(mapStateToProps, {updateFlashMessage,clearFlashMessage }),
     injectT,
     WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),
     WithEither(statusExists, () => <Loading message="loadingMessage.loadingStatus"/>),

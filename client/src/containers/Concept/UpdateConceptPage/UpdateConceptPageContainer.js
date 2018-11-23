@@ -19,6 +19,8 @@ import {getConceptById, updateConcept, archiveConcept} from "../../../api";
 import WithEither from "../../../components/HOC/WithEither";
 
 import {mapStateToProps} from '../mapStateToProps';
+import {updateFlashMessage, clearFlashMessage} from "../../FlashMessage/flashMessageActions";
+import {SEVERITY} from "../../FlashMessage/FlashMessageContainer";
 
 class UpdateConceptPageContainer extends React.Component {
     constructor(props) {
@@ -37,6 +39,10 @@ class UpdateConceptPageContainer extends React.Component {
         this.loadConcept();
     }
 
+    componentWillUnmount() {
+        this.props.clearFlashMessage();
+    }
+
     loadConcept() {
         const {id} = this.props.match.params;
         getConceptById(id)
@@ -48,11 +54,13 @@ class UpdateConceptPageContainer extends React.Component {
                     concept.meta.forEach(x => {
                         meta[`meta_${x.category.name.toLowerCase()}`] = {value: x.id, label: x.name};
                     });
+                    const statusId = {value: concept.status.id, label: concept.status.name};
 
                     this.setState({
+                        deleteButtonIsDisabled: statusId.label === "Archived",
                         initialValues: {
                             ...concept,
-                            statusId: {value: concept.status.id, label: concept.status.name},
+                            statusId,
                             ...meta,
                         },
                     });
@@ -62,18 +70,29 @@ class UpdateConceptPageContainer extends React.Component {
 
 
     onCloneClicked() {
+        this.props.clearFlashMessage();
         this.props.history.push(`/clone/${this.state.initialValues.id}`);
     }
 
     onDeleteClicked() {
-        archiveConcept(this.state.initialValues.id);
+        this.props.clearFlashMessage();
+        archiveConcept(this.state.initialValues.id)
+            .then(data =>  {
+                this.props.updateFlashMessage(SEVERITY.success, this.props.t('updateConcept.deleteMessage.success.title'));
+                this.props.history.push(`/update/${this.state.initialValues.id}`)
+            })
+            .catch(x => this.props.updateFlashMessage(SEVERITY.error, this.props.t('updateConcept.deleteMessage.error.title'), this.props.t('updateConcept.deleteMessage.error.message')));
     }
 
 
     submit(concept) {
-        console.log("updating concept", concept);
+        this.props.clearFlashMessage();
         return updateConcept(concept)
-            .then(data => console.log(data));
+            .then(x => {
+                this.props.updateFlashMessage(SEVERITY.success, this.props.t('updateConcept.updateMessage.success.title'));
+                this.props.history.push(`/update/${this.state.initialValues.id}`);
+            })
+            .catch(x => this.props.updateFlashMessage(SEVERITY.error, this.props.t('updateConcept.updateMessage.error.title'), this.props.t('updateConcept.updateMessage.error.message')));
     }
 
     renderCloneButton() {
@@ -81,7 +100,7 @@ class UpdateConceptPageContainer extends React.Component {
     }
 
     renderDeleteButton() {
-        return <button className="c-button c-button--outline" type="button" >{this.props.t("updateConcept.button.delete")}</button>
+        return <button className="c-button c-button--outline" type="button" disabled={this.state.deleteButtonIsDisabled} >{this.props.t("updateConcept.button.delete")}</button>
     }
 
     render() {
@@ -95,7 +114,11 @@ class UpdateConceptPageContainer extends React.Component {
                          submitConcept={this.submit}
                          showTimestamps={true}>
 
-                    <ConfirmModal t={this.props.t} triggerButton={this.renderDeleteButton} onConfirm={this.onDeleteClicked} title="updateConcept.confirmModal.delete.title"  content="updateConcept.confirmModal.delete.action" />
+                    <ConfirmModal t={this.props.t}
+                                  triggerButton={this.renderDeleteButton}
+                                  onConfirm={this.onDeleteClicked}
+                                  title="updateConcept.confirmModal.delete.title"
+                                  content="updateConcept.confirmModal.delete.action"/>
                     <ConfirmModal t={this.props.t} triggerButton={this.renderCloneButton} onConfirm={this.onCloneClicked} title="updateConcept.confirmModal.clone.title"  content="updateConcept.confirmModal.clone.action" />
                 </Concept>
             );
@@ -109,7 +132,7 @@ const statusExists = ({status}) => status.length > 0;
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, {archiveConcept}),
+    connect(mapStateToProps, {archiveConcept, updateFlashMessage, clearFlashMessage}),
     injectT,
     WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),
     WithEither(statusExists, () => <Loading message="loadingMessage.loadingStatus"/>),

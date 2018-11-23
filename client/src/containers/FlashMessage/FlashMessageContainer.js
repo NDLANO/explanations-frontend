@@ -41,9 +41,9 @@ FlashMessageContainer.defaultProps = {
     severity: SEVERITY.info,
 };
 
-const mapStateToProps = ({flashMessage: {message, severity}}) => ({message: "Test", severity: SEVERITY.success, title: "Hei!"});
+const mapStateToProps = ({flashMessage: {message, severity, title}}) => ({message, severity, title});
 
-const hasMessage = ({message}) => !!message;
+const hasMessage = ({message, title}) => message || title ;
 export default compose(
     connect(mapStateToProps),
     WithEither(hasMessage, () => null),

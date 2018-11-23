@@ -55,10 +55,48 @@ const NB = {
         button: {
             delete: "Slett begrep",
             clone: "Klon begrep"
+        },
+        updateMessage: {
+            success: {
+                title: "Begrepet er oppdatert!"
+            },
+            error: {
+                title: "En feil oppsto",
+                message: "Klarte ikke å oppdatere begrepet."
+            }
+        },
+        deleteMessage: {
+            success: {
+                title: "Begrepet er arkivert!"
+            },
+            error: {
+                title: "En feil oppsto",
+                message: "Klarte ikke å arkivere begrepet."
+            }
         }
     },
     createConcept: {
-        title: "Opprett begrep"
+        title: "Opprett begrep",
+        createMessage: {
+            success: {
+                title: "Begrepet er opprettet!"
+            },
+            error: {
+                title: "En feil oppsto",
+                message: "Klarte ikke å opprette begrepet."
+            }
+        }
+    },
+    cloneConcept: {
+        cloneMessage: {
+            success: {
+                title: "Begrepet er klonet og opprettet!"
+            },
+            error: {
+                title: "En feil oppsto",
+                message: "Klarte ikke å opprette begrepet."
+            }
+        },
     },
     deleteConcept: {
         title: "Slett (arkiver)"
