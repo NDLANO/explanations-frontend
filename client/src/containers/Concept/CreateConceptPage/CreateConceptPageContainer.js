@@ -50,7 +50,11 @@ CreateConceptPageContainer.defaultProps = {
 const requiredPropsIsNotYetPresent = () => <Loading/>;
 const metaExists = ({meta}) =>  meta.length > 0;
 const statusExists = ({status}) => status.length > 0;
-const formHasInitialValues = ({initialValues}) => Object.values(initialValues).indexOf(null) === -1;
+const formHasInitialValues = ({initialValues}) => {
+    return Object.values(initialValues).indexOf(null) === -1 &&
+        typeof initialValues['statusId'] !== "undefined" &&
+        typeof initialValues['meta_language'] !== "undefined";
+};
 
 export default compose(
     withRouter,
