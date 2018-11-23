@@ -8,6 +8,7 @@
 
 import {sortObjectsByKey} from "../../utilities";
 import {getFormValues} from "redux-form";
+import {SEARCH_FORM_NAME} from "./components/SearchForm";
 
 const ALL_LANGUAGES = {
     id: -1,
@@ -40,14 +41,14 @@ const getDefaultLanguage = (languages, locale) => {
     let lang = languages.find(x => x.abbreviation === locale);
     let defaultLanguage = null;
     if (lang) {
-        defaultLanguage = lang.id;
+        defaultLanguage = {value: lang.id, label: lang.name};
     }
     return defaultLanguage;
 }
 
 const getAutoCompleteList = (state) => {
     let autoComplete = [];
-    const conceptForm = getFormValues("conceptForm")(state);
+    const conceptForm = getFormValues(SEARCH_FORM_NAME)(state);
     if (conceptForm) {
         const {title} = conceptForm;
         if(title)
@@ -65,7 +66,8 @@ export const mapStateToProps = state =>{
         languages: languages.map(x => ({value: x.id, label: x.name})),
         subjects: subjects.map(x => ({value: x.id, label: x.name})),
         initialValues: {
-            language: getDefaultLanguage(languages, state.locale)
+            language: getDefaultLanguage(languages, state.locale),
+            subject: {value: ALL_SUBJECTS.id, label: ALL_SUBJECTS.name}
         },
         autoComplete: getAutoCompleteList(state)
     })

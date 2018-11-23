@@ -8,7 +8,7 @@ const SearchField  = ({input, ...rest}) =>
     <AutoComplete onChange={(value) => input.onChange(value)}
                   value={input.value}
                   onSelect={(value) => input.onChange(value)}
-                  {...rest}/>
+                  {...rest}/>;
 
 SearchField.propTypes = {
     // Required

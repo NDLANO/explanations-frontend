@@ -49,11 +49,11 @@ class SearchForm extends React.Component {
 
                 <Field {...FIELDS.language}
                        t={t}
-                       selected={languages.find(x => x.value === initialValues.language)}
+                       selected={initialValues.language}
                        options={languages}/>
                 <Field {...FIELDS.subject}
                        t={t}
-                       selected={subjects.find(x => x.value === -1)}
+                       selected={initialValues.subject}
                        options={subjects}/>
             </form>
         );
@@ -76,7 +76,9 @@ SearchForm.defaultProps = {
     autoComplete: []
 };
 
+export const SEARCH_FORM_NAME = 'searchForm';
+
 export default reduxForm({
-    form: 'conceptForm',
+    form: SEARCH_FORM_NAME,
     onChange
 })(SearchForm);

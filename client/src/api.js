@@ -8,7 +8,7 @@
 
 import axios from 'axios';
 
-const ROOT_URL = process.env['NODE_ENV'] == "development"
+const ROOT_URL = process.env['NODE_ENV'] === "development"
     ? 'http://localhost:63365' : process.env['REACT_APP_CONCEPT_API_ROOT'];
 
 const API_URL = `${ROOT_URL}/api`;
@@ -30,7 +30,7 @@ let searchCancelToken = CancelToken.source();
 export const searchForConcepts = query => {
     searchCancelToken.cancel('Cancelled by new search');
     searchCancelToken = CancelToken.source();
-    return axios.get(`${API_ENDPOINTS.concept_search}${query}`, {cancelToken: searchCancelToken.token})
+    return axios.get(`${API_ENDPOINTS.concept_search}?${query}`, {cancelToken: searchCancelToken.token})
 };
 
 export const getConceptById = id => axios.get(`${API_ENDPOINTS.concept}/${id}`);

@@ -1,18 +1,19 @@
+import 'url-search-params-polyfill';
+
 export const createSearchQueryFromValues = values => {
-    const {title, ...rest} = values;
+    const {title, ...metas} = values;
 
-    let query = "?";
+    const searchParams = new URLSearchParams();
+
     if (title)
-        query += `title=${title}&`;
+        searchParams.append('title', title);
 
-    query += Object
-        .values(rest)
+    Object.values(metas)
         .filter(x => x.value > -1)
-        .map(x => `meta=${x.value}&`)
-        .join('');
+        .forEach(x => searchParams.append('meta', x.value));
 
-    console.log("searchquery", query);
-    return query;
+    console.log("searchquery", searchParams.toString());
+    return searchParams.toString();
 };
 
 let timeout = null;
