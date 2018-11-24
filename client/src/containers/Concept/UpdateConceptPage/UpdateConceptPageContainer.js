@@ -24,6 +24,7 @@ import {SEVERITY} from "../../../components/FlashMessage/";
 
 import {mapStateToProps} from './updateConceptMapStateToProps';
 import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE, setDeleteButtonAsDisabled, updateInitialFormValues} from "./updateConceptActions";
+import {submitHandling} from "../conceptCommon";
 
 class UpdateConceptPageContainer extends React.Component {
     constructor(props) {
@@ -109,27 +110,8 @@ class UpdateConceptPageContainer extends React.Component {
     submit(concept) {
         const {t, updateFlashMessage, clearFlashMessage, initialFormValues, history} = this.props;
         clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE);
-        const message = {};
         const update = updateConcept(concept);
-
-        update.then(x => {
-            message['severity'] = SEVERITY.success;
-            message['title'] = t('updateConcept.submitMessage.success.title');
-            updateFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE, message);
-
-            history.push(`/update/${initialFormValues.id}`);
-            return x;
-        })
-        .catch(err => {
-            const {errors} = err.response.data;
-
-            message['severity'] = SEVERITY.error;
-            message['title'] = t('updateConcept.submitMessage.error.title');
-            if (errors)
-                message['message'] = errors['errorMessage'];
-            updateFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE, message);
-            return err;
-        });
+        submitHandling(update, "updateConcept",updateFlashMessage, initialFormValues.id, UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE, history);
         return update;
     }
 
