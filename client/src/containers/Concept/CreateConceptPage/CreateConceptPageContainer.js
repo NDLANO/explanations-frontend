@@ -16,14 +16,12 @@ import Concept from "../components/Concept/";
 import Loading from '../../Loading';
 import WithEither from "../../../components/HOC/WithEither";
 import {createConcept} from "../../../api";
-import {updateFlashMessage, clearFlashMessage } from "../../../components/FlashMessage";
+import FlashMessageComponent, {updateFlashMessage, clearFlashMessage } from "../../../components/FlashMessage";
 import {SEVERITY} from "../../../components/FlashMessage";
 
-
-import FlashMessageComponent from "../../../components/FlashMessage/FlashMessageComponent";
 import {mapStateToProps} from "./createConceptMapStateToProps";
 import {UPDATE_FLASH_MESSAGE_CONCEPT_CREATE} from "./createConceptActions";
-import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE} from "../UpdateConceptPage/updateConceptActions";
+import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE} from "../UpdateConceptPage";
 
 class CreateConceptPageContainer extends React.Component {
     constructor(props) {
