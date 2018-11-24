@@ -56,7 +56,7 @@ const NB = {
             delete: "Slett begrep",
             clone: "Klon begrep"
         },
-        updateMessage: {
+        submitMessage: {
             success: {
                 title: "Begrepet er oppdatert!"
             },
@@ -77,7 +77,7 @@ const NB = {
     },
     createConcept: {
         title: "Opprett begrep",
-        createMessage: {
+        submitMessage: {
             success: {
                 title: "Begrepet er opprettet!"
             },
@@ -87,7 +87,7 @@ const NB = {
         }
     },
     cloneConcept: {
-        cloneMessage: {
+        submitMessage: {
             success: {
                 title: "Begrepet er klonet og opprettet!"
             },

@@ -32,7 +32,7 @@ export const mapStateToProps = ({cacheFromServer, locale, concept}) => {
         }
         initialValues[initialValueName(name)] = value;
     });
-    console.log("glas", flashMessage)
+
     return {
         ...mstp({cacheFromServer}),
         initialValues,

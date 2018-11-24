@@ -12,7 +12,7 @@ import { withRouter } from 'react-router-dom';
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 
-import FlashMessageComponent from "../../../components/FlashMessage";
+import FlashMessage from "../../../components/FlashMessage";
 import Concept from "../components/Concept";
 import ConfirmModal from "../../../components/ConfirmModal";
 import Loading from '../../Loading';
@@ -41,6 +41,7 @@ class UpdateConceptPageContainer extends React.Component {
 
     componentWillUnmount() {
         this.props.clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE);
+        this.props.updateInitialFormValues(null);
     }
 
     loadConcept() {
@@ -64,7 +65,17 @@ class UpdateConceptPageContainer extends React.Component {
                     this.props.setDeleteButtonAsDisabled(statusId.label === "Archived");
                 }
             })
-            .catch(x => console.log("Could not retrieve data from server.")); // TODO shows as error
+            .catch(err =>  {
+                const {errors} = err.response.data;
+
+                const message = {
+                    severity: SEVERITY.error,
+                    title: this.props.t('updateConcept.loadDataMessage.error.title')
+                };
+                if (errors)
+                    message['message'] = errors['errorMessage'];
+                this.props.updateFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE, message);
+            });
     }
 
 
@@ -88,7 +99,8 @@ class UpdateConceptPageContainer extends React.Component {
 
                 message['severity'] = SEVERITY.error;
                 message['title'] = this.props.t('updateConcept.deleteMessage.error.title');
-                message['message'] = Object.values(errors).join(" ");
+                if (errors)
+                    message['message'] = errors['errorMessage'];
                 this.props.updateFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE, message);
             });
     }
@@ -102,7 +114,7 @@ class UpdateConceptPageContainer extends React.Component {
 
         update.then(x => {
             message['severity'] = SEVERITY.success;
-            message['title'] = t('updateConcept.updateMessage.success.title');
+            message['title'] = t('updateConcept.submitMessage.success.title');
             updateFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE, message);
 
             history.push(`/update/${initialFormValues.id}`);
@@ -112,11 +124,10 @@ class UpdateConceptPageContainer extends React.Component {
             const {errors} = err.response.data;
 
             message['severity'] = SEVERITY.error;
-            message['title'] = t('updateConcept.updateMessage.error.title');
-            message['message'] = Object.values(errors).join(" ");
+            message['title'] = t('updateConcept.submitMessage.error.title');
+            if (errors)
+                message['message'] = errors['errorMessage'];
             updateFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE, message);
-
-            history.push(`/update/${initialFormValues.id}`);
             return err;
         });
         return update;
@@ -136,7 +147,7 @@ class UpdateConceptPageContainer extends React.Component {
 
         return (
             <React.Fragment>
-                <FlashMessageComponent {...this.props.flashMessage}/>
+                <FlashMessage {...this.props.flashMessage}/>
                 <Concept status={this.props.status}
                          initialValues={this.props.initialFormValues}
                          t={this.props.t}

@@ -29,6 +29,11 @@ class CreateConceptPageContainer extends React.Component {
         this.submit = this.submit.bind(this);
     }
 
+
+    componentWillUnmount() {
+        this.props.updateFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_CREATE);
+    }
+
     submit(concept) {
         const {clearFlashMessage, updateFlashMessage, t, history} = this.props;
 
@@ -39,7 +44,7 @@ class CreateConceptPageContainer extends React.Component {
         callback
             .then(data =>  {
                 message['severity'] = SEVERITY.success;
-                message['title'] = t('createConcept.createMessage.success.title');
+                message['title'] = t('createConcept.submitMessage.success.title');
                 updateFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE, message);
 
                 history.push(`/update/${data.data.data.id}`)
@@ -47,8 +52,9 @@ class CreateConceptPageContainer extends React.Component {
             .catch(x => {
                 const {errors} = x.response.data;
                 message['severity'] = SEVERITY.error;
-                message['title'] =  t('createConcept.createMessage.error.title');
-                message['message'] = Object.values(errors).join(" ");
+                message['title'] =  t('createConcept.submitMessage.error.title');
+                if (errors)
+                    message['message'] = errors['errorMessage'];
                 updateFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_CREATE, message);
             });
         return callback;

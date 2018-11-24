@@ -1,8 +1,7 @@
-export const mapStateToProps = ({cacheFromServer: {status, meta}, updateConcept}) => {
+export const mapStateToProps = ({cacheFromServer: {status, meta}}) => {
 
     return {
         meta: meta,
-        status: status.map(x => ({value: x.id, label: x.name})),
-        flashMessage: updateConcept
+        status: status.map(x => ({value: x.id, label: x.name}))
     }
 };

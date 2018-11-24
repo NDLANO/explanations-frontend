@@ -10,10 +10,11 @@ import { combineReducers } from 'redux';
 
 import {createConceptReducer} from './CreateConceptPage/'
 import {updateConceptReducer} from './UpdateConceptPage/';
+import {cloneConceptReducer} from "./CloneConceptPage";
 
 
 export const conceptReducer = combineReducers({
     create: createConceptReducer,
     update: updateConceptReducer,
-    //clone,
+    clone: cloneConceptReducer,
 });
