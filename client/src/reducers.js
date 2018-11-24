@@ -11,8 +11,7 @@ import {reducer as formReducer} from 'redux-form'
 
 import {locale} from './containers/SelectLocale/localeReducer';
 import {search} from "./containers/SearchPage/searchReducer";
-import {cloneConcept} from "./containers/Concept/CloneConceptPage/cloneConceptFlashMessageReducer";
-import {updateConcept} from "./containers/Concept/UpdateConceptPage/updateConceptFlashMessageReducer";
+import {conceptReducer} from "./containers/Concept/";
 import {appReducers} from './containers/App';
 
 
@@ -21,8 +20,7 @@ const rootReducers = combineReducers({
     search,
     cacheFromServer: appReducers,
     form: formReducer,
-    cloneConcept,
-    updateConcept
+    concept: conceptReducer
 });
 
 export default rootReducers;

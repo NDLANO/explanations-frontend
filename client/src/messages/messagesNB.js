@@ -82,8 +82,7 @@ const NB = {
                 title: "Begrepet er opprettet!"
             },
             error: {
-                title: "En feil oppsto",
-                message: "Klarte ikke å opprette begrepet."
+                title: "En feil oppsto"
             }
         }
     },

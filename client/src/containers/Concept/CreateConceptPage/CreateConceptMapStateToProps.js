@@ -1,6 +1,9 @@
 import {mapStateToProps as mstp} from '../mapStateToProps';
 
-export const mapStateToProps = ({cacheFromServer: {status, meta}, cacheFromServer, locale}) => {
+export const mapStateToProps = ({cacheFromServer, locale, concept}) => {
+    const {status, meta} = cacheFromServer;
+    const {create: {flashMessage}} = concept;
+
     let draft = status.find(x => x.name === "Draft") || status[0];
     if (draft) {
         draft = {value: draft.id, label: draft.name};
@@ -29,8 +32,10 @@ export const mapStateToProps = ({cacheFromServer: {status, meta}, cacheFromServe
         }
         initialValues[initialValueName(name)] = value;
     });
+    console.log("glas", flashMessage)
     return {
         ...mstp({cacheFromServer}),
-        initialValues
+        initialValues,
+        flashMessage
     }
 };
