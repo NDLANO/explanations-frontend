@@ -11,7 +11,7 @@ export const mapStateToProps = ({cacheFromServer, locale, concept}) => {
         draft  = null;
     }
 
-    const initialValues = {statusId: draft};
+    const initialFormValues = {statusId: draft};
     const initialValueName = (name) => `meta_${name}`;
     meta.forEach(x => {
         let name = x.category.name.toLowerCase();
@@ -30,12 +30,12 @@ export const mapStateToProps = ({cacheFromServer, locale, concept}) => {
                 label: defaultLang.name
             }
         }
-        initialValues[initialValueName(name)] = value;
+        initialFormValues[initialValueName(name)] = value;
     });
 
     return {
         ...mstp({cacheFromServer}),
-        initialValues,
+        initialFormValues,
         flashMessage
     }
 };

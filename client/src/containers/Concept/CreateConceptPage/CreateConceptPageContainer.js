@@ -60,7 +60,7 @@ class CreateConceptPageContainer extends React.Component {
             <React.Fragment>
                 <FlashMessageComponent {...this.props.flashMessage}/>
                 <Concept status={this.props.status}
-                         initialValues={this.props.initialValues}
+                         initialValues={this.props.initialFormValues}
                          t={this.props.t}
                          metas={this.props.meta}
                          title={this.props.t("createConcept.title")}
@@ -78,10 +78,10 @@ CreateConceptPageContainer.defaultProps = {
 
 const metaExists = ({meta}) =>  meta.length > 0;
 const statusExists = ({status}) => status.length > 0;
-const formHasInitialValues = ({initialValues}) => {
-    return Object.values(initialValues).indexOf(null) === -1 &&
-        typeof initialValues['statusId'] !== "undefined" &&
-        typeof initialValues['meta_language'] !== "undefined";
+const formHasInitialValues = ({initialFormValues}) => {
+    return Object.values(initialFormValues).indexOf(null) === -1 &&
+        typeof initialFormValues['statusId'] !== "undefined" &&
+        typeof initialFormValues['meta_language'] !== "undefined";
 };
 
 export default compose(

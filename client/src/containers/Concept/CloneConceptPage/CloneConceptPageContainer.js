@@ -9,16 +9,16 @@
 import React from 'react';
 import {connect} from "react-redux";
 import { withRouter } from 'react-router-dom';
-import {getConceptById, updateConcept} from "../../../api";
+import {createConcept, getConceptById} from "../../../api";
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 
 import Loading from '../../Loading';
 import Concept from "../components/Concept";
 import WithEither from "../../../components/HOC/WithEither";
-import FlashMessage, {clearFlashMessage, updateFlashMessage} from "../../../components/FlashMessage";
-import {SEVERITY} from "../../../components/FlashMessage";
 import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE} from "../UpdateConceptPage/updateConceptActions";
+import {submitErrorHandler, submitSuccessHandler} from "../conceptCommon";
+import FlashMessage, {clearFlashMessage, updateFlashMessage} from "../../../components/FlashMessage";
 
 import {UPDATE_FLASH_MESSAGE_CONCEPT_CLONE, updateInitialFormValues} from "./cloneConceptActions";
 import {mapStateToProps} from './cloneConceptMapStateToProps';
@@ -35,37 +35,29 @@ class CloneConceptPageContainer extends React.Component {
     }
 
     componentWillUnmount() {
-        this.props.updateFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_CLONE);
-        this.props.updateInitialFormValues(null);
+        this.props.clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_CLONE);
     }
 
     submit(concept) {
-        const {t, updateFlashMessage, clearFlashMessage, initialFormValues, history} = this.props;
+        const {clearFlashMessage, updateFlashMessage, t, history} = this.props;
+
         clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_CLONE);
-        const message = {};
-        const update = updateConcept(concept);
 
-        update
-            .then(x => {
-                message['severity'] = SEVERITY.success;
-                message['title'] = t('cloneConcept.submitMessage.success.title');
-                updateFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE, message);
+        const create = createConcept(concept);
+        const errorHandler = {
+            titleMessage: t(`cloneConcept.submitMessage.error.title`),
+            actionType: UPDATE_FLASH_MESSAGE_CONCEPT_CLONE,
+        };
 
-                history.push(`/update/${initialFormValues.id}`);
-                return x;
-            })
-            .catch(err => {
-                const {errors} = err.response.data;
-
-                message['severity'] = SEVERITY.error;
-                message['title'] = t('cloneConcept.submitMessage.error.title');
-                if (errors)
-                    message['message'] = errors['errorMessage'];
-                updateFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_CLONE, message);
-
-                return err;
-            });
-        return update;
+        create
+            .then(data => submitSuccessHandler(data, {
+                actionType: UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE,
+                titleMessage: t(`cloneConcept.submitMessage.success.title`),
+                history,
+                id: data.data.data.id,
+            }, updateFlashMessage))
+            .catch(err => submitErrorHandler(err, errorHandler, updateFlashMessage));
+        return create;
     }
 
     loadConcept() {
@@ -93,19 +85,24 @@ class CloneConceptPageContainer extends React.Component {
             })
     }
 
-    render() {
-        if (!this.props.initialFormValues)
-            return <Loading message="loadingMessage.initializingForm"/>;
+    renderContent() {
+        if (this.props.initialFormValues) {
+            return <Concept Concept status={this.props.status}
+                            initialValues={this.props.initialFormValues}
+                            t={this.props.t}
+                            metas={this.props.meta}
+                            title={this.props.t("createConcept.title")}
+                            submitConcept={this.submit} />;
+        } else {
+            return <Loading message="loadingMessage.initializingForm"/>
+        }
+    }
 
+    render() {
         return (
             <React.Fragment>
                 <FlashMessage {...this.props.flashMessage}/>
-                <Concept Concept status={this.props.status}
-                    initialValues={this.props.initialFormValues}
-                    t={this.props.t}
-                    metas={this.props.meta}
-                    title={this.props.t("createConcept.title")}
-                    submitConcept={this.submit} />
+                {this.renderContent()}
             </React.Fragment>
 
         );
