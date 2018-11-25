@@ -1,4 +1,4 @@
-mport {mapStateToPropsCommon} from '../conceptCommon';
+import {mapStateToPropsCommon} from '../conceptCommon';
 
 export const mapStateToProps = ({cacheFromServer, locale, concept}) => {
     const {status, meta} = cacheFromServer;
