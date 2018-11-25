@@ -7,22 +7,26 @@
  */
 
 import React from 'react';
+import {connect} from "react-redux";
 import { withRouter } from 'react-router-dom';
 import {createConcept, getConceptById} from "../../../api";
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 
-import {mapStateToProps} from '../mapStateToProps';
-import Loading from "../../../components/Loading/index";
+import Loading from '../../Loading';
 import Concept from "../components/Concept";
-import {connect} from "react-redux";
 import WithEither from "../../../components/HOC/WithEither";
+import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE} from "../UpdateConceptPage/updateConceptActions";
+import {submitErrorHandler, submitSuccessHandler} from "../conceptCommon";
+import FlashMessage, {clearFlashMessage, updateFlashMessage} from "../../../components/FlashMessage";
+
+import {UPDATE_FLASH_MESSAGE_CONCEPT_CLONE, updateInitialFormValues} from "./cloneConceptActions";
+import {mapStateToProps} from './cloneConceptMapStateToProps';
 
 
 class CloneConceptPageContainer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {initialValues: null};
         this.submit = this.submit.bind(this);
     }
 
@@ -30,10 +34,30 @@ class CloneConceptPageContainer extends React.Component {
         this.loadConcept();
     }
 
+    componentWillUnmount() {
+        this.props.clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_CLONE);
+    }
+
     submit(concept) {
-        console.log("submitting",concept);
-        return createConcept(concept)
-            .then(data => this.props.history.push(`/update/${data.data.data.id}`))
+        const {clearFlashMessage, updateFlashMessage, t, history} = this.props;
+
+        clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_CLONE);
+
+        const create = createConcept(concept);
+        const errorHandler = {
+            titleMessage: t(`cloneConcept.submitMessage.error.title`),
+            actionType: UPDATE_FLASH_MESSAGE_CONCEPT_CLONE,
+        };
+
+        create
+            .then(data => submitSuccessHandler(data, {
+                actionType: UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE,
+                titleMessage: t(`cloneConcept.submitMessage.success.title`),
+                history,
+                id: data.data.data.id,
+            }, updateFlashMessage))
+            .catch(err => submitErrorHandler(err, errorHandler, updateFlashMessage));
+        return create;
     }
 
     loadConcept() {
@@ -52,40 +76,47 @@ class CloneConceptPageContainer extends React.Component {
                     concept.meta.forEach(x => {
                         meta[`meta_${x.category.name.toLowerCase()}`] = {value: x.id, label: x.name};
                     });
-
-                    this.setState({
-                        initialValues: {
-                            ...concept,
-                            statusId: {value: concept.status.id, label: concept.status.name},
-                            ...meta,
-                            },
+                    this.props.updateInitialFormValues({
+                        ...concept,
+                        statusId: {value: concept.status.id, label: concept.status.name},
+                        ...meta,
                     });
                 }
             })
     }
 
-    render() {
-        if (this.state.initialValues)
-            return <Concept status={this.props.status}
-                            initialValues={this.state.initialValues}
+    renderContent() {
+        if (this.props.initialFormValues) {
+            return <Concept Concept status={this.props.status}
+                            initialValues={this.props.initialFormValues}
                             t={this.props.t}
                             metas={this.props.meta}
                             title={this.props.t("createConcept.title")}
                             submitConcept={this.submit} />;
+        } else {
+            return <Loading message="loadingMessage.initializingForm"/>
+        }
+    }
 
-        return <Loading/>
+    render() {
+        return (
+            <React.Fragment>
+                <FlashMessage {...this.props.flashMessage}/>
+                {this.renderContent()}
+            </React.Fragment>
+
+        );
     }
 }
 
 
-const requiredPropsIsNotYetPresent = () => <Loading/>;
 const metaExists = ({meta}) =>  meta.length > 0;
 const statusExists = ({status}) => status.length > 0;
 
 export default compose(
     withRouter,
-    connect(mapStateToProps),
+    connect(mapStateToProps, {updateFlashMessage, updateInitialFormValues, clearFlashMessage}),
     injectT,
-    WithEither(metaExists, requiredPropsIsNotYetPresent),
-    WithEither(statusExists, requiredPropsIsNotYetPresent)
+    WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),
+    WithEither(statusExists, () => <Loading message="loadingMessage.loadingStatus"/>),
 )(CloneConceptPageContainer);

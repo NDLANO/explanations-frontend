@@ -55,10 +55,49 @@ const NB = {
         button: {
             delete: "Slett begrep",
             clone: "Klon begrep"
+        },
+        submitMessage: {
+            success: {
+                title: "Begrepet er oppdatert!"
+            },
+            error: {
+                title: "En feil oppsto",
+            }
+        },
+        deleteMessage: {
+            success: {
+                title: "Begrepet er arkivert!"
+            },
+            error: {
+                title: "En feil oppsto",
+            }
+        },
+        loadDataMessage: {
+           error: {
+               title: "Fikk ikke hentet data fra server."
+           }
         }
     },
     createConcept: {
-        title: "Opprett begrep"
+        title: "Opprett begrep",
+        submitMessage: {
+            success: {
+                title: "Begrepet er opprettet!"
+            },
+            error: {
+                title: "En feil oppsto"
+            }
+        }
+    },
+    cloneConcept: {
+        submitMessage: {
+            success: {
+                title: "Begrepet er klonet og opprettet!"
+            },
+            error: {
+                title: "En feil oppsto",
+            }
+        },
     },
     deleteConcept: {
         title: "Slett (arkiver)"
@@ -92,6 +131,14 @@ const NB = {
     },
     notFound: {
         description: "Fant dessverre ikke det du letet etter..."
+    },
+    loadingMessage: {
+        default: 'Laster ...',
+        loadingMeta: 'Laster inn metadata ...',
+        loadingSubjects: 'Laster inn fag ...',
+        loadingLanguages: 'Laster inn språk ...',
+        loadingStatus: 'Laster inn status ...',
+        initializingForm: 'Henter data ...',
     }
 };
 

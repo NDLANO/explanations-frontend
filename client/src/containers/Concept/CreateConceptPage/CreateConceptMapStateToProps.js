@@ -1,6 +1,9 @@
-import {mapStateToProps as mstp} from '../mapStateToProps';
+import {mapStateToPropsCommon} from '../conceptCommon';
 
-export const mapStateToProps = ({cacheFromServer: {status, meta}, cacheFromServer, locale}) => {
+export const mapStateToProps = ({cacheFromServer, locale, concept}) => {
+    const {status, meta} = cacheFromServer;
+    const {create: {flashMessage}} = concept;
+
     let draft = status.find(x => x.name === "Draft") || status[0];
     if (draft) {
         draft = {value: draft.id, label: draft.name};
@@ -8,7 +11,7 @@ export const mapStateToProps = ({cacheFromServer: {status, meta}, cacheFromServe
         draft  = null;
     }
 
-    const initialValues = {statusId: draft};
+    const initialFormValues = {statusId: draft};
     const initialValueName = (name) => `meta_${name}`;
     meta.forEach(x => {
         let name = x.category.name.toLowerCase();
@@ -27,10 +30,12 @@ export const mapStateToProps = ({cacheFromServer: {status, meta}, cacheFromServe
                 label: defaultLang.name
             }
         }
-        initialValues[initialValueName(name)] = value;
+        initialFormValues[initialValueName(name)] = value;
     });
+
     return {
-        ...mstp({cacheFromServer}),
-        initialValues
+        ...mapStateToPropsCommon({cacheFromServer}),
+        initialFormValues,
+        flashMessage
     }
 };

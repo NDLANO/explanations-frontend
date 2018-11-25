@@ -12,7 +12,7 @@ import {OneColumn} from "ndla-ui";
 import {injectT} from "ndla-i18n";
 import {compose} from "redux";
 
-import Loading from "../../components/Loading";
+import Loading from '../Loading';
 import WithEither from "../../components/HOC/WithEither";
 
 import {searchForConcept} from "./actions";
@@ -33,12 +33,11 @@ const SearchContainer = ({t, languages, subjects, searchResult,searchForConcept,
     </OneColumn>;
 
 
-const showLoading = () => <Loading/>;
 const languagesExists = ({languages}) =>  languages.length > 0;
 const subjectsExists = ({subjects}) => subjects.length > 0;
 const languageAndSubjectsShouldBePresent = compose(
-    WithEither(languagesExists, showLoading),
-    WithEither(subjectsExists, showLoading)
+    WithEither(languagesExists, () => <Loading message='loadingMessage.loadingLanguages' />),
+    WithEither(subjectsExists, () => <Loading message='loadingMessage.loadingSubjects' />),
 )(SearchContainer);
 
 export default compose(

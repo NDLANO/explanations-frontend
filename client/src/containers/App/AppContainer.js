@@ -59,7 +59,6 @@ class App extends React.Component {
     }
 }
 
-
 export default compose(
     withRouter,
     connect(null, {loadMeta, loadStatus, loadConceptTitles}),

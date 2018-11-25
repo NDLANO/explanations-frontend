@@ -7,19 +7,19 @@
  */
 
 import React from 'react';
-import {OneColumn} from "ndla-ui";
 import BEMHelper from "react-bem-helper";
 import PropTypes from 'prop-types';
+import {Field, reduxForm, SubmissionError} from "redux-form";
+import {OneColumn} from "ndla-ui";
 
 import Meta from "../Meta";
 import ConfirmModal from "../../../../components/ConfirmModal/";
-
-import './style.css'
-import {FIELDS} from "./fields";
-import {Field, reduxForm, SubmissionError} from "redux-form";
+import { GetValuesFromObjectByKeyPrefix} from "../../../../utilities";
 
 import {validate} from "./validate";
-import { GetValuesFromObjectByKeyPrefix} from "../../../../utilities";
+import {FIELDS} from "./fields";
+
+import './style.css'
 
 const classes = new BEMHelper({
     name: 'concept-form',
@@ -37,8 +37,6 @@ class Concept extends React.Component {
     onSubmit(values) {
         const meta = GetValuesFromObjectByKeyPrefix(values, "meta_").map(x => x.value);
         const {externalId = -1, statusId, content, title, author, source = null, id = -1} = values;
-        if (! statusId)
-            return;
 
         const concept = {
             id,
@@ -72,7 +70,7 @@ class Concept extends React.Component {
                 elm.category.description = "Språk";
             if (elm.category.description === "Licence")
                 elm.category.description = "Lisens";
-        })
+        });
 
         const submit = handleSubmit(this.onSubmit);
 

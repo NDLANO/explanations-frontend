@@ -18,7 +18,7 @@ import {conceptTitles} from './reducers/conceptTitlesReducer'
 export const appReducers = combineReducers({
     meta,
     status,
-    conceptTitles
+    conceptTitles,
 });
 
 export default App;

@@ -11,13 +11,16 @@ import {reducer as formReducer} from 'redux-form'
 
 import {locale} from './containers/SelectLocale/localeReducer';
 import {search} from "./containers/SearchPage/searchReducer";
+import {conceptReducer} from "./containers/Concept/";
 import {appReducers} from './containers/App';
+
 
 const rootReducers = combineReducers({
     locale,
     search,
     cacheFromServer: appReducers,
-    form: formReducer
+    form: formReducer,
+    concept: conceptReducer
 });
 
 export default rootReducers;
