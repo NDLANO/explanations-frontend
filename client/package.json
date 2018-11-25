@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "flatpickr": "^4.5.2",
     "history": "^4.7.2",
     "lodash": "^4.17.11",
     "ndla-article-scripts": "^0.4.6",
