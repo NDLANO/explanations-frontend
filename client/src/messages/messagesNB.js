@@ -73,6 +73,11 @@ const NB = {
                 title: "En feil oppsto",
                 message: "Klarte ikke å arkivere begrepet."
             }
+        },
+        loadDataMessage: {
+           error: {
+               title: "Fikk ikke hentet data fra server."
+           }
         }
     },
     createConcept: {

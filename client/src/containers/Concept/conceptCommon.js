@@ -2,27 +2,38 @@ import {SEVERITY} from "../../components/FlashMessage";
 import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE} from "./UpdateConceptPage";
 
 
-export const submitHandling = (func, messagePrefix, updateFlashMessageFunc, updateId, errorMessageType, history) => {
-    const message = {};
+export const submitFormHandling = (submitFunction, titleMessages, errorMessageType, props) => {
+    const {updateFlashMessage, history, initialFormValues: {id}} = props;
 
-    return func
+    return submitFunction
         .then(x => {
+            const message = {};
             message['severity'] = SEVERITY.success;
-            message['title'] = t(`${messagePrefix}.submitMessage.success.title`);
-            updateFlashMessageFunc(UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE, message);
+            message['title'] = titleMessages.success;
+            updateFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE, message);
 
-            history.push(`/update/${updateId}`);
+            history.push(`/update/${id}`);
             return x;
         })
-        .catch(err => {
-            const {errors} = err.response.data;
+        .catch(err => submitErrorHandler(err, titleMessages.error, updateFlashMessage, errorMessageType));
+};
 
-            message['severity'] = SEVERITY.error;
-            message['title'] = t(`${messagePrefix}.submitMessage.error.title`);
-            if (errors)
-                message['message'] = errors['errorMessage'];
-            updateFlashMessageFunc(errorMessageType, message);
+export const submitErrorHandler = (err, titleMessage, updateFlashMessageFunction, actionType) => {
+    const message = {};
+    const {errors} = err.response.data;
+    message['severity'] = SEVERITY.error;
+    message['title'] = titleMessage;
+    if (errors)
+        message['message'] = errors['errorMessage'];
+    updateFlashMessageFunction(actionType, message);
 
-            return err;
-        });
+    return err;
+};
+
+export const mapStateToPropsCommon = ({cacheFromServer: {status, meta}}) => {
+
+    return {
+        meta: meta,
+        status: status.map(x => ({value: x.id, label: x.name}))
+    }
 };
