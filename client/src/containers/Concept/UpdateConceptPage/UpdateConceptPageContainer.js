@@ -19,11 +19,11 @@ import Loading from '../../Loading';
 import WithEither from "../../../components/HOC/WithEither";
 import {getConceptById, updateConcept, archiveConcept} from "../../../api";
 import {updateFlashMessage, clearFlashMessage} from "../../../components/FlashMessage/";
+import {submitErrorHandler, submitFormHandling} from "../conceptCommon";
 
 
 import {mapStateToProps} from './updateConceptMapStateToProps';
 import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE as UPDATE_FLASH_MESSAGE, setDeleteButtonAsDisabled, updateInitialFormValues} from "./updateConceptActions";
-import {submitErrorHandler, submitFormHandling} from "../conceptCommon";
 
 class UpdateConceptPageContainer extends React.Component {
     constructor(props) {
@@ -45,8 +45,8 @@ class UpdateConceptPageContainer extends React.Component {
     }
 
     loadConcept() {
-        const {id} = this.props.match.params;
-        const errorMessage = this.props.t('updateConcept.loadDataMessage.error.title');
+        const {updateFlashMessage, match: {params: {id}}} = this.props;
+        const errMessage = this.props.t('updateConcept.loadDataMessage.error.title');
 
         getConceptById(id)
             .then(data => {
@@ -66,7 +66,7 @@ class UpdateConceptPageContainer extends React.Component {
                     this.props.setDeleteButtonAsDisabled(statusId.label === "Archived");
                 }
             })
-            .catch(err =>  submitErrorHandler(err, errorMessage, this.props.updateFlashMessage, UPDATE_FLASH_MESSAGE));
+            .catch(err =>  submitErrorHandler(err, {titleMessage: errMessage, actionType: UPDATE_FLASH_MESSAGE}, updateFlashMessage));
     }
 
 
@@ -75,26 +75,33 @@ class UpdateConceptPageContainer extends React.Component {
     }
 
     onDeleteClicked() {
-        const {t, clearFlashMessage} = this.props;
+        const {clearFlashMessage, initialFormValues: {id}} = this.props;
+
         clearFlashMessage(UPDATE_FLASH_MESSAGE);
 
-        submitFormHandling(
-            archiveConcept(this.props.initialFormValues.id),
-            {success: t('updateConcept.deleteMessage.success.title'), error: t('updateConcept.deleteMessage.error.title')},
-            UPDATE_FLASH_MESSAGE,
-            this.props
-        );
+        this.handleSubmit(archiveConcept(id), "deleteMessage");
     }
 
-
     submit(concept) {
-        const {t, clearFlashMessage} = this.props;
-        clearFlashMessage(UPDATE_FLASH_MESSAGE);
-
+        this.props.clearFlashMessage(UPDATE_FLASH_MESSAGE);
         const update = updateConcept(concept);
-        const titleMessages = {success: t('updateConcept.submitMessage.success.title'), error: t('updateConcept.submitMessage.error.title')};
-        submitFormHandling(update, titleMessages, UPDATE_FLASH_MESSAGE, this.props);
+        this.handleSubmit(update, "submitMessage");
         return update;
+    }
+
+    handleSubmit(submitFunction, message) {
+        const {initialFormValues: {id}, history, t, updateFlashMessage} = this.props;
+        const successHandler = {
+            actionType: UPDATE_FLASH_MESSAGE,
+            titleMessage: t(`updateConcept.${message}.success.title`),
+            history,
+            id
+        };
+        const errorHandler = {
+            titleMessage: t(`updateConcept.${message}.error.title`),
+            actionType: UPDATE_FLASH_MESSAGE,
+        };
+        submitFormHandling(submitFunction, successHandler, errorHandler, updateFlashMessage);
     }
 
     renderCloneButton() {

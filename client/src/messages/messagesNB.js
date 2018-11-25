@@ -62,7 +62,6 @@ const NB = {
             },
             error: {
                 title: "En feil oppsto",
-                message: "Klarte ikke å oppdatere begrepet."
             }
         },
         deleteMessage: {
@@ -71,7 +70,6 @@ const NB = {
             },
             error: {
                 title: "En feil oppsto",
-                message: "Klarte ikke å arkivere begrepet."
             }
         },
         loadDataMessage: {
@@ -98,7 +96,6 @@ const NB = {
             },
             error: {
                 title: "En feil oppsto",
-                message: "Klarte ikke å opprette begrepet."
             }
         },
     },

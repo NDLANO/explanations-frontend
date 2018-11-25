@@ -17,18 +17,17 @@ import Loading from '../../Loading';
 import WithEither from "../../../components/HOC/WithEither";
 import {createConcept} from "../../../api";
 import FlashMessageComponent, {updateFlashMessage, clearFlashMessage } from "../../../components/FlashMessage";
-import {SEVERITY} from "../../../components/FlashMessage";
+import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE} from "../UpdateConceptPage";
+import {submitErrorHandler, submitSuccessHandler} from "../conceptCommon";
 
 import {mapStateToProps} from "./createConceptMapStateToProps";
 import {UPDATE_FLASH_MESSAGE_CONCEPT_CREATE} from "./createConceptActions";
-import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE} from "../UpdateConceptPage";
 
 class CreateConceptPageContainer extends React.Component {
     constructor(props) {
         super(props);
         this.submit = this.submit.bind(this);
     }
-
 
     componentWillUnmount() {
         this.props.updateFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_CREATE);
@@ -39,25 +38,21 @@ class CreateConceptPageContainer extends React.Component {
 
         clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_CREATE);
 
-        const message = {};
-        const callback = createConcept(concept);
-        callback
-            .then(data =>  {
-                message['severity'] = SEVERITY.success;
-                message['title'] = t('createConcept.submitMessage.success.title');
-                updateFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE, message);
+        const create = createConcept(concept);
+        const errorHandler = {
+            titleMessage: t(`createConcept.submitMessage.error.title`),
+            actionType: UPDATE_FLASH_MESSAGE_CONCEPT_CREATE,
+        };
 
-                history.push(`/update/${data.data.data.id}`)
-            })
-            .catch(x => {
-                const {errors} = x.response.data;
-                message['severity'] = SEVERITY.error;
-                message['title'] =  t('createConcept.submitMessage.error.title');
-                if (errors)
-                    message['message'] = errors['errorMessage'];
-                updateFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_CREATE, message);
-            });
-        return callback;
+        create
+            .then(data => submitSuccessHandler(data, {
+                actionType: UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE,
+                titleMessage: t(`createConcept.submitMessage.success.title`),
+                history,
+                id: data.data.data.id,
+            }, updateFlashMessage))
+            .catch(err => submitErrorHandler(err, errorHandler, updateFlashMessage));
+        return create;
     }
 
     render() {
