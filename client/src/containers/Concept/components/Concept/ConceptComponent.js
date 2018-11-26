@@ -36,7 +36,7 @@ class Concept extends React.Component {
 
     onSubmit(values) {
         const meta = GetValuesFromObjectByKeyPrefix(values, "meta_").map(x => x.value);
-        const {externalId = -1, statusId, content, title, author, source = null, id = -1} = values;
+        const {externalId = -1, statusId = {value: -1}, content, title, author, source = "", id = -1} = values;
 
         const concept = {
             id,
@@ -48,6 +48,7 @@ class Concept extends React.Component {
             source,
             metaIds: meta
         };
+        
         return this.props.submitConcept(concept).catch(err => {
             const {errors} = err.response.data;
             if (errors) {
