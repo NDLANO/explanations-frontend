@@ -61,7 +61,7 @@ const NB = {
                 title: "Begrepet er oppdatert!"
             },
             error: {
-                title: "En feil oppsto",
+                title: "Klarte ikke å sende inn skjemaet",
             }
         },
         deleteMessage: {
@@ -69,7 +69,7 @@ const NB = {
                 title: "Begrepet er arkivert!"
             },
             error: {
-                title: "En feil oppsto",
+                title: "Klarte ikke å slette begrep",
             }
         },
         loadDataMessage: {
@@ -85,7 +85,7 @@ const NB = {
                 title: "Begrepet er opprettet!"
             },
             error: {
-                title: "En feil oppsto"
+                title: "Klarte ikke å opprette begrep"
             }
         }
     },
@@ -95,7 +95,7 @@ const NB = {
                 title: "Begrepet er klonet og opprettet!"
             },
             error: {
-                title: "En feil oppsto",
+                title: "Klarte ikke å clone og opprette begrep",
             }
         },
     },

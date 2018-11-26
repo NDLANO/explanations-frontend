@@ -71,18 +71,14 @@ class CreateConceptPageContainer extends React.Component {
     }
 }
 
-CreateConceptPageContainer.defaultProps = {
-    meta: [],
-    status: []
-};
-
 const metaExists = ({meta}) =>  meta.length > 0;
 const statusExists = ({status}) => status.length > 0;
-const formHasInitialValues = ({initialFormValues}) => {
-    return Object.values(initialFormValues).indexOf(null) === -1 &&
-        typeof initialFormValues['statusId'] !== "undefined" &&
-        typeof initialFormValues['meta_language'] !== "undefined";
-};
+const formHasInitialValues = ({initialFormValues}) =>
+    Object.values(initialFormValues).indexOf(null) === -1 &&
+    Object.values(initialFormValues).indexOf(undefined) === -1 &&
+    initialFormValues['statusId'] &&
+    initialFormValues['meta_language'] &&
+    initialFormValues['meta_licence'];
 
 export default compose(
     withRouter,

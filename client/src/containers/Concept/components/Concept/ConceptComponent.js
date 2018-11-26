@@ -48,7 +48,6 @@ class Concept extends React.Component {
             source,
             metaIds: meta
         };
-        
         return this.props.submitConcept(concept).catch(err => {
             const {errors} = err.response.data;
             if (errors) {
