@@ -25,6 +25,7 @@ class CreateConceptPageContainer extends React.Component {
         this.submit = this.submit.bind(this);
     }
 
+
     submit(concept) {
         console.log("submitting",concept);
         return createConcept(concept)

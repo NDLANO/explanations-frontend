@@ -21,10 +21,11 @@ import NotFoundPage from '../NotFoundPage'
 import SearchPage from '../SearchPage/SearchPageContainer';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header/';
-import {CreateRoute, SearchRoute, UpdateRoute, CloneRoute} from "../../routes";
+import {CreateRoute, SearchRoute, UpdateRoute, CloneRoute, LoginRoute} from "../../routes";
 import CloneConceptPage from "../Concept/CloneConceptPage";
 import UpdateConceptPage from "../Concept/UpdateConceptPage";
 import CreateConceptPage from "../Concept/CreateConceptPage";
+import Login from "../Login";
 
 
 import {loadConceptTitles, loadMeta, loadStatus} from "./actions";
@@ -50,6 +51,7 @@ class App extends React.Component {
                         <Route path={UpdateRoute} exact component={UpdateConceptPage}/>
                         <Route path={CreateRoute} exact component={CreateConceptPage}/>
                         <Route path={CloneRoute} exact component={CloneConceptPage}/>
+                        <Route path={LoginRoute} component={Login}/>
                         <Route path="*" component={NotFoundPage}/>
                     </Switch>
                     <Footer t={t} />

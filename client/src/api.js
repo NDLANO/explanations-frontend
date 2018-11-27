@@ -7,6 +7,7 @@
  */
 
 import axios from 'axios';
+import {config} from "./config";
 
 
 const ENVIRONMENT_PRODUCTION = "production";
@@ -26,7 +27,7 @@ const getUrlBasedOnEnvironment = env => {
     }
 };
 
-const ROOT_URL = getUrlBasedOnEnvironment(process.env['RUNTIME_ENV'] || process.env['NODE_ENV']);
+const ROOT_URL = getUrlBasedOnEnvironment(config.ENVIRONMENT);
 
 const API_URL = `${ROOT_URL}/api`;
 
