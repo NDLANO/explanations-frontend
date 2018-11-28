@@ -31,16 +31,6 @@ const ROOT_URL = getUrlBasedOnEnvironment(config.ENVIRONMENT);
 
 const API_URL = `${ROOT_URL}/api`;
 
-const API_ENDPOINTS = {
-    concept: `${API_URL}/concept`,
-    meta: `${API_URL}/metadata`,
-    category: `${API_URL}/category`,
-    status: `${API_URL}/status`,
-    concept_search: `${API_URL}/concept/search`,
-    meta_search: `${API_URL}/metadata/search`,
-    concept_titles: `${API_URL}/concept/allTitles`,
-};
-
 export default class ApiClient {
 
     constructor(token="notValidToken") {
@@ -78,15 +68,15 @@ export default class ApiClient {
             {cancelToken: this.searchCancellationToken.token}).then(this.getData);
     };
 
-    getConceptById = id => this.api.get(`${this.endpoints.concept}/${id}`).then(this.getData);
-    getAllStatus = () => this.api.get(`${this.endpoints.status}`).then(this.getData);
-    getAllConceptTitles =   () =>       this.api.get(`${this.endpoints.concept}/allTitles`).then(this.getData);
-    getAllMetas =           () =>       this.api.get(`${this.endpoints.meta}`).then(this.getData);
-    getAllCategories=       () =>       this.api.get(`${this.endpoints.category}`).then(this.getData);
+    getConceptById      = id =>         this.api.get(`${this.endpoints.concept}/${id}`).then(this.getData);
+    getAllStatus        = () =>         this.api.get(`${this.endpoints.status}`).then(this.getData);
+    getAllConceptTitles = () =>         this.api.get(`${this.endpoints.concept}/allTitles`).then(this.getData);
+    getAllMetas         = () =>         this.api.get(`${this.endpoints.meta}`).then(this.getData);
+    getAllCategories    = () =>         this.api.get(`${this.endpoints.category}`).then(this.getData);
 
-    updateConcept =         concept =>  this.api.put(`${this.endpoints.concept}`,concept);
+    updateConcept       = concept =>    this.api.put(`${this.endpoints.concept}`,concept);
 
-    createConcept =         concept =>  this.api.post(`${this.endpoints.concept}`,concept);
+    createConcept       = concept =>    this.api.post(`${this.endpoints.concept}`,concept);
 
-    archiveConcept =        id =>       this.api.delete(`${this.endpoints.concept}/${id}`,);
+    archiveConcept      = id =>         this.api.delete(`${this.endpoints.concept}/${id}`,);
 }
