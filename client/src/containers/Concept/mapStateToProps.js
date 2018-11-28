@@ -1,7 +1,12 @@
+import ApiClient from "../../api";
+
 export const mapStateToProps = ({cacheFromServer: {status, meta}}) => {
+    const token = "updateToken";
+    const apiClient = new ApiClient(token);
 
     return {
         meta: meta,
         status: status.map(x => ({value: x.id, label: x.name})),
+        apiClient
     }
 };

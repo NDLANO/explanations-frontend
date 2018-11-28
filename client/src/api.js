@@ -41,26 +41,57 @@ const API_ENDPOINTS = {
     concept_titles: `${API_URL}/concept/allTitles`,
 };
 
+export default class ApiClient {
 
-const CancelToken = axios.CancelToken;
-let searchCancelToken = CancelToken.source();
+    constructor(token="notValidToken") {
+        this.api = axios.create({
+            headers: {
+                common: {  // Common is for all types requests (post, get etc)
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        });
+        this.endpoints = {
+            concept: `${API_URL}/concept`,
+            meta: `${API_URL}/metadata`,
+            category: `${API_URL}/category`,
+            status: `${API_URL}/status`,
+        };
 
-export const searchForConcepts = query => {
-    searchCancelToken.cancel('Cancelled by new search');
-    searchCancelToken = CancelToken.source();
-    return axios.get(`${API_ENDPOINTS.concept_search}${query}`, {cancelToken: searchCancelToken.token})
-};
+        this.searchCancellationToken = this.getCancellationToken();
+    }
 
-export const getConceptById = id => axios.get(`${API_ENDPOINTS.concept}/${id}`);
+    getData = data => {
+        if (data && data.data && data.data)
+            return data.data.data;
+        return null;
+    };
 
-export const getAllStatus = () => axios.get(`${API_ENDPOINTS.status}`);
+    getCancellationToken() {
+        return axios.CancelToken.source();
+    }
+
+    searchForConcepts = query => {
+        this.searchCancellationToken = this.getCancellationToken();
+        this.searchCancellationToken.cancel('Cancelled by new search');
+        return this.api.get(`${this.endpoints.concept}/search${query}`,
+            {cancelToken: this.searchCancellationToken().token}).then(this.getData);
+    };
+
+    getConceptById(id) {return this.api.get(`${this.endpoints.concept}/${id}`)};
+    getAllStatus = () => this.api.get(`${this.endpoints.status}`).then(this.getData);
+    getAllConceptTitles =   () =>       this.api.get(`${this.endpoints.concept}/allTitles`).then(this.getData);
+    getAllMetas =           () =>       this.api.get(`${this.endpoints.meta}`).then(this.getData);
+    getAllCategories=       () =>       this.api.get(`${this.endpoints.category}`).then(this.getData);
+
+    updateConcept =         concept =>  this.api.put(`${this.endpoints.concept}`,concept);
+
+    createConcept =         concept =>  this.api.post(`${this.endpoints.concept}`,concept);
+
+    archiveConcept =        id =>       this.api.delete(`${this.endpoints.concept}/${id}`,);
+}
 
 export const updateConcept = concept => axios.put(`${API_ENDPOINTS.concept}`,concept);
 export const createConcept = concept => axios.post(`${API_ENDPOINTS.concept}`,concept);
-
+export const getConceptById = id => this.api.get(`${this.endpoints.concept}/${id}`);
 export const archiveConcept = id => axios.delete(`${API_ENDPOINTS.concept}/${id}`,);
-
-export const getAllConceptTitles = () => axios.get(`${API_ENDPOINTS.concept_titles}`);
-export const getAllMetas = () => axios.get(`${API_ENDPOINTS.meta}`);
-
-export const getAllCategories= () => axios.get(`${API_ENDPOINTS.category}`);

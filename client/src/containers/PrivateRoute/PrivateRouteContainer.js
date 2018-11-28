@@ -9,7 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
-import { toLogin } from '../../util/routeHelpers';
+import { toLogin } from '../../utilities//routeHelpers';
 
 const PrivateRoute = ({ authenticated, component: Component, ...rest }) => (
     <Route

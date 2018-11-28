@@ -1,7 +1,5 @@
-import {config as configureDotEnv} from 'dotenv';
 
-configureDotEnv();
-
+console.log(process.env)
 const getEnvironment = key => process.env[key];
 
 export const config = {
@@ -13,6 +11,10 @@ export const config = {
         responseType:       getEnvironment('REACT_APP_AUTH0_RESPONSE_TYPE'),
         audience:           getEnvironment('REACT_APP_AUTH0_AUDIENCE'),
         scope:              getEnvironment('REACT_APP_AUTH0_SCOPE'),
+    },
+    EDITORS: {
+        managing: "Pål Frønsdal",
+        chief: "Christer Gundersen"
     }
 };
 

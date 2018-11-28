@@ -8,12 +8,13 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {injectT} from 'ndla-i18n';
+import {loginRoute} from "../../utilities/routeHelper";
 
 export const LoginFailure = ({t}) => (
     <div>
         <h2>{t('loginFailure.errorMessage')}</h2>
         <p>
-            <Link to="/login">{t('loginFailure.loginLink')}</Link>
+            <Link to={loginRoute()}>{t('loginFailure.loginLink')}</Link>
         </p>
     </div>
 );

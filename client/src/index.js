@@ -6,16 +6,20 @@
  *
  */
 
+import {config as configureDotEnv} from 'dotenv';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from "react-redux";
 import {IntlProvider} from "ndla-i18n";
 import {BrowserRouter} from "react-router-dom";
+
 import App from './containers/App';
 import {getLocaleInfoFromPath} from "./i18n";
 import {store} from './store';
 
 import './style/index.css';
+
+configureDotEnv();
 
 const {basename} = getLocaleInfoFromPath(window.location.pathname);
 

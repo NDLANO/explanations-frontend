@@ -10,6 +10,10 @@ import React from 'react';
 import {Footer, Logo} from 'ndla-ui';
 
 import SelectLocale from '../../containers/SelectLocale/index';
+import {indexRoute} from "../../utilities/routeHelper";
+import {config} from "../../config";
+
+
 import './style.css';
 
 const FooterWrapper = ({ t }) => (
@@ -27,17 +31,17 @@ const FooterWrapper = ({ t }) => (
                <Footer.Text>
                    <Footer.Editor
                        title={t('footer.footerEditiorInChief')}
-                       name="Christer Gundersen"
+                       name={config.EDITORS.chief}
                    />
                    <Footer.Editor
                        title={t('footer.footerManagingEditor')}
-                       name="Pål Frønsdal"
+                       name={config.EDITORS.managing}
                    />
                </Footer.Text>
                <Footer.Text>{t('footer.footerInfo')}</Footer.Text>
            </div>
            <div className="footer-logo">
-               <Logo to="/" label={t('logo.label')} />
+               <Logo to={indexRoute()} label={t('logo.label')} />
            </div>
        </div>
     </Footer>
