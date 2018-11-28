@@ -15,15 +15,16 @@ import {injectT} from "ndla-i18n";
 import FlashMessage from "../../../components/FlashMessage";
 import Concept from "../components/Concept";
 import ConfirmModal from "../../../components/ConfirmModal";
+
 import Loading from '../../Loading';
 import WithEither from "../../../components/HOC/WithEither";
-import {getConceptById, updateConcept, archiveConcept} from "../../../api";
 import {updateFlashMessage, clearFlashMessage} from "../../../components/FlashMessage/";
 import {submitErrorHandler, submitFormHandling} from "../conceptCommon";
 
 
 import {mapStateToProps} from './updateConceptMapStateToProps';
 import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE as UPDATE_FLASH_MESSAGE, setDeleteButtonAsDisabled, updateInitialFormValues} from "./updateConceptActions";
+import {cloneRoute} from "../../../utilities/routeHelper";
 
 class UpdateConceptPageContainer extends React.Component {
     constructor(props) {
@@ -46,32 +47,31 @@ class UpdateConceptPageContainer extends React.Component {
 
     loadConcept() {
         const {updateFlashMessage, match: {params: {id}}} = this.props;
-        const errMessage = this.props.t('updateConcept.loadDataMessage.error.title');
+        const errorHandler = {
+            titleMessage: this.props.t('updateConcept.loadDataMessage.error.title'),
+            actionType: UPDATE_FLASH_MESSAGE
+        };
 
-        getConceptById(id)
-            .then(data => {
-                if (data.data) {
-                    const {data: concept} = data.data;
-                    const meta = {};
-
-                    concept.meta.forEach(x => {
-                        meta[`meta_${x.category.name.toLowerCase()}`] = {value: x.id, label: x.name};
-                    });
-                    const statusId = {value: concept.status.id, label: concept.status.name};
-                    this.props.updateInitialFormValues({
-                        ...concept,
-                        statusId,
-                        ...meta,
-                    });
-                    this.props.setDeleteButtonAsDisabled(statusId.label === "Archived");
-                }
+        this.props.apiClient.getConceptById(id)
+            .then(concept => {
+                const meta = {};
+                concept.meta.forEach(x => {
+                    meta[`meta_${x.category.name.toLowerCase()}`] = {value: x.id, label: x.name};
+                });
+                const statusId = {value: concept.status.id, label: concept.status.name};
+                this.props.updateInitialFormValues({
+                    ...concept,
+                    statusId,
+                    ...meta,
+                });
+                this.props.setDeleteButtonAsDisabled(statusId.label === "Archived");
             })
-            .catch(err =>  submitErrorHandler(err, {titleMessage: errMessage, actionType: UPDATE_FLASH_MESSAGE}, updateFlashMessage));
+            .catch(err =>  submitErrorHandler(err, errorHandler, updateFlashMessage));
     }
 
 
     onCloneClicked() {
-        this.props.history.push(`/clone/${this.props.initialFormValues.id}`);
+        this.props.history.push(cloneRoute(this.props.initialFormValues.id));
     }
 
     onDeleteClicked() {
@@ -79,12 +79,12 @@ class UpdateConceptPageContainer extends React.Component {
 
         clearFlashMessage(UPDATE_FLASH_MESSAGE);
 
-        this.handleSubmit(archiveConcept(id), "deleteMessage");
+        this.handleSubmit(this.props.apiClient.archiveConcept(id), "deleteMessage");
     }
 
     submit(concept) {
         this.props.clearFlashMessage(UPDATE_FLASH_MESSAGE);
-        const update = updateConcept(concept);
+        const update = this.props.apiClient.updateConcept(concept);
         this.handleSubmit(update, "submitMessage");
         return update;
     }
@@ -101,7 +101,7 @@ class UpdateConceptPageContainer extends React.Component {
             titleMessage: t(`updateConcept.${message}.error.title`),
             actionType: UPDATE_FLASH_MESSAGE,
         };
-        submitFormHandling(submitFunction, successHandler, errorHandler, updateFlashMessage);
+        return submitFormHandling(submitFunction, successHandler, errorHandler, updateFlashMessage);
     }
 
     renderCloneButton() {
@@ -155,7 +155,7 @@ const statusExists = ({status}) => status.length > 0;
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, {archiveConcept, updateFlashMessage, clearFlashMessage, updateInitialFormValues, setDeleteButtonAsDisabled}),
+    connect(mapStateToProps, {updateFlashMessage, clearFlashMessage, updateInitialFormValues, setDeleteButtonAsDisabled}),
     injectT,
     WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),
     WithEither(statusExists, () => <Loading message="loadingMessage.loadingStatus"/>),

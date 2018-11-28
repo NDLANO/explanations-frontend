@@ -136,4 +136,5 @@ Concept.propTypes = {
 export default reduxForm({
     validate,
     form: 'conceptForm',
+    enableReinitialize: true,
 })(Concept);

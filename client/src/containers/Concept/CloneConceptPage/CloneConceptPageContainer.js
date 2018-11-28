@@ -9,9 +9,9 @@
 import React from 'react';
 import {connect} from "react-redux";
 import { withRouter } from 'react-router-dom';
-import {createConcept, getConceptById} from "../../../api";
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
+
 
 import Loading from '../../Loading';
 import Concept from "../components/Concept";
@@ -22,6 +22,8 @@ import FlashMessage, {clearFlashMessage, updateFlashMessage} from "../../../comp
 
 import {UPDATE_FLASH_MESSAGE_CONCEPT_CLONE, updateInitialFormValues} from "./cloneConceptActions";
 import {mapStateToProps} from './cloneConceptMapStateToProps';
+
+
 
 
 class CloneConceptPageContainer extends React.Component {
@@ -43,7 +45,7 @@ class CloneConceptPageContainer extends React.Component {
 
         clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_CLONE);
 
-        const create = createConcept(concept);
+        const create = this.props.apiClient.createConcept(concept);
         const errorHandler = {
             titleMessage: t(`cloneConcept.submitMessage.error.title`),
             actionType: UPDATE_FLASH_MESSAGE_CONCEPT_CLONE,
@@ -62,27 +64,23 @@ class CloneConceptPageContainer extends React.Component {
 
     loadConcept() {
         const {id} = this.props.match.params;
-        getConceptById(id)
-            .then(data => {
-                if (data.data) {
-                    const {data: concept} = data.data;
+        this.props.apiClient.getConceptById(id).then(concept => {
 
-                    delete concept.created;
-                    delete concept.id;
-                    delete concept.updated;
+            delete concept.created;
+            delete concept.id;
+            delete concept.updated;
 
-                    const meta = {};
+            const meta = {};
 
-                    concept.meta.forEach(x => {
-                        meta[`meta_${x.category.name.toLowerCase()}`] = {value: x.id, label: x.name};
-                    });
-                    this.props.updateInitialFormValues({
-                        ...concept,
-                        statusId: {value: concept.status.id, label: concept.status.name},
-                        ...meta,
-                    });
-                }
-            })
+            concept.meta.forEach(x => {
+                meta[`meta_${x.category.name.toLowerCase()}`] = {value: x.id, label: x.name};
+            });
+            this.props.updateInitialFormValues({
+                ...concept,
+                statusId: {value: concept.status.id, label: concept.status.name},
+                ...meta,
+            });
+        })
     }
 
     renderContent() {

@@ -1,4 +1,6 @@
 import {SEVERITY} from "../../components/FlashMessage";
+import ApiClient from "../../api";
+import {updateRoute} from "../../utilities/routeHelper";
 
 
 export const submitFormHandling = (submitFunction, successHandler, errorHandler, updateFlashMessage) => {
@@ -12,12 +14,12 @@ export const submitSuccessHandler = (data, {titleMessage, actionType, history, i
     message['severity'] = SEVERITY.success;
     message['title'] = titleMessage;
     updateFlashMessageFunction(actionType, message);
-
-    history.push(`/update/${id}`);
+    history.push(updateRoute(id))
     return data;
 };
 
 export const submitErrorHandler = (err, {titleMessage, actionType}, updateFlashMessageFunction) => {
+
     const message = {};
     const {errors} = err.response.data;
     message['severity'] = SEVERITY.error;
@@ -31,8 +33,12 @@ export const submitErrorHandler = (err, {titleMessage, actionType}, updateFlashM
 
 export const mapStateToPropsCommon = ({cacheFromServer: {status, meta}}) => {
 
+    const token = "updateToken";
+    const apiClient = new ApiClient(token);
+
     return {
         meta: meta,
-        status: status.map(x => ({value: x.id, label: x.name}))
+        status: status.map(x => ({value: x.id, label: x.name})),
+        apiClient,
     }
 };

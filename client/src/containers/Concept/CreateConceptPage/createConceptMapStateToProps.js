@@ -1,4 +1,4 @@
-import {mapStateToProps as mstp} from '../mapStateToProps';
+import {mapStateToPropsCommon} from '../conceptCommon';
 
 export const mapStateToProps = ({cacheFromServer, locale, concept}) => {
     const {status, meta} = cacheFromServer;
@@ -34,7 +34,7 @@ export const mapStateToProps = ({cacheFromServer, locale, concept}) => {
     });
 
     return {
-        ...mstp({cacheFromServer}),
+        ...mapStateToPropsCommon({cacheFromServer}),
         initialFormValues,
         flashMessage
     }

@@ -21,22 +21,28 @@ import NotFoundPage from '../NotFoundPage'
 import SearchPage from '../SearchPage/SearchPageContainer';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header/';
-import {CreateRoute, SearchRoute, UpdateRoute, CloneRoute} from "../../routes";
+import {createRoute, searchRoute, updateRoute, cloneRoute, loginRoute, catchAllRoute} from "../../utilities/routeHelper";
 import CloneConceptPage from "../Concept/CloneConceptPage";
 import UpdateConceptPage from "../Concept/UpdateConceptPage";
 import CreateConceptPage from "../Concept/CreateConceptPage";
+import Login from "../Login";
 
 
 import {loadConceptTitles, loadMeta, loadStatus} from "./actions";
+import ApiClient from "../../api";
 
 
 //Moment.globalFormat = 'lll';
 
 class App extends React.Component {
     componentDidMount() {
-        this.props.loadMeta();
-        this.props.loadStatus();
-        this.props.loadConceptTitles();
+        this.loadInitialData();
+    }
+    loadInitialData() {
+        this.props.apiClient.getAllStatus().then(data => this.props.loadStatus(data));
+        this.props.apiClient.getAllConceptTitles().then(data => this.props.loadConceptTitles(data));
+        const promises = [this.props.apiClient.getAllCategories(), this.props.apiClient.getAllMetas()];
+        Promise.all(promises).then(([categories, metas]) => this.props.loadMeta(categories, metas));
     }
 
     render() {
@@ -46,11 +52,12 @@ class App extends React.Component {
                 <Content>
                     <Header t={t} />
                     <Switch>
-                        <Route path={SearchRoute} exact component={SearchPage}/>
-                        <Route path={UpdateRoute} exact component={UpdateConceptPage}/>
-                        <Route path={CreateRoute} exact component={CreateConceptPage}/>
-                        <Route path={CloneRoute} exact component={CloneConceptPage}/>
-                        <Route path="*" component={NotFoundPage}/>
+                        <Route path={updateRoute()} component={UpdateConceptPage}/>
+                        <Route path={createRoute()} component={CreateConceptPage}/>
+                        <Route path={cloneRoute()} component={CloneConceptPage}/>
+                        <Route path={loginRoute()} component={Login}/>
+                        <Route path={searchRoute()} component={SearchPage}/>
+                        <Route path={catchAllRoute()} component={NotFoundPage}/>
                     </Switch>
                     <Footer t={t} />
                 </Content>
@@ -59,8 +66,16 @@ class App extends React.Component {
     }
 }
 
+
+const mapStateToProps = state => {
+    const token = "token";
+
+    return {
+        apiClient: new ApiClient(token),
+    }
+};
 export default compose(
     withRouter,
-    connect(null, {loadMeta, loadStatus, loadConceptTitles}),
+    connect(mapStateToProps, {loadMeta, loadStatus, loadConceptTitles}),
     injectT,
 )(App);

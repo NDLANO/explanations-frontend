@@ -7,6 +7,7 @@
  */
 
 import axios from 'axios';
+import {config} from "./config";
 
 
 const ENVIRONMENT_PRODUCTION = "production";
@@ -26,40 +27,56 @@ const getUrlBasedOnEnvironment = env => {
     }
 };
 
-const ROOT_URL = getUrlBasedOnEnvironment(process.env['RUNTIME_ENV'] || process.env['NODE_ENV']);
+const ROOT_URL = getUrlBasedOnEnvironment(config.ENVIRONMENT);
 
 const API_URL = `${ROOT_URL}/api`;
 
-const API_ENDPOINTS = {
-    concept: `${API_URL}/concept`,
-    meta: `${API_URL}/metadata`,
-    category: `${API_URL}/category`,
-    status: `${API_URL}/status`,
-    concept_search: `${API_URL}/concept/search`,
-    meta_search: `${API_URL}/metadata/search`,
-    concept_titles: `${API_URL}/concept/allTitles`,
-};
+export default class ApiClient {
 
+    constructor(token="notValidToken") {
+        this.api = axios.create({
+            headers: {
+                common: {  // Common is for all types requests (post, get etc)
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        });
+        this.endpoints = {
+            concept: `${API_URL}/concept`,
+            meta: `${API_URL}/metadata`,
+            category: `${API_URL}/category`,
+            status: `${API_URL}/status`,
+        };
 
-const CancelToken = axios.CancelToken;
-let searchCancelToken = CancelToken.source();
+        this.searchCancellationToken = this.getCancellationToken();
+    }
 
-export const searchForConcepts = query => {
-    searchCancelToken.cancel('Cancelled by new search');
-    searchCancelToken = CancelToken.source();
-    return axios.get(`${API_ENDPOINTS.concept_search}${query}`, {cancelToken: searchCancelToken.token})
-};
+    getData = data => {
+        if (data && data.data && data.data)
+            return data.data.data;
+        return null;
+    };
 
-export const getConceptById = id => axios.get(`${API_ENDPOINTS.concept}/${id}`);
+    getCancellationToken() {
+        return axios.CancelToken.source();
+    }
 
-export const getAllStatus = () => axios.get(`${API_ENDPOINTS.status}`);
+    searchForConcepts = query => {
+        this.searchCancellationToken.cancel('Cancelled by new search');
+        this.searchCancellationToken = this.getCancellationToken();
+        return this.api.get(`${this.endpoints.concept}/search${query}`,
+            {cancelToken: this.searchCancellationToken.token}).then(this.getData);
+    };
 
-export const updateConcept = concept => axios.put(`${API_ENDPOINTS.concept}`,concept);
-export const createConcept = concept => axios.post(`${API_ENDPOINTS.concept}`,concept);
+    getConceptById      = id =>         this.api.get(`${this.endpoints.concept}/${id}`).then(this.getData);
+    getAllStatus        = () =>         this.api.get(`${this.endpoints.status}`).then(this.getData);
+    getAllConceptTitles = () =>         this.api.get(`${this.endpoints.concept}/allTitles`).then(this.getData);
+    getAllMetas         = () =>         this.api.get(`${this.endpoints.meta}`).then(this.getData);
+    getAllCategories    = () =>         this.api.get(`${this.endpoints.category}`).then(this.getData);
 
-export const archiveConcept = id => axios.delete(`${API_ENDPOINTS.concept}/${id}`,);
+    updateConcept       = concept =>    this.api.put(`${this.endpoints.concept}`,concept);
 
-export const getAllConceptTitles = () => axios.get(`${API_ENDPOINTS.concept_titles}`);
-export const getAllMetas = () => axios.get(`${API_ENDPOINTS.meta}`);
+    createConcept       = concept =>    this.api.post(`${this.endpoints.concept}`,concept);
 
-export const getAllCategories= () => axios.get(`${API_ENDPOINTS.category}`);
+    archiveConcept      = id =>         this.api.delete(`${this.endpoints.concept}/${id}`,);
+}

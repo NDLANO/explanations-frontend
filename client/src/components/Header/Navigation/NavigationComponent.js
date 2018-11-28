@@ -12,7 +12,7 @@ import { Plus, Minus } from 'ndla-icons/action';
 import { Button } from 'ndla-ui';
 import { Link } from 'react-router-dom';
 import {DetailSearch} from 'ndla-icons/editor';
-import {SearchRoute, CreateRoute} from "../../../routes";
+import {searchRoute, createRoute} from "../../../utilities/routeHelper";
 
 import './style.css'
 
@@ -64,14 +64,14 @@ export class Navigation extends Component {
                     )}>
                     <div {...classes('items')}>
                         <Link
-                            to={SearchRoute}
+                            to={searchRoute()}
                             {...classes('item')}
                             onClick={this.toggleOpen}>
                             <DetailSearch className="c-icon--large" />
                             <span>{t('subNavigation.search')}</span>
                         </Link>
                         <Link
-                            to={CreateRoute}
+                            to={createRoute()}
                             {...classes('item')}
                             onClick={this.toggleOpen}>
                             <Plus className="c-icon--large" />
