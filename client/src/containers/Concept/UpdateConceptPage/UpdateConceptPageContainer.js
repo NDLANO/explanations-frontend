@@ -15,7 +15,6 @@ import {injectT} from "ndla-i18n";
 import Concept from "../components/Concept";
 import ConfirmModal from "../../../components/ConfirmModal";
 import Loading from "../../../components/Loading/index";
-import {updateConcept, archiveConcept} from "../../../api";
 import WithEither from "../../../components/HOC/WithEither";
 
 import {mapStateToProps} from '../mapStateToProps';
@@ -62,14 +61,13 @@ class UpdateConceptPageContainer extends React.Component {
     }
 
     onDeleteClicked() {
-        archiveConcept(this.state.initialValues.id);
+        this.props.apiClient.archiveConcept(this.state.initialValues.id);
     }
 
 
     submit(concept) {
         console.log("updating concept", concept);
-        return updateConcept(concept)
-            .then(data => console.log(data));
+        return this.props.apiClient.updateConcept(concept).then(data => console.log(data));
     }
 
     renderCloneButton() {
@@ -106,7 +104,7 @@ const statusExists = ({status}) => status.length > 0;
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, {archiveConcept}),
+    connect(mapStateToProps, null),
     injectT,
     WithEither(metaExists, requiredPropsIsNotYetPresent),
     WithEither(statusExists, requiredPropsIsNotYetPresent)

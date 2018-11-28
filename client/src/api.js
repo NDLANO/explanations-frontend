@@ -90,6 +90,3 @@ export default class ApiClient {
 
     archiveConcept =        id =>       this.api.delete(`${this.endpoints.concept}/${id}`,);
 }
-
-export const updateConcept = concept => axios.put(`${API_ENDPOINTS.concept}`,concept);
-export const archiveConcept = id => axios.delete(`${API_ENDPOINTS.concept}/${id}`,);
