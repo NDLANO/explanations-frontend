@@ -15,7 +15,7 @@ import {injectT} from "ndla-i18n";
 import Concept from "../components/Concept";
 import ConfirmModal from "../../../components/ConfirmModal";
 import Loading from "../../../components/Loading/index";
-import {getConceptById, updateConcept, archiveConcept} from "../../../api";
+import {updateConcept, archiveConcept} from "../../../api";
 import WithEither from "../../../components/HOC/WithEither";
 
 import {mapStateToProps} from '../mapStateToProps';
@@ -39,25 +39,21 @@ class UpdateConceptPageContainer extends React.Component {
 
     loadConcept() {
         const {id} = this.props.match.params;
-        getConceptById(id)
-            .then(data => {
-                if (data.data) {
-                    const {data: concept} = data.data;
-                    const meta = {};
+        this.props.apiClient.getConceptById(id).then(concept => {
+            const meta = {};
 
-                    concept.meta.forEach(x => {
-                        meta[`meta_${x.category.name.toLowerCase()}`] = {value: x.id, label: x.name};
-                    });
+            concept.meta.forEach(x => {
+                meta[`meta_${x.category.name.toLowerCase()}`] = {value: x.id, label: x.name};
+            });
 
-                    this.setState({
-                        initialValues: {
-                            ...concept,
-                            statusId: {value: concept.status.id, label: concept.status.name},
-                            ...meta,
-                        },
-                    });
-                }
-            })
+            this.setState({
+                initialValues: {
+                    ...concept,
+                    statusId: {value: concept.status.id, label: concept.status.name},
+                    ...meta,
+                },
+            });
+        });
     }
 
 

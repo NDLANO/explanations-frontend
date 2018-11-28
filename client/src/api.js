@@ -78,7 +78,7 @@ export default class ApiClient {
             {cancelToken: this.searchCancellationToken.token}).then(this.getData);
     };
 
-    getConceptById(id) {return this.api.get(`${this.endpoints.concept}/${id}`)};
+    getConceptById = id => this.api.get(`${this.endpoints.concept}/${id}`).then(this.getData);
     getAllStatus = () => this.api.get(`${this.endpoints.status}`).then(this.getData);
     getAllConceptTitles =   () =>       this.api.get(`${this.endpoints.concept}/allTitles`).then(this.getData);
     getAllMetas =           () =>       this.api.get(`${this.endpoints.meta}`).then(this.getData);
@@ -92,6 +92,4 @@ export default class ApiClient {
 }
 
 export const updateConcept = concept => axios.put(`${API_ENDPOINTS.concept}`,concept);
-export const createConcept = concept => axios.post(`${API_ENDPOINTS.concept}`,concept);
-export const getConceptById = id => this.api.get(`${this.endpoints.concept}/${id}`);
 export const archiveConcept = id => axios.delete(`${API_ENDPOINTS.concept}/${id}`,);

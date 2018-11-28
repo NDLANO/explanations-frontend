@@ -13,11 +13,11 @@ import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 
 import Concept from "../components/Concept/";
-import {createConcept} from "../../../api";
 import Loading from "../../../components/Loading/index";
 import WithEither from "../../../components/HOC/WithEither";
 
 import {mapStateToProps} from "./CreateConceptMapStateToProps";
+import {updateRoute} from "../../../utilities/routeHelper";
 
 class CreateConceptPageContainer extends React.Component {
     constructor(props) {
@@ -27,9 +27,9 @@ class CreateConceptPageContainer extends React.Component {
 
 
     submit(concept) {
-        console.log("submitting",concept);
-        return createConcept(concept)
-            .then(data => this.props.history.push(`/update/${data.data.data.id}`));
+        return this.props.apiClient
+            .createConcept(concept)
+            .then(data => this.props.history.push(updateRoute(data.data.data.id)));
     }
 
     render() {

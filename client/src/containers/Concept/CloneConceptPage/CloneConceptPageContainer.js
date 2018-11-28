@@ -8,15 +8,15 @@
 
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import {createConcept, getConceptById} from "../../../api";
 import {compose} from "redux";
+import {connect} from "react-redux";
 import {injectT} from "ndla-i18n";
 
-import {mapStateToProps} from '../mapStateToProps';
 import Loading from "../../../components/Loading/index";
 import Concept from "../components/Concept";
-import {connect} from "react-redux";
 import WithEither from "../../../components/HOC/WithEither";
+import {updateRoute} from "../../../utilities/routeHelper";
+import {mapStateToProps} from '../mapStateToProps';
 
 
 class CloneConceptPageContainer extends React.Component {
@@ -31,37 +31,33 @@ class CloneConceptPageContainer extends React.Component {
     }
 
     submit(concept) {
-        console.log("submitting",concept);
-        return createConcept(concept)
-            .then(data => this.props.history.push(`/update/${data.data.data.id}`))
+        return this.props.apiClient
+            .createConcept(concept)
+            .then(data => this.props.history.push(updateRoute(data.data.data.id)));
     }
 
     loadConcept() {
         const {id} = this.props.match.params;
-        getConceptById(id)
-            .then(data => {
-                if (data.data) {
-                    const {data: concept} = data.data;
+        this.props.apiClient.getConceptById(id).then(concept => {
 
-                    delete concept.created;
-                    delete concept.id;
-                    delete concept.updated;
+            delete concept.created;
+            delete concept.id;
+            delete concept.updated;
 
-                    const meta = {};
+            const meta = {};
 
-                    concept.meta.forEach(x => {
-                        meta[`meta_${x.category.name.toLowerCase()}`] = {value: x.id, label: x.name};
-                    });
+            concept.meta.forEach(x => {
+                meta[`meta_${x.category.name.toLowerCase()}`] = {value: x.id, label: x.name};
+            });
 
-                    this.setState({
-                        initialValues: {
-                            ...concept,
-                            statusId: {value: concept.status.id, label: concept.status.name},
-                            ...meta,
-                            },
-                    });
-                }
-            })
+            this.setState({
+                initialValues: {
+                    ...concept,
+                    statusId: {value: concept.status.id, label: concept.status.name},
+                    ...meta,
+                    },
+            });
+        })
     }
 
     render() {

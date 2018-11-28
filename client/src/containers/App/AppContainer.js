@@ -52,11 +52,11 @@ class App extends React.Component {
                 <Content>
                     <Header t={t} />
                     <Switch>
-                        <Route path={searchRoute()} component={SearchPage}/>
                         <Route path={updateRoute()} component={UpdateConceptPage}/>
                         <Route path={createRoute()} component={CreateConceptPage}/>
                         <Route path={cloneRoute()} component={CloneConceptPage}/>
                         <Route path={loginRoute()} component={Login}/>
+                        <Route path={searchRoute()} component={SearchPage}/>
                         <Route path={catchAllRoute()} component={NotFoundPage}/>
                     </Switch>
                     <Footer t={t} />
