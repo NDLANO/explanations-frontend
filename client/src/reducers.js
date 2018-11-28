@@ -10,7 +10,7 @@ import { combineReducers } from 'redux';
 import {reducer as formReducer} from 'redux-form'
 
 import {locale} from './containers/SelectLocale/localeReducer';
-import {search} from "./containers/SearchPage/searchReducer";
+import {search} from "./containers/SearchPage/searchPageReducer";
 import {appReducers} from './containers/App';
 
 const rootReducers = combineReducers({

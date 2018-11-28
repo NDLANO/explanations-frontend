@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {SEARCH_FOR_CONCEPT} from './actions';
+import {SEARCH_FOR_CONCEPT} from './searchPageActions';
 import {sortObjectsByKey} from "../../utilities";
 
 const initialState = {
@@ -15,7 +15,7 @@ const initialState = {
 export const search = (state=initialState, action) => {
     switch(action.type) {
         case SEARCH_FOR_CONCEPT:
-            return {...state, results: action.payload.data.sort(sortObjectsByKey('title'))};
+            return {...state, results: action.payload.sort(sortObjectsByKey('title'))};
         default:
             return state;
     }

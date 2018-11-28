@@ -72,10 +72,10 @@ export default class ApiClient {
     }
 
     searchForConcepts = query => {
-        this.searchCancellationToken = this.getCancellationToken();
         this.searchCancellationToken.cancel('Cancelled by new search');
+        this.searchCancellationToken = this.getCancellationToken();
         return this.api.get(`${this.endpoints.concept}/search${query}`,
-            {cancelToken: this.searchCancellationToken().token}).then(this.getData);
+            {cancelToken: this.searchCancellationToken.token}).then(this.getData);
     };
 
     getConceptById(id) {return this.api.get(`${this.endpoints.concept}/${id}`)};
