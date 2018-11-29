@@ -1,9 +1,9 @@
 import {mapStateToPropsCommon} from '../conceptCommon';
 
-export const mapStateToProps = ({cacheFromServer, locale, concept}) => {
-    const {initialFormValues, flashMessage} = concept.clone;
+export const mapStateToProps = state => {
+    const {concept: {clone: {initialFormValues, flashMessage}}} = state;
     return {
-        ...mapStateToPropsCommon({cacheFromServer}),
+        ...mapStateToPropsCommon(state),
         initialFormValues,
         flashMessage
     }

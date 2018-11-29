@@ -11,20 +11,22 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
+import {Button} from "ndla-ui";
 
 import FlashMessage from "../../../components/FlashMessage";
 import Concept from "../components/Concept";
 import ConfirmModal from "../../../components/ConfirmModal";
-
 import Loading from '../../Loading';
 import WithEither from "../../../components/HOC/WithEither";
 import {updateFlashMessage, clearFlashMessage} from "../../../components/FlashMessage/";
 import {submitErrorHandler, submitFormHandling} from "../conceptCommon";
+import {cloneRoute, routeIsAllowed} from "../../../utilities/routeHelper";
 
 
 import {mapStateToProps} from './updateConceptMapStateToProps';
+
 import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE as UPDATE_FLASH_MESSAGE, setDeleteButtonAsDisabled, updateInitialFormValues} from "./updateConceptActions";
-import {cloneRoute} from "../../../utilities/routeHelper";
+
 
 class UpdateConceptPageContainer extends React.Component {
     constructor(props) {
@@ -69,6 +71,7 @@ class UpdateConceptPageContainer extends React.Component {
             .catch(err =>  submitErrorHandler(err, errorHandler, updateFlashMessage));
     }
 
+    isReadOnly = () => !routeIsAllowed(this.props.requiredScopes, this.props.userScopes, this.props.isAuthenticated);
 
     onCloneClicked() {
         this.props.history.push(cloneRoute(this.props.initialFormValues.id));
@@ -105,11 +108,11 @@ class UpdateConceptPageContainer extends React.Component {
     }
 
     renderCloneButton() {
-        return <button className="c-button c-button--outline" type="button" onClick={this.onCloneClicked}>{this.props.t("updateConcept.button.clone")}</button>
+        return <Button outline={true} onClick={this.onCloneClicked} disabled={this.isReadOnly()}>{this.props.t("updateConcept.button.clone")}</Button>
     }
 
     renderDeleteButton() {
-        return <button className="c-button c-button--outline" type="button" disabled={this.props.deleteButtonIsDisabled} >{this.props.t("updateConcept.button.delete")}</button>
+        return <Button outline={true} disabled={this.isReadOnly() || this.props.deleteButtonIsDisabled}>{this.props.t("updateConcept.button.delete")}</Button>;
     }
 
     renderContent() {
@@ -120,7 +123,8 @@ class UpdateConceptPageContainer extends React.Component {
                                metas={this.props.meta}
                                title={this.props.t("updateConcept.title")}
                                submitConcept={this.submit}
-                               showTimestamps={true}>
+                               showTimestamps={true}
+                               isReadOnly={this.isReadOnly()}>
 
                 <ConfirmModal t={this.props.t}
                               triggerButton={this.renderDeleteButton}

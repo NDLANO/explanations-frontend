@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2018-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -12,9 +12,11 @@ import { Plus, Minus } from 'ndla-icons/action';
 import { Button } from 'ndla-ui';
 import { Link } from 'react-router-dom';
 import {DetailSearch} from 'ndla-icons/editor';
+
 import {searchRoute, createRoute} from "../../../utilities/routeHelper";
 
 import './style.css'
+import PropTypes from "prop-types";
 
 export const classes = new BEMHelper({
     name: 'navigation',
@@ -63,17 +65,15 @@ export class Navigation extends Component {
                         !this.state.open ? 'hidden' : ['absolute', 'brand-color-secondary'],
                     )}>
                     <div {...classes('items')}>
-                        <Link
-                            to={searchRoute()}
-                            {...classes('item')}
-                            onClick={this.toggleOpen}>
+                        <Link to={searchRoute()}
+                              {...classes('item')}
+                              onClick={this.toggleOpen}>
                             <DetailSearch className="c-icon--large" />
                             <span>{t('subNavigation.search')}</span>
                         </Link>
-                        <Link
-                            to={createRoute()}
-                            {...classes('item')}
-                            onClick={this.toggleOpen}>
+                        <Link to={createRoute()}
+                              {...classes('item')}
+                              onClick={this.toggleOpen}>
                             <Plus className="c-icon--large" />
                             <span>{t('subNavigation.create')}</span>
                         </Link>
@@ -93,5 +93,10 @@ export class Navigation extends Component {
         );
     }
 }
+
+Navigation.propTypes = {
+    // Required
+    t: PropTypes.func.isRequired
+};
 
 export default Navigation;

@@ -6,5 +6,5 @@
  *
  */
 
-import Navigation from './NavigationComponent'
-export default Navigation;
+import LogInOrOut from './LogInOrOutComponent';
+export default LogInOrOut;

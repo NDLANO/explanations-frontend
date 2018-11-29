@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 /**
  * Copyright (c) 2018-present, NDLA.
  *
@@ -12,5 +14,9 @@ export const updateRoute = (id=':id') => `/update/${id}`;
 export const createRoute = () => '/create';
 export const cloneRoute = (id=':id') => `/clone/${id}`;
 export const loginRoute =  () => '/login';
+export const logoutRoute =  () => '/logout';
+export const forbiddenRoute = () => '/forbidden';
 export const catchAllRoute = () => '*';
 
+export const routeIsAllowed = (requiredScope=[], currentScopes=[], isAuthenticated) =>
+    isAuthenticated && _.intersection(currentScopes, requiredScope).length > 0;

@@ -1,5 +1,8 @@
 import React from 'react';
 import BEMHelper from "react-bem-helper";
+import {Link} from "react-router-dom";
+
+import {updateRoute} from "../../../../utilities/routeHelper";
 
 const classes = new BEMHelper({
     name: 'search-result-list__item',
@@ -15,7 +18,7 @@ const SearchResultItem = ({item}) =>
         <article>
             <header {...classes('header')}>
                 <h1>
-                    <a href={`/update/${item.id}`}>{item.title}</a>
+                    <Link to={updateRoute(item.id)}>{item.title}</Link>
                 </h1>
             </header>
 

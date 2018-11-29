@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+import LogoutPage from './LogoutContainer';
 
-export const loginSuccess = payload => ({type: LOGIN_SUCCESS, payload});
+export default LogoutPage;
+export * from './logoutActions'

@@ -5,16 +5,22 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {LOGIN_SUCCESS, LOGOUT} from './loginActions';
+import {LOGIN_SUCCESS} from './loginActions';
+import {LOGOUT_SUCCESS} from "../LogoutPage";
 
 const initialState = {
-    isAuthenticated: false
+    isAuthenticated: false,
+    accessToken: "",
+    username: "",
+    scopes: []
 };
 
 export const loginReducer = (state=initialState, action) => {
     switch(action.type) {
         case LOGIN_SUCCESS:
-            return state;
+            return {...state, ...action.payload};
+        case LOGOUT_SUCCESS:
+            return {...state, ...initialState};
         default:
             return state;
     }

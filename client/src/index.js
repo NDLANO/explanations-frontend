@@ -18,6 +18,9 @@ import {getLocaleInfoFromPath} from "./i18n";
 import {store} from './store';
 
 import './style/index.css';
+import {Route, Switch} from "react-router";
+import {catchAllRoute, loginRoute} from "./utilities/routeHelper";
+import Login from "./containers/Login";
 
 configureDotEnv();
 
@@ -31,7 +34,10 @@ const Client = () => (
     <Provider store={store}>
         <IntlProvider locale={abbreviation} messages={messages}>
             <BrowserRouter basename={basename}>
-                <App />
+                <Switch>
+                    <Route path={loginRoute()} component={Login}/>
+                    <Route path={catchAllRoute()} component={App}/>
+                </Switch>
             </BrowserRouter>
         </IntlProvider>
     </Provider>

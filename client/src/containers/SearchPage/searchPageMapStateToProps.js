@@ -60,7 +60,7 @@ const getAutoCompleteList = (state) => {
 export const mapStateToProps = state =>{
     const subjects = getMetaByCategory(state.cacheFromServer.meta, "Subject", ALL_SUBJECTS);
     const languages = getMetaByCategory(state.cacheFromServer.meta, "Language", ALL_LANGUAGES);
-    const token = "searchToken";
+    const token = state.credentials.accessToken;
     return  ({
         searchResult: state.search.results,
         languages: languages.map(x => ({value: x.id, label: x.name})),

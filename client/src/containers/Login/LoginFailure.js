@@ -6,8 +6,10 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {injectT} from 'ndla-i18n';
+
 import {loginRoute} from "../../utilities/routeHelper";
 
 export const LoginFailure = ({t}) => (
@@ -19,6 +21,8 @@ export const LoginFailure = ({t}) => (
     </div>
 );
 
-LoginFailure.propTypes = {};
+LoginFailure.propTypes = {
+    t: PropTypes.func.isRequired
+};
 
 export default injectT(LoginFailure);

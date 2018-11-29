@@ -31,10 +31,8 @@ export const submitErrorHandler = (err, {titleMessage, actionType}, updateFlashM
     return err;
 };
 
-export const mapStateToPropsCommon = ({cacheFromServer: {status, meta}}) => {
-
-    const token = "updateToken";
-    const apiClient = new ApiClient(token);
+export const mapStateToPropsCommon = ({cacheFromServer: {status, meta},  credentials: {accessToken}}) => {
+    const apiClient = new ApiClient(accessToken);
 
     return {
         meta: meta,

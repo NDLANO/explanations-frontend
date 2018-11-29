@@ -1,9 +1,7 @@
 import {mapStateToPropsCommon} from '../conceptCommon';
 
-export const mapStateToProps = ({cacheFromServer, locale, concept}) => {
-    const {status, meta} = cacheFromServer;
-    const {create: {flashMessage}} = concept;
-
+export const mapStateToProps = state => {
+    const {cacheFromServer: {status, meta}, concept: {create: {flashMessage}},locale} = state;
     let draft = status.find(x => x.name === "Draft") || status[0];
     if (draft) {
         draft = {value: draft.id, label: draft.name};
@@ -34,7 +32,7 @@ export const mapStateToProps = ({cacheFromServer, locale, concept}) => {
     });
 
     return {
-        ...mapStateToPropsCommon({cacheFromServer}),
+        ...mapStateToPropsCommon(state),
         initialFormValues,
         flashMessage
     }

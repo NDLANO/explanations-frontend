@@ -13,11 +13,13 @@ import {locale} from './containers/SelectLocale/localeReducer';
 import {search} from "./containers/SearchPage/searchPageReducer";
 import {conceptReducer} from "./containers/Concept/";
 import {appReducers} from './containers/App';
+import {loginReducer} from "./containers/Login";
 
 
 const rootReducers = combineReducers({
     locale,
     search,
+    credentials: loginReducer,
     cacheFromServer: appReducers,
     form: formReducer,
     concept: conceptReducer

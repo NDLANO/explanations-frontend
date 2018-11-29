@@ -9,7 +9,9 @@
 
 const NB = {
     header: {
-        title: "Forklaringstjeneste"
+        title: "Forklaringstjeneste",
+        login: "Logg inn",
+        logout: "Logg ut"
     },
     meta: {
         description: "description"
@@ -34,6 +36,12 @@ const NB = {
             placeholder: "Språk",
             title: "Språk"
         }
+    },
+    loginProviders: {
+        description: "Logg inn i NDLA med",
+        consent_before_link: "Ved å logge på denne tjenesten aksepterer jeg herved vilkårene i NDLAs",
+        consent_link: "personvernpolicy",
+        consent_after_link: ", og jeg gir mitt samtykke til at NDLA bruker min personlige informasjon."
     },
     
     dropdown: {
@@ -139,6 +147,9 @@ const NB = {
         loadingLanguages: 'Laster inn språk ...',
         loadingStatus: 'Laster inn status ...',
         initializingForm: 'Henter data ...',
+    },
+    forbiddenPage: {
+        description: "Her har du ikke tilgang..."
     }
 };
 

@@ -41,7 +41,7 @@ class Dropdown extends React.Component {
     }
 
     render() {
-        const {input, placeholder, t, ...rest} = this.props;
+        const {input, placeholder, t, readOnly, ...rest} = this.props;
         return <Select {...input}
                        {...rest}
                        {...classes()}
@@ -50,6 +50,7 @@ class Dropdown extends React.Component {
                        onBlur={this.onBlur}
                        value={this.state.selected}
                        onChange={this.onChange}
+                       isDisabled={readOnly}
                 />
     }
 }
