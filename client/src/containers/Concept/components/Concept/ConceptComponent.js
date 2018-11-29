@@ -97,7 +97,7 @@ class Concept extends React.Component {
 
                     <div {...classes('form-field')}>
                         <label  htmlFor={this.fields.status.id}>{t("conceptForm.status")}</label>
-                        <Field {...this.fields.status} t={t} selected={initialValues.status} options={status}/>
+                        <Field {...this.fields.status} t={t} selected={initialValues.statusId} options={status}/>
                     </div>
                     {this.props.showTimestamps && <Field {...this.fields.created} t={t} {...classes('form-field')} />}
                     {this.props.showTimestamps && <Field {...this.fields.updated} t={t} {...classes('form-field')} />}
