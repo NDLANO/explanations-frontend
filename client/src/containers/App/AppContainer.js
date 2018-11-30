@@ -81,7 +81,7 @@ class App extends React.Component {
                     <Switch>
                         <Route path={updateRoute()}
                                       render={this.renderUpdateComponent}/>
-                        <PrivateRoute requiredScopes={createPageRequiredScope}
+                        <Route requiredScopes={createPageRequiredScope}
                                       path={createRoute()}
                                       component={CreateConceptPage}/>
                         <PrivateRoute requiredScopes={clonePageRequiredScope}

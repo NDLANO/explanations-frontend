@@ -70,11 +70,12 @@ class Concept extends React.Component {
     }
 
     renderSubmitButton() {
-        return <Button>{(this.props.title)}</Button>;
+        const {isReadOnly, submitting, title} = this.props;
+        return <Button disabled={isReadOnly || submitting} >{(title)}</Button>;
     }
 
     render() {
-        const { t, title: pageTitle, handleSubmit, status, initialValues, error, submitting, isReadOnly} = this.props;
+        const { t, title: pageTitle, handleSubmit, status, initialValues, error, isReadOnly} = this.props;
         this.props.metas.forEach(elm => {
             if (elm.category.description === "Subject")
                 elm.category.description = "Fag";
@@ -118,7 +119,7 @@ class Concept extends React.Component {
                         )}
 
                     {this.props.children}
-                    <ConfirmModal t={t} triggerButton={this.renderSubmitButton} onConfirm={submit} disabled={submitting || isReadOnly} />
+                    <ConfirmModal t={t} triggerButton={this.renderSubmitButton} onConfirm={submit}/>
                 </form>
             </OneColumn>
         )

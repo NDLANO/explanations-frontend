@@ -82,8 +82,9 @@ const metaExists = ({meta}) =>  meta.length > 0;
 const statusExists = ({status}) => status.length > 0;
 const formHasInitialValues = ({initialFormValues}) => {
     return Object.values(initialFormValues).indexOf(null) === -1 &&
-        typeof initialFormValues['statusId'] !== "undefined" &&
-        typeof initialFormValues['meta_language'] !== "undefined";
+        initialFormValues['statusId'] &&
+        initialFormValues['meta_language'] &&
+        initialFormValues['meta_licence'] ;
 };
 
 export default compose(
