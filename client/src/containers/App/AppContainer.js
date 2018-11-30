@@ -81,7 +81,7 @@ class App extends React.Component {
                     <Switch>
                         <Route path={updateRoute()}
                                       render={this.renderUpdateComponent}/>
-                        <Route requiredScopes={createPageRequiredScope}
+                        <PrivateRoute requiredScopes={createPageRequiredScope}
                                       path={createRoute()}
                                       component={CreateConceptPage}/>
                         <PrivateRoute requiredScopes={clonePageRequiredScope}
@@ -102,7 +102,7 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
     const token = state.credentials.accessToken;
-    const createConceptRequiredScope = [config.SCOPES.concept_write, config.SCOPES.concept_admin]
+    const createConceptRequiredScope = [config.SCOPES.concept_write, config.SCOPES.concept_admin];
     return {
         apiClient: new ApiClient(token),
         username: state.credentials.username,
