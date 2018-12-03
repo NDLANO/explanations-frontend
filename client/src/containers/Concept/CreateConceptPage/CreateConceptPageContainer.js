@@ -57,7 +57,6 @@ class CreateConceptPageContainer extends React.Component {
     }
 
     render() {
-        console.log(this.props.initialFormValues)
         return (
             <React.Fragment>
                 <FlashMessageComponent {...this.props.flashMessage}/>

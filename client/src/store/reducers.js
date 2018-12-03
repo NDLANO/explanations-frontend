@@ -9,11 +9,11 @@
 import { combineReducers } from 'redux';
 import {reducer as formReducer} from 'redux-form'
 
-import {locale} from './containers/SelectLocale/localeReducer';
-import {search} from "./containers/SearchPage/searchPageReducer";
-import {conceptReducer} from "./containers/Concept/";
-import {appReducers} from './containers/App';
-import {loginReducer} from "./containers/Login";
+import {locale} from '../containers/SelectLocale/localeReducer';
+import {search} from '../containers/SearchPage/searchPageReducer';
+import {conceptReducer} from "../containers/Concept/";
+import {appReducers} from '../containers/App';
+import {loginReducer} from '../containers/Login';
 
 
 const rootReducers = combineReducers({

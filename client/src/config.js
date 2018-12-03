@@ -1,7 +1,12 @@
 const getEnvironment = key => process.env[key];
 
 export const config = {
-    ENVIRONMENT:            getEnvironment('RUNTIME_ENV') || getEnvironment('NODE_ENV'),
+    ENVIRONMENT:            {
+        current:            getEnvironment('RUNTIME_ENV') || getEnvironment('NODE_ENV'),
+        testing:            'testing',
+        production:         'production',
+        development:        'development',
+    },
     AUTH0: {
         domain:             getEnvironment('REACT_APP_AUTH0__DOMAIN'),
         clientID:           getEnvironment('REACT_APP_AUTH0__CLIENT_ID'),
@@ -20,8 +25,8 @@ export const config = {
         consent_NDLA:       getEnvironment('REACT_APP_EXTERNAL_URL__CONSENT')
     },
     SCOPES: {
-        concept_write: getEnvironment('REACT_APP_SCOPES__CONCEPT_WRITE'),
-        concept_admin: getEnvironment('REACT_APP_SCOPES__CONCEPT_ADMIN'),
+        concept_write:      getEnvironment('REACT_APP_SCOPES__CONCEPT_WRITE'),
+        concept_admin:      getEnvironment('REACT_APP_SCOPES__CONCEPT_ADMIN'),
     }
 };
 

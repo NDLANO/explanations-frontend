@@ -29,23 +29,28 @@ export class AuthenticationService {
             if (!(authResult && authResult.accessToken))
                 return;
 
-            const decodedToken = this.decodeAccessToken(authResult.accessToken);
-            if (decodedToken === null)
-                return;
+            return this.createCredentials(authResult.accessToken);
 
-            const credentials = {
-                isAuthenticated: true,
-                accessToken: authResult.accessToken
-            };
-
-            if (decodedToken[this.authProviderConfig.usernameKey])
-                credentials['username'] = decodedToken[this.authProviderConfig.usernameKey];
-
-            if (decodedToken.scope)
-                credentials['scopes'] = this.getScope(authResult.accessToken);
-
-            return credentials;
         });
+    }
+
+    createCredentials(accessToken) {
+        const decodedToken = this.decodeAccessToken(accessToken);
+        if (decodedToken === null)
+            return;
+
+        const credentials = {
+            isAuthenticated: true,
+            accessToken: accessToken
+        };
+
+        if (decodedToken[this.authProviderConfig.usernameKey])
+            credentials['username'] = decodedToken[this.authProviderConfig.usernameKey];
+
+        if (decodedToken.scope)
+            credentials['scopes'] = this.getScope(accessToken);
+
+        return credentials;
     }
 
     parseHash(hash) {
@@ -82,5 +87,14 @@ export class AuthenticationService {
             return null;
         }
     };
-}
 
+    isTokenExpired = accessToken => {
+        const token = this.decodeAccessToken(accessToken);
+
+        if (!token)
+            return true;
+        console.log("token", token);
+        return new Date(token.exp*1000) < new Date();
+    };
+
+}
