@@ -1,7 +1,6 @@
 import {mapStateToPropsCommon} from '../conceptCommon';
 
 export const mapStateToProps = state => {
-
     const {initialFormValues, flashMessage} = state.concept.update;
     return {
         ...mapStateToPropsCommon(state),

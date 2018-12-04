@@ -15,6 +15,7 @@ import {injectT} from "ndla-i18n";
 import Concept from "../components/Concept/";
 import Loading from '../../Loading';
 import WithEither from "../../../components/HOC/WithEither";
+import withApiService from "../../../components/HOC/withApiService";
 import FlashMessageComponent, {updateFlashMessage, clearFlashMessage } from "../../../components/FlashMessage";
 import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE} from "../UpdateConceptPage";
 import {submitErrorHandler, submitSuccessHandler} from "../conceptCommon";
@@ -39,10 +40,11 @@ class CreateConceptPageContainer extends React.Component {
 
         clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_CREATE);
 
-        const create = this.props.apiClient.createConcept(concept);
+        const create = this.props.apiService.createConcept(concept);
         const errorHandler = {
             titleMessage: t(`createConcept.submitMessage.error.title`),
             actionType: UPDATE_FLASH_MESSAGE_CONCEPT_CREATE,
+            history
         };
 
         create
@@ -89,6 +91,7 @@ const formHasInitialValues = ({initialFormValues}) => {
 export default compose(
     withRouter,
     connect(mapStateToProps, {updateFlashMessage, clearFlashMessage }),
+    withApiService,
     injectT,
     WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),
     WithEither(statusExists, () => <Loading message="loadingMessage.loadingStatus"/>),

@@ -17,7 +17,7 @@ import {compose} from 'redux';
 //import 'moment/min/locales';
 //import Moment from 'react-moment';
 
-import NotFoundPage from '../NotFoundPage'
+import NotAuthorizedPage from '../ErrorPage/NotAuthorized'
 import SearchPage from '../SearchPage/SearchPageContainer';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header/';
@@ -27,7 +27,9 @@ import {
     updateRoute,
     cloneRoute,
     catchAllRoute,
-    logoutRoute, forbiddenRoute
+    logoutRoute,
+    notAuthorizedRoute,
+    notFoundRoute
 } from '../../utilities/routeHelper';
 import CloneConceptPage from '../Concept/CloneConceptPage';
 import UpdateConceptPage from '../Concept/UpdateConceptPage';
@@ -38,7 +40,7 @@ import ApiClient from '../../api';
 
 import {loadConceptTitles, loadMeta, loadStatus} from './actions';
 import {config} from "../../config";
-import ForbiddenPage from "../ForbiddenPage";
+import NotFoundPage from "../ErrorPage/NotFoundPage";
 
 
 //Moment.globalFormat = 'lll';
@@ -79,8 +81,7 @@ class App extends React.Component {
                 <Content>
                     <Header t={t} username={username} isLoggedIn={isAuthenticated} />
                     <Switch>
-                        <Route path={updateRoute()}
-                                      render={this.renderUpdateComponent}/>
+                        <Route path={updateRoute()} render={this.renderUpdateComponent}/>
                         <PrivateRoute requiredScopes={createPageRequiredScope}
                                       path={createRoute()}
                                       component={CreateConceptPage}/>
@@ -88,7 +89,8 @@ class App extends React.Component {
                                       path={cloneRoute()}
                                       component={CloneConceptPage}/>
                         <Route path={logoutRoute()} component={LogoutPage}/>
-                        <Route path={forbiddenRoute()} component={ForbiddenPage}/>
+                        <Route path={notAuthorizedRoute()} component={NotAuthorizedPage}/>
+                        <Route path={notFoundRoute()} component={NotFoundPage}/>
                         <Route path={searchRoute()} exact component={SearchPage}/>
                         <Route path={catchAllRoute()} component={NotFoundPage}/>
                     </Switch>

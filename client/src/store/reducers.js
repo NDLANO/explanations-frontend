@@ -7,6 +7,7 @@
  */
 
 import { combineReducers } from 'redux';
+import { connectRouter } from 'connected-react-router';
 import {reducer as formReducer} from 'redux-form'
 
 import {locale} from '../containers/SelectLocale/localeReducer';
@@ -16,7 +17,8 @@ import {appReducers} from '../containers/App';
 import {loginReducer} from '../containers/Login';
 
 
-const rootReducers = combineReducers({
+const rootReducers = history => combineReducers({
+    router: connectRouter(history),
     locale,
     search,
     credentials: loginReducer,

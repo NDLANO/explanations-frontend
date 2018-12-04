@@ -16,6 +16,7 @@ import {injectT} from "ndla-i18n";
 import Loading from '../../Loading';
 import Concept from "../components/Concept";
 import WithEither from "../../../components/HOC/WithEither";
+import withApiService from "../../../components/HOC/withApiService";
 import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE} from "../UpdateConceptPage/updateConceptActions";
 import {submitErrorHandler, submitSuccessHandler} from "../conceptCommon";
 import FlashMessage, {clearFlashMessage, updateFlashMessage} from "../../../components/FlashMessage";
@@ -45,10 +46,11 @@ class CloneConceptPageContainer extends React.Component {
 
         clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_CLONE);
 
-        const create = this.props.apiClient.createConcept(concept);
+        const create = this.props.apiService.createConcept(concept);
         const errorHandler = {
             titleMessage: t(`cloneConcept.submitMessage.error.title`),
             actionType: UPDATE_FLASH_MESSAGE_CONCEPT_CLONE,
+            history
         };
 
         create
@@ -64,7 +66,7 @@ class CloneConceptPageContainer extends React.Component {
 
     loadConcept() {
         const {id} = this.props.match.params;
-        this.props.apiClient.getConceptById(id).then(concept => {
+        this.props.apiService.getConceptById(id).then(concept => {
 
             delete concept.created;
             delete concept.id;
@@ -114,6 +116,7 @@ const statusExists = ({status}) => status.length > 0;
 export default compose(
     withRouter,
     connect(mapStateToProps, {updateFlashMessage, updateInitialFormValues, clearFlashMessage}),
+    withApiService,
     injectT,
     WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),
     WithEither(statusExists, () => <Loading message="loadingMessage.loadingStatus"/>),

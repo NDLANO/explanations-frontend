@@ -14,6 +14,7 @@ import {IntlProvider} from "ndla-i18n";
 import {BrowserRouter} from "react-router-dom";
 import { PersistGate } from 'redux-persist/integration/react'
 import {Route, Switch} from "react-router";
+import { ConnectedRouter } from 'connected-react-router';
 
 import App from './containers/App';
 import {getLocaleInfoFromPath} from "./i18n";
@@ -27,7 +28,7 @@ import './style/index.css';
 
 configureDotEnv();
 
-const {store, persistor} = configureStore();
+const {store, persistor, history} = configureStore();
 
 const {basename} = getLocaleInfoFromPath(window.location.pathname);
 
@@ -37,16 +38,18 @@ const { abbreviation, messages } = getLocaleInfoFromPath(
 
 const Client = () => (
     <Provider store={store}>
-        <IntlProvider locale={abbreviation} messages={messages}>
-            <PersistGate loading={<Loading />} persistor={persistor}>
+        <ConnectedRouter history={history}>
+            <IntlProvider locale={abbreviation} messages={messages}>
+                <PersistGate loading={<Loading />} persistor={persistor}>
                     <BrowserRouter basename={basename}>
                         <Switch>
                             <Route path={loginRoute()} component={Login}/>
                             <Route path={catchAllRoute()} component={App}/>
                         </Switch>
                     </BrowserRouter>
-            </PersistGate>
-        </IntlProvider>
+                </PersistGate>
+            </IntlProvider>
+        </ConnectedRouter>
     </Provider>
 );
 

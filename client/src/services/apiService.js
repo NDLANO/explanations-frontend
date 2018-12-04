@@ -5,11 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { push } from 'connected-react-router'
 import axios from 'axios';
-import {config} from "./config";
-import {AuthenticationService} from "./services/authenticationService";
-import {loginRoute, notAuthorizedRoute, notFoundRoute} from "./utilities/routeHelper";
+import {config} from "../config";
+import {AuthenticationService} from "./authenticationService";
+import {loginRoute, notAuthorizedRoute, notFoundRoute} from "../utilities/routeHelper";
 
 const getUrlBasedOnEnvironment = env => {
     switch (env) {
@@ -28,31 +27,20 @@ const ROOT_URL = getUrlBasedOnEnvironment(config.ENVIRONMENT.current);
 
 const API_URL = `${ROOT_URL}/api`;
 
-export default class ApiClient {
+export default class ApiService {
 
-    constructor(dispatch,token="notValidToken", authService = new AuthenticationService()) {
-        this.dispatch = dispatch;
-        this.authenticationService = authService;
-        this.api = axios.create({
+    constructor({accessToken, history}) {
+        this.accessToken = accessToken;
+        this.history = history;
+        this.authenticationService = new AuthenticationService(this.accessToken);
+        this.api = axios.create();
+        this.config = {
             headers: {
                 common: {  // Common is for all types requests (post, get etc)
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${this.accessToken}`
                 }
             }
-        });
-/*
-
-
-        this.api.interceptors.response.use(
-            response => response,
-            error => {
-                const {status} = error.response;
-                if (status === 401) {
-
-                }
-                return Promise.reject(error);
-            }
- */
+        };
 
         this.endpoints = {
             concept: `${API_URL}/concept`,
@@ -75,21 +63,19 @@ export default class ApiClient {
 
     rejected = ({response}) => {
         return new Promise((resolve, reject) => {
-
-            push(loginRoute());
             switch(response.status) {
                 case 400:
                     if (response && response.data && response.data)
                         reject({statusCode: response.status, ...response.data.data});
                     break;
                 case 401:
-                    this.dispatch(push(loginRoute()));
+                    this.history.push(loginRoute());
                     break;
                 case 403:
-                    this.dispatch(push(notAuthorizedRoute()));
+                    this.history.push(notAuthorizedRoute());
                     break;
                 default:
-                    this.dispatch(push(notFoundRoute()));
+                    this.history.push(notFoundRoute());
             }
             reject(null);
         });

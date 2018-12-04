@@ -12,7 +12,7 @@ import decode from "jwt-decode";
 import {config} from '../config';
 
 export class AuthenticationService {
-    constructor(authProviderConfig=config.AUTH0) {
+    constructor(accessToken, authProviderConfig=config.AUTH0) {
         this.authProviderConfig = authProviderConfig;
         this.provider =  new auth0.WebAuth({...this.authProviderConfig});
     }

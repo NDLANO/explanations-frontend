@@ -18,6 +18,7 @@ import Concept from "../components/Concept";
 import ConfirmModal from "../../../components/ConfirmModal";
 import Loading from '../../Loading';
 import WithEither from "../../../components/HOC/WithEither";
+import withApiService from "../../../components/HOC/withApiService";
 import {updateFlashMessage, clearFlashMessage} from "../../../components/FlashMessage/";
 import {submitErrorHandler, submitFormHandling} from "../conceptCommon";
 import {cloneRoute, routeIsAllowed} from "../../../utilities/routeHelper";
@@ -48,13 +49,14 @@ class UpdateConceptPageContainer extends React.Component {
     }
 
     loadConcept() {
-        const {updateFlashMessage, match: {params: {id}}} = this.props;
+        const {updateFlashMessage, match: {params: {id}}, history} = this.props;
         const errorHandler = {
             titleMessage: this.props.t('updateConcept.loadDataMessage.error.title'),
-            actionType: UPDATE_FLASH_MESSAGE
+            actionType: UPDATE_FLASH_MESSAGE,
+            history
         };
 
-        this.props.apiClient.getConceptById(id)
+        this.props.apiService.getConceptById(id)
             .then(concept => {
                 const meta = {};
                 concept.meta.forEach(x => {
@@ -82,12 +84,12 @@ class UpdateConceptPageContainer extends React.Component {
 
         clearFlashMessage(UPDATE_FLASH_MESSAGE);
 
-        this.handleSubmit(this.props.apiClient.archiveConcept(id), "deleteMessage");
+        this.handleSubmit(this.props.apiService.archiveConcept(id), "deleteMessage");
     }
 
     submit(concept) {
         this.props.clearFlashMessage(UPDATE_FLASH_MESSAGE);
-        const update = this.props.apiClient.updateConcept(concept);
+        const update = this.props.apiService.updateConcept(concept);
         this.handleSubmit(update, "submitMessage");
         return update;
     }
@@ -160,6 +162,7 @@ const statusExists = ({status}) => status.length > 0;
 export default compose(
     withRouter,
     connect(mapStateToProps, {updateFlashMessage, clearFlashMessage, updateInitialFormValues, setDeleteButtonAsDisabled}),
+    withApiService,
     injectT,
     WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),
     WithEither(statusExists, () => <Loading message="loadingMessage.loadingStatus"/>),

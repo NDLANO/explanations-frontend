@@ -9,7 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
-import {loginRoute, forbiddenRoute, routeIsAllowed} from "../../utilities/routeHelper";
+import {loginRoute, notAuthorizedRoute, routeIsAllowed} from "../../utilities/routeHelper";
 
 
 class PrivateRouteContainer extends React.Component {
@@ -24,7 +24,7 @@ class PrivateRouteContainer extends React.Component {
         if (routeIsAllowed(requiredScopes, allowedScopesForUser, isAuthenticated))
             return <Component {...this.props} />;
 
-        const route = isAuthenticated ? forbiddenRoute() : loginRoute();
+        const route = isAuthenticated ? notAuthorizedRoute() : loginRoute();
         return <Redirect to={{
                 pathname: route,
                 state: { from: location },

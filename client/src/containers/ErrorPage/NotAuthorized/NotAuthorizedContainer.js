@@ -8,11 +8,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from "react-bem-helper";
-import { compose } from 'redux';
 import { injectT } from 'ndla-i18n';
 import { OneColumn } from 'ndla-ui';
 
-import Status from './components/StatusComponent';
+import Status from '../components/StatusComponent';
 
 import './style.css';
 
@@ -22,7 +21,7 @@ const classes = new BEMHelper({
     prefix: 'c-',
 });
 
-const ForbiddenContainer = ({ t }) => (
+const NotAuthorizedPageContainer = ({ t }) => (
     <Status code={403}>
         <OneColumn>
             <div {...classes()}>
@@ -33,9 +32,9 @@ const ForbiddenContainer = ({ t }) => (
     </Status>
 );
 
-ForbiddenContainer.propTypes = {
+NotAuthorizedPageContainer.propTypes = {
     t: PropTypes.func.isRequired,
 };
 
 
-export default compose(injectT)(ForbiddenContainer);
+export default injectT(NotAuthorizedPageContainer);
