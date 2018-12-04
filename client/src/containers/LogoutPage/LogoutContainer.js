@@ -11,14 +11,13 @@ import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 
-import {indexRoute} from "../../utilities/routeHelper";
-
 import {logoutSuccess} from "./logoutActions";
+import {AuthenticationService} from "../../services/authenticationService";
 
 class LogoutContainer extends React.PureComponent {
     componentDidMount() {
         this.props.logoutSuccess();
-        this.props.history.push(indexRoute())
+        this.props.authService.logoutUser();
     }
 
     render() {
@@ -31,9 +30,11 @@ LogoutContainer.propTypes = {
         push: PropTypes.func.isRequired,
     }).isRequired,
     logoutSuccess: PropTypes.func.isRequired,
+    authService: PropTypes.instanceOf(AuthenticationService).isRequired
 };
+
 
 export default compose(
     withRouter,
-    connect(null, {logoutSuccess})
+    connect(({authService: new AuthenticationService()}), {logoutSuccess})
 )(LogoutContainer);

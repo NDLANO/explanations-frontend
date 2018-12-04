@@ -7,8 +7,9 @@
  */
 
 import auth0 from 'auth0-js';
-import {config} from '../config';
 import decode from "jwt-decode";
+
+import {config} from '../config';
 
 export class AuthenticationService {
     constructor(authProviderConfig=config.AUTH0) {
@@ -93,8 +94,19 @@ export class AuthenticationService {
 
         if (!token)
             return true;
-        console.log("token", token);
         return new Date(token.exp*1000) < new Date();
     };
 
+    renewAccessToken = () =>
+        new Promise((resolve, reject) => {
+            this.provider.checkSession(
+                (err, authResult) => {
+                    if (authResult && authResult.accessToken) {
+                        resolve(this.createCredentials(authResult.accessToken));
+                    } else {
+                        reject();
+                    }
+                },
+            );
+        });
 }

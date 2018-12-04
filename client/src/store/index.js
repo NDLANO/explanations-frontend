@@ -10,8 +10,9 @@ import { compose, createStore} from 'redux';
 import storage from 'redux-persist/lib/storage'
 import { persistStore, persistReducer } from 'redux-persist'
 
-import rootReducers from "./reducers";
 import credentialsTransform from "../containers/Login/loginPersistTransform";
+
+import rootReducers from "./reducers";
 
 
 /* eslint-disable no-underscore-dangle */

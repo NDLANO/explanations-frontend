@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2018-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import { createTransform } from 'redux-persist';
 import {AuthenticationService} from "../../services/authenticationService";
 import {initialState} from "./loginReducer";
@@ -5,11 +12,7 @@ import {initialState} from "./loginReducer";
 const credentialsTransform = createTransform(
 
     // transform state on its way to being serialized and persisted.
-    (inboundState, key) => {
-        console.log("key", key, "intstate", inboundState)
-        // convert mySet to an Array.
-        return { ...inboundState};
-    },
+    (inboundState, key) => ({ ...inboundState}),
 
     // transform state being rehydrated
     (outboundState, key) => {
