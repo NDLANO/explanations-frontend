@@ -15,11 +15,30 @@ export default class AuthenticationService {
     constructor({accessToken, authProviderConfig=config.AUTH0}) {
         this.authProviderConfig = authProviderConfig;
         this.provider =  new auth0.WebAuth({...this.authProviderConfig});
+        this.timeoutId = null;
     }
 
-    doTimerWork() {
-
+    cancelTimeout() {
+        clearTimeout(this.timeoutId);
     }
+
+    pollSessionForLogout(dispatchLogout) {
+        // if logged out
+        // dispatch logout function
+        //dispatchLogout()
+        if (this.timeoutId)
+            this.cancelTimeout();
+        const fifteen_minutes = 60 * 15;
+
+        // TODO using NONCES
+        // https://auth0.com/docs/libraries/auth0js/v9#ready-to-go-example
+
+        this.timeoutId = setTimeout(() => {
+
+        }, fifteen_minutes);
+    }
+
+
 
     getScope(accessToken) {
         const decodedToken = this.decodeAccessToken(accessToken);
@@ -103,14 +122,18 @@ export default class AuthenticationService {
 
     renewAccessToken = () =>
         new Promise((resolve, reject) => {
-            this.provider.checkSession(
+            this.provider.renewAuth(
+                {
+                    redirectUri: `${this.authProviderConfig.location}/login/silent-callback`,
+                    usePostMessage: true,
+                },
                 (err, authResult) => {
                     if (authResult && authResult.accessToken) {
-                        resolve(this.createCredentials(authResult.accessToken));
+                        resolve(authResult.accessToken);
                     } else {
-                        reject();
+                        reject(null);
                     }
                 },
             );
-        });
+})
 }

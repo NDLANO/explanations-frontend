@@ -57,7 +57,7 @@ class App extends React.Component {
         this.loadInitialData();
 
         if (this.props.isAuthenticated)
-            this.props.authenticationService.doTimerWork();
+            this.props.authenticationService.pollSessionForLogout(() => ({}));
     }
     loadInitialData() {
         const {apiClient, loadStatus, loadConceptTitles, loadMeta} = this.props;
