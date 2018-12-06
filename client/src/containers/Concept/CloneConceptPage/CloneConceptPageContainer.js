@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2018-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -18,14 +18,11 @@ import Concept from "../components/Concept";
 import WithEither from "../../../components/HOC/WithEither";
 import withApiService from "../../../components/HOC/withApiService";
 import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE} from "../UpdateConceptPage/updateConceptActions";
-import {submitErrorHandler, submitSuccessHandler} from "../conceptCommon";
+import {metaExists, statusExists, submitErrorHandler, submitSuccessHandler} from "../conceptCommon";
 import FlashMessage, {clearFlashMessage, updateFlashMessage} from "../../../components/FlashMessage";
 
 import {UPDATE_FLASH_MESSAGE_CONCEPT_CLONE, updateInitialFormValues} from "./cloneConceptActions";
 import {mapStateToProps} from './cloneConceptMapStateToProps';
-
-
-
 
 class CloneConceptPageContainer extends React.Component {
     constructor(props) {
@@ -108,10 +105,6 @@ class CloneConceptPageContainer extends React.Component {
         );
     }
 }
-
-
-const metaExists = ({meta}) =>  meta.length > 0;
-const statusExists = ({status}) => status.length > 0;
 
 export default compose(
     withRouter,

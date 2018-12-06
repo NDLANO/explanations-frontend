@@ -20,13 +20,16 @@ import Loading from '../../Loading';
 import WithEither from "../../../components/HOC/WithEither";
 import withApiService from "../../../components/HOC/withApiService";
 import {updateFlashMessage, clearFlashMessage} from "../../../components/FlashMessage/";
-import {submitErrorHandler, submitFormHandling} from "../conceptCommon";
+import {metaExists, statusExists, submitErrorHandler, submitFormHandling} from "../conceptCommon";
 import {cloneRoute, routeIsAllowed} from "../../../utilities/routeHelper";
 
 
 import {mapStateToProps} from './updateConceptMapStateToProps';
-
-import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE as UPDATE_FLASH_MESSAGE, setDeleteButtonAsDisabled, updateInitialFormValues} from "./updateConceptActions";
+import {
+    UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE as UPDATE_FLASH_MESSAGE,
+    setDeleteButtonAsDisabled,
+    updateInitialFormValues
+} from "./updateConceptActions";
 
 
 class UpdateConceptPageContainer extends React.Component {
@@ -119,7 +122,7 @@ class UpdateConceptPageContainer extends React.Component {
 
     renderContent() {
         if (this.props.initialFormValues) {
-            return <Concept status={this.props.status}
+            return <Concept     status={this.props.status}
                                initialValues={this.props.initialFormValues}
                                t={this.props.t}
                                metas={this.props.meta}
@@ -154,10 +157,6 @@ class UpdateConceptPageContainer extends React.Component {
         );
     }
 }
-
-
-const metaExists = ({meta}) =>  meta.length > 0;
-const statusExists = ({status}) => status.length > 0;
 
 export default compose(
     withRouter,

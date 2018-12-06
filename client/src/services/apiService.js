@@ -101,7 +101,7 @@ export default class ApiService {
 
     updateConcept       = concept =>    this.api.put(`${this.endpoints.concept}`,concept, this.getRequestConfig());
 
-    createConcept       = concept =>    {console.log(concept); return this.api.post(`${this.endpoints.concept}`,concept, this.getRequestConfig());};
+    createConcept       = concept =>    this.api.post(`${this.endpoints.concept}`,concept, this.getRequestConfig());
 
     archiveConcept      = id =>         this.api.delete(`${this.endpoints.concept}/${id}`, this.getRequestConfig());
 }

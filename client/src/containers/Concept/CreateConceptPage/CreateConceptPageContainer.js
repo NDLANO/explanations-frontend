@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2018-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -18,7 +18,7 @@ import WithEither from "../../../components/HOC/WithEither";
 import withApiService from "../../../components/HOC/withApiService";
 import FlashMessageComponent, {updateFlashMessage, clearFlashMessage } from "../../../components/FlashMessage";
 import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE} from "../UpdateConceptPage";
-import {submitErrorHandler, submitSuccessHandler} from "../conceptCommon";
+import {metaExists, statusExists, submitErrorHandler, submitSuccessHandler} from "../conceptCommon";
 
 
 import {mapStateToProps} from "./createConceptMapStateToProps";
@@ -74,13 +74,6 @@ class CreateConceptPageContainer extends React.Component {
     }
 }
 
-CreateConceptPageContainer.defaultProps = {
-    meta: [],
-    status: []
-};
-
-const metaExists = ({meta}) =>  meta.length > 0;
-const statusExists = ({status}) => status.length > 0;
 const formHasInitialValues = ({initialFormValues}) => {
     return Object.values(initialFormValues).indexOf(null) === -1 &&
         initialFormValues['statusId'] &&

@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2018-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 import {SEVERITY} from "../../components/FlashMessage";
 import {updateRoute} from "../../utilities/routeHelper";
 
@@ -37,3 +45,7 @@ export const mapStateToPropsCommon = ({cacheFromServer: {status, meta},  credent
         status: status.map(x => ({value: x.id, label: x.name})),
     }
 };
+
+
+export const metaExists = ({meta}) =>  meta.length > 0;
+export const statusExists = ({status}) => status.length > 0;

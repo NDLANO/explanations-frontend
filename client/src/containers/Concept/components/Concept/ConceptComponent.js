@@ -43,6 +43,12 @@ class Concept extends React.Component {
         this.renderSubmitButton = this.renderSubmitButton.bind(this);
     }
 
+    componentDidMount() {
+        // InitialValues is not filled out for form on page CreateConcept if navigated by menu.
+        // However, navigation by reloading page do. This is a solution to circumvent that problem.
+        this.props.initialize(this.props.initialFormValues);
+    }
+
     onSubmit(values) {
         const meta = GetValuesFromObjectByKeyPrefix(values, "meta_").map(x => x.value);
         const {externalId = -1, statusId, content, title, sourceAuthor, source = null, id = -1} = values;
@@ -83,7 +89,7 @@ class Concept extends React.Component {
             if (elm.category.description === "Licence")
                 elm.category.description = "Lisens";
         });
-
+        
         const submit = handleSubmit(this.onSubmit);
 
         return (
