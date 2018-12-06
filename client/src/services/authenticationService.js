@@ -11,10 +11,14 @@ import decode from "jwt-decode";
 
 import {config} from '../config';
 
-export class AuthenticationService {
-    constructor(accessToken, authProviderConfig=config.AUTH0) {
+export default class AuthenticationService {
+    constructor({accessToken, authProviderConfig=config.AUTH0}) {
         this.authProviderConfig = authProviderConfig;
         this.provider =  new auth0.WebAuth({...this.authProviderConfig});
+    }
+
+    doTimerWork() {
+
     }
 
     getScope(accessToken) {

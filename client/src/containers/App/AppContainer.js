@@ -36,11 +36,13 @@ import UpdateConceptPage from '../Concept/UpdateConceptPage';
 import CreateConceptPage from '../Concept/CreateConceptPage';
 import PrivateRoute from '../PrivateRoute';
 import LogoutPage from '../LogoutPage';
-import ApiClient from '../../api';
 
 import {loadConceptTitles, loadMeta, loadStatus} from './actions';
 import {config} from "../../config";
 import NotFoundPage from "../ErrorPage/NotFoundPage";
+import ApiClient from "../../api";
+import AuthenticationService from "../../services/authenticationService";
+import withAuthenticationService from "../../components/HOC/withAuthenticationService";
 
 
 //Moment.globalFormat = 'lll';
@@ -53,6 +55,9 @@ class App extends React.Component {
     }
     componentDidMount() {
         this.loadInitialData();
+
+        if (this.props.isAuthenticated)
+            this.props.authenticationService.doTimerWork();
     }
     loadInitialData() {
         const {apiClient, loadStatus, loadConceptTitles, loadMeta} = this.props;
@@ -64,9 +69,7 @@ class App extends React.Component {
         Promise.all(promises).then(([categories, metas]) => loadMeta(categories, metas));
     }
 
-    renderUpdateComponent() {
-        return <UpdateConceptPage requiredScopes={this.props.updatePageRequiredScope} />
-    }
+    renderUpdateComponent = () => <UpdateConceptPage requiredScopes={this.props.updatePageRequiredScope} />;
 
     render() {
         const {
@@ -106,7 +109,9 @@ const mapStateToProps = state => {
     const token = state.credentials.accessToken;
     const createConceptRequiredScope = [config.SCOPES.concept_write, config.SCOPES.concept_admin];
     return {
+        accessToken: token,
         apiClient: new ApiClient(token),
+        authenticationService: new AuthenticationService({accessToken: token}),
         username: state.credentials.username,
         isAuthenticated: state.credentials.isAuthenticated,
         updatePageRequiredScope: createConceptRequiredScope,
@@ -117,5 +122,6 @@ const mapStateToProps = state => {
 export default compose(
     withRouter,
     connect(mapStateToProps, {loadMeta, loadStatus, loadConceptTitles}),
+    withAuthenticationService,
     injectT,
 )(App);

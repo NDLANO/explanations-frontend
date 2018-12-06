@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {AuthenticationService} from '../../services/authenticationService';
+import AuthenticationService from '../../services/authenticationService';
 import {indexRoute} from "../../utilities/routeHelper";
 
 import {loginSuccess} from './loginActions';
@@ -40,6 +40,6 @@ LoginSuccessContainer.propTypes = {
     authenticationService: PropTypes.instanceOf(AuthenticationService).isRequired
 };
 
-const mapStateToProps = state => ({authenticationService: new AuthenticationService()});
+const mapStateToProps = state => ({authenticationService: new AuthenticationService({})});
 
 export default connect(mapStateToProps,{loginSuccess})(LoginSuccessContainer);

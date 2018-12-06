@@ -12,7 +12,7 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 
 import {logoutSuccess} from "./logoutActions";
-import {AuthenticationService} from "../../services/authenticationService";
+import AuthenticationService from "../../services/authenticationService";
 
 class LogoutContainer extends React.PureComponent {
     componentDidMount() {
@@ -33,8 +33,9 @@ LogoutContainer.propTypes = {
     authService: PropTypes.instanceOf(AuthenticationService).isRequired
 };
 
+const mapStateToProps = state => ({authService: new AuthenticationService({})});
 
 export default compose(
     withRouter,
-    connect(({authService: new AuthenticationService()}), {logoutSuccess})
+    connect(mapStateToProps, {logoutSuccess})
 )(LogoutContainer);

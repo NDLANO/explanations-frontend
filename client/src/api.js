@@ -8,7 +8,7 @@
 import { push } from 'connected-react-router'
 import axios from 'axios';
 import {config} from "./config";
-import {AuthenticationService} from "./services/authenticationService";
+import AuthenticationService from "./services/authenticationService";
 import {loginRoute, notAuthorizedRoute, notFoundRoute} from "./utilities/routeHelper";
 
 const getUrlBasedOnEnvironment = env => {
@@ -30,7 +30,7 @@ const API_URL = `${ROOT_URL}/api`;
 
 export default class ApiClient {
 
-    constructor(dispatch,token="notValidToken", authService = new AuthenticationService()) {
+    constructor(dispatch,token="notValidToken", authService = new AuthenticationService({})) {
         this.dispatch = dispatch;
         this.authenticationService = authService;
         this.api = axios.create({

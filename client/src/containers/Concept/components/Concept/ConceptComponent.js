@@ -46,7 +46,7 @@ class Concept extends React.Component {
     componentDidMount() {
         // InitialValues is not filled out for form on page CreateConcept if navigated by menu.
         // However, navigation by reloading page do. This is a solution to circumvent that problem.
-        this.props.initialize(this.props.initialFormValues);
+        this.props.initialize(this.props.initialValues);
     }
 
     onSubmit(values) {

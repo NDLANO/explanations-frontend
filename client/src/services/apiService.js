@@ -7,7 +7,7 @@
  */
 import axios from 'axios';
 import {config} from "../config";
-import {AuthenticationService} from "./authenticationService";
+import AuthenticationService from "./authenticationService";
 import {loginRoute, notAuthorizedRoute, notFoundRoute} from "../utilities/routeHelper";
 
 const getUrlBasedOnEnvironment = env => {

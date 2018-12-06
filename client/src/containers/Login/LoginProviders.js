@@ -11,7 +11,7 @@ import {injectT} from 'ndla-i18n';
 import {compose} from "redux";
 import {connect} from "react-redux";
 
-import {AuthenticationService} from '../../services/authenticationService';
+import AuthenticationService from '../../services/authenticationService';
 import {config} from '../../config';
 
 import './style.css'
@@ -41,7 +41,7 @@ export const LoginProviderContainer = ({t, authenticationService, consentUrl}) =
         </div>
     </div>;
 
-const mapStateToProps = state => ({authenticationService: new AuthenticationService(), consentUrl: config.EXTERNAL_URL.consent_NDLA});
+const mapStateToProps = state => ({authenticationService: new AuthenticationService({}), consentUrl: config.EXTERNAL_URL.consent_NDLA});
 
 LoginProviderContainer.propTypes = {
     t: PropTypes.func.isRequired,

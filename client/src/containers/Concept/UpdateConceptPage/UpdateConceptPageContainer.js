@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {compose} from "redux";
@@ -18,7 +19,6 @@ import Concept from "../components/Concept";
 import ConfirmModal from "../../../components/ConfirmModal";
 import Loading from '../../Loading';
 import WithEither from "../../../components/HOC/WithEither";
-import withApiService from "../../../components/HOC/withApiService";
 import {updateFlashMessage, clearFlashMessage} from "../../../components/FlashMessage/";
 import {metaExists, statusExists, submitErrorHandler, submitFormHandling} from "../conceptCommon";
 import {cloneRoute, routeIsAllowed} from "../../../utilities/routeHelper";
@@ -30,6 +30,8 @@ import {
     setDeleteButtonAsDisabled,
     updateInitialFormValues
 } from "./updateConceptActions";
+import ApiService from "../../../services/apiService";
+import withApiService from "../../../components/HOC/withApiService";
 
 
 class UpdateConceptPageContainer extends React.Component {
@@ -157,6 +159,28 @@ class UpdateConceptPageContainer extends React.Component {
         );
     }
 }
+
+UpdateConceptPageContainer.propTypes = {
+    // Required
+    t: PropTypes.func.isRequired,
+    clearFlashMessage: PropTypes.func.isRequired,
+    updateInitialFormValues: PropTypes.func.isRequired,
+    updateFlashMessage: PropTypes.func.isRequired,
+    setDeleteButtonAsDisabled: PropTypes.func.isRequired,
+    match: PropTypes.shape({
+        params: PropTypes.shape({
+            id: PropTypes.string.isRequired
+        }).isRequired
+    }).isRequired,
+    history: PropTypes.shape({
+        push: PropTypes.func.isRequired
+    }).isRequired,
+    apiService: PropTypes.instanceOf(ApiService).isRequired,
+    requiredScopes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    userScopes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
+    deleteButtonIsDisabled: PropTypes.bool.isRequired,
+};
 
 export default compose(
     withRouter,
