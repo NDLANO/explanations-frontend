@@ -33,14 +33,7 @@ export default class ApiService {
         this.accessToken = accessToken;
         this.history = history;
         this.authenticationService = new AuthenticationService(this.accessToken);
-        this.api = axios.create();
-        this.config = {
-            headers: {
-                common: {  // Common is for all types requests (post, get etc)
-                    Authorization: `Bearer ${this.accessToken}`
-                }
-            }
-        };
+        this.api = axios;
 
         this.endpoints = {
             concept: `${API_URL}/concept`,
@@ -60,6 +53,14 @@ export default class ApiService {
                 reject(null);
         });
     };
+
+    getRequestConfig() {
+        return {
+            headers: {
+                Authorization: `Bearer ${this.accessToken}`
+            }
+        }
+    }
 
     rejected = ({response}) => {
         return new Promise((resolve, reject) => {
@@ -98,9 +99,9 @@ export default class ApiService {
     getAllMetas         = () =>         this.api.get(`${this.endpoints.meta}`).then(this.getData);
     getAllCategories    = () =>         this.api.get(`${this.endpoints.category}`).then(this.getData);
 
-    updateConcept       = concept =>    this.api.put(`${this.endpoints.concept}`,concept);
+    updateConcept       = concept =>    this.api.put(`${this.endpoints.concept}`,concept, this.getRequestConfig());
 
-    createConcept       = concept =>    this.api.post(`${this.endpoints.concept}`,concept);
+    createConcept       = concept =>    {console.log(concept); return this.api.post(`${this.endpoints.concept}`,concept, this.getRequestConfig());};
 
-    archiveConcept      = id =>         this.api.delete(`${this.endpoints.concept}/${id}`,);
+    archiveConcept      = id =>         this.api.delete(`${this.endpoints.concept}/${id}`, this.getRequestConfig());
 }
