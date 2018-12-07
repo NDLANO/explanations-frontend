@@ -14,28 +14,8 @@ import {config} from '../config';
 export default class AuthenticationService {
     constructor({accessToken, authProviderConfig=config.AUTH0}) {
         this.authProviderConfig = authProviderConfig;
-        this.provider =  new auth0.WebAuth({...this.authProviderConfig});
-        this.timeoutId = null;
-    }
-
-    cancelTimeout() {
-        clearTimeout(this.timeoutId);
-    }
-
-    pollSessionForLogout(dispatchLogout) {
-        // if logged out
-        // dispatch logout function
-        //dispatchLogout()
-        if (this.timeoutId)
-            this.cancelTimeout();
-        const fifteen_minutes = 60 * 15;
-
-        // TODO using NONCES
-        // https://auth0.com/docs/libraries/auth0js/v9#ready-to-go-example
-
-        this.timeoutId = setTimeout(() => {
-
-        }, fifteen_minutes);
+        const {redirectUri} = this.authProviderConfig;
+        this.provider =  new auth0.WebAuth({...this.authProviderConfig, redirectUri: `${redirectUri}/login/success`});
     }
 
 
@@ -65,7 +45,7 @@ export default class AuthenticationService {
 
         const credentials = {
             isAuthenticated: true,
-            accessToken: accessToken
+            accessToken: accessToken,
         };
 
         if (decodedToken[this.authProviderConfig.usernameKey])
@@ -79,7 +59,7 @@ export default class AuthenticationService {
 
     parseHash(hash) {
         return new Promise((resolve, reject) => {
-            this.provider.parseHash({ hash, _idTokenVerification: false }, (err, authResult) => {
+            this.provider.parseHash({ nonce: this.nonce,hash, _idTokenVerification: false }, (err, authResult) => {
                 if (!err) {
                     resolve(authResult);
                 } else {
@@ -99,7 +79,7 @@ export default class AuthenticationService {
 
     logoutUser() {
         this.provider.logout({
-            returnTo: this.authProviderConfig.logoutUri,
+            returnTo: this.authProviderConfig.redirectUri,
             clientID: this.authProviderConfig.clientID
         });
     }
@@ -120,20 +100,19 @@ export default class AuthenticationService {
         return new Date(token.exp*1000) < new Date();
     };
 
-    renewAccessToken = () =>
-        new Promise((resolve, reject) => {
-            this.provider.renewAuth(
-                {
-                    redirectUri: `${this.authProviderConfig.location}/login/silent-callback`,
-                    usePostMessage: true,
-                },
-                (err, authResult) => {
-                    if (authResult && authResult.accessToken) {
-                        resolve(authResult.accessToken);
-                    } else {
-                        reject(null);
-                    }
-                },
-            );
-})
+    renewAccessToken = () => new Promise((resolve, reject) => {
+        this.provider.renewAuth(
+            {
+                redirectUri: `${this.authProviderConfig.redirectUri}/login/silent-callback`,
+                usePostMessage: true,
+            },
+            (err, authResult) => {
+                if (authResult && authResult.accessToken) {
+                    resolve(authResult.accessToken);
+                } else {
+                    reject(null);
+                }
+            },
+        );
+    });
 }

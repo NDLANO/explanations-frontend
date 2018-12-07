@@ -11,6 +11,7 @@
 @import '_dropdown.scss';
 @import '_form.scss';
 
+@import '../containers/Login/_loginProviderStyle.scss';
 
 input {
   margin: 0; /* Bug where leftmost side is 1 px below the rest of the input */

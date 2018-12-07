@@ -15,14 +15,14 @@ export const config = {
         audience:           getEnvironment('REACT_APP_AUTH0__AUDIENCE'),
         scope:              getEnvironment('REACT_APP_AUTH0__SCOPE'),
         usernameKey:        getEnvironment('REACT_APP_AUTH0__ACCESS_TOKEN_USERNAME_KEY'),
-        logoutUri:          getEnvironment('REACT_APP_AUTH0__LOGOUT_URI'),
     },
     EDITORS: {
         managing:           getEnvironment('REACT_APP_EDITORS__MANAGING'),
         chief:              getEnvironment('REACT_APP_EDITORS__CHIEF')
     },
     EXTERNAL_URL: {
-        consent_NDLA:       getEnvironment('REACT_APP_EXTERNAL_URL__CONSENT')
+        consent_NDLA:       getEnvironment('REACT_APP_EXTERNAL_URL__CONSENT'),
+        concept_API:        getEnvironment('REACT_APP_EXTERNAL_URL__CONCEPT_API'),
     },
     SCOPES: {
         concept_write:      getEnvironment('REACT_APP_SCOPES__CONCEPT_WRITE'),

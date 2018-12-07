@@ -14,8 +14,8 @@ import {connect} from "react-redux";
 import AuthenticationService from '../../services/authenticationService';
 import {config} from '../../config';
 
-import './style.css'
 import PropTypes from "prop-types";
+import Button from "ndla-button";
 
 
 const classes = new BEMHelper({
@@ -29,10 +29,10 @@ export const LoginProviderContainer = ({t, authenticationService, consentUrl}) =
             <h3>{t('loginProviders.description')}</h3>
             <ul>
                 <li>
-                    <button onClick={() => authenticationService.loginUser('google-oauth2')}
-                        {...classes("content", "button", "btn-google c-button")}>
+                    <Button onClick={() => authenticationService.loginUser('google-oauth2')}
+                        {...classes("content", "button", "btn-google")}>
                         Google
-                    </button>
+                    </Button>
                 </li>
             </ul>
         </div>

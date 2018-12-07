@@ -18,11 +18,7 @@ const credentialsTransform = createTransform(
     (outboundState, key) => {
         const authService = new AuthenticationService({accessToken: outboundState.accessToken});
         if (authService.isTokenExpired(outboundState.accessToken)) {
-            const newToken = authService.renewAccessToken();
-            if (!newToken)
-                return initialState;
-
-            return authService.createCredentials(newToken);
+            return {...initialState};
         }
         return { ...outboundState};
     },

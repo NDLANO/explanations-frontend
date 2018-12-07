@@ -13,7 +13,6 @@ import {injectT} from 'ndla-i18n';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 
-
 //import 'moment/min/locales';
 //import Moment from 'react-moment';
 
@@ -43,6 +42,7 @@ import NotFoundPage from "../ErrorPage/NotFoundPage";
 import ApiClient from "../../api";
 import AuthenticationService from "../../services/authenticationService";
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
+import {loginSuccess} from "../Login";
 
 
 //Moment.globalFormat = 'lll';
@@ -55,10 +55,9 @@ class App extends React.Component {
     }
     componentDidMount() {
         this.loadInitialData();
-
-        if (this.props.isAuthenticated)
-            this.props.authenticationService.pollSessionForLogout(() => ({}));
     }
+
+
     loadInitialData() {
         const {apiClient, loadStatus, loadConceptTitles, loadMeta} = this.props;
 
@@ -109,6 +108,7 @@ const mapStateToProps = state => {
     const token = state.credentials.accessToken;
     const createConceptRequiredScope = [config.SCOPES.concept_write, config.SCOPES.concept_admin];
     return {
+        nonce: state.credentials.nonce,
         accessToken: token,
         apiClient: new ApiClient(token),
         authenticationService: new AuthenticationService({accessToken: token}),
@@ -121,7 +121,7 @@ const mapStateToProps = state => {
 };
 export default compose(
     withRouter,
-    connect(mapStateToProps, {loadMeta, loadStatus, loadConceptTitles}),
+    connect(mapStateToProps, {loadMeta, loadStatus, loadConceptTitles, loginSuccess}),
     withAuthenticationService,
     injectT,
 )(App);

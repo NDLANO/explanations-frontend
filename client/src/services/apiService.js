@@ -10,22 +10,9 @@ import {config} from "../config";
 import AuthenticationService from "./authenticationService";
 import {loginRoute, notAuthorizedRoute, notFoundRoute} from "../utilities/routeHelper";
 
-const getUrlBasedOnEnvironment = env => {
-    switch (env) {
-        case config.ENVIRONMENT.development:
-            return 'http://localhost:63365';
-        case config.ENVIRONMENT.testing:
-            return 'http://ndla-api-testing-777208375.eu-west-1.elb.amazonaws.com';
-        case config.ENVIRONMENT.production:
-            return 'http://ndla-api-1275813378.eu-west-1.elb.amazonaws.com';
-        default:
-            return 'COULD_NOT_READ_URL_FROM_ENVIRONMENT';
-    }
-};
 
-const ROOT_URL = getUrlBasedOnEnvironment(config.ENVIRONMENT.current);
 
-const API_URL = `${ROOT_URL}/api`;
+const API_URL = `${config.EXTERNAL_URL.concept_API}/api`;
 
 export default class ApiService {
 
