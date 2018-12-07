@@ -10,8 +10,9 @@ export const createSearchQueryFromValues = values => {
         .filter(x => x.value > -1)
         .map(x => `meta=${x.value}&`)
         .join('');
+    if(query.length === 1)
+        return '';
 
-    console.log("searchquery", query);
     return query;
 };
 

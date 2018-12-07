@@ -29,7 +29,9 @@ class SearchForm extends React.Component {
     }
 
     onSearch(values) {
-        this.props.search(createSearchQueryFromValues(values));
+        const query = createSearchQueryFromValues(values);
+        if (query)
+            this.props.search();
     }
 
     render() {
