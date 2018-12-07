@@ -19,14 +19,15 @@ import {updateSearchResult} from "./searchPageActions";
 import SearchForm from "./components/SearchForm";
 import SearchResultList from "./components/SearchResult";
 import {mapStateToProps} from "./searchPageMapStateToProps";
+import withApiService from "../../components/HOC/withApiService";
 
 
-const SearchContainer = ({t, languages, subjects, searchResult,updateSearchResult,locale, autoComplete, initialValues, apiClient}) =>
+const SearchContainer = ({t, languages, subjects, searchResult,updateSearchResult,locale, autoComplete, initialValues, apiService}) =>
     <OneColumn>
         <SearchForm t={t}
                     languages={languages}
                     subjects={subjects}
-                    search={query => apiClient.searchForConcepts(query).then(updateSearchResult)}
+                    search={query => apiService.searchForConcepts(query).then(updateSearchResult)}
                     autoComplete={autoComplete}
                     initialValues={initialValues}/>
         <SearchResultList results={searchResult}/>
@@ -42,6 +43,7 @@ const languageAndSubjectsShouldBePresent = compose(
 
 export default compose(
     connect(mapStateToProps, {updateSearchResult}),
+    withApiService,
     injectT,
 )(languageAndSubjectsShouldBePresent);
 

@@ -7,10 +7,7 @@
  */
 import axios from 'axios';
 import {config} from "../config";
-import AuthenticationService from "./authenticationService";
 import {loginRoute, notAuthorizedRoute, notFoundRoute} from "../utilities/routeHelper";
-
-
 
 const API_URL = `${config.EXTERNAL_URL.concept_API}/api`;
 
@@ -19,7 +16,6 @@ export default class ApiService {
     constructor({accessToken, history}) {
         this.accessToken = accessToken;
         this.history = history;
-        this.authenticationService = new AuthenticationService(this.accessToken);
         this.api = axios;
 
         this.endpoints = {

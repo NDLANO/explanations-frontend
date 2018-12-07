@@ -39,10 +39,10 @@ import LogoutPage from '../LogoutPage';
 import {loadConceptTitles, loadMeta, loadStatus} from './actions';
 import {config} from "../../config";
 import NotFoundPage from "../ErrorPage/NotFoundPage";
-import ApiClient from "../../api";
 import AuthenticationService from "../../services/authenticationService";
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
 import {loginSuccess} from "../Login";
+import withApiService from "../../components/HOC/withApiService";
 
 
 //Moment.globalFormat = 'lll';
@@ -59,12 +59,12 @@ class App extends React.Component {
 
 
     loadInitialData() {
-        const {apiClient, loadStatus, loadConceptTitles, loadMeta} = this.props;
+        const {apiService, loadStatus, loadConceptTitles, loadMeta} = this.props;
 
-        apiClient.getAllStatus().then(data => loadStatus(data));
-        apiClient.getAllConceptTitles().then(data => loadConceptTitles(data));
+        apiService.getAllStatus().then(data => loadStatus(data));
+        apiService.getAllConceptTitles().then(data => loadConceptTitles(data));
 
-        const promises = [apiClient.getAllCategories(), apiClient.getAllMetas()];
+        const promises = [apiService.getAllCategories(), apiService.getAllMetas()];
         Promise.all(promises).then(([categories, metas]) => loadMeta(categories, metas));
     }
 
@@ -110,7 +110,6 @@ const mapStateToProps = state => {
     return {
         nonce: state.credentials.nonce,
         accessToken: token,
-        apiClient: new ApiClient(token),
         authenticationService: new AuthenticationService({accessToken: token}),
         username: state.credentials.username,
         isAuthenticated: state.credentials.isAuthenticated,
@@ -123,5 +122,6 @@ export default compose(
     withRouter,
     connect(mapStateToProps, {loadMeta, loadStatus, loadConceptTitles, loginSuccess}),
     withAuthenticationService,
+    withApiService,
     injectT,
 )(App);

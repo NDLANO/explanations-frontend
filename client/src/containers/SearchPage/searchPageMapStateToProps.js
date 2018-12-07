@@ -8,7 +8,6 @@
 
 import {sortObjectsByKey} from "../../utilities";
 import {getFormValues} from "redux-form";
-import ApiClient from "../../api";
 
 const ALL_LANGUAGES = {
     id: -1,
@@ -60,7 +59,6 @@ const getAutoCompleteList = (state) => {
 export const mapStateToProps = state =>{
     const subjects = getMetaByCategory(state.cacheFromServer.meta, "Subject", ALL_SUBJECTS);
     const languages = getMetaByCategory(state.cacheFromServer.meta, "Language", ALL_LANGUAGES);
-    const token = state.credentials.accessToken;
     return  ({
         searchResult: state.search.results,
         languages: languages.map(x => ({value: x.id, label: x.name})),
@@ -68,8 +66,7 @@ export const mapStateToProps = state =>{
         initialValues: {
             language: getDefaultLanguage(languages, state.locale)
         },
-        autoComplete: getAutoCompleteList(state),
-        apiClient: new ApiClient(token)
+        autoComplete: getAutoCompleteList(state)
     })
 };
 
