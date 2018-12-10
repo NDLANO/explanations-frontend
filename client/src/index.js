@@ -6,16 +6,29 @@
  *
  */
 
+import {config as configureDotEnv} from 'dotenv';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from "react-redux";
 import {IntlProvider} from "ndla-i18n";
 import {BrowserRouter} from "react-router-dom";
+import { PersistGate } from 'redux-persist/integration/react'
+import {Route, Switch} from "react-router";
+import { ConnectedRouter } from 'connected-react-router';
+
 import App from './containers/App';
 import {getLocaleInfoFromPath} from "./i18n";
-import {store} from './store';
+import configureStore from './store';
+import {catchAllRoute, loginRoute} from "./utilities/routeHelper";
+import Login from "./containers/Login";
+
+import Loading from './containers/Loading';
 
 import './style/index.css';
+
+configureDotEnv();
+
+const {store, persistor, history} = configureStore();
 
 const {basename} = getLocaleInfoFromPath(window.location.pathname);
 
@@ -25,11 +38,18 @@ const { abbreviation, messages } = getLocaleInfoFromPath(
 
 const Client = () => (
     <Provider store={store}>
-        <IntlProvider locale={abbreviation} messages={messages}>
-            <BrowserRouter basename={basename}>
-                <App />
-            </BrowserRouter>
-        </IntlProvider>
+        <ConnectedRouter history={history}>
+            <IntlProvider locale={abbreviation} messages={messages}>
+                <PersistGate loading={<Loading />} persistor={persistor}>
+                    <BrowserRouter basename={basename}>
+                        <Switch>
+                            <Route path={loginRoute()} component={Login}/>
+                            <Route path={catchAllRoute()} component={App}/>
+                        </Switch>
+                    </BrowserRouter>
+                </PersistGate>
+            </IntlProvider>
+        </ConnectedRouter>
     </Provider>
 );
 

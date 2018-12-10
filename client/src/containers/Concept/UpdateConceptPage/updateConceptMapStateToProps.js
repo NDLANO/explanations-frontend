@@ -1,10 +1,13 @@
 import {mapStateToPropsCommon} from '../conceptCommon';
 
-export const mapStateToProps = ({cacheFromServer, locale, concept}) => {
-    const {initialFormValues, flashMessage} = concept.update;
+export const mapStateToProps = state => {
+    const {initialFormValues, flashMessage, deleteButtonIsDisabled} = state.concept.update;
     return {
-        ...mapStateToPropsCommon({cacheFromServer}),
+        ...mapStateToPropsCommon(state),
+        isAuthenticated: state.credentials.isAuthenticated,
+        userScopes: state.credentials.scopes,
         initialFormValues,
-        flashMessage
+        flashMessage,
+        deleteButtonIsDisabled
     }
 };

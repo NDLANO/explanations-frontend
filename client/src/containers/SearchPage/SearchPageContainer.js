@@ -14,19 +14,20 @@ import {compose} from "redux";
 
 import Loading from '../Loading';
 import WithEither from "../../components/HOC/WithEither";
+import withApiService from "../../components/HOC/withApiService";
 
-import {searchForConcept} from "./actions";
+import {updateSearchResult} from "./searchPageActions";
 import SearchForm from "./components/SearchForm";
 import SearchResultList from "./components/SearchResult";
-import {mapStateToProps} from "./mapStateToProps";
+import {mapStateToProps} from "./searchPageMapStateToProps";
 
 
-const SearchContainer = ({t, languages, subjects, searchResult,searchForConcept,locale, autoComplete, initialValues}) =>
+const SearchContainer = ({t, languages, subjects, searchResult,updateSearchResult,locale, autoComplete, initialValues, apiService}) =>
     <OneColumn>
         <SearchForm t={t}
                     languages={languages}
                     subjects={subjects}
-                    search={searchForConcept}
+                    search={query => apiService.searchForConcepts(query).then(updateSearchResult)}
                     autoComplete={autoComplete}
                     initialValues={initialValues}/>
         <SearchResultList results={searchResult}/>
@@ -41,7 +42,8 @@ const languageAndSubjectsShouldBePresent = compose(
 )(SearchContainer);
 
 export default compose(
-    connect(mapStateToProps, {searchForConcept}),
+    connect(mapStateToProps, {updateSearchResult}),
+    withApiService,
     injectT,
 )(languageAndSubjectsShouldBePresent);
 

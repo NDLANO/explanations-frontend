@@ -29,6 +29,17 @@
        justify-content: center;
      }
 
+    input[readonly], textarea[readonly], select[readonly] {
+      background: #EFF0F2;
+
+      &:hover {
+        cursor: not-allowed;
+      }
+      &:focus, &:active {
+        outline: none;
+        border: none;
+      }
+    }
 
     label {
       width: 150px;

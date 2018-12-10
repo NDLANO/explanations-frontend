@@ -1,0 +1,47 @@
+/**
+ * Copyright (C) 2018 -present, NDLA
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.c-login-providers {
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &--button {
+      height: 52px;
+      width: 284px;
+      display: flex;
+      justify-content: center;
+    }
+  }
+  ul {
+    width: 100%;
+    padding: 0;
+    margin-bottom: 0;
+    list-style: none;
+
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  &__privacy-consent {
+    font-size: 16px;
+  }
+}
+
+.btn-google {
+  background: #f44336;
+  border: none;
+  color: white;
+  &:hover {
+    background-color: #c23f36;
+    border: none;
+  }
+}

@@ -7,23 +7,32 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
+import {Button} from "ndla-ui";
 
 import FlashMessage from "../../../components/FlashMessage";
 import Concept from "../components/Concept";
 import ConfirmModal from "../../../components/ConfirmModal";
 import Loading from '../../Loading';
 import WithEither from "../../../components/HOC/WithEither";
-import {getConceptById, updateConcept, archiveConcept} from "../../../api";
 import {updateFlashMessage, clearFlashMessage} from "../../../components/FlashMessage/";
-import {submitErrorHandler, submitFormHandling} from "../conceptCommon";
+import {metaExists, statusExists, submitErrorHandler, submitFormHandling} from "../conceptCommon";
+import {cloneRoute, routeIsAllowed} from "../../../utilities/routeHelper";
 
 
 import {mapStateToProps} from './updateConceptMapStateToProps';
-import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE as UPDATE_FLASH_MESSAGE, setDeleteButtonAsDisabled, updateInitialFormValues} from "./updateConceptActions";
+import {
+    UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE as UPDATE_FLASH_MESSAGE,
+    setDeleteButtonAsDisabled,
+    updateInitialFormValues
+} from "./updateConceptActions";
+import ApiService from "../../../services/apiService";
+import withApiService from "../../../components/HOC/withApiService";
+
 
 class UpdateConceptPageContainer extends React.Component {
     constructor(props) {
@@ -45,33 +54,42 @@ class UpdateConceptPageContainer extends React.Component {
     }
 
     loadConcept() {
-        const {updateFlashMessage, match: {params: {id}}} = this.props;
-        const errMessage = this.props.t('updateConcept.loadDataMessage.error.title');
+        const {updateFlashMessage, match: {params: {id}}, history} = this.props;
+        const errorHandler = {
+            titleMessage: this.props.t('updateConcept.loadDataMessage.error.title'),
+            actionType: UPDATE_FLASH_MESSAGE,
+            history
+        };
 
-        getConceptById(id)
-            .then(data => {
-                if (data.data) {
-                    const {data: concept} = data.data;
-                    const meta = {};
-
-                    concept.meta.forEach(x => {
-                        meta[`meta_${x.category.name.toLowerCase()}`] = {value: x.id, label: x.name};
-                    });
-                    const statusId = {value: concept.status.id, label: concept.status.name};
-                    this.props.updateInitialFormValues({
-                        ...concept,
-                        statusId,
-                        ...meta,
-                    });
-                    this.props.setDeleteButtonAsDisabled(statusId.label === "Archived");
-                }
+        this.props.apiService.getConceptById(id)
+            .then(concept => {
+                const meta = {};
+                concept.meta.forEach(x => {
+                    const key = `meta_${x.category.name.toLowerCase()}`;
+                    const metaObject = {value: x.id, label: x.description};
+                    if (x.category.canHaveMultiple) {
+                        if (meta[key])
+                            meta[key].push(metaObject);
+                        else
+                            meta[key] = [metaObject];
+                    }else
+                        meta[key] = {value: x.id, label: x.name};
+                });
+                const statusId = {value: concept.status.id, label: concept.status.name};
+                this.props.updateInitialFormValues({
+                    ...concept,
+                    statusId,
+                    ...meta,
+                });
+                this.props.setDeleteButtonAsDisabled(statusId.label === "Archived");
             })
-            .catch(err =>  submitErrorHandler(err, {titleMessage: errMessage, actionType: UPDATE_FLASH_MESSAGE}, updateFlashMessage));
+            .catch(err =>  submitErrorHandler(err, errorHandler, updateFlashMessage));
     }
 
+    isReadOnly = () => !routeIsAllowed(this.props.requiredScopes, this.props.userScopes, this.props.isAuthenticated);
 
     onCloneClicked() {
-        this.props.history.push(`/clone/${this.props.initialFormValues.id}`);
+        this.props.history.push(cloneRoute(this.props.initialFormValues.id));
     }
 
     onDeleteClicked() {
@@ -79,12 +97,12 @@ class UpdateConceptPageContainer extends React.Component {
 
         clearFlashMessage(UPDATE_FLASH_MESSAGE);
 
-        this.handleSubmit(archiveConcept(id), "deleteMessage");
+        this.handleSubmit(this.props.apiService.archiveConcept(id), "deleteMessage");
     }
 
     submit(concept) {
         this.props.clearFlashMessage(UPDATE_FLASH_MESSAGE);
-        const update = updateConcept(concept);
+        const update = this.props.apiService.updateConcept(concept);
         this.handleSubmit(update, "submitMessage");
         return update;
     }
@@ -101,26 +119,27 @@ class UpdateConceptPageContainer extends React.Component {
             titleMessage: t(`updateConcept.${message}.error.title`),
             actionType: UPDATE_FLASH_MESSAGE,
         };
-        submitFormHandling(submitFunction, successHandler, errorHandler, updateFlashMessage);
+        return submitFormHandling(submitFunction, successHandler, errorHandler, updateFlashMessage);
     }
 
     renderCloneButton() {
-        return <button className="c-button c-button--outline" type="button" onClick={this.onCloneClicked}>{this.props.t("updateConcept.button.clone")}</button>
+        return <Button outline={true} onClick={this.onCloneClicked} disabled={this.isReadOnly()}>{this.props.t("updateConcept.button.clone")}</Button>
     }
 
     renderDeleteButton() {
-        return <button className="c-button c-button--outline" type="button" disabled={this.props.deleteButtonIsDisabled} >{this.props.t("updateConcept.button.delete")}</button>
+        return <Button outline={true} disabled={this.isReadOnly() || this.props.deleteButtonIsDisabled}>{this.props.t("updateConcept.button.delete")}</Button>;
     }
 
     renderContent() {
         if (this.props.initialFormValues) {
-            return <Concept status={this.props.status}
+            return <Concept     status={this.props.status}
                                initialValues={this.props.initialFormValues}
                                t={this.props.t}
                                metas={this.props.meta}
                                title={this.props.t("updateConcept.title")}
                                submitConcept={this.submit}
-                               showTimestamps={true}>
+                               showTimestamps={true}
+                               isReadOnly={this.isReadOnly()}>
 
                 <ConfirmModal t={this.props.t}
                               triggerButton={this.renderDeleteButton}
@@ -149,13 +168,32 @@ class UpdateConceptPageContainer extends React.Component {
     }
 }
 
-
-const metaExists = ({meta}) =>  meta.length > 0;
-const statusExists = ({status}) => status.length > 0;
+UpdateConceptPageContainer.propTypes = {
+    // Required
+    t: PropTypes.func.isRequired,
+    clearFlashMessage: PropTypes.func.isRequired,
+    updateInitialFormValues: PropTypes.func.isRequired,
+    updateFlashMessage: PropTypes.func.isRequired,
+    setDeleteButtonAsDisabled: PropTypes.func.isRequired,
+    match: PropTypes.shape({
+        params: PropTypes.shape({
+            id: PropTypes.string.isRequired
+        }).isRequired
+    }).isRequired,
+    history: PropTypes.shape({
+        push: PropTypes.func.isRequired
+    }).isRequired,
+    apiService: PropTypes.instanceOf(ApiService).isRequired,
+    requiredScopes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    userScopes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
+    deleteButtonIsDisabled: PropTypes.bool.isRequired,
+};
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, {archiveConcept, updateFlashMessage, clearFlashMessage, updateInitialFormValues, setDeleteButtonAsDisabled}),
+    connect(mapStateToProps, {updateFlashMessage, clearFlashMessage, updateInitialFormValues, setDeleteButtonAsDisabled}),
+    withApiService,
     injectT,
     WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),
     WithEither(statusExists, () => <Loading message="loadingMessage.loadingStatus"/>),

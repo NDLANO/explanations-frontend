@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2018-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -9,8 +9,9 @@
 import React from 'react';
 import BEMHelper from "react-bem-helper";
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import {Field, reduxForm, SubmissionError} from "redux-form";
-import {OneColumn} from "ndla-ui";
+import {Button, OneColumn} from "ndla-ui";
 
 import Meta from "../Meta";
 import ConfirmModal from "../../../../components/ConfirmModal/";
@@ -18,7 +19,6 @@ import { GetValuesFromObjectByKeyPrefix} from "../../../../utilities";
 
 import {validate} from "./validate";
 import {FIELDS} from "./fields";
-
 import './style.css'
 
 const classes = new BEMHelper({
@@ -30,13 +30,39 @@ class Concept extends React.Component {
     constructor(props) {
         super(props);
 
+        this.fields = {...FIELDS};
+        _.forEach(this.fields, field => {
+            if (props.isReadOnly) {
+                field['readOnly'] = true;
+                field['required'] = false;
+            }
+            return field;
+        });
+
         this.onSubmit = this.onSubmit.bind(this);
         this.renderSubmitButton = this.renderSubmitButton.bind(this);
     }
 
+    componentDidMount() {
+        // InitialValues is not filled out for form on page CreateConcept if navigated by menu.
+        // However, navigation by reloading page do. This is a solution to circumvent that problem.
+        this.props.initialize(this.props.initialValues);
+    }
+
     onSubmit(values) {
-        const meta = GetValuesFromObjectByKeyPrefix(values, "meta_").map(x => x.value);
-        const {externalId = -1, statusId = {value: -1}, content, title, author, source = "", id = -1} = values;
+        const all_meta = GetValuesFromObjectByKeyPrefix(values, "meta_");
+
+        const getIds = list => list.map(x => x.value) || [];
+
+        const meta_from_list = all_meta.filter(x => Array.isArray(x)).reduce((a, b) => a.concat(b), []);
+        const meta_from_objects =  all_meta.filter(x => !Array.isArray(x));
+
+        const meta = getIds(meta_from_objects).concat(getIds(meta_from_list));
+        const {externalId = -1, statusId, content, title, sourceAuthor, source = null, id = -1} = values;
+
+        if (! statusId)
+            return;
+
 
         const concept = {
             id,
@@ -44,12 +70,11 @@ class Concept extends React.Component {
             externalId,
             content,
             title,
-            author,
+            sourceAuthor,
             source,
             metaIds: meta
         };
-        return this.props.submitConcept(concept).catch(err => {
-            const {errors} = err.response.data;
+        return this.props.submitConcept(concept).catch(errors => {
             if (errors) {
                 errors['_error'] = errors['metaIds'];
                 throw new SubmissionError(errors);
@@ -58,11 +83,12 @@ class Concept extends React.Component {
     }
 
     renderSubmitButton() {
-        return <button className="c-button" type="button">{(this.props.title)}</button>;
+        const {isReadOnly, submitting, title} = this.props;
+        return <Button disabled={isReadOnly || submitting} >{(title)}</Button>;
     }
 
     render() {
-        const { t, title: pageTitle, handleSubmit, status, initialValues, error, submitting} = this.props;
+        const { t, title: pageTitle, handleSubmit, status, initialValues, error, isReadOnly} = this.props;
         this.props.metas.forEach(elm => {
             if (elm.category.description === "Subject")
                 elm.category.description = "Fag";
@@ -71,24 +97,24 @@ class Concept extends React.Component {
             if (elm.category.description === "Licence")
                 elm.category.description = "Lisens";
         });
-
+        
         const submit = handleSubmit(this.onSubmit);
 
         return (
             <OneColumn>
                 <h1>{pageTitle}</h1>
                 <form onSubmit={submit} {...classes()}>
-                    <Field {...FIELDS.title} t={t} {...classes('form-field')} />
-                    <Field {...FIELDS.content} t={t} {...classes('form-field')} />
-                    <Field {...FIELDS.author} t={t} {...classes('form-field')} />
-                    <Field {...FIELDS.source} t={t} {...classes('form-field')} />
+                    <Field {...this.fields.title} t={t} {...classes('form-field')} />
+                    <Field {...this.fields.content} t={t} {...classes('form-field')} />
+                    <Field {...this.fields.author} t={t} {...classes('form-field')} />
+                    <Field {...this.fields.source} t={t} {...classes('form-field')} />
 
                     <div {...classes('form-field')}>
-                        <label  htmlFor={FIELDS.status.id}>{t("conceptForm.status")}</label>
-                        <Field {...FIELDS.status} t={t} selected={initialValues.statusId} options={status}/>
+                        <label  htmlFor={this.fields.status.id}>{t("conceptForm.status")}</label>
+                        <Field {...this.fields.status} t={t} selected={initialValues.statusId} options={status}/>
                     </div>
-                    {this.props.showTimestamps && <Field {...FIELDS.created} t={t} {...classes('form-field')} />}
-                    {this.props.showTimestamps && <Field {...FIELDS.updated} t={t} {...classes('form-field')} />}
+                    {this.props.showTimestamps && <Field {...this.fields.created} t={t} {...classes('form-field')} />}
+                    {this.props.showTimestamps && <Field {...this.fields.updated} t={t} {...classes('form-field')} />}
 
                     <div {...classes('meta')}>
                         <hr />
@@ -101,11 +127,12 @@ class Concept extends React.Component {
                                                         initialValues={initialValues}
                                                         key={meta.category.id}
                                                         t={t}
-                                                        classes={classes} />
+                                                        classes={classes}
+                                                        readOnly={isReadOnly}/>
                         )}
 
                     {this.props.children}
-                    <ConfirmModal t={t} triggerButton={this.renderSubmitButton} onConfirm={submit} disabled={submitting} />
+                    <ConfirmModal t={t} triggerButton={this.renderSubmitButton} onConfirm={submit}/>
                 </form>
             </OneColumn>
         )
@@ -114,6 +141,7 @@ class Concept extends React.Component {
 
 Concept.defaultProps = {
     showTimestamps: false,
+    isReadOnly: false
 };
 
 Concept.propTypes = {
@@ -128,9 +156,11 @@ Concept.propTypes = {
     showTimestamps: PropTypes.bool,
     locale: PropTypes.string,
     initialValues: PropTypes.object,
+    isReadOnly: PropTypes.bool
 };
 
 export default reduxForm({
     validate,
     form: 'conceptForm',
+    enableReinitialize: true,
 })(Concept);

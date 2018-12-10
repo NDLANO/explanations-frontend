@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2018-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -9,20 +9,20 @@
 import React from 'react';
 import {connect} from "react-redux";
 import { withRouter } from 'react-router-dom';
-import {createConcept, getConceptById} from "../../../api";
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
+
 
 import Loading from '../../Loading';
 import Concept from "../components/Concept";
 import WithEither from "../../../components/HOC/WithEither";
+import withApiService from "../../../components/HOC/withApiService";
 import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE} from "../UpdateConceptPage/updateConceptActions";
-import {submitErrorHandler, submitSuccessHandler} from "../conceptCommon";
+import {metaExists, statusExists, submitErrorHandler, submitSuccessHandler} from "../conceptCommon";
 import FlashMessage, {clearFlashMessage, updateFlashMessage} from "../../../components/FlashMessage";
 
 import {UPDATE_FLASH_MESSAGE_CONCEPT_CLONE, updateInitialFormValues} from "./cloneConceptActions";
 import {mapStateToProps} from './cloneConceptMapStateToProps';
-
 
 class CloneConceptPageContainer extends React.Component {
     constructor(props) {
@@ -43,10 +43,11 @@ class CloneConceptPageContainer extends React.Component {
 
         clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_CLONE);
 
-        const create = createConcept(concept);
+        const create = this.props.apiService.createConcept(concept);
         const errorHandler = {
             titleMessage: t(`cloneConcept.submitMessage.error.title`),
             actionType: UPDATE_FLASH_MESSAGE_CONCEPT_CLONE,
+            history
         };
 
         create
@@ -62,27 +63,23 @@ class CloneConceptPageContainer extends React.Component {
 
     loadConcept() {
         const {id} = this.props.match.params;
-        getConceptById(id)
-            .then(data => {
-                if (data.data) {
-                    const {data: concept} = data.data;
+        this.props.apiService.getConceptById(id).then(concept => {
 
-                    delete concept.created;
-                    delete concept.id;
-                    delete concept.updated;
+            delete concept.created;
+            delete concept.id;
+            delete concept.updated;
 
-                    const meta = {};
+            const meta = {};
 
-                    concept.meta.forEach(x => {
-                        meta[`meta_${x.category.name.toLowerCase()}`] = {value: x.id, label: x.name};
-                    });
-                    this.props.updateInitialFormValues({
-                        ...concept,
-                        statusId: {value: concept.status.id, label: concept.status.name},
-                        ...meta,
-                    });
-                }
-            })
+            concept.meta.forEach(x => {
+                meta[`meta_${x.category.name.toLowerCase()}`] = {value: x.id, label: x.name};
+            });
+            this.props.updateInitialFormValues({
+                ...concept,
+                statusId: {value: concept.status.id, label: concept.status.name},
+                ...meta,
+            });
+        })
     }
 
     renderContent() {
@@ -109,13 +106,10 @@ class CloneConceptPageContainer extends React.Component {
     }
 }
 
-
-const metaExists = ({meta}) =>  meta.length > 0;
-const statusExists = ({status}) => status.length > 0;
-
 export default compose(
     withRouter,
     connect(mapStateToProps, {updateFlashMessage, updateInitialFormValues, clearFlashMessage}),
+    withApiService,
     injectT,
     WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),
     WithEither(statusExists, () => <Loading message="loadingMessage.loadingStatus"/>),

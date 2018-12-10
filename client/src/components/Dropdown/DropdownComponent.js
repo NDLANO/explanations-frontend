@@ -1,8 +1,12 @@
+/**
+ * Copyright (c) 2016-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import React from "react";
 import BEMHelper from "react-bem-helper";
-
-import './style.css'
-
 import PropTypes from "prop-types";
 import Select from "react-select";
 
@@ -41,30 +45,37 @@ class Dropdown extends React.Component {
     }
 
     render() {
-        const {input, placeholder, t, ...rest} = this.props;
+        const {input, placeholder, t,isMultiSelect, readOnly, ...rest} = this.props;
         return <Select {...input}
                        {...rest}
                        {...classes()}
-                        classNamePrefix={classes().className}
+                       classNamePrefix={classes().className}
                        placeholder={t(placeholder)}
                        onBlur={this.onBlur}
                        value={this.state.selected}
                        onChange={this.onChange}
+                       isDisabled={readOnly}
+                       isMulti={isMultiSelect}
                 />
     }
 }
 
 Dropdown.propTypes = {
+    // Required
     t: PropTypes.func.isRequired,
+
+    // Optional
     input: PropTypes.object,
     isSearchable: PropTypes.bool,
     isClearable: PropTypes.bool,
+    isMultiSelect: PropTypes.bool,
     placeholder: PropTypes.string,
 };
 
 Dropdown.defaultProps = {
     isSearchable: true,
     isClearable: false,
+    isMultiSelect: false,
     placeholder: 'dropdown.placeholder',
 };
 

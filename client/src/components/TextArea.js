@@ -8,6 +8,7 @@ const TextArea = props =>
         <textarea  placeholder={props.t(props.placeholder)}
                    rows={props.rows}
                    cols={props.cols}
+                   readOnly={props.readOnly}
                    {...props.input}/>
     </FormElement>;
 

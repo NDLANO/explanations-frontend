@@ -12,7 +12,6 @@ export const createSearchQueryFromValues = values => {
         .filter(x => x.value > -1)
         .forEach(x => searchParams.append('meta', x.value));
 
-    console.log("searchquery", searchParams.toString());
     return searchParams.toString();
 };
 

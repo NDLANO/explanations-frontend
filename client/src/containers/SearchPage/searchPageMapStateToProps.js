@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-
 import {sortObjectsByKey} from "../../utilities";
 import {getFormValues} from "redux-form";
 import {SEARCH_FORM_NAME} from "./components/SearchForm";
@@ -44,7 +43,7 @@ const getDefaultLanguage = (languages, locale) => {
         defaultLanguage = {value: lang.id, label: lang.name};
     }
     return defaultLanguage;
-}
+};
 
 const getAutoCompleteList = (state) => {
     let autoComplete = [];
@@ -60,7 +59,6 @@ const getAutoCompleteList = (state) => {
 export const mapStateToProps = state =>{
     const subjects = getMetaByCategory(state.cacheFromServer.meta, "Subject", ALL_SUBJECTS);
     const languages = getMetaByCategory(state.cacheFromServer.meta, "Language", ALL_LANGUAGES);
-
     return  ({
         searchResult: state.search.results,
         languages: languages.map(x => ({value: x.id, label: x.name})),

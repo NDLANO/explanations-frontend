@@ -32,7 +32,7 @@ export const FIELDS = {
         component: Input
     },
     author: {
-        name: "author",
+        name: "sourceAuthor",
         label: "conceptForm.author",
         type: "text",
         required: true,

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2018-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
@@ -15,13 +15,15 @@ import {injectT} from "ndla-i18n";
 import Concept from "../components/Concept/";
 import Loading from '../../Loading';
 import WithEither from "../../../components/HOC/WithEither";
-import {createConcept} from "../../../api";
+import withApiService from "../../../components/HOC/withApiService";
 import FlashMessageComponent, {updateFlashMessage, clearFlashMessage } from "../../../components/FlashMessage";
 import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE} from "../UpdateConceptPage";
-import {submitErrorHandler, submitSuccessHandler} from "../conceptCommon";
+import {metaExists, statusExists, submitErrorHandler, submitSuccessHandler} from "../conceptCommon";
+
 
 import {mapStateToProps} from "./createConceptMapStateToProps";
 import {UPDATE_FLASH_MESSAGE_CONCEPT_CREATE} from "./createConceptActions";
+
 
 class CreateConceptPageContainer extends React.Component {
     constructor(props) {
@@ -38,10 +40,11 @@ class CreateConceptPageContainer extends React.Component {
 
         clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_CREATE);
 
-        const create = createConcept(concept);
+        const create = this.props.apiService.createConcept(concept);
         const errorHandler = {
             titleMessage: t(`createConcept.submitMessage.error.title`),
             actionType: UPDATE_FLASH_MESSAGE_CONCEPT_CREATE,
+            history
         };
 
         create
@@ -71,8 +74,6 @@ class CreateConceptPageContainer extends React.Component {
     }
 }
 
-const metaExists = ({meta}) =>  meta.length > 0;
-const statusExists = ({status}) => status.length > 0;
 const formHasInitialValues = ({initialFormValues}) =>
     Object.values(initialFormValues).indexOf(null) === -1 &&
     Object.values(initialFormValues).indexOf(undefined) === -1 &&
@@ -83,6 +84,7 @@ const formHasInitialValues = ({initialFormValues}) =>
 export default compose(
     withRouter,
     connect(mapStateToProps, {updateFlashMessage, clearFlashMessage }),
+    withApiService,
     injectT,
     WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),
     WithEither(statusExists, () => <Loading message="loadingMessage.loadingStatus"/>),
