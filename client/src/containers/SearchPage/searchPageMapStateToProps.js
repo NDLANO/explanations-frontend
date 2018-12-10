@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+import {getFormValues} from "redux-form";
 
 import {sortObjectsByKey} from "../../utilities";
-import {getFormValues} from "redux-form";
 
 const ALL_LANGUAGES = {
     id: -1,
@@ -43,7 +43,7 @@ const getDefaultLanguage = (languages, locale) => {
         defaultLanguage = lang.id;
     }
     return defaultLanguage;
-}
+};
 
 const getAutoCompleteList = (state) => {
     let autoComplete = [];

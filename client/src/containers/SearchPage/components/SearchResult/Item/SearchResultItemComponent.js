@@ -1,17 +1,23 @@
+/**
+ * Copyright (c) 2018-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 import React from 'react';
 import BEMHelper from "react-bem-helper";
 import {Link} from "react-router-dom";
 
-import {updateRoute} from "../../../../utilities/routeHelper";
+import TagList from "../SearchResultItemTagListComponent";
+
+import {updateRoute} from "../../../../../utilities/routeHelper";
 
 const classes = new BEMHelper({
-    name: 'search-result-list__item',
+    name: 'search-result-item',
     prefix: 'c-',
 });
 
-
-
-const TagList = ({tags}) => <div {...classes('tags')}><ul>{tags.map(({id, abbreviation, name}) => <li key={id}>{name}</li>)}</ul></div>;
 
 const SearchResultItem = ({item}) =>
     <li key={item.id} {...classes()}>
@@ -30,7 +36,7 @@ const SearchResultItem = ({item}) =>
                 {Boolean(item.content) && item.content.slice(0, 220)}...
             </div>
 
-            {Boolean(item.meta.length) && <TagList tags={item.meta} />}
+            {Boolean(item.meta.length) && <TagList tags={item.meta} classes={classes} />}
         </article>
     </li>;
 

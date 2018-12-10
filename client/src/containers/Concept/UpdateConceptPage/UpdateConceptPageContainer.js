@@ -65,7 +65,15 @@ class UpdateConceptPageContainer extends React.Component {
             .then(concept => {
                 const meta = {};
                 concept.meta.forEach(x => {
-                    meta[`meta_${x.category.name.toLowerCase()}`] = {value: x.id, label: x.name};
+                    const key = `meta_${x.category.name.toLowerCase()}`;
+                    const metaObject = {value: x.id, label: x.description};
+                    if (x.category.canHaveMultiple) {
+                        if (meta[key])
+                            meta[key].push(metaObject);
+                        else
+                            meta[key] = [metaObject];
+                    }else
+                        meta[key] = {value: x.id, label: x.name};
                 });
                 const statusId = {value: concept.status.id, label: concept.status.name};
                 this.props.updateInitialFormValues({

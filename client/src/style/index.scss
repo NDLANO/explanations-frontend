@@ -8,7 +8,8 @@
 
 @import '../../node_modules/ndla-ui/lib/main.css';
 @import '_vars.scss';
-@import '_dropdown.scss';
+@import '../components/componentsStyle.scss';
+@import '../containers/containerStyles.scss';
 @import '_form.scss';
 
 @import '../containers/Login/_loginProviderStyle.scss';

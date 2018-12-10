@@ -14,12 +14,12 @@ import {compose} from "redux";
 
 import Loading from '../Loading';
 import WithEither from "../../components/HOC/WithEither";
+import withApiService from "../../components/HOC/withApiService";
 
 import {updateSearchResult} from "./searchPageActions";
 import SearchForm from "./components/SearchForm";
 import SearchResultList from "./components/SearchResult";
 import {mapStateToProps} from "./searchPageMapStateToProps";
-import withApiService from "../../components/HOC/withApiService";
 
 
 const SearchContainer = ({t, languages, subjects, searchResult,updateSearchResult,locale, autoComplete, initialValues, apiService}) =>

@@ -7,7 +7,6 @@ import {Search as SearchIcon} from "ndla-icons/es/common";
 
 import {FIELDS} from "./fields";
 import {createSearchQueryFromValues, onChange} from "./onChange";
-import './style.css';
 
 const classes = new BEMHelper({
     name: 'search-form',

@@ -5,8 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {SEARCH_FOR_CONCEPT} from './searchPageActions';
 import {sortObjectsByKey} from "../../utilities";
+
+import {SEARCH_FOR_CONCEPT} from './searchPageActions';
 
 const initialState = {
     results: [],

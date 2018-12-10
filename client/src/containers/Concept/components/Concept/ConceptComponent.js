@@ -50,11 +50,19 @@ class Concept extends React.Component {
     }
 
     onSubmit(values) {
-        const meta = GetValuesFromObjectByKeyPrefix(values, "meta_").map(x => x.value);
+        const all_meta = GetValuesFromObjectByKeyPrefix(values, "meta_");
+
+        const getIds = list => list.map(x => x.value) || [];
+
+        const meta_from_list = all_meta.filter(x => Array.isArray(x)).reduce((a, b) => a.concat(b), []);
+        const meta_from_objects =  all_meta.filter(x => !Array.isArray(x));
+
+        const meta = getIds(meta_from_objects).concat(getIds(meta_from_list));
         const {externalId = -1, statusId, content, title, sourceAuthor, source = null, id = -1} = values;
 
         if (! statusId)
             return;
+
 
         const concept = {
             id,
@@ -66,6 +74,7 @@ class Concept extends React.Component {
             source,
             metaIds: meta
         };
+        console.log(concept)
         return this.props.submitConcept(concept).catch(errors => {
             if (errors) {
                 errors['_error'] = errors['metaIds'];
