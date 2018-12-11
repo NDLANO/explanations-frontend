@@ -6,7 +6,6 @@
  *
  */
 
-import {config as configureDotEnv} from 'dotenv';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from "react-redux";
@@ -21,12 +20,13 @@ import {getLocaleInfoFromPath} from "./i18n";
 import configureStore from './store';
 import {catchAllRoute, loginRoute} from "./utilities/routeHelper";
 import Login from "./containers/Login";
-
 import Loading from './containers/Loading';
 
 import './style/index.css';
 
-configureDotEnv();
+if(process.env['NODE_ENV'] === 'development'){
+    require('dotenv').config();
+}
 
 const {store, persistor, history} = configureStore();
 

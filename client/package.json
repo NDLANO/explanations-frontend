@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "dotenv": "^6.1.0",
     "eslint": "^4.10.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.7.0",
@@ -15,7 +16,6 @@
     "auth0-js": "^9.8.2",
     "axios": "^0.18.0",
     "connected-react-router": "^5.0.1",
-    "dotenv": "^6.1.0",
     "history": "^4.7.2",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.11",
