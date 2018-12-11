@@ -1,5 +1,5 @@
 
-FROM node:9.4.0-alpine as client
+FROM node:10.14.1-alpine as client
 
 ARG REACT_APP_AUTH0__DOMAIN=NO_VALUE
 ARG REACT_APP_AUTH0__CLIENT_ID=NO_VALUE
