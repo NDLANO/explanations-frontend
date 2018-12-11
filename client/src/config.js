@@ -30,3 +30,5 @@ export const config = {
     }
 };
 
+console.log(config)
+console.log(process.env)
