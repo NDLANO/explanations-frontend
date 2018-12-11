@@ -18,7 +18,13 @@ import Concept from "../components/Concept";
 import WithEither from "../../../components/HOC/WithEither";
 import withApiService from "../../../components/HOC/withApiService";
 import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE} from "../UpdateConceptPage/updateConceptActions";
-import {metaExists, statusExists, submitErrorHandler, submitSuccessHandler} from "../conceptCommon";
+import {
+    getMetasFromApiResult,
+    metaExists,
+    statusExists,
+    submitErrorHandler,
+    submitSuccessHandler
+} from "../conceptCommon";
 import FlashMessage, {clearFlashMessage, updateFlashMessage} from "../../../components/FlashMessage";
 
 import {UPDATE_FLASH_MESSAGE_CONCEPT_CLONE, updateInitialFormValues} from "./cloneConceptActions";
@@ -69,11 +75,7 @@ class CloneConceptPageContainer extends React.Component {
             delete concept.id;
             delete concept.updated;
 
-            const meta = {};
-
-            concept.meta.forEach(x => {
-                meta[`meta_${x.category.name.toLowerCase()}`] = {value: x.id, label: x.name};
-            });
+            const meta = getMetasFromApiResult(concept);
             this.props.updateInitialFormValues({
                 ...concept,
                 statusId: {value: concept.status.id, label: concept.status.name},

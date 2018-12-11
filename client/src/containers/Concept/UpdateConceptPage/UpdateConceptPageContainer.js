@@ -20,7 +20,13 @@ import ConfirmModal from "../../../components/ConfirmModal";
 import Loading from '../../Loading';
 import WithEither from "../../../components/HOC/WithEither";
 import {updateFlashMessage, clearFlashMessage} from "../../../components/FlashMessage/";
-import {metaExists, statusExists, submitErrorHandler, submitFormHandling} from "../conceptCommon";
+import {
+    getMetasFromApiResult,
+    metaExists,
+    statusExists,
+    submitErrorHandler,
+    submitFormHandling
+} from "../conceptCommon";
 import {cloneRoute, routeIsAllowed} from "../../../utilities/routeHelper";
 
 
@@ -63,18 +69,7 @@ class UpdateConceptPageContainer extends React.Component {
 
         this.props.apiService.getConceptById(id)
             .then(concept => {
-                const meta = {};
-                concept.meta.forEach(x => {
-                    const key = `meta_${x.category.name.toLowerCase()}`;
-                    const metaObject = {value: x.id, label: x.description};
-                    if (x.category.canHaveMultiple) {
-                        if (meta[key])
-                            meta[key].push(metaObject);
-                        else
-                            meta[key] = [metaObject];
-                    }else
-                        meta[key] = {value: x.id, label: x.name};
-                });
+                const meta = getMetasFromApiResult(concept);
                 const statusId = {value: concept.status.id, label: concept.status.name};
                 this.props.updateInitialFormValues({
                     ...concept,

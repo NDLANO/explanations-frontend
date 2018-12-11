@@ -47,5 +47,22 @@ export const mapStateToPropsCommon = ({cacheFromServer: {status, meta},  credent
 };
 
 
+export const getMetasFromApiResult = concept => {
+    const meta = {};
+    concept.meta.forEach(x => {
+        const key = `meta_${x.category.name.toLowerCase()}`;
+        const metaObject = {value: x.id, label: x.description};
+        if (x.category.canHaveMultiple) {
+            if (meta[key])
+                meta[key].push(metaObject);
+            else
+                meta[key] = [metaObject];
+        }else
+            meta[key] = {value: x.id, label: x.name};
+    });
+    return meta;
+};
+
+
 export const metaExists = ({meta}) =>  meta.length > 0;
 export const statusExists = ({status}) => status.length > 0;

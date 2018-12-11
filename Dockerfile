@@ -1,12 +1,13 @@
 
 FROM node:10.14.1-alpine as client
+ENV REACT_APP_AUTH0__DOMAIN=${REACT_APP_AUTH0__DOMAIN}
 
 WORKDIR /usr/app/client/
 COPY client/package*.json ./
 RUN npm install -qy
 COPY client/ ./
 RUN npm run build-css
-RUN npm run build
+RUN REACT_APP_AUTH0__DOMAIN=${REACT_APP_AUTH0__DOMAIN} npm run build
 
 # Setup the server
 
