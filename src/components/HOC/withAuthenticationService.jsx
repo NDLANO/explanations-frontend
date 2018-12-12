@@ -5,8 +5,7 @@ const withAuthenticationService = WrappedComponent  =>{
     class HOC extends React.Component {
         render () {
             const {accessToken} = this.props;
-            const {config: {AUTH0 = {}} = {AUTH0: {}}} = window;
-            const authenticationService = new AuthenticationService({accessToken, authProviderConfig: AUTH0});
+            const authenticationService = new AuthenticationService({accessToken, authProviderConfig: window.config.AUTH0});
 
             return (
                 <WrappedComponent
