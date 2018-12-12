@@ -147,6 +147,7 @@ const NB = {
         loadingLanguages: 'Laster inn språk ...',
         loadingStatus: 'Laster inn status ...',
         initializingForm: 'Henter data ...',
+        loadingConfig: 'Henter konfigurasjonsdata ...',
     },
     forbiddenPage: {
         description: "Her har du ikke tilgang..."
