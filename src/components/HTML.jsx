@@ -40,7 +40,7 @@ const HTML = ({title, lang, favicon, config, component}) => {
             {config &&
                 <script
                     dangerouslySetInnerHTML={{
-                        __html: `window.initialState = ${serialize(config)}`,
+                        __html: `window.config = ${serialize(config)}`,
                     }}
                 />
             }
