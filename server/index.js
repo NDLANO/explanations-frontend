@@ -24,6 +24,12 @@ app.get('/api', (req, res) => {
     res.send(JSON.stringify(data, null, 2));
 });
 
+app.get('/test', function(request, response) {
+
+    console.log("REACT page");
+    response.send(JSON.stringify({chief: process.env['REACT_APP_EDITORS__MANAGING']}));
+});
+
 // All remaining requests return the React app, so it can handle routing.
 app.get('*', function(request, response) {
 
