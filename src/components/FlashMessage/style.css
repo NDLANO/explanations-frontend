@@ -1,0 +1,27 @@
+.c-flashmessage {
+  min-height: 100px; }
+  .c-flashmessage--warning {
+    background: rgba(234, 216, 84, 0.7); }
+    .c-flashmessage--warning h1 {
+      border-bottom: #ead854 2px solid; }
+  .c-flashmessage--info {
+    background: rgba(206, 221, 234, 0.7); }
+    .c-flashmessage--info h1 {
+      border-bottom: #ceddea 2px solid; }
+  .c-flashmessage--error {
+    background: rgba(209, 55, 46, 0.7); }
+    .c-flashmessage--error h1 {
+      border-bottom: #d1372e 2px solid; }
+  .c-flashmessage--success {
+    background: rgba(92, 188, 128, 0.7); }
+    .c-flashmessage--success h1 {
+      border-bottom: #5cbc80 2px solid; }
+  .c-flashmessage__content {
+    padding: 13px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; }
+    .c-flashmessage__content h1 {
+      text-align: left;
+      width: 100%; }

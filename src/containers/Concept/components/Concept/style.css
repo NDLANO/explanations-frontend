@@ -1,0 +1,44 @@
+.c-concept-form time {
+  width: 100%; }
+
+.c-concept-form button {
+  padding: 5px;
+  display: block;
+  margin-bottom: 5px;
+  width: 100%; }
+
+.c-concept-form__form-field {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 10px 0; }
+  .c-concept-form__form-field--input-group {
+    width: 100%; }
+  .c-concept-form__form-field--validation-error, .c-concept-form__form-field--validation-error--meta {
+    font-size: 12px;
+    color: rgba(209, 55, 46, 0.9); }
+  .c-concept-form__form-field--validation-error--meta {
+    display: flex;
+    justify-content: center; }
+  .c-concept-form__form-field input[readonly], .c-concept-form__form-field textarea[readonly], .c-concept-form__form-field select[readonly] {
+    background: #EFF0F2; }
+    .c-concept-form__form-field input[readonly]:hover, .c-concept-form__form-field textarea[readonly]:hover, .c-concept-form__form-field select[readonly]:hover {
+      cursor: not-allowed; }
+    .c-concept-form__form-field input[readonly]:focus, .c-concept-form__form-field input[readonly]:active, .c-concept-form__form-field textarea[readonly]:focus, .c-concept-form__form-field textarea[readonly]:active, .c-concept-form__form-field select[readonly]:focus, .c-concept-form__form-field select[readonly]:active {
+      outline: none;
+      border: none; }
+  .c-concept-form__form-field label {
+    width: 150px; }
+
+.c-concept-form__meta {
+  padding: 10px;
+  display: flex;
+  align-items: center; }
+  .c-concept-form__meta hr {
+    border: .5px solid black !important;
+    margin: 0;
+    width: 100%; }
+    .c-concept-form__meta hr:before {
+      content: none; }
+  .c-concept-form__meta h2 {
+    margin: 0; }
