@@ -9,12 +9,13 @@ import React from 'react';
 import BEMHelper from "react-bem-helper";
 import {injectT} from 'ndla-i18n';
 import {compose} from "redux";
-import {connect} from "react-redux";
-
-import AuthenticationService from '../../services/authenticationService';
-
 import PropTypes from "prop-types";
 import Button from "ndla-button";
+
+import AuthenticationService from '../../services/authenticationService';
+import withAuthenticationService from "../../components/HOC/withAuthenticationService";
+import WithEither from "../../components/HOC/WithEither";
+import Loading from "../Loading";
 
 
 const classes = new BEMHelper({
@@ -40,7 +41,6 @@ export const LoginProviderContainer = ({t, authenticationService, consentUrl}) =
         </div>
     </div>;
 
-const mapStateToProps = state => ({authenticationService: new AuthenticationService({}), consentUrl: window.config.EXTERNAL_URL.consent_NDLA});
 
 LoginProviderContainer.propTypes = {
     t: PropTypes.func.isRequired,
@@ -48,7 +48,13 @@ LoginProviderContainer.propTypes = {
     authenticationService: PropTypes.instanceOf(AuthenticationService).isRequired,
 };
 
+LoginProviderContainer.defaultProps = {
+    consentUrl: 'https://om.ndla.no/samtykke/'
+};
+
+const configIsLoaded = props => !!window.config;
 export default compose(
-    connect(mapStateToProps),
-    injectT
+    injectT,
+    withAuthenticationService,
+    WithEither(configIsLoaded, () => <Loading message="loadingMessage.loadingConfig"/>),
 )(LoginProviderContainer);
