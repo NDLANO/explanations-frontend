@@ -30,4 +30,3 @@ if (module.hot) {
     currentApp = newApp;
   });
 }
-

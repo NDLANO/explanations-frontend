@@ -6,7 +6,7 @@
  */
 const getEnvironment = key => process.env[key];
 
-export const config = {
+const serverConfig = {
     ENVIRONMENT:            {
         current:            getEnvironment('RUNTIME_ENV') || getEnvironment('NODE_ENV'),
         testing:            'testing',
@@ -34,3 +34,10 @@ export const config = {
         concept_admin:      getEnvironment('REACT_APP_SCOPES__CONCEPT_ADMIN'),
     }
 };
+
+export let config;
+
+if (process.env.BUILD_TARGET === 'server')
+    config = serverConfig;
+else
+    config = window.config;

@@ -7,15 +7,16 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Footer, Logo} from 'ndla-ui';
 
 import SelectLocale from '../../containers/SelectLocale/index';
 import {indexRoute} from "../../utilities/routeHelper";
-
+import {config} from "../../config";
 
 import './style.css';
 
-const FooterWrapper = ({ t }) => (
+const FooterWrapper = ({ t, editorChief, editorManaging }) => (
     <Footer>
         <form className="footer_form">
             <label className="footer_label footer--bold" htmlFor="language-select">
@@ -30,11 +31,11 @@ const FooterWrapper = ({ t }) => (
                <Footer.Text>
                    <Footer.Editor
                        title={t('footer.footerEditiorInChief')}
-                       name={window.config.EDITORS.chief}
+                       name={editorChief}
                    />
                    <Footer.Editor
                        title={t('footer.footerManagingEditor')}
-                       name={window.config.EDITORS.managing}
+                       name={editorManaging}
                    />
                </Footer.Text>
                <Footer.Text>{t('footer.footerInfo')}</Footer.Text>
@@ -45,5 +46,16 @@ const FooterWrapper = ({ t }) => (
        </div>
     </Footer>
 );
+
+FooterWrapper.propTypes = {
+    editorChief: PropTypes.string.isRequired,
+    editorManaging: PropTypes.string.isRequired,
+};
+
+
+FooterWrapper.defaultProps = {
+    editorChief: config.EDITORS.chief,
+    editorManaging: config.EDITORS.managing
+};
 
 export default FooterWrapper;
