@@ -15,14 +15,14 @@ import { PersistGate } from 'redux-persist/integration/react'
 import {Route, Switch} from "react-router";
 import { ConnectedRouter } from 'connected-react-router';
 
-import App from './containers/App';
-import {getLocaleInfoFromPath} from "./i18n";
-import configureStore from './store';
-import {catchAllRoute, loginRoute} from "./utilities/routeHelper";
-import Login from "./containers/Login";
-import Loading from './containers/Loading';
+import App from '../containers/App';
+import {getLocaleInfoFromPath} from "../i18n";
+import configureStore from '../store';
+import {catchAllRoute, loginRoute} from "../utilities/routeHelper";
+import Login from "../containers/Login";
+import Loading from '../containers/Loading';
 
-import './style/index.css';
+import '../style/index.css';
 
 
 const {store, persistor, history} = configureStore();
@@ -34,7 +34,7 @@ const { abbreviation, messages } = getLocaleInfoFromPath(
 );
 
 
-const renderApp = () =>
+export const renderApp = () =>
     render(
         <Provider store={store}>
             <ConnectedRouter history={history}>
@@ -51,9 +51,3 @@ const renderApp = () =>
             </ConnectedRouter>
         </Provider>
         , document.getElementById('root'));
-
-renderApp();
-if (module.hot) {
-    module.hot.accept();
-    renderApp();
-}
