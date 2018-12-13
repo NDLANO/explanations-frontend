@@ -21,7 +21,6 @@ export const config = {
         chief:              getEnvironment('REACT_APP_EDITORS__CHIEF')
     },
     EXTERNAL_URL: {
-        consent_NDLA:       getEnvironment('REACT_APP_EXTERNAL_URL__CONSENT'),
         concept_API:        getEnvironment('REACT_APP_EXTERNAL_URL__CONCEPT_API'),
     },
     SCOPES: {
