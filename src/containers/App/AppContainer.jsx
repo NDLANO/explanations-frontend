@@ -13,7 +13,6 @@ import {Route, Switch, withRouter} from 'react-router';
 import {injectT} from 'ndla-i18n';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
-
 //import 'moment/min/locales';
 //import Moment from 'react-moment';
 

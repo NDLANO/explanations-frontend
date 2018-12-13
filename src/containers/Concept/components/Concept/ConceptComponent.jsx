@@ -99,7 +99,7 @@ class Concept extends React.Component {
         });
         
         const submit = handleSubmit(this.onSubmit);
-
+        const metaTitle = 'Meta';// To mitigate jsx-a11y/heading-has-content lint error...
         return (
             <OneColumn>
                 <h1>{pageTitle}</h1>
@@ -118,7 +118,7 @@ class Concept extends React.Component {
 
                     <div {...classes('meta')}>
                         <hr />
-                        <h2>Meta</h2>
+                        <h2>{metaTitle}</h2>
                         <hr/>
                     </div>
                     {error && <span {...classes('form-field', 'validation-error--meta')}>{error}</span>}
