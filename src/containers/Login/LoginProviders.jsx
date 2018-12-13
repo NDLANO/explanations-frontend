@@ -11,10 +11,10 @@ import Button from "ndla-button";
 import {injectT} from 'ndla-i18n';
 import {compose} from "redux";
 import PropTypes from "prop-types";
-import { withLastLocation } from 'react-router-last-location';
 
 import AuthenticationService from '../../services/authenticationService';
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
+import {Helmet} from "react-helmet";
 
 
 
@@ -23,10 +23,10 @@ const classes = new BEMHelper({
     prefix: 'c-',
 });
 
-export const LoginProviderContainer = ({t, authenticationService, consentUrl, lastLocation }) => {
-    console.log(lastLocation,JSON.stringify(lastLocation))
+export const LoginProviderContainer = ({t, authenticationService, consentUrl }) => {
     return (
         <div {...classes()}>
+            <Helmet title={t('pageTitles.login')} />
             <div {...classes("content")}>
                 <h3>{t('loginProviders.description')}</h3>
                 <ul>
@@ -59,6 +59,5 @@ LoginProviderContainer.defaultProps = {
 
 export default compose(
     injectT,
-    withLastLocation,
     withAuthenticationService,
 )(LoginProviderContainer);

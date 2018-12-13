@@ -29,6 +29,7 @@ import FlashMessage, {clearFlashMessage, updateFlashMessage} from "../../../comp
 
 import {UPDATE_FLASH_MESSAGE_CONCEPT_CLONE, updateInitialFormValues} from "./cloneConceptActions";
 import {mapStateToProps} from './cloneConceptMapStateToProps';
+import {Helmet} from "react-helmet";
 
 class CloneConceptPageContainer extends React.Component {
     constructor(props) {
@@ -101,6 +102,7 @@ class CloneConceptPageContainer extends React.Component {
     render() {
         return (
             <React.Fragment>
+                <Helmet title={this.props.t('pageTitles.cloneConcept')} />
                 <FlashMessage {...this.props.flashMessage}/>
                 {this.renderContent()}
             </React.Fragment>

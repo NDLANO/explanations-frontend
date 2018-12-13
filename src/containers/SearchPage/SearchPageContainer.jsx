@@ -20,10 +20,12 @@ import {updateSearchResult} from "./searchPageActions";
 import SearchForm from "./components/SearchForm";
 import SearchResultList from "./components/SearchResult";
 import {mapStateToProps} from "./searchPageMapStateToProps";
+import {Helmet} from "react-helmet";
 
 
 const SearchContainer = ({t, languages, subjects, searchResult,updateSearchResult,locale, autoComplete, initialValues, apiService}) =>
     <OneColumn>
+        <Helmet title={t('pageTitles.searchForConcept')} />
         <SearchForm t={t}
                     languages={languages}
                     subjects={subjects}

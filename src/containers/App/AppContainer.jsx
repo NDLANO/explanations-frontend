@@ -43,6 +43,7 @@ import withAuthenticationService from "../../components/HOC/withAuthenticationSe
 import {loginSuccess} from "../Login";
 import withApiService from "../../components/HOC/withApiService";
 import ApiService from "../../services/apiService";
+import {Helmet} from "react-helmet";
 
 
 //Moment.globalFormat = 'lll';
@@ -82,6 +83,7 @@ class App extends React.Component {
         } = this.props;
         return (
             <PageContainer>
+                <Helmet title={t('pageTitles.default')} />
                 <Content>
                     <Header t={t} username={username} isLoggedIn={isAuthenticated} />
                     <Switch>

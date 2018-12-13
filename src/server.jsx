@@ -9,10 +9,11 @@ import express from 'express';
 import { renderToString } from 'react-dom/server';
 import HTML from "./components/HTML";
 import {config} from "./config";
+import {getLocaleObject} from "./i18n";
 
-const renderHtmlString = (locale, userAgentString, state = {}) =>
+const renderHtmlString = (locale) =>
     renderToString(
-        <HTML title="test" lang="nb" config={{...config}} />,
+        <HTML lang={locale} config={{...config}} />,
     );
 
 const server = express();
@@ -20,7 +21,10 @@ const server = express();
 server
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get('*', (req, res) => {
-      res.status(200).send(renderHtmlString());
+
+      const paths = req.url.split('/');
+      const { abbreviation: locale } = getLocaleObject(paths[1]);
+      res.status(200).send(renderHtmlString(locale));
   });
 
 export default server;

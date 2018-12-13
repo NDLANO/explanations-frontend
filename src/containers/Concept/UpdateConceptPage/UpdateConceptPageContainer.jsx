@@ -38,6 +38,7 @@ import {
 } from "./updateConceptActions";
 import ApiService from "../../../services/apiService";
 import withApiService from "../../../components/HOC/withApiService";
+import {Helmet} from "react-helmet";
 
 
 class UpdateConceptPageContainer extends React.Component {
@@ -157,6 +158,7 @@ class UpdateConceptPageContainer extends React.Component {
     render() {
        return (
             <React.Fragment>
+                <Helmet title={this.props.t('pageTitles.updateConcept')} />
                 <FlashMessage {...this.props.flashMessage}/>
                 {this.renderContent()}
             </React.Fragment>

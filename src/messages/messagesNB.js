@@ -109,6 +109,15 @@ const NB = {
     deleteConcept: {
         title: "Slett (arkiver)"
     },
+    pageTitles: {
+        "cloneConcept": "Klon - begrep NDLA",
+        "updateConcept": "Oppdater - begrep NDLA",
+        "createConcept": "Opprett - begrep NDLA",
+        "searchForConcept": "Søk - begrep NDLA",
+        "default": "Begrepstjeneste - NDLA",
+        "login": "Logg inn - NDLA",
+        "logout": "Logg ut - NDLA"
+    },
 
     conceptForm: {
         title: "Tittel",

@@ -6,12 +6,14 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
+import Helmet from 'react-helmet';
 import serialize from 'serialize-javascript';
 import { renderToString } from 'react-dom/server';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); // eslint-disable-line import/no-dynamic-require
+const head = Helmet.rewind();
 
-const HTML = ({title, lang, favicon, config, component}) => {
+const HTML = ({lang, favicon, config, component}) => {
     const content = component ? renderToString(component) : '';
     return (
         <html lang={lang}>
@@ -21,8 +23,9 @@ const HTML = ({title, lang, favicon, config, component}) => {
             <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
 
             <link rel="shortcut icon" type="image/x-icon" href={favicon}/>
-            <title>{title}</title>
-
+            {head.title.toComponent()}
+            {head.meta.toComponent()}
+            {head.script.toComponent()}
             {assets.client &&
             assets.client.css && (
                 <link rel="stylesheet" type="text/css" href={assets.client.css} />
@@ -57,7 +60,6 @@ const HTML = ({title, lang, favicon, config, component}) => {
 
 HTML.propTypes = {
     // Required
-    title: PropTypes.string.isRequired,
     lang: PropTypes.string.isRequired,
     config: PropTypes.object.isRequired,
 

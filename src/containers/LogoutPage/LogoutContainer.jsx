@@ -14,6 +14,8 @@ import PropTypes from "prop-types";
 import {logoutSuccess} from "./logoutActions";
 import AuthenticationService from "../../services/authenticationService";
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
+import {Helmet} from "react-helmet";
+import {injectT} from "ndla-i18n";
 
 class LogoutContainer extends React.PureComponent {
     componentDidMount() {
@@ -22,7 +24,8 @@ class LogoutContainer extends React.PureComponent {
     }
 
     render() {
-        return (<div/>)
+        return (
+            <Helmet title={this.props.t('pageTitles.logout')} />)
     }
 }
 
@@ -37,6 +40,7 @@ LogoutContainer.propTypes = {
 
 export default compose(
     withRouter,
+    injectT,
     withAuthenticationService,
     connect(null, {logoutSuccess})
 )(LogoutContainer);

@@ -23,6 +23,7 @@ import {metaExists, statusExists, submitErrorHandler, submitSuccessHandler} from
 
 import {mapStateToProps} from "./createConceptMapStateToProps";
 import {UPDATE_FLASH_MESSAGE_CONCEPT_CREATE} from "./createConceptActions";
+import {Helmet} from "react-helmet";
 
 
 class CreateConceptPageContainer extends React.Component {
@@ -61,6 +62,7 @@ class CreateConceptPageContainer extends React.Component {
     render() {
         return (
             <React.Fragment>
+                <Helmet title={this.props.t('pageTitles.createConcept')} />
                 <FlashMessageComponent {...this.props.flashMessage}/>
                 <Concept status={this.props.status}
                          initialValues={this.props.initialFormValues}
