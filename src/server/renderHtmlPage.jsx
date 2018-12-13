@@ -6,10 +6,10 @@
  */
 import React from "react";
 import {renderToString} from "react-dom/server";
-import HTML from "../components/HTML";
+import HTML from "./components/HTML";
 import {config} from "../config";
 
 export const renderHtmlString = (locale) =>
     renderToString(
-        <HTML lang={locale} config={{...config}} />,
+        <HTML lang={locale} config={{...config.CLIENT}} />,
     );

@@ -4,19 +4,21 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import app from './server';
 import http from 'http';
+import app from './server';
+
+import {config} from './config';
 
 const server = http.createServer(app);
 
 let currentApp = app;
 
-server.listen(process.env.PORT || 3000, error => {
+server.listen(config.SERVER.port, error => {
   if (error) {
     console.log(error);
   }
 
-  console.log('🚀 started', process.env.PORT);
+  console.log('🚀 started', config.SERVER.port);
 });
 
 if (module.hot) {

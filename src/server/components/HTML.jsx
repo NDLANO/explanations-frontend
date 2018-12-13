@@ -36,25 +36,25 @@ const HTML = ({lang, favicon, config, component}) => {
             />
         </head>
         <body>
-            <noscript>
-                You need to enable JavaScript to run this app.
-            </noscript>
-            <div id="root" dangerouslySetInnerHTML={{ __html: content }} />
-            <script
-                type="text/javascript"
-                src={assets.client.js}
-                defer
-                crossOrigin="false"
-            />
-            {config &&
-                <script
-                    dangerouslySetInnerHTML={{
-                        __html: `window.config = ${serialize(config)}`,
-                    }}
-                />
-            }
+        <noscript>
+            You need to enable JavaScript to run this app.
+        </noscript>
+        <div id="root" dangerouslySetInnerHTML={{ __html: content }} />
+        <script
+            type="text/javascript"
+            src={assets.client.js}
+            defer
+            crossOrigin="false"
+        />
+        {config &&
+        <script
+            dangerouslySetInnerHTML={{
+                __html: `window.config = ${serialize(config)}`,
+            }}
+        />
+        }
         </body>
-    </html>)
+        </html>)
 
 };
 
