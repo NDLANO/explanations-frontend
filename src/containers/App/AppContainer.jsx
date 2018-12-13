@@ -14,7 +14,12 @@ import {injectT} from 'ndla-i18n';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 
-import 'moment/min/locales';
+/* eslint-disable no-unused-vars */
+import * as moment from 'moment';
+/* eslint-enable no-unused-vars */
+import 'moment/locale/en-gb';
+import 'moment/locale/nb';
+import 'moment/locale/nn';
 import Moment from 'react-moment';
 
 import NotAuthorizedPage from '../ErrorPage/NotAuthorized'

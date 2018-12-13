@@ -13,7 +13,7 @@ ENV APP_PATH=$HOME/explainations-and-terms-frontend
 
 # Copy necessary files for installing dependencies
 COPY package.json $APP_PATH/
-#COPY yarn.lock $APP_PATH/
+COPY yarn.lock $APP_PATH/
 
 # Run yarn before src copy to enable better layer caching
 WORKDIR $APP_PATH

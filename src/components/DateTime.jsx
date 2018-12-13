@@ -7,10 +7,11 @@
 import React from "react"
 import Moment from 'react-moment';
 
-const DateTime = ({label, t, input, className, locale}) =>{console.log(locale); return (<div  className={className}>
-    <label htmlFor={input.id}>{t(label)}</label>
-    <Moment locale={locale} >{input.value}</Moment>
-</div>)};
+const DateTime = ({label, t, input, className, locale}) =>
+    <div className={className}>
+        <label htmlFor={input.id}>{t(label)}</label>
+        <Moment locale={locale} >{input.value}</Moment>
+    </div>;
 
 
 export default DateTime;
