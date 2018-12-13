@@ -88,7 +88,7 @@ class Concept extends React.Component {
     }
 
     render() {
-        const { t, title: pageTitle, handleSubmit, status, initialValues, error, isReadOnly} = this.props;
+        const { t, title: pageTitle, handleSubmit, status, initialValues, error, isReadOnly, locale} = this.props;
         this.props.metas.forEach(elm => {
             if (elm.category.description === "Subject")
                 elm.category.description = "Fag";
@@ -113,8 +113,8 @@ class Concept extends React.Component {
                         <label  htmlFor={this.fields.status.id}>{t("conceptForm.status")}</label>
                         <Field {...this.fields.status} t={t} selected={initialValues.statusId} options={status}/>
                     </div>
-                    {this.props.showTimestamps && <Field {...this.fields.created} t={t} {...classes('form-field')} />}
-                    {this.props.showTimestamps && <Field {...this.fields.updated} t={t} {...classes('form-field')} />}
+                    {this.props.showTimestamps && <Field {...this.fields.created} t={t} {...classes('form-field')} locale={locale} />}
+                    {this.props.showTimestamps && <Field {...this.fields.updated} t={t} {...classes('form-field')} locale={locale} />}
 
                     <div {...classes('meta')}>
                         <hr />

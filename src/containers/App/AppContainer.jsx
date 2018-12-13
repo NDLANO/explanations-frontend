@@ -13,8 +13,9 @@ import {Route, Switch, withRouter} from 'react-router';
 import {injectT} from 'ndla-i18n';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
-//import 'moment/min/locales';
-//import Moment from 'react-moment';
+
+import 'moment/min/locales';
+import Moment from 'react-moment';
 
 import NotAuthorizedPage from '../ErrorPage/NotAuthorized'
 import SearchPage from '../SearchPage/SearchPageContainer';
@@ -45,8 +46,7 @@ import withApiService from "../../components/HOC/withApiService";
 import ApiService from "../../services/apiService";
 import {Helmet} from "react-helmet";
 
-
-//Moment.globalFormat = 'lll';
+Moment.globalFormat = 'lll';
 
 class App extends React.Component {
 

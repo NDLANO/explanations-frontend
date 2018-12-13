@@ -130,14 +130,15 @@ class UpdateConceptPageContainer extends React.Component {
 
     renderContent() {
         if (this.props.initialFormValues) {
-            return <Concept     status={this.props.status}
+            return <Concept    status={this.props.status}
                                initialValues={this.props.initialFormValues}
                                t={this.props.t}
                                metas={this.props.meta}
                                title={this.props.t("updateConcept.title")}
                                submitConcept={this.submit}
                                showTimestamps={true}
-                               isReadOnly={this.isReadOnly()}>
+                               isReadOnly={this.isReadOnly()}
+                               locale={this.props.locale}>
 
                 <ConfirmModal t={this.props.t}
                               triggerButton={this.renderDeleteButton}
@@ -187,6 +188,7 @@ UpdateConceptPageContainer.propTypes = {
     userScopes: PropTypes.arrayOf(PropTypes.string).isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     deleteButtonIsDisabled: PropTypes.bool.isRequired,
+    locale: PropTypes.string.isRequired
 };
 
 export default compose(
