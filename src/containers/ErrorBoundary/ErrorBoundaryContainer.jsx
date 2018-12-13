@@ -9,7 +9,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import LoggingService from "../../services/loggingService";
 
 class ErrorBoundary extends React.Component {
     constructor(props) {
@@ -19,7 +18,6 @@ class ErrorBoundary extends React.Component {
 
     componentDidCatch(error) {
         this.setState({ error });
-        this.props.loggingService.logError(error);
     }
 
     render() {
@@ -37,8 +35,6 @@ class ErrorBoundary extends React.Component {
 }
 
 ErrorBoundary.propTypes = {
-    // Required
-    loggingService: PropTypes.instanceOf(LoggingService).isRequired,
 
     // Optional
     children: PropTypes.node,
