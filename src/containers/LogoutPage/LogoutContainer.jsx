@@ -13,11 +13,12 @@ import PropTypes from "prop-types";
 
 import {logoutSuccess} from "./logoutActions";
 import AuthenticationService from "../../services/authenticationService";
+import withAuthenticationService from "../../components/HOC/withAuthenticationService";
 
 class LogoutContainer extends React.PureComponent {
     componentDidMount() {
         this.props.logoutSuccess();
-        this.props.authService.logoutUser();
+        this.props.authenticationService.logoutUser();
     }
 
     render() {
@@ -30,12 +31,12 @@ LogoutContainer.propTypes = {
         push: PropTypes.func.isRequired,
     }).isRequired,
     logoutSuccess: PropTypes.func.isRequired,
-    authService: PropTypes.instanceOf(AuthenticationService).isRequired
+    authenticationService: PropTypes.instanceOf(AuthenticationService).isRequired
 };
 
-const mapStateToProps = state => ({authService: new AuthenticationService({})});
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, {logoutSuccess})
+    withAuthenticationService,
+    connect(null, {logoutSuccess})
 )(LogoutContainer);
