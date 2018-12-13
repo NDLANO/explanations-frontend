@@ -13,6 +13,7 @@ export const initialState = {
     accessToken: "",
     username: "",
     scopes: [],
+    next: ''
 };
 
 export const loginReducer = (state=initialState, action) => {

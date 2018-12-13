@@ -14,6 +14,8 @@ import AuthenticationService from '../../services/authenticationService';
 import {indexRoute} from "../../utilities/routeHelper";
 
 import {loginSuccess} from './loginActions';
+import withAuthenticationService from "../../components/HOC/withAuthenticationService";
+import {compose} from "redux";
 
 class LoginSuccessContainer extends React.Component {
     componentDidMount() {
@@ -40,6 +42,8 @@ LoginSuccessContainer.propTypes = {
     authenticationService: PropTypes.instanceOf(AuthenticationService).isRequired
 };
 
-const mapStateToProps = state => ({authenticationService: new AuthenticationService({})});
 
-export default connect(mapStateToProps,{loginSuccess})(LoginSuccessContainer);
+export default compose(
+    connect(null,{loginSuccess}),
+    withAuthenticationService,
+)(LoginSuccessContainer);

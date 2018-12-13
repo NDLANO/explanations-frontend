@@ -14,6 +14,7 @@ import {BrowserRouter} from "react-router-dom";
 import { PersistGate } from 'redux-persist/integration/react'
 import {Route, Switch} from "react-router";
 import { ConnectedRouter } from 'connected-react-router';
+import { LastLocationProvider } from 'react-router-last-location';
 
 import App from './containers/App';
 import {getLocaleInfoFromPath} from "./i18n";
@@ -41,10 +42,12 @@ const renderApp = () =>
                 <IntlProvider locale={abbreviation} messages={messages}>
                     <PersistGate loading={<Loading />} persistor={persistor}>
                         <BrowserRouter basename={basename}>
-                            <Switch>
-                                <Route path={loginRoute()} component={Login}/>
-                                <Route path={catchAllRoute()} component={App}/>
-                            </Switch>
+                            <LastLocationProvider>
+                                <Switch>
+                                    <Route path={loginRoute()} component={Login}/>
+                                    <Route path={catchAllRoute()} component={App}/>
+                                </Switch>
+                            </LastLocationProvider>
                         </BrowserRouter>
                     </PersistGate>
                 </IntlProvider>

@@ -43,8 +43,6 @@ import withAuthenticationService from "../../components/HOC/withAuthenticationSe
 import {loginSuccess} from "../Login";
 import withApiService from "../../components/HOC/withApiService";
 import ApiService from "../../services/apiService";
-import WithEither from "../../components/HOC/WithEither";
-import Loading from "../Loading";
 
 
 //Moment.globalFormat = 'lll';
@@ -136,13 +134,10 @@ const mapStateToProps = state => {
     }
 };
 
-const configIsLoaded = props => !!window.config;
-
 export default compose(
     withRouter,
     connect(mapStateToProps, {loadMeta, loadStatus, loadConceptTitles, loginSuccess}),
     withAuthenticationService,
     withApiService,
     injectT,
-    WithEither(configIsLoaded, () => <Loading message="loadingMessage.loadingConfig"/>),
 )(App);
