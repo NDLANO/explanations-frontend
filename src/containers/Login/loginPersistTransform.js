@@ -6,8 +6,8 @@
  *
  */
 import { createTransform } from 'redux-persist';
-import AuthenticationService from "../../services/authenticationService";
 import {initialState} from "./loginReducer";
+import {isTokenExpired} from "../../utilities/tokenHelper";
 
 const credentialsTransform = createTransform(
 
@@ -16,8 +16,8 @@ const credentialsTransform = createTransform(
 
     // transform state being rehydrated
     (outboundState, key) => {
-        const authService = new AuthenticationService({accessToken: outboundState.accessToken});
-        if (authService.isTokenExpired(outboundState.accessToken)) {
+
+        if (isTokenExpired(outboundState.accessToken)) {
             return {...initialState};
         }
         return { ...outboundState};
