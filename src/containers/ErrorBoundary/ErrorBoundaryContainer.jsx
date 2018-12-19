@@ -8,6 +8,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import {injectT} from "ndla-i18n";
+import OpsSomethingHappenedPage from "../ErrorPage/OpsSomethingHappenedPage";
 
 
 class ErrorBoundary extends React.Component {
@@ -21,23 +23,15 @@ class ErrorBoundary extends React.Component {
     }
 
     render() {
-        const { t, children } = this.props;
-        const { error } = this.state;
-        if (error)
-            return (
-                <div>
-                    <h1>{t('errorMessage.title')}</h1>
-                    <div>{error.message}</div>
-                </div>
-            );
-        return children;
+        return this.state.error
+            ? <OpsSomethingHappenedPage t={this.props.t} message={this.state.error.message} />
+            : this.props.children;
     }
 }
 
 ErrorBoundary.propTypes = {
-
     // Optional
     children: PropTypes.node,
 };
 
-export default ErrorBoundary;
+export default injectT(ErrorBoundary);

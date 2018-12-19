@@ -11,10 +11,11 @@ import { injectT } from 'ndla-i18n';
 import ErrorComponent from "./components/ErrorComponent";
 import PropTypes from "prop-types";
 
-const NotFoundPage = ({ t }) => <ErrorComponent gif='/not-exist.gif' statusCode={404} t={t} />;
+const OpsSomethingHappenedPage = ({ t, message }) => <ErrorComponent gif='/oops.gif' statusCode={500} description={message} t={t} />;
 
-NotFoundPage.propTypes = {
+OpsSomethingHappenedPage.propTypes = {
     t: PropTypes.func.isRequired,
+    message: PropTypes.string.isRequired,
 };
 
-export default injectT(NotFoundPage);
+export default injectT(OpsSomethingHappenedPage);

@@ -50,6 +50,7 @@ import {loginSuccess} from "../Login";
 import withApiService from "../../components/HOC/withApiService";
 import ApiService from "../../services/apiService";
 import {Helmet} from "react-helmet";
+import ErrorBoundary from "../ErrorBoundary";
 
 Moment.globalFormat = 'lll';
 
@@ -91,21 +92,23 @@ class App extends React.Component {
                 <Helmet title={t('pageTitles.default')} />
                 <Content>
                     <Header t={t} username={username} isLoggedIn={isAuthenticated} />
-                    <Switch>
-                        <Route path={updateRoute()} render={this.renderUpdateComponent}/>
-                        <PrivateRoute requiredScopes={createPageRequiredScope}
-                                      path={createRoute()}
-                                      component={CreateConceptPage}/>
-                        <PrivateRoute requiredScopes={clonePageRequiredScope}
-                                      path={cloneRoute()}
-                                      component={CloneConceptPage}/>
-                        <Route path={logoutRoute()} component={LogoutPage}/>
-                        <Route path={notAuthorizedRoute()} component={NotAuthorizedPage}/>
-                        <Route path={notFoundRoute()} component={NotFoundPage}/>
-                        <Route path={searchRoute()} exact component={SearchPage}/>
-                        <Route path={catchAllRoute()} component={NotFoundPage}/>
-                    </Switch>
-                    <Footer t={t} />
+                    <ErrorBoundary>
+                        <Switch>
+                            <Route path={updateRoute()} render={this.renderUpdateComponent}/>
+                            <PrivateRoute requiredScopes={createPageRequiredScope}
+                                          path={createRoute()}
+                                          component={CreateConceptPage}/>
+                            <PrivateRoute requiredScopes={clonePageRequiredScope}
+                                          path={cloneRoute()}
+                                          component={CloneConceptPage}/>
+                            <Route path={logoutRoute()} component={LogoutPage}/>
+                            <Route path={notAuthorizedRoute()} component={NotAuthorizedPage}/>
+                            <Route path={notFoundRoute()} component={NotFoundPage}/>
+                            <Route path={searchRoute()} exact component={SearchPage}/>
+                            <Route path={catchAllRoute()} component={NotFoundPage}/>
+                        </Switch>
+                        <Footer t={t} />
+                    </ErrorBoundary>
                 </Content>
             </PageContainer>
         )

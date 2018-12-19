@@ -23,6 +23,7 @@ import Login from "../containers/Login";
 import Loading from '../containers/Loading';
 
 import '../style/index.css';
+import ErrorBoundary from "../containers/ErrorBoundary";
 
 
 const {store, persistor, history} = configureStore();
@@ -36,18 +37,20 @@ const { abbreviation, messages } = getLocaleInfoFromPath(
 
 export const renderApp = () =>
     render(
-        <Provider store={store}>
-            <ConnectedRouter history={history}>
-                <IntlProvider locale={abbreviation} messages={messages}>
-                    <PersistGate loading={<Loading />} persistor={persistor}>
-                        <BrowserRouter basename={basename}>
-                            <Switch>
-                                <Route path={loginRoute()} component={Login}/>
-                                <Route path={catchAllRoute()} component={App}/>
-                            </Switch>
-                        </BrowserRouter>
-                    </PersistGate>
-                </IntlProvider>
-            </ConnectedRouter>
-        </Provider>
+            <Provider store={store}>
+                <ConnectedRouter history={history}>
+                    <IntlProvider locale={abbreviation} messages={messages}>
+                        <PersistGate loading={<Loading />} persistor={persistor}>
+                            <ErrorBoundary>
+                                <BrowserRouter basename={basename}>
+                                    <Switch>
+                                        <Route path={loginRoute()} component={Login}/>
+                                        <Route path={catchAllRoute()} component={App}/>
+                                    </Switch>
+                                </BrowserRouter>
+                            </ErrorBoundary>
+                        </PersistGate>
+                    </IntlProvider>
+                </ConnectedRouter>
+            </Provider>
         , document.getElementById('root'));
