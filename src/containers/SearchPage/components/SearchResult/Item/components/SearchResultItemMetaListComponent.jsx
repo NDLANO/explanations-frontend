@@ -8,12 +8,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const TagList = ({tags, classes, labelKey}) =>
-    <ul {...classes('tags')}>
+const MetaList = ({tags, classes, labelKey}) =>
+    <ul {...classes}>
         {tags.map((item) => <li key={item.id}>{item[labelKey]}</li>)}
     </ul>;
 
-TagList.propTypes = {
+MetaList.propTypes = {
     // Required
     tags: PropTypes.arrayOf(
         PropTypes.shape({
@@ -21,14 +21,14 @@ TagList.propTypes = {
             description: PropTypes.string.isRequired
         })
     ).isRequired,
-    classes: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired,
 
     // Optional
     labelKey: PropTypes.string
 };
 
-TagList.defaultProps = {
+MetaList.defaultProps = {
     labelKey: 'description'
 };
 
-export default TagList;
+export default MetaList;

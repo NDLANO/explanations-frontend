@@ -10,43 +10,21 @@ import PropTypes from 'prop-types';
 import BEMHelper from "react-bem-helper";
 import {Link} from "react-router-dom";
 
-import TagList from "../SearchResultItemTagListComponent";
+import MetaList from "./components/SearchResultItemMetaListComponent";
 
 import {updateRoute} from "../../../../../utilities/routeHelper";
-import {sortWordsIgnoreCase} from "../../../../../utilities/sorting";
+import {sortObjectsByKey} from "../../../../../utilities/sorting";
 
 const classes = new BEMHelper({
     name: 'search-result-item',
     prefix: 'c-',
 });
 
-const MetaTags = ({classes, languages, subjects, licence, meta}) =>
-    <React.Fragment>
-        <TagList tags={subjects.sort(sortWordsIgnoreCase)} classes={classes} />
-        <TagList tags={languages.sort(sortWordsIgnoreCase)} classes={classes} />
-        <TagList tags={licence.sort(sortWordsIgnoreCase)} classes={classes} />
-        <TagList tags={meta.sort(sortWordsIgnoreCase)} classes={classes} />
-    </React.Fragment>;
-
-MetaTags.propTypes = {
-    // Required
-    languages: PropTypes.array.isRequired,
-    subjects: PropTypes.array.isRequired,
-    licence: PropTypes.object.isRequired,
-
-    // Optional
-    classes: PropTypes.array,
-    meta: PropTypes.array
-};
-
-MetaTags.propTypes = {
-    meta: []
-};
+const sortWordsIgnoreCase = sortObjectsByKey('name');
 
 const filterMeta = metas => {
     let languages = [];
     let subjects = [];
-    let licence = [];
     let meta = [];
 
     metas.forEach(item => {
@@ -57,9 +35,6 @@ const filterMeta = metas => {
             case 'subject':
                 subjects.push(item);
                 break;
-            case 'licence':
-                licence.push(item);
-                break;
             default:
                 meta.push(item);
         }
@@ -68,12 +43,12 @@ const filterMeta = metas => {
     return {
         languages,
         subjects,
-        licence,
         meta
     }
 };
 
 const SearchResultItem = ({id, title, sourceAuthor, content, meta}) => {
+
     const filteredMetas = filterMeta(meta);
     return (
         <li key={id} {...classes()}>
@@ -84,7 +59,7 @@ const SearchResultItem = ({id, title, sourceAuthor, content, meta}) => {
                     </h1>
                 </header>
 
-                <div {...classes('sourceAuthor')}>
+                <div {...classes('author')}>
                     {sourceAuthor}
                 </div>
 
@@ -92,13 +67,20 @@ const SearchResultItem = ({id, title, sourceAuthor, content, meta}) => {
                     {Boolean(content) && content.slice(0, 220)}...
                 </div>
 
+                <MetaList tags={filteredMetas.subjects.sort(sortWordsIgnoreCase)} classes={classes('meta-list')} />
+                <MetaList tags={filteredMetas.languages.sort(sortWordsIgnoreCase)} classes={classes('meta-list')} />
+                <MetaList tags={filteredMetas.meta.sort(sortWordsIgnoreCase)} classes={classes('meta-list', 'meta')} />
             </article>
         </li>
     )
 };
 
 SearchResultItem.propTypes = {
-    meta: PropTypes.array
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    sourceAuthor: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    meta: PropTypes.array.isRequired,
 };
 SearchResultItem.defaultProps = {
     meta: []

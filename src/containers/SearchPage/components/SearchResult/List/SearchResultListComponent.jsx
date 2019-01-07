@@ -17,22 +17,26 @@ const classes = new BEMHelper({
     prefix: 'c-',
 });
 
-const SearchResultList = ({results})=>
+const SearchResultList = ({results, resultHeader})=>
     <div>
         <h6 {...classes('count')}>
-            2 treff
+            {resultHeader}
         </h6>
-        <ul {...classes()}>
-            {results.map(result => <SearchResultItem key={result.id} {...result} />)}
-        </ul>
+        {Boolean(results.length) &&
+            <ul {...classes()}>
+                {results.map(result => <SearchResultItem key={result.id} {...result} />)}
+            </ul>
+        }
     </div>;
 
 SearchResultList.propTypes = {
-    results: PropTypes.array
+    results: PropTypes.array,
+    resultHeader: PropTypes.string
 };
 
 SearchResultList.defaultProps = {
-    results: []
+    results: [],
+    resultHeader: ''
 };
 
 export default SearchResultList;

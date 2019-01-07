@@ -11,6 +11,7 @@ import {connect} from "react-redux";
 import {OneColumn} from "ndla-ui";
 import {injectT} from "ndla-i18n";
 import {compose} from "redux";
+import {Helmet} from "react-helmet";
 
 import Loading from '../Loading';
 import WithEither from "../../components/HOC/WithEither";
@@ -20,7 +21,6 @@ import {updateSearchResult} from "./searchPageActions";
 import SearchForm from "./components/SearchForm";
 import SearchResultList from "./components/SearchResult";
 import {mapStateToProps} from "./searchPageMapStateToProps";
-import {Helmet} from "react-helmet";
 
 
 const SearchContainer = ({t, languages, subjects, searchResult,updateSearchResult,locale, autoComplete, initialValues, apiService}) =>
@@ -32,7 +32,7 @@ const SearchContainer = ({t, languages, subjects, searchResult,updateSearchResul
                     search={query => apiService.searchForConcepts(query).then(updateSearchResult)}
                     autoComplete={autoComplete}
                     initialValues={initialValues}/>
-        <SearchResultList results={searchResult}/>
+        <SearchResultList results={searchResult} resultHeader={`${searchResult.length} ${t('searchPage.resultHits')}`}/>
     </OneColumn>;
 
 

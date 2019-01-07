@@ -159,6 +159,9 @@ const NB = {
     },
     forbiddenPage: {
         description: "Her har du ikke tilgang..."
+    },
+    searchPage: {
+        resultHits: 'treff'
     }
 };
 

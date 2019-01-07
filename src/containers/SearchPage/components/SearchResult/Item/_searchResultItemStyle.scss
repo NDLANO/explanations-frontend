@@ -7,16 +7,12 @@
  */
 .c-search-result-item {
   border-bottom: 1px solid #e8e3e3;
-  padding: 0 26px 0 26px;
-  margin: 0 0 26px;
+  padding: 0;
+  margin: 0;
 
   &__header {
-
     h1 {
       margin: 0;
-      font-weight: 600;
-      font-size: 0.88889rem;
-      line-height: 20px;
       text-align: left;
     }
   }
@@ -39,7 +35,7 @@
 
   &__content {
     margin: 13px 0;
-    font-size: 0.77778rem;
+    font-size: 0.8rem;
     line-height: 22px;
     -webkit-box-flex: 1;
     -ms-flex-positive: 1;
@@ -47,7 +43,7 @@
     font-family: "Source Serif Pro", Georgia, STKaiti, 华文楷体, KaiTi, SimKai, 楷体, KaiU, DFKai-SB, 標楷體, SongTi, 宋体, serif
   }
 
-  &__tags {
+  &__meta-list {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -56,7 +52,7 @@
     align-items: center;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-    margin-bottom: 26px;
+    margin: 0;
     font-size: 0.77778rem;
     line-height: 22px;
 
@@ -64,20 +60,23 @@
     list-style: none;
     padding: 0;
 
-    margin-left: 0;
-
-      li {
-        position: relative;
-        padding: 0 6.5px;
-        margin: 0;
-        font-size: 0.65rem;
-        color: #757575;
-        border-right: 1px solid #e8e3e3;
-
-        &:last-child
-        {
-          border-right: none
-        }
+    li {
+      position: relative;
+      padding: 0;
+      margin: 0;
+      font-size: 0.8rem;
+      color: #757575;
+      line-height: 1.1rem;
     }
+    li + li:before {
+      content: "|";
+    }
+    li:before{
+      padding: 5px;
+    }
+  }
+  &__meta-list--meta {
+    padding-top: 5px;
+    padding-bottom: 10px;
   }
 }

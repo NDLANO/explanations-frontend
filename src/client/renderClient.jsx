@@ -22,7 +22,7 @@ import {catchAllRoute, loginRoute} from "../utilities/routeHelper";
 import Login from "../containers/Login";
 import Loading from '../containers/Loading';
 
-import '../style/index.css';
+import '../style/index.scss';
 import ErrorBoundary from "../containers/ErrorBoundary";
 
 
