@@ -18,8 +18,12 @@ input {
   margin: 0; /* Bug where leftmost side is 1 px below the rest of the input */
 }
 
+
 body {
   background-color: rgb(248, 248, 248);
+
+  background-color: red;
+  background: red;
 }
 
 h1 {

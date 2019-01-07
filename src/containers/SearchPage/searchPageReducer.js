@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {sortObjectsByKey} from "../../utilities";
+import {sortObjectsByKey} from "../../utilities/sorting";
 
 import {SEARCH_FOR_CONCEPT} from './searchPageActions';
 

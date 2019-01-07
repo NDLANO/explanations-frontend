@@ -6,7 +6,7 @@
  *
  */
 import {getFormValues} from "redux-form";
-import {sortObjectsByKey} from "../../utilities";
+import {sortObjectsByKey} from "../../utilities/sorting";
 import {SEARCH_FORM_NAME} from "./components/SearchForm";
 
 const ALL_LANGUAGES = {
@@ -34,7 +34,6 @@ const getMetaByCategory = (list, name, DEFAULT_OBJECT) => {
     }
     return [];
 };
-
 
 const getDefaultLanguage = (languages, locale) => {
     let lang = languages.find(x => x.abbreviation === locale);

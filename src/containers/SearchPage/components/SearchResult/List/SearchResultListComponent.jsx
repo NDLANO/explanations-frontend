@@ -19,8 +19,11 @@ const classes = new BEMHelper({
 
 const SearchResultList = ({results})=>
     <div>
+        <h6 {...classes('count')}>
+            2 treff
+        </h6>
         <ul {...classes()}>
-            {results.map(result => <SearchResultItem key={result.id} item={result} classes={classes}/>)}
+            {results.map(result => <SearchResultItem key={result.id} {...result} />)}
         </ul>
     </div>;
 

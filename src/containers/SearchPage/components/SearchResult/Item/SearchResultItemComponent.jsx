@@ -6,39 +6,102 @@
  *
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import BEMHelper from "react-bem-helper";
 import {Link} from "react-router-dom";
 
 import TagList from "../SearchResultItemTagListComponent";
 
 import {updateRoute} from "../../../../../utilities/routeHelper";
+import {sortWordsIgnoreCase} from "../../../../../utilities/sorting";
 
 const classes = new BEMHelper({
     name: 'search-result-item',
     prefix: 'c-',
 });
 
+const MetaTags = ({classes, languages, subjects, licence, meta}) =>
+    <React.Fragment>
+        <TagList tags={subjects.sort(sortWordsIgnoreCase)} classes={classes} />
+        <TagList tags={languages.sort(sortWordsIgnoreCase)} classes={classes} />
+        <TagList tags={licence.sort(sortWordsIgnoreCase)} classes={classes} />
+        <TagList tags={meta.sort(sortWordsIgnoreCase)} classes={classes} />
+    </React.Fragment>;
 
-const SearchResultItem = ({item}) =>
-    <li key={item.id} {...classes()}>
-        <article>
-            <header {...classes('header')}>
-                <h1>
-                    <Link to={updateRoute(item.id)}>{item.title}</Link>
-                </h1>
-            </header>
+MetaTags.propTypes = {
+    // Required
+    languages: PropTypes.array.isRequired,
+    subjects: PropTypes.array.isRequired,
+    licence: PropTypes.object.isRequired,
 
-            <div {...classes('author')}>
-                {item.author}
-            </div>
+    // Optional
+    classes: PropTypes.array,
+    meta: PropTypes.array
+};
 
-            <div {...classes('content')}>
-                {Boolean(item.content) && item.content.slice(0, 220)}...
-            </div>
+MetaTags.propTypes = {
+    meta: []
+};
 
-            {Boolean(item.meta.length) && <TagList tags={item.meta} classes={classes} />}
-        </article>
-    </li>;
+const filterMeta = metas => {
+    let languages = [];
+    let subjects = [];
+    let licence = [];
+    let meta = [];
 
+    metas.forEach(item => {
+        switch(item.category.name.toLowerCase()){
+            case 'language':
+                languages.push(item);
+                break;
+            case 'subject':
+                subjects.push(item);
+                break;
+            case 'licence':
+                licence.push(item);
+                break;
+            default:
+                meta.push(item);
+        }
+    });
+
+    return {
+        languages,
+        subjects,
+        licence,
+        meta
+    }
+};
+
+const SearchResultItem = ({id, title, sourceAuthor, content, meta}) => {
+    const filteredMetas = filterMeta(meta);
+    return (
+        <li key={id} {...classes()}>
+            <article>
+                <header {...classes('header')}>
+                    <h1>
+                        <Link to={updateRoute(id)}>{title}</Link>
+                    </h1>
+                </header>
+
+                <div {...classes('sourceAuthor')}>
+                    {sourceAuthor}
+                </div>
+
+                <div {...classes('content')}>
+                    {Boolean(content) && content.slice(0, 220)}...
+                </div>
+
+            </article>
+        </li>
+    )
+};
+
+SearchResultItem.propTypes = {
+    meta: PropTypes.array
+};
+SearchResultItem.defaultProps = {
+    meta: []
+};
 
 export default SearchResultItem;
