@@ -6,5 +6,8 @@
  */
 
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-
 export const loginSuccess = payload => ({type: LOGIN_SUCCESS, payload});
+
+
+export const UPDATE_NEXT = 'UPDATE_NEXT';
+export const updateNext = (payload='') => ({type: UPDATE_NEXT, payload});

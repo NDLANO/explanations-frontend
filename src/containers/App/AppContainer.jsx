@@ -46,7 +46,7 @@ import {loadConceptTitles, loadMeta, loadStatus} from './actions';
 import {config} from "../../config";
 import NotFoundPage from "../ErrorPage/NotFoundPage";
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
-import {loginSuccess} from "../Login";
+import {loginSuccess, updateNext} from "../Login";
 import withApiService from "../../components/HOC/withApiService";
 import ApiService from "../../services/apiService";
 import {Helmet} from "react-helmet";
@@ -62,8 +62,16 @@ class App extends React.Component {
     }
     componentDidMount() {
         this.loadInitialData();
+        this.skipToPage();
     }
 
+    skipToPage() {
+        const {next, history, updateNext} = this.props;
+        if (next){
+            updateNext();
+            history.push(next)
+        }
+    }
 
     loadInitialData() {
         const {apiService, loadStatus, loadConceptTitles, loadMeta} = this.props;
@@ -126,9 +134,12 @@ App.propTypes = {
     loadStatus: PropTypes.func.isRequired,
     loadConceptTitles: PropTypes.func.isRequired,
     loadMeta: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired,
+    updateNext: PropTypes.func.isRequired,
 
     // Optional
     username: PropTypes.string,
+    next: PropTypes.string,
 };
 
 const mapStateToProps = state => {
@@ -141,12 +152,13 @@ const mapStateToProps = state => {
         updatePageRequiredScope: createConceptRequiredScope,
         createPageRequiredScope: createConceptRequiredScope,
         clonePageRequiredScope: createConceptRequiredScope,
+        next: state.credentials.next,
     }
 };
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, {loadMeta, loadStatus, loadConceptTitles, loginSuccess}),
+    connect(mapStateToProps, {loadMeta, loadStatus, loadConceptTitles, loginSuccess, updateNext}),
     withAuthenticationService,
     withApiService,
     injectT,

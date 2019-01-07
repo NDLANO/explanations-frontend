@@ -7,6 +7,7 @@
 
 import {LOGIN_SUCCESS} from './loginActions';
 import {LOGOUT_SUCCESS} from "../LogoutPage";
+import {UPDATE_NEXT} from "./loginActions";
 
 export const initialState = {
     isAuthenticated: false,
@@ -20,6 +21,8 @@ export const loginReducer = (state=initialState, action) => {
     switch(action.type) {
         case LOGIN_SUCCESS:
             return {...state, ...action.payload};
+        case UPDATE_NEXT:
+            return {...state, next: action.payload};
         case LOGOUT_SUCCESS:
             return {...state, ...initialState};
         default:

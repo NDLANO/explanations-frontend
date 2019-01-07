@@ -18,7 +18,7 @@ const credentialsTransform = createTransform(
     (outboundState, key) => {
 
         if (isTokenExpired(outboundState.accessToken)) {
-            return {...initialState};
+            return {...initialState, next: outboundState.next};
         }
         return { ...outboundState};
     },

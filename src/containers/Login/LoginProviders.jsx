@@ -7,15 +7,17 @@
 
 import React from 'react';
 import BEMHelper from "react-bem-helper";
+import PropTypes from "prop-types";
 import Button from "ndla-button";
 import {injectT} from 'ndla-i18n';
 import {compose} from "redux";
-import PropTypes from "prop-types";
+import {Helmet} from "react-helmet";
+import {withLastLocation} from "react-router-last-location";
+import {connect} from "react-redux";
 
 import AuthenticationService from '../../services/authenticationService';
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
-import {Helmet} from "react-helmet";
-
+import {updateNext} from "./loginActions";
 
 
 const classes = new BEMHelper({
@@ -23,7 +25,13 @@ const classes = new BEMHelper({
     prefix: 'c-',
 });
 
-export const LoginProviderContainer = ({t, authenticationService, consentUrl }) => {
+export const LoginProviderContainer = ({t, authenticationService, consentUrl, updateNext, lastLocation  }) => {
+    const {pathname=''} = lastLocation;
+    updateNext(pathname);
+    const loginClicked = () => {
+        authenticationService.loginUser('google-oauth2');
+    };
+
     return (
         <div {...classes()}>
             <Helmet title={t('pageTitles.login')} />
@@ -31,7 +39,7 @@ export const LoginProviderContainer = ({t, authenticationService, consentUrl }) 
                 <h3>{t('loginProviders.description')}</h3>
                 <ul>
                     <li>
-                        <Button onClick={() => authenticationService.loginUser('google-oauth2')}
+                        <Button onClick={loginClicked}
                                 {...classes("content", "button", "btn-google")}>
                             Google
                         </Button>
@@ -45,19 +53,24 @@ export const LoginProviderContainer = ({t, authenticationService, consentUrl }) 
     );
 };
 
-
-
 LoginProviderContainer.propTypes = {
     t: PropTypes.func.isRequired,
     consentUrl: PropTypes.string.isRequired,
+    updateNext: PropTypes.func.isRequired,
     authenticationService: PropTypes.instanceOf(AuthenticationService).isRequired,
+    lastLocation: PropTypes.shape({
+        pathname: PropTypes.string.isRequired
+    }).isRequired
 };
 
 LoginProviderContainer.defaultProps = {
-    consentUrl: 'https://om.ndla.no/samtykke/'
+    consentUrl: 'https://om.ndla.no/samtykke/',
+    lastLocation: {pathname: ''}
 };
 
 export default compose(
     injectT,
+    withLastLocation,
+    connect(null, {updateNext}),
     withAuthenticationService,
 )(LoginProviderContainer);
