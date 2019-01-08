@@ -11,19 +11,21 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
+import {Helmet} from "react-helmet";
+import {Breadcrumb, OneColumn} from "ndla-ui";
 
 import Concept from "../components/Concept/";
 import Loading from '../../Loading';
 import WithEither from "../../../components/HOC/WithEither";
 import withApiService from "../../../components/HOC/withApiService";
-import FlashMessageComponent, {updateFlashMessage, clearFlashMessage } from "../../../components/FlashMessage";
+import FlashMessage, {updateFlashMessage, clearFlashMessage } from "../../../components/FlashMessage";
 import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE} from "../UpdateConceptPage";
 import {metaExists, statusExists, submitErrorHandler, submitSuccessHandler} from "../conceptCommon";
 
 
 import {mapStateToProps} from "./createConceptMapStateToProps";
 import {UPDATE_FLASH_MESSAGE_CONCEPT_CREATE} from "./createConceptActions";
-import {Helmet} from "react-helmet";
+import {createRoute, indexRoute} from "../../../utilities/routeHelper";
 
 
 class CreateConceptPageContainer extends React.Component {
@@ -60,17 +62,25 @@ class CreateConceptPageContainer extends React.Component {
     }
 
     render() {
+        const {t, flashMessage, initialFormValues, meta, status} = this.props;
+        const breadCrumbs = [
+            {to: indexRoute(), name: t('home.title')},
+            {to: createRoute(), name: t('createConcept.title')},
+        ];
         return (
             <React.Fragment>
-                <Helmet title={this.props.t('pageTitles.createConcept')} />
-                <FlashMessageComponent {...this.props.flashMessage}/>
-                <Concept status={this.props.status}
-                         initialValues={this.props.initialFormValues}
-                         t={this.props.t}
-                         metas={this.props.meta}
-                         title={this.props.t("createConcept.title")}
-                         submitConcept={this.submit}
-                />
+                <Helmet title={t('pageTitles.createConcept')} />
+                <FlashMessage {...flashMessage}/>
+                <OneColumn>
+                    <Breadcrumb items={breadCrumbs} />
+                    <Concept status={status}
+                             initialValues={initialFormValues}
+                             t={t}
+                             metas={meta}
+                             title={t("createConcept.title")}
+                             submitConcept={this.submit}
+                    />
+                </OneColumn>
             </React.Fragment>
         );
     }

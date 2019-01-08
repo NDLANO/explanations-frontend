@@ -176,7 +176,6 @@ class UpdateConceptPageContainer extends React.Component {
                    {this.renderContent()}
                </OneColumn>
            </React.Fragment>
-
         );
     }
 }
