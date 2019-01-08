@@ -12,15 +12,12 @@ import {Provider} from "react-redux";
 import {IntlProvider} from "ndla-i18n";
 import {BrowserRouter} from "react-router-dom";
 import { PersistGate } from 'redux-persist/integration/react'
-import {Route, Switch} from "react-router";
 import { ConnectedRouter } from 'connected-react-router';
 import { LastLocationProvider } from 'react-router-last-location';
 
 import App from '../containers/App';
 import {getLocaleInfoFromPath} from "../i18n";
 import configureStore from '../store';
-import {catchAllRoute, loginRoute} from "../utilities/routeHelper";
-import Login from "../containers/Login";
 import Loading from '../containers/Loading';
 
 import '../style/index.scss';
@@ -45,10 +42,7 @@ export const renderApp = () =>
                             <ErrorBoundary>
                                 <BrowserRouter basename={basename}>
                                     <LastLocationProvider>
-                                        <Switch>
-                                            <Route path={loginRoute()} component={Login}/>
-                                            <Route path={catchAllRoute()} component={App}/>
-                                        </Switch>
+                                        <App />
                                     </LastLocationProvider>
                                 </BrowserRouter>
                             </ErrorBoundary>

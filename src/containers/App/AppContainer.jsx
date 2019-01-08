@@ -13,6 +13,7 @@ import {Route, Switch, withRouter} from 'react-router';
 import {injectT} from 'ndla-i18n';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
+import {Helmet} from "react-helmet";
 
 /* eslint-disable no-unused-vars */
 import * as moment from 'moment';
@@ -34,23 +35,23 @@ import {
     catchAllRoute,
     logoutRoute,
     notAuthorizedRoute,
-    notFoundRoute
+    notFoundRoute, loginRoute
 } from '../../utilities/routeHelper';
 import CloneConceptPage from '../Concept/CloneConceptPage';
 import UpdateConceptPage from '../Concept/UpdateConceptPage';
 import CreateConceptPage from '../Concept/CreateConceptPage';
 import PrivateRoute from '../PrivateRoute';
 import LogoutPage from '../LogoutPage';
-
-import {loadConceptTitles, loadMeta, loadStatus} from './actions';
 import {config} from "../../config";
 import NotFoundPage from "../ErrorPage/NotFoundPage";
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
 import {loginSuccess, updateNext} from "../Login";
 import withApiService from "../../components/HOC/withApiService";
 import ApiService from "../../services/apiService";
-import {Helmet} from "react-helmet";
 import ErrorBoundary from "../ErrorBoundary";
+import Login from "../Login";
+
+import {loadConceptTitles, loadMeta, loadStatus} from './actions';
 
 Moment.globalFormat = 'lll';
 
@@ -102,6 +103,7 @@ class App extends React.Component {
                     <Header t={t} username={username} isLoggedIn={isAuthenticated} />
                     <ErrorBoundary>
                         <Switch>
+                            <Route path={loginRoute()} component={Login}/>
                             <Route path={updateRoute()} render={this.renderUpdateComponent}/>
                             <PrivateRoute requiredScopes={createPageRequiredScope}
                                           path={createRoute()}
