@@ -11,6 +11,8 @@ import {connect} from "react-redux";
 import { withRouter } from 'react-router-dom';
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
+import {Helmet} from "react-helmet";
+import {Breadcrumb, OneColumn} from "ndla-ui";
 
 
 import Loading from '../../Loading';
@@ -29,7 +31,7 @@ import FlashMessage, {clearFlashMessage, updateFlashMessage} from "../../../comp
 
 import {UPDATE_FLASH_MESSAGE_CONCEPT_CLONE, updateInitialFormValues} from "./cloneConceptActions";
 import {mapStateToProps} from './cloneConceptMapStateToProps';
-import {Helmet} from "react-helmet";
+import {cloneRoute, indexRoute} from "../../../utilities/routeHelper";
 
 class CloneConceptPageContainer extends React.Component {
     constructor(props) {
@@ -68,9 +70,12 @@ class CloneConceptPageContainer extends React.Component {
         return create;
     }
 
+    getConceptId() {
+        return this.props.match.params.id;
+    }
+
     loadConcept() {
-        const {id} = this.props.match.params;
-        this.props.apiService.getConceptById(id).then(concept => {
+        this.props.apiService.getConceptById(this.getConceptId()).then(concept => {
 
             delete concept.created;
             delete concept.id;
@@ -100,13 +105,20 @@ class CloneConceptPageContainer extends React.Component {
     }
 
     render() {
+        const {t, flashMessage} = this.props;
+        const breadCrumbs = [
+            {to: indexRoute(), name: t('home.title')},
+            {to: cloneRoute(this.getConceptId()), name: t('cloneConcept.title')},
+        ];
         return (
             <React.Fragment>
-                <Helmet title={this.props.t('pageTitles.cloneConcept')} />
-                <FlashMessage {...this.props.flashMessage}/>
-                {this.renderContent()}
+                <Helmet title={t('pageTitles.cloneConcept')} />
+                <FlashMessage {...flashMessage}/>
+                <OneColumn>
+                    <Breadcrumb items={breadCrumbs} />
+                    {this.renderContent()}
+                </OneColumn>
             </React.Fragment>
-
         );
     }
 }

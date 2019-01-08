@@ -97,6 +97,7 @@ const NB = {
         }
     },
     cloneConcept: {
+        title: "Klon begrep",
         submitMessage: {
             success: {
                 title: "Begrepet er klonet og opprettet!"
