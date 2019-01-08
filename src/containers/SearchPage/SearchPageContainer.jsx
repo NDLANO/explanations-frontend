@@ -30,6 +30,14 @@ class SearchContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {userHasSearched: false};
+        this.search = this.search.bind(this);
+    }
+
+    search(query) {
+        const {updateSearchResult, apiService} = this.props;
+        apiService.searchForConcepts(query)
+            .then(updateSearchResult)
+            .then(() => this.setState({userHasSearched: true}));
     }
 
     render() {
@@ -37,10 +45,8 @@ class SearchContainer extends React.Component {
             languages,
             subjects,
             searchResult,
-            updateSearchResult,
             autoComplete,
             initialValues,
-            apiService
         } = this.props;
 
         const resultHeader = this.state.userHasSearched ? `${searchResult.length} ${t('searchPage.resultHits')}` : '';
@@ -50,13 +56,13 @@ class SearchContainer extends React.Component {
         ];
 
         return (
-            <OneColumn className="jaja">
+            <OneColumn>
                 <Breadcrumb items={breadCrumbs}/>
                 <Helmet title={t('pageTitles.searchForConcept')} />
                 <SearchForm t={t}
                             languages={languages}
                             subjects={subjects}
-                            search={query => apiService.searchForConcepts(query).then(updateSearchResult)}
+                            search={this.search}
                             autoComplete={autoComplete}
                             initialValues={initialValues}/>
                 <SearchResultList results={searchResult} resultHeader={resultHeader}/>
