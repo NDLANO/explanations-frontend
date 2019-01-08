@@ -7,11 +7,11 @@
 import React from 'react';
 import BEMHelper from "react-bem-helper";
 import PropTypes from 'prop-types';
-import {OneColumn} from "ndla-ui";
+import {OneColumn, Button} from "ndla-ui";
 
 import WithEither from "../../components/HOC/WithEither";
 
-import './style.css'
+import './style.scss'
 
 export const SEVERITY = {
     info: 'info',
@@ -25,19 +25,40 @@ const classes = new BEMHelper({
     prefix: 'c-',
 });
 
+class FlashMessageComponent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {isClosed: false};
+        this.dismiss = this.dismiss.bind(this);
+    }
 
-const FlashMessageComponent = ({message, title, severity}) =>
-    <div {...classes('', severity)}>
-        <OneColumn {...classes('content')}>
-            {title && <h1 className="o-heading">{title}</h1>}
-            {message}
-        </OneColumn>
-    </div>;
+    dismiss() {
+        this.setState({isClosed: true});
+    }
+
+    render() {
+        if (this.state.isClosed)
+            return null;
+
+        const {message, title, severity, dismissText} = this.props;
+        return (
+            <div {...classes('', severity)}>
+                <OneColumn {...classes('content')}>
+                    {title && <h1 className="o-heading">{title}</h1>}
+                    {message}
+                    <Button {...classes('dismiss')} link={true} onClick={this.dismiss}>{dismissText}</Button>
+                </OneColumn>
+            </div>
+        )
+    }
+}
 
 FlashMessageComponent.propTypes = {
+    dismissText: PropTypes.string.isRequired,
     message: PropTypes.string,
     title: PropTypes.string,
     severity: PropTypes.string,
+
 };
 
 FlashMessageComponent.defaultProps = {

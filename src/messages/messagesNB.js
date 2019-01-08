@@ -162,6 +162,9 @@ const NB = {
     },
     index: {
         title: "Hjem"
+    },
+    flashMessage: {
+        dismiss: "Lukk"
     }
 };
 

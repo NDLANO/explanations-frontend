@@ -161,7 +161,7 @@ class UpdateConceptPageContainer extends React.Component {
        return (
            <React.Fragment>
                <Helmet title={t('pageTitles.updateConcept')} />
-               <FlashMessage {...flashMessage}/>
+               <FlashMessage {...flashMessage} dismissText={t('flashMessage.dismiss')}/>
                <OneColumn>
                    <Breadcrumb items={breadCrumbs} />
                    {this.renderContent()}

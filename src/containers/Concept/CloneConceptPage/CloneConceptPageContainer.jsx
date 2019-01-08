@@ -113,7 +113,7 @@ class CloneConceptPageContainer extends React.Component {
         return (
             <React.Fragment>
                 <Helmet title={t('pageTitles.cloneConcept')} />
-                <FlashMessage {...flashMessage}/>
+                <FlashMessage {...flashMessage} dismissText={t('flashMessage.dismiss')}/>
                 <OneColumn>
                     <Breadcrumb items={breadCrumbs} />
                     {this.renderContent()}

@@ -70,7 +70,7 @@ class CreateConceptPageContainer extends React.Component {
         return (
             <React.Fragment>
                 <Helmet title={t('pageTitles.createConcept')} />
-                <FlashMessage {...flashMessage}/>
+                <FlashMessage {...flashMessage} dismissText={t('flashMessage.dismiss')}/>
                 <OneColumn>
                     <Breadcrumb items={breadCrumbs} />
                     <Concept status={status}

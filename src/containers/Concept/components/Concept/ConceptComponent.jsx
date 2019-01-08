@@ -11,7 +11,7 @@ import BEMHelper from "react-bem-helper";
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import {Field, reduxForm, SubmissionError} from "redux-form";
-import {Button, OneColumn} from "ndla-ui";
+import {Button} from "ndla-ui";
 
 import Meta from "../Meta";
 import ConfirmModal from "../../../../components/ConfirmModal/";
