@@ -6,6 +6,7 @@
  */
 import React from "react";
 import PropTypes from 'prop-types';
+import {fieldInputShape} from "../utilities/commonShapes";
 
 const FormElement = ({className, input, label, meta, children, t, messagePrefix}) => (
     <div  className={className}>
@@ -24,7 +25,7 @@ const FormElement = ({className, input, label, meta, children, t, messagePrefix}
 FormElement.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
-    input: PropTypes.object.isRequired,
+    input: fieldInputShape.isRequired,
     label: PropTypes.string.isRequired,
     className: PropTypes.string.isRequired,
     meta: PropTypes.object.isRequired,

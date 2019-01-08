@@ -12,11 +12,11 @@ import { OneColumn } from 'ndla-ui';
 
 import LoginFailure from './LoginFailure';
 import LoginSuccess from './LoginSuccess';
-import LoginProviders from './LoginProviders';
+import LoginProviders from './LoginProvidersContainer';
 
 import {matchShape} from "../../utilities/commonShapes";
 
-export const LoginContainer = ({ match: {url} }) => (
+export const LoginComponent = ({ match: {url} }) => (
   <OneColumn>
       <Switch>
         <Route path={`${url}/success`} component={LoginSuccess} />
@@ -26,8 +26,8 @@ export const LoginContainer = ({ match: {url} }) => (
   </OneColumn>
 );
 
-LoginContainer.propTypes = {
+LoginComponent.propTypes = {
   match: matchShape.isRequired,
 };
 
-export default LoginContainer;
+export default LoginComponent;

@@ -12,20 +12,20 @@ import {connect} from 'react-redux';
 import {compose} from "redux";
 
 import AuthenticationService from '../../services/authenticationService';
-import {indexRoute} from "../../utilities/routeHelper";
-
-import {loginSuccess} from './loginActions';
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
+import {indexRoute} from "../../utilities/routeHelper";
+import {loginSuccess, updateNext} from './loginActions';
 import {historyShape, locationShape} from "../../utilities/commonShapes";
 
 class LoginSuccessContainer extends React.Component {
     componentDidMount() {
-        const {history, loginSuccess, location: {hash}, authenticationService} = this.props;
+        const {history, loginSuccess, location: {hash}, authenticationService, next, updateNext} = this.props;
         authenticationService.getCredentials(hash).then(credentials => {
             if (!credentials)
                 return;
             loginSuccess(credentials);
-            history.replace(indexRoute())
+            history.replace(next ? next : indexRoute());
+            updateNext();
         });
     }
 
@@ -36,13 +36,18 @@ class LoginSuccessContainer extends React.Component {
 
 LoginSuccessContainer.propTypes = {
     history: historyShape.isRequired,
-    loginSuccess: PropTypes.func.isRequired,
     location: locationShape.isRequired,
-    authenticationService: PropTypes.instanceOf(AuthenticationService).isRequired
+    updateNext: PropTypes.func.isRequired,
+    loginSuccess: PropTypes.func.isRequired,
+    authenticationService: PropTypes.instanceOf(AuthenticationService).isRequired,
+
+    // Optional
+    next: PropTypes.string,
 };
 
+const mapStateToProps = ({credentials: {next}}) => ({next});
 
 export default compose(
-    connect(null,{loginSuccess}),
+    connect(mapStateToProps,{loginSuccess, updateNext}),
     withAuthenticationService,
 )(LoginSuccessContainer);

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import Login from './LoginContainer';
+import Login from './LoginComponent';
 
 export default Login;
 export * from './loginReducer'

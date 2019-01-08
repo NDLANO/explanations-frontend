@@ -30,6 +30,7 @@ export const LoginProviderContainer = ({t, authenticationService, consentUrl, up
     const loginClicked = () => {
         if (lastLocation && lastLocation.pathname)
             updateNext(lastLocation.pathname);
+
         authenticationService.loginUser('google-oauth2');
     };
 

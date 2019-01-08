@@ -49,8 +49,10 @@ const FooterWrapper = ({ t, editorChief, editorManaging }) => (
 
 FooterWrapper.propTypes = {
     t: PropTypes.func.isRequired,
-    editorChief: PropTypes.string.isRequired,
-    editorManaging: PropTypes.string.isRequired,
+
+    // Optional
+    editorChief: PropTypes.string,
+    editorManaging: PropTypes.string,
 };
 
 

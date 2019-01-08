@@ -8,6 +8,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 
 import FormElement from "./FormElement";
+import {fieldInputShape} from "../utilities/commonShapes";
 
 
 const Input = props =>
@@ -20,7 +21,7 @@ const Input = props =>
 Input.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
-    input: PropTypes.object.isRequired,
+    input: fieldInputShape.isRequired,
     placeholder: PropTypes.string.isRequired,
 
     readOnly: PropTypes.bool

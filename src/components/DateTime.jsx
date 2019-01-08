@@ -8,6 +8,7 @@
 import React from "react"
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
+import {fieldInputShape} from "../utilities/commonShapes";
 
 const DateTime = ({label, t, input, className, locale}) =>
     <div className={className}>
@@ -17,7 +18,7 @@ const DateTime = ({label, t, input, className, locale}) =>
 
 DateTime.propTypes = {
     t: PropTypes.func.isRequired,
-    input: PropTypes.object.isRequired,
+    input: fieldInputShape.isRequired,
     label: PropTypes.string.isRequired,
     locale: PropTypes.string.isRequired,
     className: PropTypes.string.isRequired,

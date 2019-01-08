@@ -63,15 +63,6 @@ class App extends React.Component {
     }
     componentDidMount() {
         this.loadInitialData();
-        this.skipToPage();
-    }
-
-    skipToPage() {
-        const {next, history, updateNext} = this.props;
-        if (next){
-            updateNext();
-            history.push(next)
-        }
     }
 
     loadInitialData() {
@@ -137,11 +128,9 @@ App.propTypes = {
     loadConceptTitles: PropTypes.func.isRequired,
     loadMeta: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
-    updateNext: PropTypes.func.isRequired,
 
     // Optional
     username: PropTypes.string,
-    next: PropTypes.string,
 };
 
 const mapStateToProps = state => {
@@ -154,7 +143,6 @@ const mapStateToProps = state => {
         updatePageRequiredScope: createConceptRequiredScope,
         createPageRequiredScope: createConceptRequiredScope,
         clonePageRequiredScope: createConceptRequiredScope,
-        next: state.credentials.next,
     }
 };
 
