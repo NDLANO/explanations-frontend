@@ -36,7 +36,7 @@ const {initialState} = window;
 const persistedReducer = persistReducer(rootPersistConfig, rootReducers(history));
 
 export default () => {
-    let store = createStore(persistedReducer, composeEnhancers(middleware));
+    let store = createStore(persistedReducer, initialState, composeEnhancers(middleware));
     let persistor = persistStore(store);
     return { store, persistor, history}
 }

@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import React from 'react';
+import PropTypes from 'prop-types';
 import BEMHelper from "react-bem-helper";
 import {OneColumn, Button} from "ndla-ui";
 
@@ -40,27 +41,32 @@ class FlashMessageComponent extends React.Component {
         if (this.state.isClosed)
             return null;
 
-        const {message, title, severity, dismissText} = this.props;
+        const {message, title, severity, dismissText, t} = this.props;
         return (
             <div {...classes('', severity)}>
                 <OneColumn {...classes('content')}>
-                    {title && <h1 className="o-heading">{title}</h1>}
-                    {message}
-                    <Button {...classes('dismiss')} link={true} onClick={this.dismiss}>{dismissText}</Button>
+                    {title && <h1 className="o-heading">{t(title)}</h1>}
+                    {Boolean(message.length) && t(message)}
+                    <Button {...classes('dismiss')} link={true} onClick={this.dismiss}>{t(dismissText)}</Button>
                 </OneColumn>
             </div>
         )
     }
 }
 
-FlashMessageComponent.propTypes = {...flashMessageShape};
+FlashMessageComponent.propTypes = {
+    t: PropTypes.func.isRequired,
+
+    ...flashMessageShape
+};
 
 FlashMessageComponent.defaultProps = {
     title: '',
     message: '',
+    dismissText: 'flashMessage.dismiss',
     severity: SEVERITY.info,
 };
 
 
-const hasMessage = ({message, title}) => message || title ;
-export default WithEither(hasMessage, () => null)(FlashMessageComponent);
+const hasTitle = ({title}) => !!title ;
+export default WithEither(hasTitle, () => null)(FlashMessageComponent);

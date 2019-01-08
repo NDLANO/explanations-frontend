@@ -1,11 +1,9 @@
 // Required
-import {shape, string} from "prop-types";
+import {string} from "prop-types";
 
-export const flashMessageShape = shape({
-    dismissText: string.isRequired,
-
-    // Optional
+export const flashMessageShape = {
     title: string,
     message: string,
     severity: string,
-});
+    dismissText: string,
+};

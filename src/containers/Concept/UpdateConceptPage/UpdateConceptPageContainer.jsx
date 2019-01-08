@@ -63,7 +63,7 @@ class UpdateConceptPageContainer extends React.Component {
     loadConcept() {
         const {updateFlashMessage, history} = this.props;
         const errorHandler = {
-            titleMessage: this.props.t('updateConcept.loadDataMessage.error.title'),
+            titleMessage: 'updateConcept.loadDataMessage.error.title',
             actionType: UPDATE_FLASH_MESSAGE,
             history
         };
@@ -111,15 +111,15 @@ class UpdateConceptPageContainer extends React.Component {
     }
 
     handleSubmit(submitFunction, message) {
-        const {history, t, updateFlashMessage} = this.props;
+        const {history, updateFlashMessage} = this.props;
         const successHandler = {
             actionType: UPDATE_FLASH_MESSAGE,
-            titleMessage: t(`updateConcept.${message}.success.title`),
+            titleMessage: `updateConcept.${message}.success.title`,
             history,
             id: this.getConceptId()
         };
         const errorHandler = {
-            titleMessage: t(`updateConcept.${message}.error.title`),
+            titleMessage: `updateConcept.${message}.error.title`,
             actionType: UPDATE_FLASH_MESSAGE,
         };
         return submitFormHandling(submitFunction, successHandler, errorHandler, updateFlashMessage);
@@ -162,7 +162,7 @@ class UpdateConceptPageContainer extends React.Component {
        return (
            <React.Fragment>
                <Helmet title={t('pageTitles.updateConcept')} />
-               <FlashMessage {...flashMessage} dismissText={t('flashMessage.dismiss')}/>
+               <FlashMessage {...flashMessage} t={t}/>
                <OneColumn>
                    <Breadcrumb items={breadCrumbs} />
                    {this.renderContent()}
@@ -191,7 +191,7 @@ UpdateConceptPageContainer.propTypes = {
     // Optional
     meta: PropTypes.array,
     status: PropTypes.array,
-    flashMessage: flashMessageShape,
+    flashMessage: PropTypes.shape(flashMessageShape),
     initialFormValues: PropTypes.object,
 };
 

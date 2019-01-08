@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE, UPDATE_INITIAL_FORM_VALUES_FOR_CONCEPT_UPDATE} from './updateConceptActions';
+import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE, UPDATE_INITIAL_FORM_VALUES_FOR_CONCEPT_UPDATE, SET_DELETE_BUTTON_AS_DISABLED} from './updateConceptActions';
 import {emptyFlashMessage} from "../../../components/FlashMessage";
 
 const initialState = {
@@ -20,6 +20,8 @@ export const updateConceptReducer = (state=initialState, action) => {
             return {...state, flashMessage: action.payload};
         case UPDATE_INITIAL_FORM_VALUES_FOR_CONCEPT_UPDATE:
             return {...state, initialFormValues: action.payload};
+        case SET_DELETE_BUTTON_AS_DISABLED:
+            return {...state, deleteButtonIsDisabled: action.payload};
         default:
             return state;
     }

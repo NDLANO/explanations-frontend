@@ -51,13 +51,13 @@ class CloneConceptPageContainer extends React.Component {
     }
 
     submit(concept) {
-        const {clearFlashMessage, updateFlashMessage, t, history} = this.props;
+        const {clearFlashMessage, updateFlashMessage, history} = this.props;
 
         clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_CLONE);
 
         const create = this.props.apiService.createConcept(concept);
         const errorHandler = {
-            titleMessage: t(`cloneConcept.submitMessage.error.title`),
+            titleMessage: `cloneConcept.submitMessage.error.title`,
             actionType: UPDATE_FLASH_MESSAGE_CONCEPT_CLONE,
             history
         };
@@ -65,7 +65,7 @@ class CloneConceptPageContainer extends React.Component {
         create
             .then(data => submitSuccessHandler(data, {
                 actionType: UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE,
-                titleMessage: t(`cloneConcept.submitMessage.success.title`),
+                titleMessage: `cloneConcept.submitMessage.success.title`,
                 history,
                 id: data.data.data.id,
             }, updateFlashMessage))
@@ -116,7 +116,7 @@ class CloneConceptPageContainer extends React.Component {
         return (
             <React.Fragment>
                 <Helmet title={t('pageTitles.cloneConcept')} />
-                <FlashMessage {...flashMessage} dismissText={t('flashMessage.dismiss')}/>
+                <FlashMessage {...flashMessage} t={t}/>
                 <OneColumn>
                     <Breadcrumb items={breadCrumbs} />
                     {this.renderContent()}
@@ -132,15 +132,15 @@ CloneConceptPageContainer.propTypes = {
     t: PropTypes.func.isRequired,
     match: matchShape.isRequired,
     meta: PropTypes.array.isRequired,
+    history: historyShape.isRequired,
     status: PropTypes.array.isRequired,
     clearFlashMessage: PropTypes.func.isRequired,
     updateFlashMessage: PropTypes.func.isRequired,
-    history: historyShape.isRequired,
     updateInitialFormValues: PropTypes.func.isRequired,
     apiService: PropTypes.instanceOf(ApiService).isRequired,
 
     // Optional
-    flashMessage: flashMessageShape,
+    flashMessage: PropTypes.shape(flashMessageShape),
     initialFormValues: PropTypes.object,
 };
 
