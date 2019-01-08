@@ -13,10 +13,10 @@ import { renderToString } from 'react-dom/server';
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); // eslint-disable-line import/no-dynamic-require
 const head = Helmet.rewind();
 
-const HTML = ({lang, favicon, config, component}) => {
+const HTML = ({favicon, config, component, state}) => {
     const content = component ? renderToString(component) : '';
     return (
-        <html lang={lang}>
+        <html lang={state.locale}>
         <head>
             <meta charSet="utf-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -41,6 +41,11 @@ const HTML = ({lang, favicon, config, component}) => {
         </noscript>
         <div id="root" dangerouslySetInnerHTML={{ __html: content }} />
         <script
+            dangerouslySetInnerHTML={{
+                __html: `window.initialState = ${serialize(state)}`,
+            }}
+        />
+        <script
             type="text/javascript"
             src={assets.client.js}
             defer
@@ -60,8 +65,8 @@ const HTML = ({lang, favicon, config, component}) => {
 
 HTML.propTypes = {
     // Required
-    lang: PropTypes.string.isRequired,
     config: PropTypes.object.isRequired,
+    state: PropTypes.object.isRequired,
 
     // Optional
     component: PropTypes.node,

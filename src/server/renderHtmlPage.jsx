@@ -11,5 +11,5 @@ import {config} from "../config";
 
 export const renderHtmlString = (locale) =>
     renderToString(
-        <HTML lang={locale} config={{...config.CLIENT}} />,
+        <HTML config={{...config.CLIENT}} state={{locale: locale}} />,
     );

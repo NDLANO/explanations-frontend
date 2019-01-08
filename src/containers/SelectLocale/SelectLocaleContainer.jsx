@@ -26,12 +26,10 @@ const SelectLocale = ({ locale, location: { pathname, search }, updateLocale }) 
         window.location.reload();
         updateLocale(newLocale)
     };
-
+    
     return (
         <select
-            onChange={evt => {
-                handleChange(evt.target.value);
-            }}
+            onChange={evt => handleChange(evt.target.value)}
             value={locale}>
             {appLocales.map(l => (
                 <option key={l.abbreviation} value={l.abbreviation}>

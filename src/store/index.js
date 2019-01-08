@@ -28,15 +28,15 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootPersistConfig = {
     key: 'root',
     storage: storage,
-    blacklist: ['concept', 'form', 'search', 'router'],
+    blacklist: ['concept', 'form', 'search', 'router', 'locale'],
     transforms: [credentialsTransform]
 };
 
-
+const {initialState} = window;
 const persistedReducer = persistReducer(rootPersistConfig, rootReducers(history));
 
 export default () => {
-    let store = createStore(persistedReducer, composeEnhancers(middleware));
+    let store = createStore(persistedReducer, initialState, composeEnhancers(middleware));
     let persistor = persistStore(store);
     return { store, persistor, history}
 }
