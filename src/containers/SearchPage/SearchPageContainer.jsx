@@ -51,7 +51,7 @@ class SearchContainer extends React.Component {
 
         const resultHeader = this.state.userHasSearched ? `${searchResult.length} ${t('searchPage.resultHits')}` : '';
         const breadCrumbs = [
-            {to: indexRoute(), name: t('home.title')},
+            {to: indexRoute(), name: t('indexPage.title')},
             {to: searchRoute(), name: t('search.title')},
         ];
 

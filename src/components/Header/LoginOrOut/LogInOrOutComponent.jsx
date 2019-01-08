@@ -12,35 +12,23 @@ import PropTypes from 'prop-types';
 
 import {loginRoute, logoutRoute} from "../../../utilities/routeHelper";
 
-const Login = ({t}) =>              <Link to={loginRoute()}>{t('header.login')}</Link>;
-Login.propTypes = {
-    // Required
-    t: PropTypes.func.isRequired,
-};
+const  LogInOrOutComponent = ({isLoggedIn, username, t}) =>
+    isLoggedIn ?
+        <Link to={logoutRoute()}>{t('header.logout')} {username}</Link> :
+        <Link to={loginRoute()}>{t('header.login')}</Link>;
 
-const Logout = ({t, username}) =>   <Link to={logoutRoute()}>{t('header.logout')} {username}</Link>;
-Logout.propTypes = {
-    // Required
-    t: PropTypes.func.isRequired,
-
-    // Optional
-    username: PropTypes.string
-};
-
-
-const  LogInOrOutComponent = ({isLoggedIn, ...rest}) => isLoggedIn ? <Logout {...rest} /> : <Login {...rest} />;
 LogInOrOutComponent.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
 
     // Optional
     isLoggedIn: PropTypes.bool,
-    username: PropTypes.string
+    username: PropTypes.string,
 };
 
 LogInOrOutComponent.defaultProps = {
+    username: '',
     isLoggedIn: false,
-    username: ''
 };
 
 export default LogInOrOutComponent

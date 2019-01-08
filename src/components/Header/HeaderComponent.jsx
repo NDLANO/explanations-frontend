@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import LogInOrOut from './LoginOrOut'
 import Navigation from "./Navigation";
 
-import './style.css'
+import './style.scss'
 
 
 const classes = new BEMHelper({
@@ -43,13 +43,15 @@ const Header = ({t, username, isLoggedIn}) => {
 Header.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
-    isLoggedIn: PropTypes.bool.isRequired,
-    username: PropTypes.string.isRequired,
+
+    // Optional
+    username: PropTypes.string,
+    isLoggedIn: PropTypes.bool,
 };
 
 Header.defaultProps = {
+    username: '',
     isLoggedIn: false,
-    username: ''
 };
 
 export default Header;

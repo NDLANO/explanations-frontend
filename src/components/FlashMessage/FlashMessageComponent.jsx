@@ -54,16 +54,16 @@ class FlashMessageComponent extends React.Component {
 }
 
 FlashMessageComponent.propTypes = {
-    dismissText: PropTypes.string.isRequired,
-    message: PropTypes.string,
     title: PropTypes.string,
+    message: PropTypes.string,
     severity: PropTypes.string,
+    dismissText: PropTypes.string.isRequired,
 
 };
 
 FlashMessageComponent.defaultProps = {
-    message: '',
     title: '',
+    message: '',
     severity: SEVERITY.info,
 };
 

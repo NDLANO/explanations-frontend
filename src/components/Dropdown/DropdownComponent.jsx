@@ -60,19 +60,34 @@ class Dropdown extends React.Component {
     }
 }
 
+const dropdownElementShape = PropTypes.shape({
+    value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]).isRequired,
+    label: PropTypes.string.isRequired,
+});
+
 Dropdown.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
 
     // Optional
     input: PropTypes.object,
-    isSearchable: PropTypes.bool,
+    readOnly: PropTypes.bool,
+    onChange: PropTypes.func,
     isClearable: PropTypes.bool,
+    isSearchable: PropTypes.bool,
     isMultiSelect: PropTypes.bool,
     placeholder: PropTypes.string,
+    selected: PropTypes.oneOfType([
+        dropdownElementShape,
+        PropTypes.arrayOf(dropdownElementShape)
+    ]).isRequired,
 };
 
 Dropdown.defaultProps = {
+    readOnly: false,
     isSearchable: true,
     isClearable: false,
     isMultiSelect: false,

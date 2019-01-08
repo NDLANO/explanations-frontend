@@ -8,6 +8,7 @@
 
 import React, { Component } from 'react';
 import BEMHelper from 'react-bem-helper';
+import PropTypes from "prop-types";
 import { Plus, Minus } from 'ndla-icons/action';
 import { Button } from 'ndla-ui';
 import { Link } from 'react-router-dom';
@@ -15,8 +16,7 @@ import {DetailSearch} from 'ndla-icons/editor';
 
 import {searchRoute, createRoute} from "../../../utilities/routeHelper";
 
-import './style.css'
-import PropTypes from "prop-types";
+import './style.scss'
 
 export const classes = new BEMHelper({
     name: 'navigation',

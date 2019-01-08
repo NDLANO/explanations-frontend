@@ -10,7 +10,7 @@ import React from 'react';
 import Autocomplete from "react-autocomplete";
 import PropTypes from 'prop-types';
 import BEMHelper from "react-bem-helper";
-import './style.css'
+import './style.scss'
 
 const classes = new BEMHelper({
     name: 'autocomplete',
@@ -24,8 +24,7 @@ const AutoCompleteItem = (item, highlighted) =>
         {item}
     </div>;
 
-const AutoCompleteMenu = (items, value) =>
-    <div {...classes('menu')} children={items}/>;
+const AutoCompleteMenu = (items, value) => <div {...classes('menu')} children={items}/>;
 
 class AutoComplete extends React.Component {
     render() {
@@ -68,29 +67,29 @@ class AutoComplete extends React.Component {
 
 AutoComplete.propTypes = {
     // Required
-    onChange: PropTypes.func.isRequired,
-    onSelect: PropTypes.func.isRequired,
     value: PropTypes.any.isRequired,
     items: PropTypes.array.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired,
 
     // Optional
     renderItem: PropTypes.func,
     renderMenu: PropTypes.func,
     getItemValue: PropTypes.func,
-    shouldItemRender: PropTypes.func,
     placeholder: PropTypes.string,
+    shouldItemRender: PropTypes.func,
     displayMaxResults: PropTypes.number
 };
 
 
 AutoComplete.defaultProps = {
     // Optional
+    placeholder: '',
+    displayMaxResults: null,
+    getItemValue: item => item,
     renderItem: AutoCompleteItem,
     renderMenu: AutoCompleteMenu,
-    getItemValue: item => item,
     shouldItemRender: (item, value) => item.toLowerCase().indexOf(value.toLowerCase()) > -1,
-    displayMaxResults: null,
-    placeholder: ''
 };
 
 export default AutoComplete;

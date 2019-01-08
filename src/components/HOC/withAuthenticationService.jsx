@@ -5,6 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 import React from "react";
+import PropTypes from "prop-types";
+
 import AuthenticationService from "../../services/authenticationService";
 import {config} from '../../config';
 
@@ -22,6 +24,16 @@ const withAuthenticationService = WrappedComponent  =>{
             );
         }
     }
+
+
+    HOC.propTypes = {
+        accessToken: PropTypes.string,
+    };
+
+    HOC.defaultProps = {
+        accessToken: ''
+    };
+
     return HOC;
 };
 

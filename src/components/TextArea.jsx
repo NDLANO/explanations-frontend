@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import React from "react";
+import PropTypes from 'prop-types';
 
 import FormElement from "./FormElement";
 
@@ -18,10 +19,21 @@ const TextArea = props =>
                    {...props.input}/>
     </FormElement>;
 
+TextArea.propTypes = {
+    // Required
+    t: PropTypes.func.isRequired,
+    input: PropTypes.object.isRequired,
+    placeholder: PropTypes.string.isRequired,
+
+    rows: PropTypes.number,
+    cols: PropTypes.number,
+    readOnly: PropTypes.bool
+};
 
 TextArea.defaultProps = {
     rows: 5,
-    cols: 50
+    cols: 50,
+    readOnly: false
 };
 
 export default TextArea;

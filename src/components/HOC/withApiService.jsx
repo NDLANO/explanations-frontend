@@ -5,8 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 import React from "react";
+import PropTypes from 'prop-types';
 import ApiService from "../../services/apiService";
 import {config} from '../../config';
+
 
 const withApiService = WrappedComponent  =>{
     class HOC extends React.Component {
@@ -22,6 +24,16 @@ const withApiService = WrappedComponent  =>{
             );
         }
     }
+
+    HOC.propTypes = {
+        history: PropTypes.object.isRequired,
+
+        accessToken: PropTypes.string,
+    };
+    HOC.defaultProps = {
+        accessToken: ''
+    };
+
     return HOC;
 };
 

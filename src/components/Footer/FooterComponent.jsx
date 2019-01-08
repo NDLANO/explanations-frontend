@@ -14,7 +14,7 @@ import SelectLocale from '../../containers/SelectLocale/index';
 import {indexRoute} from "../../utilities/routeHelper";
 import {config} from "../../config";
 
-import './style.css';
+import './style.scss';
 
 const FooterWrapper = ({ t, editorChief, editorManaging }) => (
     <Footer>
@@ -48,6 +48,7 @@ const FooterWrapper = ({ t, editorChief, editorManaging }) => (
 );
 
 FooterWrapper.propTypes = {
+    t: PropTypes.func.isRequired,
     editorChief: PropTypes.string.isRequired,
     editorManaging: PropTypes.string.isRequired,
 };

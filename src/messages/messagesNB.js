@@ -160,7 +160,7 @@ const NB = {
     searchPage: {
         resultHits: 'treff'
     },
-    index: {
+    indexPage: {
         title: "Hjem"
     },
     flashMessage: {

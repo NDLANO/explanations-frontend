@@ -155,7 +155,7 @@ class UpdateConceptPageContainer extends React.Component {
     render() {
         const {t, flashMessage} = this.props;
         const breadCrumbs = [
-            {to: indexRoute(), name: t('home.title')},
+            {to: indexRoute(), name: t('indexPage.title')},
             {to: updateRoute(this.getConceptId()), name: t('updateConcept.title')},
         ];
        return (

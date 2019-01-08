@@ -107,7 +107,7 @@ class CloneConceptPageContainer extends React.Component {
     render() {
         const {t, flashMessage} = this.props;
         const breadCrumbs = [
-            {to: indexRoute(), name: t('home.title')},
+            {to: indexRoute(), name: t('indexPage.title')},
             {to: cloneRoute(this.getConceptId()), name: t('cloneConcept.title')},
         ];
         return (

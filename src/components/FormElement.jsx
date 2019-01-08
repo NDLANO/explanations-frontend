@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 import React from "react";
-
+import PropTypes from 'prop-types';
 
 const FormElement = ({className, input, label, meta, children, t, messagePrefix}) => (
     <div  className={className}>
@@ -20,4 +20,22 @@ const FormElement = ({className, input, label, meta, children, t, messagePrefix}
         </div>
     </div>
 );
+
+FormElement.propTypes = {
+    // Required
+    t: PropTypes.func.isRequired,
+    input: PropTypes.object.isRequired,
+    label: PropTypes.string.isRequired,
+    className: PropTypes.string.isRequired,
+    meta: PropTypes.object.isRequired,
+
+    // Optional
+    messagePrefix: PropTypes.string,
+};
+
+
+FormElement.defaultProps = {
+    messagePrefix: '',
+};
+
 export default FormElement;

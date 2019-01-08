@@ -64,7 +64,7 @@ class CreateConceptPageContainer extends React.Component {
     render() {
         const {t, flashMessage, initialFormValues, meta, status} = this.props;
         const breadCrumbs = [
-            {to: indexRoute(), name: t('home.title')},
+            {to: indexRoute(), name: t('indexPage.title')},
             {to: createRoute(), name: t('createConcept.title')},
         ];
         return (
