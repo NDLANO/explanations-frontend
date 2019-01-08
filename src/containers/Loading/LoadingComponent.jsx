@@ -5,12 +5,12 @@
  * LICENSE file in the root directory of this source tree.
  */
 import  React from 'react';
-import {OneColumn} from "ndla-ui";
+import PropTypes from "prop-types";
 import BEMHelper from "react-bem-helper";
+import {OneColumn} from "ndla-ui";
 import {injectT} from "ndla-i18n";
-import PropTypes from 'prop-types';
 
-import './style.css'
+import './style.scss'
 
 const classes = new BEMHelper({
     name: 'loading',
@@ -24,13 +24,17 @@ const Loading = ({t, message}) =>
         </div>
     </OneColumn>;
 
-Loading.defaultProps = {
-    message: 'loadingMessage.default'
-};
 
 Loading.propTypes = {
+    // Required
+    t: PropTypes.func.isRequired,
+
     // Optional
     message: PropTypes.string
+};
+
+Loading.defaultProps = {
+    message: 'loadingMessage.default'
 };
 
 export default injectT(Loading);

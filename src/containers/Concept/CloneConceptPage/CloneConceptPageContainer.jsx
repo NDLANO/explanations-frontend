@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import { withRouter } from 'react-router-dom';
 import {compose} from "redux";
@@ -27,11 +28,13 @@ import {
     submitErrorHandler,
     submitSuccessHandler
 } from "../conceptCommon";
-import FlashMessage, {clearFlashMessage, updateFlashMessage} from "../../../components/FlashMessage";
-
-import {UPDATE_FLASH_MESSAGE_CONCEPT_CLONE, updateInitialFormValues} from "./cloneConceptActions";
+import FlashMessage, {clearFlashMessage, flashMessageShape, updateFlashMessage} from "../../../components/FlashMessage";
 import {mapStateToProps} from './cloneConceptMapStateToProps';
 import {cloneRoute, indexRoute} from "../../../utilities/routeHelper";
+import {historyShape, matchShape} from "../../../utilities/commonShapes";
+import ApiService from "../../../services/apiService";
+
+import {UPDATE_FLASH_MESSAGE_CONCEPT_CLONE, updateInitialFormValues} from "./cloneConceptActions";
 
 class CloneConceptPageContainer extends React.Component {
     constructor(props) {
@@ -123,6 +126,24 @@ class CloneConceptPageContainer extends React.Component {
     }
 }
 
+
+CloneConceptPageContainer.propTypes = {
+    // Required
+    t: PropTypes.func.isRequired,
+    match: matchShape.isRequired,
+    meta: PropTypes.array.isRequired,
+    status: PropTypes.array.isRequired,
+    clearFlashMessage: PropTypes.func.isRequired,
+    updateFlashMessage: PropTypes.func.isRequired,
+    history: historyShape.isRequired,
+    updateInitialFormValues: PropTypes.func.isRequired,
+    apiService: PropTypes.instanceOf(ApiService).isRequired,
+
+    // Optional
+    flashMessage: flashMessageShape,
+    initialFormValues: PropTypes.object,
+};
+
 export default compose(
     withRouter,
     connect(mapStateToProps, {updateFlashMessage, updateInitialFormValues, clearFlashMessage}),
@@ -131,3 +152,4 @@ export default compose(
     WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),
     WithEither(statusExists, () => <Loading message="loadingMessage.loadingStatus"/>),
 )(CloneConceptPageContainer);
+

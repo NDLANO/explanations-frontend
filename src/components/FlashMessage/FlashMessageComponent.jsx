@@ -12,6 +12,7 @@ import {OneColumn, Button} from "ndla-ui";
 import WithEither from "../../components/HOC/WithEither";
 
 import './style.scss'
+import {flashMessageShape} from "./FlashMessageShape";
 
 export const SEVERITY = {
     info: 'info',
@@ -53,13 +54,7 @@ class FlashMessageComponent extends React.Component {
     }
 }
 
-FlashMessageComponent.propTypes = {
-    title: PropTypes.string,
-    message: PropTypes.string,
-    severity: PropTypes.string,
-    dismissText: PropTypes.string.isRequired,
-
-};
+FlashMessageComponent.propTypes = {...flashMessageShape};
 
 FlashMessageComponent.defaultProps = {
     title: '',

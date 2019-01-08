@@ -7,9 +7,9 @@
 
 
 import React from 'react';
+import PropTypes from "prop-types";
 import { injectT } from 'ndla-i18n';
 import ErrorComponent from "./components/ErrorComponent";
-import PropTypes from "prop-types";
 
 const OpsSomethingHappenedPage = ({ t, message }) => <ErrorComponent gif='/oops.gif' statusCode={500} description={message} t={t} />;
 

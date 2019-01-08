@@ -18,6 +18,7 @@ const SearchField  = ({input, ...rest}) =>
 
 SearchField.propTypes = {
     // Required
+    input: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
 
     // Optionals
@@ -25,8 +26,8 @@ SearchField.propTypes = {
 };
 
 SearchField.defaultProps = {
+    items: [],
     placeholder: '',
-    items: []
 };
 
 export default SearchField;

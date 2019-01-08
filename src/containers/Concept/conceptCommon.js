@@ -66,3 +66,4 @@ export const getMetasFromApiResult = concept => {
 
 export const metaExists = ({meta}) =>  meta.length > 0;
 export const statusExists = ({status}) => status.length > 0;
+

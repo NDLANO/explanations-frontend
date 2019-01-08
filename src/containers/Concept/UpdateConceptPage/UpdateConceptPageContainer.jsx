@@ -15,7 +15,7 @@ import {compose} from "redux";
 import {injectT} from "ndla-i18n";
 import {Breadcrumb, Button, OneColumn} from "ndla-ui";
 
-import FlashMessage from "../../../components/FlashMessage";
+import FlashMessage, {flashMessageShape} from "../../../components/FlashMessage";
 import Concept from "../components/Concept";
 import ConfirmModal from "../../../components/ConfirmModal";
 import Loading from '../../Loading';
@@ -39,6 +39,7 @@ import {
 } from "./updateConceptActions";
 import ApiService from "../../../services/apiService";
 import withApiService from "../../../components/HOC/withApiService";
+import {historyShape, matchShape} from "../../../utilities/commonShapes";
 
 
 class UpdateConceptPageContainer extends React.Component {
@@ -174,24 +175,29 @@ class UpdateConceptPageContainer extends React.Component {
 UpdateConceptPageContainer.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
-    clearFlashMessage: PropTypes.func.isRequired,
-    updateInitialFormValues: PropTypes.func.isRequired,
-    updateFlashMessage: PropTypes.func.isRequired,
-    setDeleteButtonAsDisabled: PropTypes.func.isRequired,
-    match: PropTypes.shape({
-        params: PropTypes.shape({
-            id: PropTypes.string.isRequired
-        }).isRequired
-    }).isRequired,
-    history: PropTypes.shape({
-        push: PropTypes.func.isRequired
-    }).isRequired,
-    apiService: PropTypes.instanceOf(ApiService).isRequired,
-    requiredScopes: PropTypes.arrayOf(PropTypes.string).isRequired,
-    userScopes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    match: matchShape.isRequired,
+    history: historyShape.isRequired,
+    locale: PropTypes.string.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
+    clearFlashMessage: PropTypes.func.isRequired,
+    updateFlashMessage: PropTypes.func.isRequired,
     deleteButtonIsDisabled: PropTypes.bool.isRequired,
-    locale: PropTypes.string.isRequired
+    updateInitialFormValues: PropTypes.func.isRequired,
+    setDeleteButtonAsDisabled: PropTypes.func.isRequired,
+    apiService: PropTypes.instanceOf(ApiService).isRequired,
+    userScopes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    requiredScopes: PropTypes.arrayOf(PropTypes.string).isRequired,
+
+    // Optional
+    meta: PropTypes.array,
+    status: PropTypes.array,
+    flashMessage: flashMessageShape,
+    initialFormValues: PropTypes.object,
+};
+
+UpdateConceptPageContainer.defaultProps = {
+    meta: [],
+    status:[],
 };
 
 export default compose(

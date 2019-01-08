@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
 import {loginRoute, notAuthorizedRoute, routeIsAllowed} from "../../utilities/routeHelper";
+import {locationShape} from "../../utilities/commonShapes";
 
 
 class PrivateRouteContainer extends React.Component {
@@ -39,9 +40,9 @@ class PrivateRouteContainer extends React.Component {
 }
 
 PrivateRouteContainer.propTypes = {
+    location: locationShape.isRequired,
     component: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
-    location: PropTypes.shape({}),
     requiredScopes: PropTypes.arrayOf(PropTypes.string).isRequired,
     allowedScopesForUser: PropTypes.arrayOf(PropTypes.string).isRequired
 };

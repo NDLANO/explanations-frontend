@@ -7,9 +7,9 @@
 
 
 import React from 'react';
+import PropTypes from "prop-types";
 import { injectT } from 'ndla-i18n';
 import ErrorComponent from "./components/ErrorComponent";
-import PropTypes from "prop-types";
 
 const NotFoundPage = ({ t }) => <ErrorComponent gif='/not-exist.gif' statusCode={404} t={t} />;
 

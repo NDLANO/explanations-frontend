@@ -9,13 +9,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {compose} from "redux";
 
 import AuthenticationService from '../../services/authenticationService';
 import {indexRoute} from "../../utilities/routeHelper";
 
 import {loginSuccess} from './loginActions';
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
-import {compose} from "redux";
+import {historyShape, locationShape} from "../../utilities/commonShapes";
 
 class LoginSuccessContainer extends React.Component {
     componentDidMount() {
@@ -34,11 +35,9 @@ class LoginSuccessContainer extends React.Component {
 }
 
 LoginSuccessContainer.propTypes = {
-    history: PropTypes.shape({
-        replace: PropTypes.func.isRequired
-    }).isRequired,
+    history: historyShape.isRequired,
     loginSuccess: PropTypes.func.isRequired,
-    location: PropTypes.shape({hash: PropTypes.string}).isRequired,
+    location: locationShape.isRequired,
     authenticationService: PropTypes.instanceOf(AuthenticationService).isRequired
 };
 

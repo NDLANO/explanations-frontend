@@ -12,5 +12,7 @@ export const updateFlashMessage = (type, message) => ({type, payload: message});
 export const clearFlashMessage = type => ({type, payload: emptyFlashMessage});
 
 
+export {flashMessageShape} from './FlashMessageShape'
+
 export default FlashMessage;
 

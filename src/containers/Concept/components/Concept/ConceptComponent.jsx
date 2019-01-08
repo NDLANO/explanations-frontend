@@ -136,24 +136,28 @@ class Concept extends React.Component {
     }
 }
 
-Concept.defaultProps = {
-    showTimestamps: false,
-    isReadOnly: false
-};
-
 Concept.propTypes = {
     // Required
-    status: PropTypes.array.isRequired,
     t: PropTypes.func.isRequired,
     metas: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
+    status: PropTypes.array.isRequired,
+    initialize: PropTypes.func.isRequired,
     submitConcept: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
 
     // Optional
-    showTimestamps: PropTypes.bool,
+    error: PropTypes.string,
     locale: PropTypes.string,
+    isReadOnly: PropTypes.bool,
+    submitting: PropTypes.bool,
+    showTimestamps: PropTypes.bool,
     initialValues: PropTypes.object,
-    isReadOnly: PropTypes.bool
+};
+
+Concept.defaultProps = {
+    isReadOnly: false,
+    showTimestamps: false,
 };
 
 export default reduxForm({

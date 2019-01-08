@@ -7,9 +7,9 @@
 
 
 import React from 'react';
+import PropTypes from "prop-types";
 import { OneColumn, ErrorMessage } from 'ndla-ui';
 import StatusComponent from "./StatusComponent";
-import PropTypes from 'prop-types';
 
 const ErrorComponent = ({t, statusCode, gif, gifText, title, description, back, goToFrontPage}) => (
     <StatusComponent code={statusCode}>
@@ -32,25 +32,25 @@ const ErrorComponent = ({t, statusCode, gif, gifText, title, description, back, 
 
 ErrorComponent.propTypes = {
     // Required
-    statusCode: PropTypes.number.isRequired,
     t: PropTypes.func.isRequired,
+    statusCode: PropTypes.number.isRequired,
 
     // Optional
     gif: PropTypes.string,
-    gifText: PropTypes.string,
-    title: PropTypes.string,
-    description: PropTypes.string,
     back: PropTypes.string,
+    title: PropTypes.string,
+    gifText: PropTypes.string,
+    description: PropTypes.string,
     goToFrontPage: PropTypes.string,
 
 };
 
 ErrorComponent.defaultProps = {
-    gifText: 'errorMessage.title',
     gif: '/not-exist.gif',
-    title: 'errorMessage.title',
-    description: 'notFound.description',
     back: 'errorMessage.back',
+    title: 'errorMessage.title',
+    gifText: 'errorMessage.title',
+    description: 'notFound.description',
     goToFrontPage: 'errorMessage.goToFrontPage',
 };
 

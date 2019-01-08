@@ -6,16 +6,17 @@
  */
 
 import React from 'react';
+import PropTypes from "prop-types";
 import {compose} from "redux";
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
-import PropTypes from "prop-types";
+import {Helmet} from "react-helmet";
+import {injectT} from "ndla-i18n";
 
 import {logoutSuccess} from "./logoutActions";
 import AuthenticationService from "../../services/authenticationService";
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
-import {Helmet} from "react-helmet";
-import {injectT} from "ndla-i18n";
+import {historyShape} from "../../utilities/commonShapes";
 
 class LogoutContainer extends React.PureComponent {
     componentDidMount() {
@@ -30,9 +31,7 @@ class LogoutContainer extends React.PureComponent {
 }
 
 LogoutContainer.propTypes = {
-    history: PropTypes.shape({
-        push: PropTypes.func.isRequired,
-    }).isRequired,
+    history: historyShape.isRequired,
     logoutSuccess: PropTypes.func.isRequired,
     authenticationService: PropTypes.instanceOf(AuthenticationService).isRequired
 };

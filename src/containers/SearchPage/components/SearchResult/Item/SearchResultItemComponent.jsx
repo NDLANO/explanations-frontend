@@ -78,10 +78,10 @@ const SearchResultItem = ({id, title, sourceAuthor, content, meta}) => {
 
 SearchResultItem.propTypes = {
     id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    sourceAuthor: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
     meta: PropTypes.array.isRequired,
+    title: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    sourceAuthor: PropTypes.string.isRequired,
 };
 SearchResultItem.defaultProps = {
     meta: []

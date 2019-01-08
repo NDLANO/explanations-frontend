@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {compose} from "redux";
@@ -18,7 +19,7 @@ import Concept from "../components/Concept/";
 import Loading from '../../Loading';
 import WithEither from "../../../components/HOC/WithEither";
 import withApiService from "../../../components/HOC/withApiService";
-import FlashMessage, {updateFlashMessage, clearFlashMessage } from "../../../components/FlashMessage";
+import FlashMessage, {updateFlashMessage, clearFlashMessage, flashMessageShape} from "../../../components/FlashMessage";
 import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE} from "../UpdateConceptPage";
 import {metaExists, statusExists, submitErrorHandler, submitSuccessHandler} from "../conceptCommon";
 
@@ -26,6 +27,8 @@ import {metaExists, statusExists, submitErrorHandler, submitSuccessHandler} from
 import {mapStateToProps} from "./createConceptMapStateToProps";
 import {UPDATE_FLASH_MESSAGE_CONCEPT_CREATE} from "./createConceptActions";
 import {createRoute, indexRoute} from "../../../utilities/routeHelper";
+import {historyShape} from "../../../utilities/commonShapes";
+import ApiService from "../../../services/apiService";
 
 
 class CreateConceptPageContainer extends React.Component {
@@ -85,6 +88,19 @@ class CreateConceptPageContainer extends React.Component {
         );
     }
 }
+
+CreateConceptPageContainer.propTypes = {
+    t: PropTypes.func.isRequired,
+    meta: PropTypes.array.isRequired,
+    status: PropTypes.array.isRequired,
+    clearFlashMessage: PropTypes.func.isRequired,
+    updateFlashMessage: PropTypes.func.isRequired,
+    initialFormValues: PropTypes.object.isRequired,
+    flashMessage: flashMessageShape,
+    history: historyShape.isRequired,
+    apiService: PropTypes.instanceOf(ApiService).isRequired,
+};
+
 
 const formHasInitialValues = ({initialFormValues}) =>
     Object.values(initialFormValues).indexOf(null) === -1 &&

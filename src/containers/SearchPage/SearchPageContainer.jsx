@@ -76,7 +76,7 @@ SearchContainer.propTypes = {
     t: PropTypes.func.isRequired,
     subjects: PropTypes.array.isRequired,
     languages: PropTypes.array.isRequired,
-    initialValues: PropTypes.array.isRequired,
+    initialValues: PropTypes.object.isRequired,
     updateSearchResult: PropTypes.func.isRequired,
     apiService: PropTypes.instanceOf(ApiService).isRequired,
 

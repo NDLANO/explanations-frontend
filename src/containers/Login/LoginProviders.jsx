@@ -18,6 +18,7 @@ import {connect} from "react-redux";
 import AuthenticationService from '../../services/authenticationService';
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
 import {updateNext} from "./loginActions";
+import {lastLocationShape} from "../../utilities/commonShapes";
 
 
 const classes = new BEMHelper({
@@ -55,17 +56,15 @@ export const LoginProviderContainer = ({t, authenticationService, consentUrl, up
 
 LoginProviderContainer.propTypes = {
     t: PropTypes.func.isRequired,
-    consentUrl: PropTypes.string.isRequired,
     updateNext: PropTypes.func.isRequired,
+    consentUrl: PropTypes.string.isRequired,
+    lastLocation: lastLocationShape.isRequired,
     authenticationService: PropTypes.instanceOf(AuthenticationService).isRequired,
-    lastLocation: PropTypes.shape({
-        pathname: PropTypes.string.isRequired
-    }).isRequired
 };
 
 LoginProviderContainer.defaultProps = {
+    lastLocation: {pathname: ''},
     consentUrl: 'https://om.ndla.no/samtykke/',
-    lastLocation: {pathname: ''}
 };
 
 export default compose(

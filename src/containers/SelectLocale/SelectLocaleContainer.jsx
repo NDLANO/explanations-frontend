@@ -14,6 +14,7 @@ import createHistory from 'history/createBrowserHistory';
 
 import { appLocales } from '../../i18n';
 import {updateLocale} from "./actions";
+import {locationShape} from "../../utilities/commonShapes";
 
 const SelectLocale = ({ locale, location: { pathname, search }, updateLocale }) => {
     const handleChange = newLocale => {
@@ -42,11 +43,9 @@ const SelectLocale = ({ locale, location: { pathname, search }, updateLocale }) 
 };
 
 SelectLocale.propTypes = {
+    location: locationShape.isRequired,
     locale: PropTypes.string.isRequired,
-    location: PropTypes.shape({
-        pathname: PropTypes.string.isRequired,
-        search: PropTypes.string.isRequired,
-    }),
+    updateLocale: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({locale}) => ({
