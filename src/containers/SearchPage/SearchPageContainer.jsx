@@ -9,7 +9,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
-import {OneColumn} from "ndla-ui";
+import {OneColumn, Breadcrumb} from "ndla-ui";
 import {injectT} from "ndla-i18n";
 import {compose} from "redux";
 import {Helmet} from "react-helmet";
@@ -23,6 +23,7 @@ import {updateSearchResult} from "./searchPageActions";
 import SearchResultList from "./components/SearchResult";
 import {mapStateToProps} from "./searchPageMapStateToProps";
 import ApiService from "../../services/apiService";
+import {indexRoute, searchRoute} from "../../utilities/routeHelper";
 
 
 class SearchContainer extends React.Component {
@@ -43,9 +44,14 @@ class SearchContainer extends React.Component {
         } = this.props;
 
         const resultHeader = this.state.userHasSearched ? `${searchResult.length} ${t('searchPage.resultHits')}` : '';
+        const breadCrumbs = [
+            {to: indexRoute(), name: t('home.title')},
+            {to: searchRoute(), name: t('search.title')},
+        ];
 
         return (
-            <OneColumn>
+            <OneColumn className="jaja">
+                <Breadcrumb items={breadCrumbs}/>
                 <Helmet title={t('pageTitles.searchForConcept')} />
                 <SearchForm t={t}
                             languages={languages}

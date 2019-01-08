@@ -8,11 +8,12 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Helmet} from "react-helmet";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {compose} from "redux";
 import {injectT} from "ndla-i18n";
-import {Button} from "ndla-ui";
+import {Breadcrumb, Button, OneColumn} from "ndla-ui";
 
 import FlashMessage from "../../../components/FlashMessage";
 import Concept from "../components/Concept";
@@ -27,7 +28,7 @@ import {
     submitErrorHandler,
     submitFormHandling
 } from "../conceptCommon";
-import {cloneRoute, routeIsAllowed} from "../../../utilities/routeHelper";
+import {cloneRoute, indexRoute, routeIsAllowed, updateRoute} from "../../../utilities/routeHelper";
 
 
 import {mapStateToProps} from './updateConceptMapStateToProps';
@@ -38,7 +39,6 @@ import {
 } from "./updateConceptActions";
 import ApiService from "../../../services/apiService";
 import withApiService from "../../../components/HOC/withApiService";
-import {Helmet} from "react-helmet";
 
 
 class UpdateConceptPageContainer extends React.Component {
@@ -61,14 +61,14 @@ class UpdateConceptPageContainer extends React.Component {
     }
 
     loadConcept() {
-        const {updateFlashMessage, match: {params: {id}}, history} = this.props;
+        const {updateFlashMessage, history} = this.props;
         const errorHandler = {
             titleMessage: this.props.t('updateConcept.loadDataMessage.error.title'),
             actionType: UPDATE_FLASH_MESSAGE,
             history
         };
 
-        this.props.apiService.getConceptById(id)
+        this.props.apiService.getConceptById(this.getConceptId())
             .then(concept => {
                 const meta = getMetasFromApiResult(concept);
                 const statusId = {value: concept.status.id, label: concept.status.name};
@@ -82,20 +82,25 @@ class UpdateConceptPageContainer extends React.Component {
             .catch(err =>  submitErrorHandler(err, errorHandler, updateFlashMessage));
     }
 
+    getConceptId() {
+        const {match: {params: {id}}} = this.props;
+        return id;
+    }
+
     isReadOnly(){
         return !routeIsAllowed(this.props.requiredScopes, this.props.userScopes, this.props.isAuthenticated);
     }
 
     onCloneClicked() {
-        this.props.history.push(cloneRoute(this.props.initialFormValues.id));
+        this.props.history.push(cloneRoute(this.getConceptId()));
     }
 
     onDeleteClicked() {
-        const {clearFlashMessage, initialFormValues: {id}} = this.props;
+        const {clearFlashMessage} = this.props;
 
         clearFlashMessage(UPDATE_FLASH_MESSAGE);
 
-        this.handleSubmit(this.props.apiService.archiveConcept(id), "deleteMessage");
+        this.handleSubmit(this.props.apiService.archiveConcept(this.getConceptId()), "deleteMessage");
     }
 
     submit(concept) {
@@ -106,12 +111,12 @@ class UpdateConceptPageContainer extends React.Component {
     }
 
     handleSubmit(submitFunction, message) {
-        const {initialFormValues: {id}, history, t, updateFlashMessage} = this.props;
+        const {history, t, updateFlashMessage} = this.props;
         const successHandler = {
             actionType: UPDATE_FLASH_MESSAGE,
             titleMessage: t(`updateConcept.${message}.success.title`),
             history,
-            id
+            id: this.getConceptId()
         };
         const errorHandler = {
             titleMessage: t(`updateConcept.${message}.error.title`),
@@ -157,12 +162,20 @@ class UpdateConceptPageContainer extends React.Component {
     }
 
     render() {
+        const {t, flashMessage} = this.props;
+        const breadCrumbs = [
+            {to: indexRoute(), name: t('home.title')},
+            {to: updateRoute(this.getConceptId()), name: t('updateConcept.title')},
+        ];
        return (
-            <React.Fragment>
-                <Helmet title={this.props.t('pageTitles.updateConcept')} />
-                <FlashMessage {...this.props.flashMessage}/>
-                {this.renderContent()}
-            </React.Fragment>
+           <React.Fragment>
+               <Helmet title={t('pageTitles.updateConcept')} />
+               <FlashMessage {...flashMessage}/>
+               <OneColumn>
+                   <Breadcrumb items={breadCrumbs} />
+                   {this.renderContent()}
+               </OneColumn>
+           </React.Fragment>
 
         );
     }

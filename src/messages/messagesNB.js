@@ -162,6 +162,9 @@ const NB = {
     },
     searchPage: {
         resultHits: 'treff'
+    },
+    index: {
+        title: "Hjem"
     }
 };
 

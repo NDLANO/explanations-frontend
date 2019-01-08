@@ -98,7 +98,7 @@ class App extends React.Component {
         return (
             <PageContainer>
                 <Helmet title={t('pageTitles.default')} />
-                <Content>
+                <Content id="ma">
                     <Header t={t} username={username} isLoggedIn={isAuthenticated} />
                     <ErrorBoundary>
                         <Switch>

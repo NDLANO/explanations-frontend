@@ -44,7 +44,6 @@ class SearchForm extends React.Component {
         return (
 
             <form {...classes()} onSubmit={handleSubmit(this.onSearch)}>
-                <h1>{t('search.title')}</h1>
                 <div {...classes('search-field')}>
                     <Field items={autoComplete}
                            {...FIELDS.title}

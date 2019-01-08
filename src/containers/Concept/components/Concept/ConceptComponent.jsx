@@ -88,7 +88,7 @@ class Concept extends React.Component {
     }
 
     render() {
-        const { t, title: pageTitle, handleSubmit, status, initialValues, error, isReadOnly, locale} = this.props;
+        const { t, handleSubmit, status, initialValues, error, isReadOnly, locale} = this.props;
         this.props.metas.forEach(elm => {
             if (elm.category.description === "Subject")
                 elm.category.description = "Fag";
@@ -101,8 +101,6 @@ class Concept extends React.Component {
         const submit = handleSubmit(this.onSubmit);
         const metaTitle = 'Meta';// To mitigate jsx-a11y/heading-has-content lint error...
         return (
-            <OneColumn>
-                <h1>{pageTitle}</h1>
                 <form onSubmit={submit} {...classes()}>
                     <Field {...this.fields.title} t={t} {...classes('form-field')} />
                     <Field {...this.fields.content} t={t} {...classes('form-field')} />
@@ -134,7 +132,6 @@ class Concept extends React.Component {
                     {this.props.children}
                     <ConfirmModal t={t} triggerButton={this.renderSubmitButton} onConfirm={submit}/>
                 </form>
-            </OneColumn>
         )
     }
 }
