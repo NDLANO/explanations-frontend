@@ -48,7 +48,6 @@ class UpdateConceptPageContainer extends React.Component {
         this.onDeleteClicked = this.onDeleteClicked.bind(this);
         this.onCloneClicked = this.onCloneClicked.bind(this);
         this.renderDeleteButton  = this.renderDeleteButton.bind(this);
-        this.renderCloneButton = this.renderCloneButton.bind(this);
     }
 
     componentDidMount() {
@@ -125,10 +124,6 @@ class UpdateConceptPageContainer extends React.Component {
         return submitFormHandling(submitFunction, successHandler, errorHandler, updateFlashMessage);
     }
 
-    renderCloneButton() {
-        return <Button outline={true} onClick={this.onCloneClicked} disabled={this.isReadOnly()}>{this.props.t("updateConcept.button.clone")}</Button>
-    }
-
     renderDeleteButton() {
         return <Button outline={true} disabled={this.isReadOnly() || this.props.deleteButtonIsDisabled}>{this.props.t("updateConcept.button.delete")}</Button>;
     }
@@ -150,11 +145,7 @@ class UpdateConceptPageContainer extends React.Component {
                               onConfirm={this.onDeleteClicked}
                               title="updateConcept.confirmModal.delete.title"
                               content="updateConcept.confirmModal.delete.action"/>
-                <ConfirmModal t={this.props.t}
-                              triggerButton={this.renderCloneButton}
-                              onConfirm={this.onCloneClicked}
-                              title="updateConcept.confirmModal.clone.title"
-                              content="updateConcept.confirmModal.clone.action" />
+                <Button outline={true} onClick={this.onCloneClicked} disabled={this.isReadOnly()}>{this.props.t("updateConcept.button.clone")}</Button>
             </Concept>;
         } else {
             return <Loading message="loadingMessage.initializingForm"/>

@@ -50,10 +50,6 @@ const NB = {
     updateConcept: {
         title: "Oppdater begrep",
         confirmModal: {
-            clone: {
-                title: "Bekreft kloning",
-                action: "Er du sikker på at du vil klone begrepet?"
-            },
             delete: {
                 title: "Bekreft sletting",
                 action: "Er du sikker på at du vil slette begrepet?"
