@@ -1,3 +1,5 @@
+import React from "react";
+
 /**
  * Copyright (C) 2018-present, NDLA
  *
@@ -6,6 +8,13 @@
  */
 
 export const capitalizeText = (text) => text.slice(0, 1).toUpperCase() + text.slice(1, text.length);
+
+export const limitTextToLength = (text, length) => {
+    if (text.length < length)
+        return text;
+
+    return `${text.slice(0, 220)}...`;
+}
 
 export const GetValuesFromObjectByKeyPrefix = (object, prefix) => {
     let objects = [];

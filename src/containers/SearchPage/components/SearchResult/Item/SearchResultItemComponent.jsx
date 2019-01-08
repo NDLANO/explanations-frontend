@@ -14,6 +14,7 @@ import MetaList from "./components/SearchResultItemMetaListComponent";
 
 import {updateRoute} from "../../../../../utilities/routeHelper";
 import {sortObjectsByKey} from "../../../../../utilities/sorting";
+import {limitTextToLength} from "../../../../../utilities";
 
 const classes = new BEMHelper({
     name: 'search-result-item',
@@ -64,7 +65,7 @@ const SearchResultItem = ({id, title, sourceAuthor, content, meta}) => {
                 </div>
 
                 <div {...classes('content')}>
-                    {Boolean(content) && content.slice(0, 220)}...
+                    {Boolean(content) && limitTextToLength(content, 220)}
                 </div>
 
                 <MetaList tags={filteredMetas.subjects.sort(sortWordsIgnoreCase)} classes={classes('meta-list')} />
