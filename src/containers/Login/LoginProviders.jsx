@@ -26,9 +26,9 @@ const classes = new BEMHelper({
 });
 
 export const LoginProviderContainer = ({t, authenticationService, consentUrl, updateNext, lastLocation  }) => {
-    const {pathname=''} = lastLocation;
-    updateNext(pathname);
     const loginClicked = () => {
+        if (lastLocation && lastLocation.pathname)
+            updateNext(lastLocation.pathname);
         authenticationService.loginUser('google-oauth2');
     };
 

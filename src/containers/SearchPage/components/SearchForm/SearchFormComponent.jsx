@@ -69,10 +69,11 @@ class SearchForm extends React.Component {
 
 SearchForm.propTypes = {
     // Required
-    search: PropTypes.func.isRequired,
-    languages: PropTypes.array.isRequired,
-    subjects: PropTypes.array.isRequired,
     t: PropTypes.func.isRequired,
+    search: PropTypes.func.isRequired,
+    subjects: PropTypes.array.isRequired,
+    languages: PropTypes.array.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
     autoComplete: PropTypes.array.isRequired,
 
     // Optional

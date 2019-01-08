@@ -7,6 +7,7 @@
  */
 
 import React from 'react'
+import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 import {OneColumn} from "ndla-ui";
 import {injectT} from "ndla-i18n";
@@ -17,23 +18,60 @@ import Loading from '../Loading';
 import WithEither from "../../components/HOC/WithEither";
 import withApiService from "../../components/HOC/withApiService";
 
-import {updateSearchResult} from "./searchPageActions";
 import SearchForm from "./components/SearchForm";
+import {updateSearchResult} from "./searchPageActions";
 import SearchResultList from "./components/SearchResult";
 import {mapStateToProps} from "./searchPageMapStateToProps";
+import ApiService from "../../services/apiService";
 
 
-const SearchContainer = ({t, languages, subjects, searchResult,updateSearchResult,locale, autoComplete, initialValues, apiService}) =>
-    <OneColumn>
-        <Helmet title={t('pageTitles.searchForConcept')} />
-        <SearchForm t={t}
-                    languages={languages}
-                    subjects={subjects}
-                    search={query => apiService.searchForConcepts(query).then(updateSearchResult)}
-                    autoComplete={autoComplete}
-                    initialValues={initialValues}/>
-        <SearchResultList results={searchResult} resultHeader={`${searchResult.length} ${t('searchPage.resultHits')}`}/>
-    </OneColumn>;
+class SearchContainer extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {userHasSearched: false};
+    }
+
+    render() {
+        const {t,
+            languages,
+            subjects,
+            searchResult,
+            updateSearchResult,
+            autoComplete,
+            initialValues,
+            apiService
+        } = this.props;
+
+        const resultHeader = this.state.userHasSearched ? `${searchResult.length} ${t('searchPage.resultHits')}` : '';
+
+        return (
+            <OneColumn>
+                <Helmet title={t('pageTitles.searchForConcept')} />
+                <SearchForm t={t}
+                            languages={languages}
+                            subjects={subjects}
+                            search={query => apiService.searchForConcepts(query).then(updateSearchResult)}
+                            autoComplete={autoComplete}
+                            initialValues={initialValues}/>
+                <SearchResultList results={searchResult} resultHeader={resultHeader}/>
+            </OneColumn>
+        )
+    }
+}
+
+SearchContainer.propTypes = {
+    // Required
+    t: PropTypes.func.isRequired,
+    subjects: PropTypes.array.isRequired,
+    languages: PropTypes.array.isRequired,
+    initialValues: PropTypes.array.isRequired,
+    updateSearchResult: PropTypes.func.isRequired,
+    apiService: PropTypes.instanceOf(ApiService).isRequired,
+
+    // Optional
+    searchResult: PropTypes.array,
+    autoComplete: PropTypes.array,
+};
 
 
 const languagesExists = ({languages}) =>  languages.length > 0;
