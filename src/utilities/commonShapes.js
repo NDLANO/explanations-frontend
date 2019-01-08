@@ -1,32 +1,39 @@
+/**
+ * Copyright (C) 2018-present, NDLA
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 import {string, func, object, bool, number, shape} from 'prop-types';
 import PropTypes from "prop-types";
 
 export const locationShape = shape({
-    pathname: string.isRequired,
-    search: string.isRequired,
-    hash: string.isRequired,
     state: object,
+    hash: string.isRequired,
+    search: string.isRequired,
+    pathname: string.isRequired,
 });
 
 export const historyShape = shape({
-    action: string.isRequired,
-    block: func.isRequired,
-    createHref: func.isRequired,
     go: func.isRequired,
-    goBack: func.isRequired,
-    goForward: func.isRequired,
-    listen: func.isRequired,
-    length: number.isRequired,
     push: func.isRequired,
+    block: func.isRequired,
+    goBack: func.isRequired,
+    listen: func.isRequired,
     replace: func.isRequired,
+    length: number.isRequired,
+    action: string.isRequired,
+    goForward: func.isRequired,
+    createHref: func.isRequired,
     location: locationShape.isRequired,
 });
 
 export const matchShape = shape({
-    isExact: bool.isRequired,
-    path: string.isRequired,
-    url: string.isRequired,
     params: object,
+    url: string.isRequired,
+    path: string.isRequired,
+    isExact: bool.isRequired,
 });
 
 export const lastLocationShape = shape({

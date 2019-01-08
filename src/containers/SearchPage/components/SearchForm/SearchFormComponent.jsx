@@ -40,7 +40,7 @@ class SearchForm extends React.Component {
     }
 
     render() {
-        const {languages, subjects, t, initialValues, autoComplete ,handleSubmit} = this.props;
+        const {languages, subjects, t, selectedSubject, selectedLanguage, autoComplete ,handleSubmit} = this.props;
         return (
 
             <form {...classes()} onSubmit={handleSubmit(this.onSearch)}>
@@ -55,11 +55,11 @@ class SearchForm extends React.Component {
 
                 <Field {...FIELDS.language}
                        t={t}
-                       selected={initialValues.language}
+                       selected={selectedLanguage}
                        options={languages}/>
                 <Field {...FIELDS.subject}
                        t={t}
-                       selected={initialValues.subject}
+                       selected={selectedSubject}
                        options={subjects}/>
             </form>
         );
@@ -76,7 +76,8 @@ SearchForm.propTypes = {
     autoComplete: PropTypes.array.isRequired,
 
     // Optional
-    initialValues: PropTypes.object,
+    selectedSubject: PropTypes.object,
+    selectedLanguage: PropTypes.object,
 };
 
 SearchForm.defaultProps = {

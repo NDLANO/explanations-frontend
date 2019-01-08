@@ -62,10 +62,8 @@ export const mapStateToProps = state =>{
         searchResult: state.search.results,
         languages: languages.map(x => ({value: x.id, label: x.name})),
         subjects: subjects.map(x => ({value: x.id, label: x.name})),
-        initialValues: {
-            language: getDefaultLanguage(languages, state.locale),
-            subject: {value: ALL_SUBJECTS.id, label: ALL_SUBJECTS.name}
-        },
+        selectedLanguage: getDefaultLanguage(languages, state.locale),
+        selectedSubject: {value: ALL_SUBJECTS.id, label: ALL_SUBJECTS.name},
         autoComplete: getAutoCompleteList(state)
     })
 };

@@ -1,5 +1,3 @@
-import React from "react";
-
 /**
  * Copyright (C) 2018-present, NDLA
  *

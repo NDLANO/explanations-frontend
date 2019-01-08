@@ -46,7 +46,8 @@ class SearchContainer extends React.Component {
             subjects,
             searchResult,
             autoComplete,
-            initialValues,
+            selectedLanguage,
+            selectedSubject,
         } = this.props;
 
         const resultHeader = this.state.userHasSearched ? `${searchResult.length} ${t('searchPage.resultHits')}` : '';
@@ -64,7 +65,8 @@ class SearchContainer extends React.Component {
                             subjects={subjects}
                             search={this.search}
                             autoComplete={autoComplete}
-                            initialValues={initialValues}/>
+                            selectedLanguage={selectedLanguage}
+                            selectedSubject={selectedSubject}/>
                 <SearchResultList results={searchResult} resultHeader={resultHeader}/>
             </OneColumn>
         )
@@ -76,9 +78,10 @@ SearchContainer.propTypes = {
     t: PropTypes.func.isRequired,
     subjects: PropTypes.array.isRequired,
     languages: PropTypes.array.isRequired,
-    initialValues: PropTypes.object.isRequired,
     updateSearchResult: PropTypes.func.isRequired,
     apiService: PropTypes.instanceOf(ApiService).isRequired,
+    selectedSubject: PropTypes.object.isRequired,
+    selectedLanguage: PropTypes.object.isRequired,
 
     // Optional
     searchResult: PropTypes.array,
