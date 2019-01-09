@@ -16,7 +16,7 @@ import {Helmet} from "react-helmet";
 import {Breadcrumb, OneColumn} from "ndla-ui";
 
 
-import Loading from '../../Loading';
+import Loading from '../../../components/Loading';
 import Concept from "../components/Concept";
 import WithEither from "../../../components/HOC/WithEither";
 import withApiService from "../../../components/HOC/withApiService";

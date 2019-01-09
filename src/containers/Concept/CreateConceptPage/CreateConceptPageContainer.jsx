@@ -16,7 +16,7 @@ import {Helmet} from "react-helmet";
 import {Breadcrumb, OneColumn} from "ndla-ui";
 
 import Concept from "../components/Concept/";
-import Loading from '../../Loading';
+import Loading from '../../../components/Loading';
 import WithEither from "../../../components/HOC/WithEither";
 import withApiService from "../../../components/HOC/withApiService";
 import FlashMessage, {updateFlashMessage, clearFlashMessage, flashMessageShape} from "../../../components/FlashMessage";

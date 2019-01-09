@@ -10,8 +10,6 @@ import BEMHelper from "react-bem-helper";
 import {OneColumn} from "ndla-ui";
 import {injectT} from "ndla-i18n";
 
-import './style.css'
-
 const classes = new BEMHelper({
     name: 'loading',
     prefix: 'c-',

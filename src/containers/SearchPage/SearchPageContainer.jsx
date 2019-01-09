@@ -14,7 +14,7 @@ import {injectT} from "ndla-i18n";
 import {compose} from "redux";
 import {Helmet} from "react-helmet";
 
-import Loading from '../Loading';
+import Loading from '../../components/Loading';
 import WithEither from "../../components/HOC/WithEither";
 import withApiService from "../../components/HOC/withApiService";
 

@@ -18,7 +18,7 @@ import {Breadcrumb, Button, OneColumn} from "ndla-ui";
 import FlashMessage, {flashMessageShape} from "../../../components/FlashMessage";
 import Concept from "../components/Concept";
 import ConfirmModal from "../../../components/ConfirmModal";
-import Loading from '../../Loading';
+import Loading from '../../../components/Loading';
 import WithEither from "../../../components/HOC/WithEither";
 import {updateFlashMessage, clearFlashMessage} from "../../../components/FlashMessage/";
 import {

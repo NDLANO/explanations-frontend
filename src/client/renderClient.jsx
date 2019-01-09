@@ -18,7 +18,7 @@ import { LastLocationProvider } from 'react-router-last-location';
 import App from '../containers/App';
 import {getLocaleInfoFromPath} from "../i18n";
 import configureStore from '../store';
-import Loading from '../containers/Loading';
+import Loading from '../components/Loading';
 
 import '../style/index.css';
 import ErrorBoundary from "../containers/ErrorBoundary";
