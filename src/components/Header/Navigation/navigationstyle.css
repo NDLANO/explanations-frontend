@@ -119,31 +119,6 @@
         }
       }
     }
-
-    &--article-color {
-      background-color: white;
-
-      & .c-navigation__item {
-        color: var(--article-color);
-
-        &:hover,
-        &:focus {
-          & > span {
-            background-color: var(--article-color);
-            color: white;
-          }
-        }
-
-        & > span {
-          border: 2px solid var(--article-color);
-        }
-
-        &--active span {
-          background-color: var(--article-color);
-          color: white;
-        }
-      }
-    }
   }
 
   /* stylelint-enable no-descending-specificity */

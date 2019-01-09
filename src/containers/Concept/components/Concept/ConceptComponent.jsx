@@ -19,7 +19,6 @@ import { GetValuesFromObjectByKeyPrefix} from "../../../../utilities";
 
 import {validate} from "./validate";
 import {FIELDS} from "./fields";
-import './style.css'
 
 const classes = new BEMHelper({
     name: 'concept-form',

@@ -7,12 +7,10 @@
  */
 
 @import '../../node_modules/ndla-ui/lib/main.css';
-@import '_vars.css';
-@import '../components/_componentsStyle.css';
-@import '../containers/_containerStyles.css';
-@import '_form.css';
-
-@import '../containers/Login/_loginProviderStyle.css';
+@import 'vars.css';
+@import '../components/componentsStyle.css';
+@import '../containers/containerStyles.css';
+@import 'form.css';
 
 input {
   margin: 0; /* Bug where leftmost side is 1 px below the rest of the input */
