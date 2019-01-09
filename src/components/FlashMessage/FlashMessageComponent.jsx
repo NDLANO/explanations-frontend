@@ -11,7 +11,6 @@ import {OneColumn, Button} from "ndla-ui";
 
 import WithEither from "../../components/HOC/WithEither";
 
-import './style.css'
 import {flashMessageShape} from "./FlashMessageShape";
 
 export const SEVERITY = {
