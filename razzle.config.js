@@ -13,6 +13,5 @@ module.exports = {
             appConfig.output.publicPath = `${process.env.PUBLIC_PATH}`
         }
         return appConfig
-    },
-    plugins: ['scss'],
-}
+    }
+};

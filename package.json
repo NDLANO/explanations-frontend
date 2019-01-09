@@ -21,8 +21,7 @@
   },
   "devDependencies": {
     "eslint": "^5.9.0",
-    "eslint-config-ndla": "^1.0.0",
-    "razzle-plugin-scss": "^2.4.1"
+    "eslint-config-ndla": "^1.0.0"
   },
   "dependencies": {
     "auth0-js": "^9.8.2",
