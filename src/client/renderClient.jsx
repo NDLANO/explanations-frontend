@@ -20,7 +20,7 @@ import {getLocaleInfoFromPath} from "../i18n";
 import configureStore from '../store';
 import Loading from '../containers/Loading';
 
-import '../style/index.scss';
+import '../style/index.css';
 import ErrorBoundary from "../containers/ErrorBoundary";
 
 

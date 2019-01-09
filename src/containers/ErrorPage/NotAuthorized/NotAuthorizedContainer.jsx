@@ -13,7 +13,7 @@ import { OneColumn } from 'ndla-ui';
 
 import Status from '../components/StatusComponent';
 
-import './style.scss';
+import './style.css';
 
 
 const classes = new BEMHelper({

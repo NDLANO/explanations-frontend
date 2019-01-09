@@ -14,7 +14,7 @@ import SelectLocale from '../../containers/SelectLocale/index';
 import {indexRoute} from "../../utilities/routeHelper";
 import {config} from "../../config";
 
-import './style.scss';
+import './style.css';
 
 const FooterWrapper = ({ t, editorChief, editorManaging }) => (
     <Footer>

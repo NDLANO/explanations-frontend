@@ -10,7 +10,7 @@ import React from 'react';
 import Autocomplete from "react-autocomplete";
 import PropTypes from 'prop-types';
 import BEMHelper from "react-bem-helper";
-import './style.scss'
+import './style.css'
 
 const classes = new BEMHelper({
     name: 'autocomplete',

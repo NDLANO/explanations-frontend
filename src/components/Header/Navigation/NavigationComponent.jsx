@@ -16,7 +16,7 @@ import {DetailSearch} from 'ndla-icons/editor';
 
 import {searchRoute, createRoute} from "../../../utilities/routeHelper";
 
-import './style.scss'
+import './style.css'
 
 export const classes = new BEMHelper({
     name: 'navigation',

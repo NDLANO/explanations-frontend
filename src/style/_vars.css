@@ -31,9 +31,4 @@
   --primary: #20588f;
   --header-icon: var(--primary);
 
-  $xlarge-viewport: (min-width: 1200px);
-  $large-viewport: (min-width: 800px);
-  $medium-viewport: (max-width: 800px);
-  $small-viewport: (max-width: 600px);
-  $xsmall-viewport: (max-width: 400px);
 }

@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import LogInOrOut from './LoginOrOut'
 import Navigation from "./Navigation";
 
-import './style.scss'
+import './style.css'
 
 
 const classes = new BEMHelper({

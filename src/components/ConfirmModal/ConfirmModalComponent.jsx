@@ -10,7 +10,7 @@ import {ModalCloseButton, ModalHeader, ModalBody, Modal} from "ndla-ui";
 
 import PropTypes from 'prop-types';
 
-import './style.scss'
+import './style.css'
 
 const ConfirmModal = ({title, content, onConfirm, t, triggerButton}) =>
     <Modal activateButton={triggerButton()}>
