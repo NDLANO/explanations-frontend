@@ -15,6 +15,7 @@ export const loginRoute =  () => '/login';
 export const logoutRoute =  () => '/logout';
 export const notAuthorizedRoute = () => '/forbidden';
 export const notFoundRoute = () => '/notFound';
+export const opsSomethingHappened = () => '/notFound';
 export const catchAllRoute = () => '*';
 
 export const routeIsAllowed = (requiredScope=[], currentScopes=[], isAuthenticated) =>

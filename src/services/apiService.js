@@ -6,7 +6,7 @@
  *
  */
 import axios from 'axios';
-import {loginRoute, notAuthorizedRoute, notFoundRoute} from "../utilities/routeHelper";
+import {loginRoute, notAuthorizedRoute, notFoundRoute, opsSomethingHappened} from "../utilities/routeHelper";
 
 
 export default class ApiService {
@@ -55,6 +55,12 @@ export default class ApiService {
                     break;
                 case 403:
                     this.history.push(notAuthorizedRoute());
+                    break;
+                case 404:
+                    this.history.push(notFoundRoute());
+                    break;
+                case 500:
+                    this.history.push(opsSomethingHappened());
                     break;
                 default:
                     this.history.push(notFoundRoute());
