@@ -15,7 +15,7 @@ export default class ApiService {
         this.accessToken = accessToken;
         this.history = history;
         this.api = axios;
-        this.apiUrl = `${apiUrl}/api`;
+        this.apiUrl = `${apiUrl}`;
         this.endpoints = {
             concept: `${this.apiUrl}/concept`,
             meta: `${this.apiUrl}/metadata`,
@@ -38,7 +38,7 @@ export default class ApiService {
     getRequestConfig() {
         return {
             headers: {
-                Authorization: `Bearer ${this.accessToken}`
+                Authorization: `Bearer ${this.accessToken}`,
             }
         }
     }
