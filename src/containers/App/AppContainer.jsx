@@ -69,7 +69,7 @@ class App extends React.Component {
         const {apiService, loadStatus, loadConceptTitles, loadMeta} = this.props;
 
         apiService.getAllStatus().then(data => loadStatus(data));
-        apiService.getAllConceptTitles().then(data => loadConceptTitles(data));
+        //apiService.getAllConceptTitles().then(data => loadConceptTitles(data));
 
         const promises = [apiService.getAllCategories(), apiService.getAllMetas()];
         Promise.all(promises).then(([categories, metas]) => loadMeta(categories, metas));

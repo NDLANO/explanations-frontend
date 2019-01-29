@@ -108,8 +108,7 @@ const formHasInitialValues = ({initialFormValues}) =>
     Object.values(initialFormValues).indexOf(null) === -1 &&
     Object.values(initialFormValues).indexOf(undefined) === -1 &&
     initialFormValues['statusId'] &&
-    initialFormValues['meta_language'] &&
-    initialFormValues['meta_licence'];
+    Object.keys(initialFormValues).filter(x => x.startsWith('meta_')).length > 1;
 
 export default compose(
     withRouter,

@@ -34,7 +34,7 @@ Meta.propTypes = {
     t: PropTypes.func.isRequired,
     meta: PropTypes.object.isRequired,
     initialValues: PropTypes.object.isRequired,
-    classes: PropTypes.object.isRequired,
+    classes: PropTypes.func.isRequired,
 
     // Optional
     readOnly: PropTypes.bool
