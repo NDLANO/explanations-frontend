@@ -165,6 +165,11 @@ const NB = {
     },
     flashMessage: {
         dismiss: "Lukk"
+    },
+    metaKeys: {
+        language: "Språk",
+        subject: "Fag",
+        licence: "Lisens"
     }
 };
 

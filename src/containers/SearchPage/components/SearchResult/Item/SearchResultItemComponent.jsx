@@ -23,17 +23,17 @@ const classes = new BEMHelper({
 
 const sortWordsIgnoreCase = sortObjectsByKey('name');
 
-const filterMeta = metas => {
+const filterMeta = (metas, t) => {
     let languages = [];
     let subjects = [];
     let meta = [];
 
     metas.forEach(item => {
         switch(item.category.name.toLowerCase()){
-            case 'language':
+            case t('metaKeys.language').toLowerCase():
                 languages.push(item);
                 break;
-            case 'subject':
+            case t('metaKeys.subject').toLowerCase():
                 subjects.push(item);
                 break;
             default:
@@ -48,12 +48,11 @@ const filterMeta = metas => {
     }
 };
 
-const SearchResultItem = ({id, title, sourceAuthor, content, meta}) => {
+const SearchResultItem = ({id, title, sourceAuthor, content, meta, t}) => {
 
-    const filteredMetas = filterMeta(meta);
+    const filteredMetas = filterMeta(meta, t);
     return (
         <li key={id} {...classes()}>
-            <article>
                 <header {...classes('header')}>
                     <h1>
                         <Link to={updateRoute(id)}>{title}</Link>
@@ -71,7 +70,6 @@ const SearchResultItem = ({id, title, sourceAuthor, content, meta}) => {
                 <MetaList tags={filteredMetas.subjects.sort(sortWordsIgnoreCase)} classes={classes('meta-list')} />
                 <MetaList tags={filteredMetas.languages.sort(sortWordsIgnoreCase)} classes={classes('meta-list')} />
                 <MetaList tags={filteredMetas.meta.sort(sortWordsIgnoreCase)} classes={classes('meta-list', 'meta')} />
-            </article>
         </li>
     )
 };

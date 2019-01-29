@@ -55,8 +55,8 @@ FooterWrapper.propTypes = {
 
 
 FooterWrapper.defaultProps = {
-    editorChief: config.EDITORS.chief,
-    editorManaging: config.EDITORS.managing
+    editorChief: 'config.EDITORS.chief',
+    editorManaging: 'config.EDITORS.managing'
 };
 
 export default FooterWrapper;

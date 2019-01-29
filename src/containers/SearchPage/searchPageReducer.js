@@ -11,12 +11,15 @@ import {SEARCH_FOR_CONCEPT} from './searchPageActions';
 
 const initialState = {
     results: [],
+    autocompleteTitles: []
 };
 
 export const search = (state=initialState, action) => {
     switch(action.type) {
         case SEARCH_FOR_CONCEPT:
-            return {...state, results: action.payload.sort(sortObjectsByKey('title'))};
+            let results = action.payload.sort(sortObjectsByKey('title'));
+            let autocompleteTitles = results.map(x => x.title);
+            return {...state, results, autocompleteTitles};
         default:
             return state;
     }
