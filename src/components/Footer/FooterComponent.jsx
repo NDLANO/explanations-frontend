@@ -12,7 +12,6 @@ import {Footer, Logo} from 'ndla-ui';
 
 import SelectLocale from '../../containers/SelectLocale/index';
 import {indexRoute} from "../../utilities/routeHelper";
-import {config} from "../../config";
 
 const FooterWrapper = ({ t, editorChief, editorManaging }) => (
     <Footer>
@@ -55,8 +54,8 @@ FooterWrapper.propTypes = {
 
 
 FooterWrapper.defaultProps = {
-    editorChief: config.EDITORS.chief,
-    editorManaging: config.EDITORS.managing
+    editorChief: 'Christer Gundersen',
+    editorManaging: 'Pål Frønsdal'
 };
 
 export default FooterWrapper;

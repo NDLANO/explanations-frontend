@@ -1,17 +1,17 @@
 {
   "name": "explainations-and-terms-frontend",
-  "description": "TODO",
+  "description": "Frontend-application for creating and managing explanations.",
   "version": "1.0.0",
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
-    "url": "TODO"
+    "url": "https://github.com/NDLANO/explanations-frontend"
   },
   "bugs": {
-    "url": "TODO/issues"
+    "url": "https://github.com/NDLANO/explanations-frontend/issues"
   },
-  "homepage": "TODO",
-  "author": "TODO",
+  "homepage": "https://github.com/NDLANO/explanations-frontend",
+  "author": "lsoraas.ndla@gmail.com",
   "scripts": {
     "start": "razzle start",
     "build": "razzle build",

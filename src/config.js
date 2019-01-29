@@ -18,10 +18,6 @@ const serverConfig = {
             scope:              getEnvironment('REACT_APP_AUTH0__SCOPE'),
             usernameKey:        getEnvironment('REACT_APP_AUTH0__ACCESS_TOKEN_USERNAME_KEY'),
         },
-        EDITORS: {
-            managing:           getEnvironment('REACT_APP_EDITORS__MANAGING'),
-            chief:              getEnvironment('REACT_APP_EDITORS__CHIEF')
-        },
         EXTERNAL_URL: {
             concept_API:        getEnvironment('REACT_APP_EXTERNAL_URL__CONCEPT_API'),
         },
