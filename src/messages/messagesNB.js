@@ -174,7 +174,15 @@ const NB = {
     audioSearch: {
         searchPlaceholder: "Søk etter lydklipp",
         searchButtonTitle: "Søk",
-        useAudio: "Bruk",
+        use: "Bruk",
+        noResults: "Ingen resultater"
+    },
+    searchMedia: {
+        audioTitle: "Søk etter lydklipp",
+        videoTitle: "Søk etter video",
+        imageTitle: "Søk etter bilder",
+        searchButtonTitle: "Søk",
+        use: "Bruk",
         noResults: "Ingen resultater"
     }
 };

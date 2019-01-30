@@ -7,25 +7,18 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import AudioSearch from '@ndla/audio-search';
+import ImageSearch from '@ndla/image-search';
 import { injectT } from '@ndla/i18n';
 import Modal, {ModalBody, ModalCloseButton, ModalHeader} from '@ndla/modal';
 
 import NDLAApiService from "../../../../services/ndlaApiService";
 
-const AudioSearchComponent = ({t, locale, onSelect, onError, triggerButton, api}) => {
-    const defaultQueryObject = {
-        query: '',
-        page: 1,
-        pageSize: 10,
-        locale,
-    };
-
+const ImageSearchComponent = ({t, locale, onError, onSelect, triggerButton, api}) => {
     const translations = {
-        searchPlaceholder: t('audioSearch.audioTitle'),
-        searchButtonTitle: t('audioSearch.searchButtonTitle'),
-        useAudio: t('audioSearch.use'),
-        noResults: t('audioSearch.noResults'),
+        searchPlaceholder: t('searchMedia.imageTitle'),
+        searchButtonTitle: t('searchMedia.searchButtonTitle'),
+        useImageTitle: t('searchMedia.use'),
+        noResults: t('searchMedia.noResults'),
     };
 
     return (
@@ -36,24 +29,23 @@ const AudioSearchComponent = ({t, locale, onSelect, onError, triggerButton, api}
                         <ModalCloseButton title={t("confirmModal.default.button.close")} onClick={onClose} />
                     </ModalHeader>
                     <ModalBody>
-                        <AudioSearch
-                            translations={translations}
+                        <ImageSearch
+                            {...translations}
                             locale={locale}
-                            fetchAudio={api.getById}
-                            searchAudios={api.getByQuery}
-                            onAudioSelect={onSelect}
+                            fetchImage={api.getById}
+                            searchImages={api.getByQuery}
+                            onImageSelect={onSelect}
                             onError={onError}
-                            queryObject={defaultQueryObject}
                         />
                     </ModalBody>
                 </div>
             )}
         </Modal>
-        );
+    );
 };
 
 
-AudioSearchComponent.propTypes = {
+ImageSearchComponent.propTypes = {
     t: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
     onError: PropTypes.func.isRequired,
@@ -63,4 +55,4 @@ AudioSearchComponent.propTypes = {
 };
 
 
-export default injectT(AudioSearchComponent);
+export default injectT(ImageSearchComponent);
