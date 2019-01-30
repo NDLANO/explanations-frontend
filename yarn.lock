@@ -268,6 +268,13 @@
     "@ndla/core" "^0.4.2"
     "@ndla/icons" "^0.6.1"
 
+"@ndla/forms@^0.2.6":
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-0.2.6.tgz#860e81f2b1ba0b6678805bda72b809f533f73994"
+  dependencies:
+    "@ndla/core" "^0.4.6"
+    "@ndla/icons" "^0.6.5"
+
 "@ndla/i18n@^0.4.1":
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/@ndla/i18n/-/i18n-0.4.1.tgz#07717956ea669ec347ddae74ae90bd538414c3c6"

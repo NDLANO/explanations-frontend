@@ -5,16 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import axios from 'axios';
+import axios from "axios";
 
-
-export default class NDLAApiService {
-
-    constructor(apiUrl, onError) {
-        this.apiUrl = `${apiUrl}`;
-        this.onError = onError;
+export default class ImageApi {
+    constructor(baseUrl) {
+        this.apiUrl = `${baseUrl}/image-api/v2/images`;
     }
 
     getById = (id) => axios.get(`${this.apiUrl}/${id}`).then(x => x.data);
-    getByQuery = (params) => axios.get(`${this.apiUrl}`, {params}).then(x => x.data);
+    getByQuery = (query, page, locale) => axios.get(this.apiUrl, {params: {query, page, locale}}).then(x => x.data);
 }

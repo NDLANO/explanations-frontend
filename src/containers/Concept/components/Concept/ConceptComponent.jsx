@@ -22,7 +22,8 @@ import {FIELDS} from "./fields";
 import MediaListItem from "../Media/MediaListItemComponent";
 import AudioSearch from "../Media/AudioSearch";
 import ImageSearch from "../Media/ImageSearch";
-import NDLAApiService from "../../../../services/ndlaApiService";
+import AudioApi from "../../../../services/audioApiService";
+import ImageApi from "../../../../services/ImageApiService";
 
 const classes = new BEMHelper({
     name: 'concept-form',
@@ -150,8 +151,8 @@ class Concept extends React.Component {
                 {Boolean(media.length === 0) && <p>Ingen medier er lagt til</p>}
 
                 {media.map(m => <MediaListItem media={m} classes={classes('form-field')} />)}
-                <AudioSearch t={t} api={new NDLAApiService("https://test.api.ndla.no/audio-api/v1/audio")} locale={'nb'} triggerButton={this.renderAddMediaButton}/>
-                <ImageSearch t={t} api={new NDLAApiService("https://test.api.ndla.no/image-api/v2/images")} locale={'nb'} triggerButton={this.renderAddMediaButton}/>
+                <AudioSearch t={t} api={new AudioApi("https://test.api.ndla.no")} locale={'nb'} triggerButton={this.renderAddMediaButton}/>
+                <ImageSearch t={t} api={new ImageApi("https://test.api.ndla.no")} locale={'nb'} triggerButton={this.renderAddMediaButton}/>
             </React.Fragment>
         )
     }

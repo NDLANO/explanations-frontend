@@ -171,12 +171,6 @@ const NB = {
         subject: "Fag",
         licence: "Lisens"
     },
-    audioSearch: {
-        searchPlaceholder: "Søk etter lydklipp",
-        searchButtonTitle: "Søk",
-        use: "Bruk",
-        noResults: "Ingen resultater"
-    },
     searchMedia: {
         audioTitle: "Søk etter lydklipp",
         videoTitle: "Søk etter video",

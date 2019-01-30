@@ -9,9 +9,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AudioSearch from '@ndla/audio-search';
 import { injectT } from '@ndla/i18n';
-import Modal, {ModalBody, ModalCloseButton, ModalHeader} from '@ndla/modal';
-
-import NDLAApiService from "../../../../services/ndlaApiService";
+import AudioApi from "../../../../services/audioApiService";
+import MediaModal from "./MediaModal";
 
 const AudioSearchComponent = ({t, locale, onSelect, onError, triggerButton, api}) => {
     const defaultQueryObject = {
@@ -22,33 +21,24 @@ const AudioSearchComponent = ({t, locale, onSelect, onError, triggerButton, api}
     };
 
     const translations = {
-        searchPlaceholder: t('audioSearch.audioTitle'),
-        searchButtonTitle: t('audioSearch.searchButtonTitle'),
-        useAudio: t('audioSearch.use'),
-        noResults: t('audioSearch.noResults'),
+        searchPlaceholder: t('searchMedia.audioTitle'),
+        searchButtonTitle: t('searchMedia.searchButtonTitle'),
+        useAudio: t('searchMedia.use'),
+        noResults: t('searchMedia.noResults'),
     };
 
     return (
-        <Modal activateButton={triggerButton()} backgroundColor="white" size="large">
-            {(onClose) => (
-                <div>
-                    <ModalHeader>
-                        <ModalCloseButton title={t("confirmModal.default.button.close")} onClick={onClose} />
-                    </ModalHeader>
-                    <ModalBody>
-                        <AudioSearch
-                            translations={translations}
-                            locale={locale}
-                            fetchAudio={api.getById}
-                            searchAudios={api.getByQuery}
-                            onAudioSelect={onSelect}
-                            onError={onError}
-                            queryObject={defaultQueryObject}
-                        />
-                    </ModalBody>
-                </div>
-            )}
-        </Modal>
+        <MediaModal t={t} triggerButton={triggerButton}>
+            <AudioSearch
+                translations={translations}
+                locale={locale}
+                fetchAudio={api.getById}
+                searchAudios={api.getByQuery}
+                onAudioSelect={onSelect}
+                onError={onError}
+                queryObject={defaultQueryObject}
+            />
+        </MediaModal>
         );
 };
 
@@ -59,7 +49,7 @@ AudioSearchComponent.propTypes = {
     onError: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     triggerButton: PropTypes.func.isRequired,
-    api: PropTypes.instanceOf(NDLAApiService).isRequired
+    api: PropTypes.instanceOf(AudioApi).isRequired
 };
 
 
