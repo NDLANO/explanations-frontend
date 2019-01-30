@@ -51,7 +51,7 @@ import ApiService from "../../services/apiService";
 import ErrorBoundary from "../ErrorBoundary";
 import Login from "../Login";
 
-import {loadConceptTitles, loadMeta, loadStatus} from './actions';
+import {loadMeta, loadStatus} from './actions';
 
 Moment.globalFormat = 'lll';
 
@@ -66,10 +66,9 @@ class App extends React.Component {
     }
 
     loadInitialData() {
-        const {apiService, loadStatus, loadConceptTitles, loadMeta} = this.props;
+        const {apiService, loadStatus, loadMeta} = this.props;
 
         apiService.getAllStatus().then(data => loadStatus(data));
-        //apiService.getAllConceptTitles().then(data => loadConceptTitles(data));
 
         const promises = [apiService.getAllCategories(), apiService.getAllMetas()];
         Promise.all(promises).then(([categories, metas]) => loadMeta(categories, metas));
@@ -125,7 +124,6 @@ App.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
     apiService: PropTypes.instanceOf(ApiService).isRequired,
     loadStatus: PropTypes.func.isRequired,
-    loadConceptTitles: PropTypes.func.isRequired,
     loadMeta: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
 
@@ -148,7 +146,7 @@ const mapStateToProps = state => {
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, {loadMeta, loadStatus, loadConceptTitles, loginSuccess, updateNext}),
+    connect(mapStateToProps, {loadMeta, loadStatus, loginSuccess, updateNext}),
     withAuthenticationService,
     withApiService,
     injectT,

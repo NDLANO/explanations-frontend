@@ -67,7 +67,7 @@ class SearchContainer extends React.Component {
                             autoComplete={autoComplete}
                             selectedLanguage={selectedLanguage}
                             selectedSubject={selectedSubject}/>
-                <SearchResultList results={searchResult} resultHeader={resultHeader}/>
+                <SearchResultList results={searchResult} resultHeader={resultHeader} t={t}/>
             </OneColumn>
         )
     }

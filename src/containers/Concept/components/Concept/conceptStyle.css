@@ -52,7 +52,7 @@
     }
   }
 
-  &__meta{
+  &__section{
     padding: 10px;
     display: flex;
     align-items: center;

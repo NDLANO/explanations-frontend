@@ -80,6 +80,7 @@ class CreateConceptPageContainer extends React.Component {
                              initialValues={initialFormValues}
                              t={t}
                              metas={meta}
+                             media={[]}
                              title={t("createConcept.title")}
                              submitConcept={this.submit}
                     />

@@ -17,14 +17,14 @@ const classes = new BEMHelper({
     prefix: 'c-',
 });
 
-const SearchResultList = ({results, resultHeader})=>
+const SearchResultList = ({results, resultHeader, t})=>
     <div>
         <h6 {...classes('count')}>
             {resultHeader}
         </h6>
         {Boolean(results.length) &&
             <ul {...classes()}>
-                {results.map(result => <SearchResultItem key={result.id} {...result} />)}
+                {results.map(result => <SearchResultItem key={result.id} {...result} t={t}/>)}
             </ul>
         }
     </div>;

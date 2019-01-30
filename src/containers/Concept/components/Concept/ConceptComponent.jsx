@@ -19,6 +19,8 @@ import { GetValuesFromObjectByKeyPrefix} from "../../../../utilities";
 
 import {validate} from "./validate";
 import {FIELDS} from "./fields";
+import MediaListItem from "../Media/MediaListItemComponent";
+import AudioSearch from "../Media/AudioSearch";
 
 const classes = new BEMHelper({
     name: 'concept-form',
@@ -40,6 +42,7 @@ class Concept extends React.Component {
 
         this.onSubmit = this.onSubmit.bind(this);
         this.renderSubmitButton = this.renderSubmitButton.bind(this);
+        this.renderAddMediaButton = this.renderAddMediaButton.bind(this);
     }
 
     componentDidMount() {
@@ -85,48 +88,82 @@ class Concept extends React.Component {
         const {isReadOnly, submitting, title} = this.props;
         return <Button disabled={isReadOnly || submitting} >{(title)}</Button>;
     }
+    renderAddMediaButton() {
+        const {isReadOnly, submitting} = this.props;
+        return <Button disabled={isReadOnly || submitting} >Add media</Button>;
+    }
+
+    renderFieldsSection() {
+
+        const { t, status, initialValues, locale} = this.props;
+        return (
+            <React.Fragment>
+                <Field {...this.fields.title} t={t} {...classes('form-field')} />
+                <Field {...this.fields.content} t={t} {...classes('form-field')} />
+                <Field {...this.fields.author} t={t} {...classes('form-field')} />
+                <Field {...this.fields.source} t={t} {...classes('form-field')} />
+
+                <div {...classes('form-field')}>
+                    <label  htmlFor={this.fields.status.id}>{t("conceptForm.status")}</label>
+                    <Field {...this.fields.status} t={t} selected={initialValues.statusId} options={status}/>
+                </div>
+                {this.props.showTimestamps && <Field {...this.fields.created} t={t} {...classes('form-field')} locale={locale} />}
+                {this.props.showTimestamps && <Field {...this.fields.updated} t={t} {...classes('form-field')} locale={locale} />}
+            </React.Fragment>
+        )
+    }
+
+    renderMetaSection() {
+        const { t, initialValues, error, isReadOnly} = this.props;
+
+        return  (
+            <React.Fragment>
+                <div {...classes('section')}>
+                    <hr />
+                    <h2>Meta</h2>
+                    <hr/>
+                </div>
+                {error && <span {...classes('form-field', 'validation-error--meta')}>{error}</span>}
+
+                {this.props.metas.map(meta => <Meta meta={meta}
+                                                    initialValues={initialValues}
+                                                    key={meta.category.id}
+                                                    t={t}
+                                                    classes={classes}
+                                                    readOnly={isReadOnly}/>
+                )}
+            </React.Fragment>);
+    }
+
+    renderMediaSection() {
+        const {media, t} = this.props;
+
+        return (
+            <React.Fragment>
+                <div {...classes('section')}>
+                    <hr />
+                    <h2>Media</h2>
+                    <hr/>
+                </div>
+                {Boolean(media.length === 0) && <p>Ingen medier er lagt til</p>}
+
+                {media.map(m => <MediaListItem media={m} classes={classes('form-field')} />)}
+                <AudioSearch t={t} baseApi="https://test.api.ndla.no" locale={'nb'} triggerButton={this.renderAddMediaButton}/>
+            </React.Fragment>
+        )
+    }
 
     render() {
-        const { t, handleSubmit, status, initialValues, error, isReadOnly, locale} = this.props;
-        this.props.metas.forEach(elm => {
-            if (elm.category.description === "Subject")
-                elm.category.description = "Fag";
-            if (elm.category.description === "Language")
-                elm.category.description = "Språk";
-            if (elm.category.description === "Licence")
-                elm.category.description = "Lisens";
-        });
-        
+        const { t, handleSubmit} = this.props;
         const submit = handleSubmit(this.onSubmit);
-        const metaTitle = 'Meta';// To mitigate jsx-a11y/heading-has-content lint error...
+
         return (
                 <form onSubmit={submit} {...classes()}>
-                    <Field {...this.fields.title} t={t} {...classes('form-field')} />
-                    <Field {...this.fields.content} t={t} {...classes('form-field')} />
-                    <Field {...this.fields.author} t={t} {...classes('form-field')} />
-                    <Field {...this.fields.source} t={t} {...classes('form-field')} />
+                    {this.renderFieldsSection()}
 
-                    <div {...classes('form-field')}>
-                        <label  htmlFor={this.fields.status.id}>{t("conceptForm.status")}</label>
-                        <Field {...this.fields.status} t={t} selected={initialValues.statusId} options={status}/>
-                    </div>
-                    {this.props.showTimestamps && <Field {...this.fields.created} t={t} {...classes('form-field')} locale={locale} />}
-                    {this.props.showTimestamps && <Field {...this.fields.updated} t={t} {...classes('form-field')} locale={locale} />}
+                    {this.renderMetaSection()}
 
-                    <div {...classes('meta')}>
-                        <hr />
-                        <h2>{metaTitle}</h2>
-                        <hr/>
-                    </div>
-                    {error && <span {...classes('form-field', 'validation-error--meta')}>{error}</span>}
-
-                    {this.props.metas.map(meta => <Meta meta={meta}
-                                                        initialValues={initialValues}
-                                                        key={meta.category.id}
-                                                        t={t}
-                                                        classes={classes}
-                                                        readOnly={isReadOnly}/>
-                        )}
+                    {this.renderMediaSection()}
 
                     {this.props.children}
                     <ConfirmModal t={t} triggerButton={this.renderSubmitButton} onConfirm={submit}/>
@@ -139,6 +176,7 @@ Concept.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
     metas: PropTypes.array.isRequired,
+    media: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
     status: PropTypes.array.isRequired,
     initialize: PropTypes.func.isRequired,

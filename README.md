@@ -76,3 +76,6 @@ $ yarn run lint
 ```
 
 Rules are configured in `./.eslintrc.js` and extends [eslint-config-react-app](https://github.com/facebook/create-react-app/tree/master/packages/eslint-config-react-app). If feeling brave, try `eslint --fix`.
+
+
+react-emotion is required for ndla-audio-search

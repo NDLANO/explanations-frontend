@@ -19,7 +19,8 @@ const serverConfig = {
             usernameKey:        getEnvironment('REACT_APP_AUTH0__ACCESS_TOKEN_USERNAME_KEY'),
         },
         EXTERNAL_URL: {
-            concept_API:        getEnvironment('REACT_APP_EXTERNAL_URL__CONCEPT_API'),
+            concept_API:        getEnvironment('REACT_APP_EXTERNAL_URL__CONCEPT_API') || getEnvironment('NDLA_API_URL'),
+            ndla_API:           getEnvironment('NDLA_API_URL')
         },
         SCOPES: {
             concept_write:      getEnvironment('REACT_APP_SCOPES__CONCEPT_WRITE'),

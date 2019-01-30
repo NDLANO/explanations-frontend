@@ -50,14 +50,16 @@ const getAutoCompleteList = (state) => {
     if (conceptForm) {
         const {title} = conceptForm;
         if(title)
-            autoComplete = state.cacheFromServer.conceptTitles.filter(x => x.toLowerCase().includes(title.toLowerCase()));
+            autoComplete = state.search.autocompleteTitles
+                .filter(x => x.toLowerCase().includes(title.toLowerCase()));
     }
     return autoComplete;
 };
 
 export const mapStateToProps = state =>{
-    const subjects = getMetaByCategory(state.cacheFromServer.meta, "Subject", ALL_SUBJECTS);
-    const languages = getMetaByCategory(state.cacheFromServer.meta, "Language", ALL_LANGUAGES);
+    const subjects = getMetaByCategory(state.cacheFromServer.meta, "Fag", ALL_SUBJECTS);
+    const languages = getMetaByCategory(state.cacheFromServer.meta, "Språk", ALL_LANGUAGES);
+
     return  ({
         searchResult: state.search.results,
         languages: languages.map(x => ({value: x.id, label: x.name})),
