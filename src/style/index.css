@@ -6,7 +6,7 @@
  *
  */
 
-@import '../../node_modules/ndla-ui/lib/main.css';
+@import '../../node_modules/@ndla/ui/lib/all.css';
 @import 'vars.css';
 @import '../components/componentsStyle.css';
 @import '../containers/containerStyles.css';

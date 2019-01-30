@@ -9,8 +9,8 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
-import {OneColumn, Breadcrumb} from "ndla-ui";
-import {injectT} from "ndla-i18n";
+import {OneColumn, Breadcrumb} from '@ndla/ui';
+import {injectT} from "@ndla/i18n";
 import {compose} from "redux";
 import {Helmet} from "react-helmet";
 

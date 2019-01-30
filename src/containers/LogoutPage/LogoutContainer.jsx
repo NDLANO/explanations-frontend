@@ -11,7 +11,7 @@ import {compose} from "redux";
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import {Helmet} from "react-helmet";
-import {injectT} from "ndla-i18n";
+import {injectT} from "@ndla/i18n";
 
 import {logoutSuccess} from "./logoutActions";
 import AuthenticationService from "../../services/authenticationService";

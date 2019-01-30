@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Footer, Logo} from 'ndla-ui';
+import {Footer, Logo} from '@ndla/ui';
 
 import SelectLocale from '../../containers/SelectLocale/index';
 import {indexRoute} from "../../utilities/routeHelper";

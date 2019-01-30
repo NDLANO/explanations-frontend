@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from "prop-types";
-import { OneColumn, ErrorMessage } from 'ndla-ui';
+import { OneColumn, ErrorMessage } from '@ndla/ui';
 import StatusComponent from "./StatusComponent";
 
 const ErrorComponent = ({t, statusCode, gif, gifText, title, description, back, goToFrontPage}) => (

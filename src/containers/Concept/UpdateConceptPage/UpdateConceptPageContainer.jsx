@@ -12,8 +12,9 @@ import {Helmet} from "react-helmet";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {compose} from "redux";
-import {injectT} from "ndla-i18n";
-import {Breadcrumb, Button, OneColumn} from "ndla-ui";
+import {injectT} from "@ndla/i18n";
+import {Breadcrumb, OneColumn} from '@ndla/ui';
+import Button from '@ndla/button';
 
 import FlashMessage, {flashMessageShape} from "../../../components/FlashMessage";
 import Concept from "../components/Concept";

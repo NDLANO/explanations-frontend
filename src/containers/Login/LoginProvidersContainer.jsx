@@ -8,8 +8,8 @@
 import React from 'react';
 import BEMHelper from "react-bem-helper";
 import PropTypes from "prop-types";
-import Button from "ndla-button";
-import {injectT} from 'ndla-i18n';
+import Button from "@ndla/button";
+import {injectT} from '@ndla/i18n';
 import {compose} from "redux";
 import {Helmet} from "react-helmet";
 import {withLastLocation} from "react-router-last-location";
@@ -41,8 +41,7 @@ export const LoginProviderContainer = ({t, authenticationService, consentUrl, up
                 <h3>{t('loginProviders.description')}</h3>
                 <ul>
                     <li>
-                        <Button onClick={loginClicked}
-                                {...classes("content", "button", "btn-google")}>
+                        <Button onClick={loginClicked} {...classes("content", "button", "btn-google")}>
                             Google
                         </Button>
                     </li>

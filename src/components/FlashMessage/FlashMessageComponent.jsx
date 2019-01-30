@@ -7,7 +7,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from "react-bem-helper";
-import {OneColumn, Button} from "ndla-ui";
+import {OneColumn} from '@ndla/ui';
+import Button from '@ndla/button';
 
 import WithEither from "../../components/HOC/WithEither";
 

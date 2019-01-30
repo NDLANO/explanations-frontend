@@ -11,9 +11,9 @@ import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {compose} from "redux";
-import {injectT} from "ndla-i18n";
+import {injectT} from "@ndla/i18n";
 import {Helmet} from "react-helmet";
-import {Breadcrumb, OneColumn} from "ndla-ui";
+import {Breadcrumb, OneColumn} from '@ndla/ui';
 
 import Concept from "../components/Concept/";
 import Loading from '../../../components/Loading';

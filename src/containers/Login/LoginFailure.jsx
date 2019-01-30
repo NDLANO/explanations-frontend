@@ -9,7 +9,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-import {injectT} from 'ndla-i18n';
+import {injectT} from '@ndla/i18n';
 
 import {loginRoute} from "../../utilities/routeHelper";
 

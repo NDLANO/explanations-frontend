@@ -8,11 +8,11 @@
 
 import React, { Component } from 'react';
 import BEMHelper from 'react-bem-helper';
+import Button from '@ndla/button';
 import PropTypes from "prop-types";
-import { Plus, Minus } from 'ndla-icons/action';
-import { Button } from 'ndla-ui';
+import { Plus, Minus } from '@ndla/icons/action';
 import { Link } from 'react-router-dom';
-import {DetailSearch} from 'ndla-icons/editor';
+import {DetailSearch} from '@ndla/icons/editor';
 
 import {searchRoute, createRoute} from "../../../utilities/routeHelper";
 

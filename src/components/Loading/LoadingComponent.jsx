@@ -7,8 +7,8 @@
 import  React from 'react';
 import PropTypes from "prop-types";
 import BEMHelper from "react-bem-helper";
-import {OneColumn} from "ndla-ui";
-import {injectT} from "ndla-i18n";
+import {OneColumn} from '@ndla/ui';
+import {injectT} from "@ndla/i18n";
 
 const classes = new BEMHelper({
     name: 'loading',

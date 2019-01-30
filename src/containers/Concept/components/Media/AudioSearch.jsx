@@ -8,8 +8,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AudioSearch from '@ndla/audio-search';
-import { injectT } from 'ndla-i18n';
-import {Modal, ModalBody, ModalCloseButton, ModalHeader} from "ndla-ui";
+import { injectT } from '@ndla/i18n';
+import Modal, {ModalBody, ModalCloseButton, ModalHeader} from '@ndla/modal';
 
 import NDLAApiService from "../../../../services/audioApiService";
 

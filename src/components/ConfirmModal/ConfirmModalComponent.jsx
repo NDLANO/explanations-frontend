@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {ModalCloseButton, ModalHeader, ModalBody, Modal} from "ndla-ui";
+import Modal, {ModalBody, ModalCloseButton, ModalHeader} from '@ndla/modal';
 
 import PropTypes from 'prop-types';
 

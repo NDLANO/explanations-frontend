@@ -8,8 +8,8 @@ import React from 'react';
 import BEMHelper from "react-bem-helper";
 import {Field, reduxForm} from "redux-form";
 import PropTypes from 'prop-types';
-import {Button} from "ndla-ui";
-import {Search as SearchIcon} from "ndla-icons/es/common";
+import Button from '@ndla/button';
+import {Search as SearchIcon} from "@ndla/icons/es/common";
 
 import {FIELDS} from "./fields";
 import {createSearchQueryFromValues, onChange} from "./onChange";

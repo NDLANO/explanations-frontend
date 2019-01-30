@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import {Masthead, MastheadItem} from 'ndla-ui';
+import {Masthead, MastheadItem} from '@ndla/ui';
 import BEMHelper from 'react-bem-helper';
 import PropTypes from 'prop-types';
 
