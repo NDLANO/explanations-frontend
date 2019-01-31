@@ -261,19 +261,12 @@
     polished "^2.2.0"
     sass-mq "^5.0.0"
 
-"@ndla/forms@^0.1.0":
+"@ndla/forms@^0.1.0", "@ndla/forms@^0.1.4":
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-0.1.4.tgz#fbd3edc2bd8959d9364e4e836c49138c524d16eb"
   dependencies:
     "@ndla/core" "^0.4.2"
     "@ndla/icons" "^0.6.1"
-
-"@ndla/forms@^0.2.6":
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-0.2.6.tgz#860e81f2b1ba0b6678805bda72b809f533f73994"
-  dependencies:
-    "@ndla/core" "^0.4.6"
-    "@ndla/icons" "^0.6.5"
 
 "@ndla/i18n@^0.4.1":
   version "0.4.1"
@@ -2091,6 +2084,10 @@ bser@^2.0.0:
   resolved "https://registry.yarnpkg.com/bser/-/bser-2.0.0.tgz#9ac78d3ed5d915804fd87acb158bc797147a1719"
   dependencies:
     node-int64 "^0.4.0"
+
+btoa@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/btoa/-/btoa-1.2.1.tgz#01a9909f8b2c93f6bf680ba26131eb30f7fa3d73"
 
 buffer-equal@0.0.1:
   version "0.0.1"

@@ -39,6 +39,7 @@
     "@ndla/video-search": "0.6.0",
     "auth0-js": "^9.8.2",
     "axios": "^0.18.0",
+    "btoa": "^1.2.1",
     "connected-react-router": "^5.0.1",
     "emotion": "9.2.12",
     "express": "4.16.4",

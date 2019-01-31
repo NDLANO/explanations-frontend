@@ -177,7 +177,12 @@ const NB = {
         imageTitle: "Søk etter bilder",
         searchButtonTitle: "Søk",
         use: "Bruk",
-        noResults: "Ingen resultater"
+        noResults: "Ingen resultater",
+        loadMore: "Last flere",
+        preview: "Forhåndsvis",
+        publishedDate: "Publisert",
+        duration: "Varighet",
+        views: "Visninger"
     }
 };
 

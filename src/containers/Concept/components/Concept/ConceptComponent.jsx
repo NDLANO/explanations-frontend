@@ -24,6 +24,8 @@ import AudioSearch from "../Media/AudioSearch";
 import ImageSearch from "../Media/ImageSearch";
 import AudioApi from "../../../../services/audioApiService";
 import ImageApi from "../../../../services/ImageApiService";
+import VideoApi from "../../../../services/videoApiService";
+import VideoSearch from "../Media/VideoSearch";
 
 const classes = new BEMHelper({
     name: 'concept-form',
@@ -151,8 +153,9 @@ class Concept extends React.Component {
                 {Boolean(media.length === 0) && <p>Ingen medier er lagt til</p>}
 
                 {media.map(m => <MediaListItem media={m} classes={classes('form-field')} />)}
-                <AudioSearch t={t} api={new AudioApi("https://test.api.ndla.no")} locale={'nb'} triggerButton={this.renderAddMediaButton}/>
-                <ImageSearch t={t} api={new ImageApi("https://test.api.ndla.no")} locale={'nb'} triggerButton={this.renderAddMediaButton}/>
+                <VideoSearch onError={() => console.log("err")} onSelect={() => console.log("slect")} t={t} api={new VideoApi()} locale={'nb'} triggerButton={this.renderAddMediaButton}/>
+                <AudioSearch onError={() => console.log("err")} onSelect={() => console.log("slect")} t={t} api={new AudioApi("https://test.api.ndla.no")} locale={'nb'} triggerButton={this.renderAddMediaButton}/>
+                <ImageSearch onError={() => console.log("err")} onSelect={() => console.log("slect")} t={t} api={new ImageApi("https://test.api.ndla.no")} locale={'nb'} triggerButton={this.renderAddMediaButton}/>
             </React.Fragment>
         )
     }

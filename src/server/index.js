@@ -7,16 +7,37 @@
 import express from 'express';
 import {getLocaleObject} from "../i18n";
 import {renderHtmlString} from "./renderHtmlPage";
+import {getBrightcoveToken} from "./auth";
 
-const server = express();
+const OK = 200;
+const INTERNAL_SERVER_ERROR = 500;
 
-server
-    .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
-    .get('*', (req, res) => {
+const app = express();
 
-        const paths = req.url.split('/');
-        const { abbreviation: locale } = getLocaleObject(paths[1]);
-        res.status(200).send(renderHtmlString(locale));
-    });
+app.use(express.static(process.env.RAZZLE_PUBLIC_DIR));
 
-export default server;
+app.get('/get_brightcove_token', (req, res) => {
+    getBrightcoveToken()
+        .then(token => {
+            res.send(token);
+        })
+        .catch(err => res.status(INTERNAL_SERVER_ERROR).send(err.message));
+});
+
+app.get('/robots.txt', (req, res) => {
+    res.type('text/plain');
+    res.send('User-agent: *\nDisallow: /');
+});
+
+app.get('/health', (req, res) => {
+    res.status(OK).json({ status: OK, text: 'Health check ok' });
+});
+
+app.get('*', (req, res) => {
+
+    const paths = req.url.split('/');
+    const { abbreviation: locale } = getLocaleObject(paths[1]);
+    res.status(OK).send(renderHtmlString(locale));
+});
+
+export default app;
