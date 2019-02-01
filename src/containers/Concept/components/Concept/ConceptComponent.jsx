@@ -75,6 +75,8 @@ class Concept extends React.Component {
 
         const meta = getIds(meta_from_objects).concat(getIds(meta_from_list));
         const {externalId = -1, statusId, content, title, sourceAuthor, source = null, id = -1} = values;
+        
+        const media = [];
 
         if (! statusId)
             return;
@@ -88,7 +90,8 @@ class Concept extends React.Component {
             title,
             sourceAuthor,
             source,
-            metaIds: meta
+            metaIds: meta,
+            media
         };
         return this.props.submitConcept(concept).catch(errors => {
             if (errors) {
@@ -142,6 +145,7 @@ class Concept extends React.Component {
     }
 
     onSelectMedia(media) {
+        console.log("meid", media)
         this.toggleMediaModal();
     }
 
@@ -155,7 +159,7 @@ class Concept extends React.Component {
         return (
             <React.Fragment>
                 <SectionComponent title="Media" />
-                {Boolean(media.length === 0) && <p>{t('conceptForm.noMedia')}</p>}
+                {Boolean(media.length === 0) && <p {...classes('message')}>{t('conceptForm.noMedia')}</p>}
 
                 {media.map(m => <MediaListItem media={m} classes={classes('form-field')} />)}
 

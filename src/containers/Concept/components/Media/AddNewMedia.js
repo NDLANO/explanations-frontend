@@ -35,7 +35,7 @@ class AddNewMedia extends React.Component {
         this.showVideo = this.showMedia.bind(this, "video");
         this.showAudio = this.showMedia.bind(this, "audio");
         this.showImage = this.showMedia.bind(this, "image");
-        this.onKeypressed = this.onKeypressed.bind(this);
+        this.onKeyPressed = this.onKeyPressed.bind(this);
         this.onSelect = this.onSelect.bind(this);
         this.onClose = this.onClose.bind(this);
 
@@ -58,13 +58,25 @@ class AddNewMedia extends React.Component {
         ];
 
 
-        window.addEventListener('keyup', this.onKeypressed, true);
+        window.addEventListener('keyup', this.onKeyPressed, true);
     }
 
 
     onSelect(media) {
-        console.log(media);
-        this.props.onSelectMedia({});
+        const serializedMedia = {
+            id: media.id,
+            external: false,
+            url: '',
+            type: this.state.mediaType,
+            title: media.title.title
+        };
+
+        if (serializedMedia.type === 'video') {
+            serializedMedia.external = true;
+            serializedMedia.url = media.url;
+        }
+
+        this.props.onSelectMedia(serializedMedia);
     }
 
     onError(error) {
@@ -94,7 +106,7 @@ class AddNewMedia extends React.Component {
                 return <ul {...classes()}>
                     {this.mediaTypes.map(x =>
                         <li key={x.text}>
-                            <Button outline onClick={x.onClick} {...classes('item')}>
+                            <Button onClick={x.onClick} {...classes('item')}>
                                 {x.icon}
                                 {x.text}
                             </Button>
@@ -109,7 +121,7 @@ class AddNewMedia extends React.Component {
         this.props.close();
     };
 
-    onKeypressed(e) {
+    onKeyPressed(e) {
         if (e.key === 'Escape' && this.props.isOpen) {
             this.props.close();
         }

@@ -8,6 +8,9 @@
   time {
     width: 100%;
   }
+  &__message {
+    text-align: center;
+  }
   button{
     padding: 5px;
     display: block;
