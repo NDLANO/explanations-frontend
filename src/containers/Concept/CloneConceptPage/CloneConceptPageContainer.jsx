@@ -99,6 +99,7 @@ class CloneConceptPageContainer extends React.Component {
             return <Concept Concept status={this.props.status}
                             initialValues={this.props.initialFormValues}
                             t={this.props.t}
+                            locale={this.props.locale}
                             metas={this.props.meta}
                             title={this.props.t("createConcept.title")}
                             submitConcept={this.submit} />;
@@ -134,6 +135,7 @@ CloneConceptPageContainer.propTypes = {
     meta: PropTypes.array.isRequired,
     history: historyShape.isRequired,
     status: PropTypes.array.isRequired,
+    locale: PropTypes.string.isRequired,
     clearFlashMessage: PropTypes.func.isRequired,
     updateFlashMessage: PropTypes.func.isRequired,
     updateInitialFormValues: PropTypes.func.isRequired,

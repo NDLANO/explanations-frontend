@@ -65,7 +65,7 @@ class CreateConceptPageContainer extends React.Component {
     }
 
     render() {
-        const {t, flashMessage, initialFormValues, meta, status} = this.props;
+        const {t, flashMessage, initialFormValues, meta, status, locale} = this.props;
         const breadCrumbs = [
             {to: indexRoute(), name: t('indexPage.title')},
             {to: createRoute(), name: t('createConcept.title')},
@@ -79,6 +79,7 @@ class CreateConceptPageContainer extends React.Component {
                     <Concept status={status}
                              initialValues={initialFormValues}
                              t={t}
+                             locale={locale}
                              metas={meta}
                              media={[]}
                              title={t("createConcept.title")}
@@ -99,6 +100,7 @@ CreateConceptPageContainer.propTypes = {
     updateFlashMessage: PropTypes.func.isRequired,
     initialFormValues: PropTypes.object.isRequired,
     apiService: PropTypes.instanceOf(ApiService).isRequired,
+    locale: PropTypes.string.isRequired,
 
     // Optional
     flashMessage: PropTypes.shape(flashMessageShape),

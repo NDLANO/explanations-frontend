@@ -6,9 +6,10 @@
  *
  */
 import axios from "axios";
+import {config} from "../config";
 
 export default class ImageApi {
-    constructor(baseUrl) {
+    constructor(baseUrl=config.EXTERNAL_URL.ndlaApi) {
         this.apiUrl = `${baseUrl}/image-api/v2/images`;
     }
 

@@ -32,6 +32,13 @@ const classes = new BEMHelper({
     prefix: 'c-',
 });
 
+const SectionComponent = ({title}) =>
+    <div {...classes('section')}>
+        <hr />
+        <h2>{title}</h2>
+        <hr />
+    </div>;
+
 class Concept extends React.Component {
     constructor(props) {
         super(props);
@@ -123,11 +130,7 @@ class Concept extends React.Component {
 
         return  (
             <React.Fragment>
-                <div {...classes('section')}>
-                    <hr />
-                    <h2>Meta</h2>
-                    <hr/>
-                </div>
+               <SectionComponent title="Meta" />
                 {error && <span {...classes('form-field', 'validation-error--meta')}>{error}</span>}
 
                 {this.props.metas.map(meta => <Meta meta={meta}
@@ -141,21 +144,17 @@ class Concept extends React.Component {
     }
 
     renderMediaSection() {
-        const {media, t} = this.props;
+        const {media, t, locale} = this.props;
 
         return (
             <React.Fragment>
-                <div {...classes('section')}>
-                    <hr />
-                    <h2>Media</h2>
-                    <hr/>
-                </div>
+                <SectionComponent title="Media" />
                 {Boolean(media.length === 0) && <p>Ingen medier er lagt til</p>}
 
                 {media.map(m => <MediaListItem media={m} classes={classes('form-field')} />)}
-                <VideoSearch onError={() => console.log("err")} onSelect={() => console.log("slect")} t={t} api={new VideoApi()} locale={'nb'} triggerButton={this.renderAddMediaButton}/>
-                <AudioSearch onError={() => console.log("err")} onSelect={() => console.log("slect")} t={t} api={new AudioApi("https://test.api.ndla.no")} locale={'nb'} triggerButton={this.renderAddMediaButton}/>
-                <ImageSearch onError={() => console.log("err")} onSelect={() => console.log("slect")} t={t} api={new ImageApi("https://test.api.ndla.no")} locale={'nb'} triggerButton={this.renderAddMediaButton}/>
+                <VideoSearch onError={() => console.log("err")} onSelect={() => console.log("slect")} t={t} api={new VideoApi()} locale={locale} triggerButton={this.renderAddMediaButton}/>
+                <AudioSearch onError={() => console.log("err")} onSelect={() => console.log("slect")} t={t} api={new AudioApi()} locale={locale} triggerButton={this.renderAddMediaButton}/>
+                <ImageSearch onError={() => console.log("err")} onSelect={() => console.log("slect")} t={t} api={new ImageApi()} locale={locale} triggerButton={this.renderAddMediaButton}/>
             </React.Fragment>
         )
     }
@@ -189,10 +188,10 @@ Concept.propTypes = {
     initialize: PropTypes.func.isRequired,
     submitConcept: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
+    locale: PropTypes.string.isRequired,
 
     // Optional
     error: PropTypes.string,
-    locale: PropTypes.string,
     isReadOnly: PropTypes.bool,
     submitting: PropTypes.bool,
     showTimestamps: PropTypes.bool,

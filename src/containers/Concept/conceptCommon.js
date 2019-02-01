@@ -38,10 +38,11 @@ export const submitErrorHandler = (errors, {titleMessage, actionType}, updateFla
     return errors;
 };
 
-export const mapStateToPropsCommon = ({cacheFromServer: {status, meta},  credentials: {accessToken}}) => {
+export const mapStateToPropsCommon = ({locale, cacheFromServer: {status, meta},  credentials: {accessToken}}) => {
     return {
         accessToken: accessToken,
         meta: meta,
+        locale,
         status: status.map(x => ({value: x.id, label: x.name})),
     }
 };

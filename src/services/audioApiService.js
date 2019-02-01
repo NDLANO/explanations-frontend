@@ -6,11 +6,12 @@
  *
  */
 import axios from 'axios';
+import {config} from "../config";
 
 
 export default class AudioApi {
 
-    constructor(apiUrl) {
+    constructor(apiUrl=config.EXTERNAL_URL.ndlaApi) {
         this.apiUrl = `${apiUrl}/audio-api/v1/audio`;
     }
 

@@ -19,8 +19,8 @@ const serverConfig = {
             usernameKey:        getEnvironment('AUTH0__ACCESS_TOKEN_USERNAME_KEY'),
         },
         EXTERNAL_URL: {
-            concept_API:        getEnvironment('EXTERNAL_URL__CONCEPT_API') || getEnvironment('NDLA_API_URL'),
-            ndla_API:           getEnvironment('NDLA_API_URL')
+            conceptApi:        getEnvironment('EXTERNAL_URL__CONCEPT_API') || getEnvironment('NDLA_API_URL'),
+            ndlaApi:           getEnvironment('NDLA_API_URL')
         },
         SCOPES: {
             concept_write:      getEnvironment('SCOPES__CONCEPT_WRITE'),
