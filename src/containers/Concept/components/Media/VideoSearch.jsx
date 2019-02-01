@@ -7,13 +7,11 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { injectT } from '@ndla/i18n';
 import VideoSearch from "@ndla/video-search";
 
-import MediaModal from "./MediaModal";
 import VideoApi from "../../../../services/videoApiService";
 
-const VideoSearchComponent = ({t, locale, onSelect, onError, triggerButton, api, enabledSources}) => {
+const VideoSearchComponent = ({t, locale, onSelect, onError, api, enabledSources}) => {
     const translations = {
         loadMoreVideos: t('searchMedia.loadMore'),
         previewVideo: t('searchMedia.preview'),
@@ -27,7 +25,6 @@ const VideoSearchComponent = ({t, locale, onSelect, onError, triggerButton, api,
     };
 
     return (
-        <MediaModal t={t} triggerButton={triggerButton}>
             <VideoSearch
                 translations={translations}
                 locale={locale}
@@ -36,7 +33,6 @@ const VideoSearchComponent = ({t, locale, onSelect, onError, triggerButton, api,
                 onError={onError}
                 enabledSources={enabledSources}
             />
-        </MediaModal>
         );
 };
 
@@ -44,10 +40,9 @@ const VideoSearchComponent = ({t, locale, onSelect, onError, triggerButton, api,
 VideoSearchComponent.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
-    onSelect: PropTypes.func.isRequired,
     onError: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
-    triggerButton: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired,
     api: PropTypes.instanceOf(VideoApi).isRequired,
 
     // Optional
@@ -59,4 +54,4 @@ VideoSearchComponent.defaultProps = {
 };
 
 
-export default injectT(VideoSearchComponent);
+export default VideoSearchComponent;

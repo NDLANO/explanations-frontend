@@ -22,7 +22,8 @@ const MediaModal = ({children, triggerButton, t}) =>
                 </ModalBody>
             </div>
         )}
-    </Modal>
+
+    </Modal>;
 
 MediaModal.propTypes = {
     t: PropTypes.func.isRequired,

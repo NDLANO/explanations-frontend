@@ -6,12 +6,12 @@
  *
  */
 
-import React from 'react';
-import BEMHelper from "react-bem-helper";
-import PropTypes from 'prop-types';
 import _ from 'lodash';
-import {Field, reduxForm, SubmissionError} from "redux-form";
+import React from 'react';
 import Button from '@ndla/button';
+import PropTypes from 'prop-types';
+import BEMHelper from "react-bem-helper";
+import {Field, reduxForm, SubmissionError} from "redux-form";
 
 import Meta from "../Meta";
 import ConfirmModal from "../../../../components/ConfirmModal/";
@@ -20,12 +20,7 @@ import { GetValuesFromObjectByKeyPrefix} from "../../../../utilities";
 import {validate} from "./validate";
 import {FIELDS} from "./fields";
 import MediaListItem from "../Media/MediaListItemComponent";
-import AudioSearch from "../Media/AudioSearch";
-import ImageSearch from "../Media/ImageSearch";
-import AudioApi from "../../../../services/audioApiService";
-import ImageApi from "../../../../services/ImageApiService";
-import VideoApi from "../../../../services/videoApiService";
-import VideoSearch from "../Media/VideoSearch";
+import AddNewMedia from "../Media/AddNewMedia";
 
 const classes = new BEMHelper({
     name: 'concept-form',
@@ -39,10 +34,16 @@ const SectionComponent = ({title}) =>
         <hr />
     </div>;
 
+SectionComponent.propTypes = {
+    title: PropTypes.string.isRequired,
+};
+
 class Concept extends React.Component {
     constructor(props) {
         super(props);
-
+        this.state = {
+            mediaModalIsOpen: false
+        };
         this.fields = {...FIELDS};
         _.forEach(this.fields, field => {
             if (props.isReadOnly) {
@@ -53,8 +54,9 @@ class Concept extends React.Component {
         });
 
         this.onSubmit = this.onSubmit.bind(this);
+        this.onSelectMedia = this.onSelectMedia.bind(this);
+        this.toggleMediaModal = this.toggleMediaModal.bind(this);
         this.renderSubmitButton = this.renderSubmitButton.bind(this);
-        this.renderAddMediaButton = this.renderAddMediaButton.bind(this);
     }
 
     componentDidMount() {
@@ -100,10 +102,6 @@ class Concept extends React.Component {
         const {isReadOnly, submitting, title} = this.props;
         return <Button disabled={isReadOnly || submitting} >{(title)}</Button>;
     }
-    renderAddMediaButton() {
-        const {isReadOnly, submitting} = this.props;
-        return <Button disabled={isReadOnly || submitting} >Add media</Button>;
-    }
 
     renderFieldsSection() {
 
@@ -130,7 +128,7 @@ class Concept extends React.Component {
 
         return  (
             <React.Fragment>
-               <SectionComponent title="Meta" />
+                <SectionComponent title="Meta" />
                 {error && <span {...classes('form-field', 'validation-error--meta')}>{error}</span>}
 
                 {this.props.metas.map(meta => <Meta meta={meta}
@@ -143,18 +141,35 @@ class Concept extends React.Component {
             </React.Fragment>);
     }
 
+    onSelectMedia(media) {
+        this.toggleMediaModal();
+    }
+
+    toggleMediaModal(){
+        this.setState((prev, props) => ({mediaModalIsOpen: !prev.mediaModalIsOpen}))
+    }
+
     renderMediaSection() {
-        const {media, t, locale} = this.props;
+        const {media, t, locale, isReadOnly, submitting} = this.props;
 
         return (
             <React.Fragment>
                 <SectionComponent title="Media" />
-                {Boolean(media.length === 0) && <p>Ingen medier er lagt til</p>}
+                {Boolean(media.length === 0) && <p>{t('conceptForm.noMedia')}</p>}
 
                 {media.map(m => <MediaListItem media={m} classes={classes('form-field')} />)}
-                <VideoSearch onError={() => console.log("err")} onSelect={() => console.log("slect")} t={t} api={new VideoApi()} locale={locale} triggerButton={this.renderAddMediaButton}/>
-                <AudioSearch onError={() => console.log("err")} onSelect={() => console.log("slect")} t={t} api={new AudioApi()} locale={locale} triggerButton={this.renderAddMediaButton}/>
-                <ImageSearch onError={() => console.log("err")} onSelect={() => console.log("slect")} t={t} api={new ImageApi()} locale={locale} triggerButton={this.renderAddMediaButton}/>
+
+                {Boolean(!isReadOnly && !submitting) &&
+                    <AddNewMedia
+                        t={t}
+                        locale={locale}
+                        close={this.toggleMediaModal}
+                        onSelectMedia={this.onSelectMedia}
+                        isOpen={this.state.mediaModalIsOpen}
+                    />
+                }
+
+                <Button outline onClick={this.toggleMediaModal}>{t('conceptForm.button.addMedia')}</Button>
             </React.Fragment>
         )
     }
@@ -164,16 +179,16 @@ class Concept extends React.Component {
         const submit = handleSubmit(this.onSubmit);
 
         return (
-                <form onSubmit={submit} {...classes()}>
-                    {this.renderFieldsSection()}
+            <form onSubmit={submit} {...classes()}>
+                {this.renderFieldsSection()}
 
-                    {this.renderMetaSection()}
+                {this.renderMetaSection()}
 
-                    {this.renderMediaSection()}
+                {this.renderMediaSection()}
 
-                    {this.props.children}
-                    <ConfirmModal t={t} triggerButton={this.renderSubmitButton} onConfirm={submit}/>
-                </form>
+                {this.props.children}
+                <ConfirmModal t={t} triggerButton={this.renderSubmitButton} onConfirm={submit}/>
+            </form>
         )
     }
 }
@@ -185,10 +200,10 @@ Concept.propTypes = {
     media: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
     status: PropTypes.array.isRequired,
-    initialize: PropTypes.func.isRequired,
-    submitConcept: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    initialize: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    submitConcept: PropTypes.func.isRequired,
 
     // Optional
     error: PropTypes.string,

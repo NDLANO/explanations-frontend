@@ -128,8 +128,10 @@ const NB = {
         updated: "Oppdatert",
         requiredField: "Dette feltet er obligatorisk",
         button: {
-            addMeta: "Legg til "
-        }
+            addMeta: "Legg til ",
+            addMedia: "Legg til media"
+        },
+        noMedia: "Ingen medier er lagt til"
     },
     confirmModal: {
         default: {
@@ -183,6 +185,11 @@ const NB = {
         publishedDate: "Publisert",
         duration: "Varighet",
         views: "Visninger"
+    },
+    phrases: {
+        audio: "Lyd",
+        video: "Film",
+        image: "Bilde"
     }
 };
 

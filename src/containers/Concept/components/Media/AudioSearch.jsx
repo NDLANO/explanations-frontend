@@ -8,11 +8,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AudioSearch from '@ndla/audio-search';
-import { injectT } from '@ndla/i18n';
-import AudioApi from "../../../../services/audioApiService";
-import MediaModal from "./MediaModal";
 
-const AudioSearchComponent = ({t, locale, onSelect, onError, triggerButton, api}) => {
+import AudioApi from "../../../../services/audioApiService";
+
+const AudioSearchComponent = ({t, locale, onSelect, onError, api}) => {
     const defaultQueryObject = {
         query: '',
         page: 1,
@@ -28,7 +27,6 @@ const AudioSearchComponent = ({t, locale, onSelect, onError, triggerButton, api}
     };
 
     return (
-        <MediaModal t={t} triggerButton={triggerButton}>
             <AudioSearch
                 translations={translations}
                 locale={locale}
@@ -38,19 +36,17 @@ const AudioSearchComponent = ({t, locale, onSelect, onError, triggerButton, api}
                 onError={onError}
                 queryObject={defaultQueryObject}
             />
-        </MediaModal>
         );
 };
 
 
 AudioSearchComponent.propTypes = {
     t: PropTypes.func.isRequired,
-    onSelect: PropTypes.func.isRequired,
     onError: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
-    triggerButton: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired,
     api: PropTypes.instanceOf(AudioApi).isRequired
 };
 
 
-export default injectT(AudioSearchComponent);
+export default AudioSearchComponent;

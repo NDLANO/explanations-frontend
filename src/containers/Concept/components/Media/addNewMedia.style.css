@@ -1,0 +1,16 @@
+.c-media-list {
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+
+    &__item {
+        width: 200px;
+        height: 100px;
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
