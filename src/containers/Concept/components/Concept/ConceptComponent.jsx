@@ -11,7 +11,7 @@ import React from 'react';
 import Button from '@ndla/button';
 import PropTypes from 'prop-types';
 import BEMHelper from "react-bem-helper";
-import {Field, reduxForm, SubmissionError} from "redux-form";
+import {Field, FieldArray, reduxForm, SubmissionError, arrayPush, arrayRemove} from "redux-form";
 
 import Meta from "../Meta";
 import ConfirmModal from "../../../../components/ConfirmModal/";
@@ -19,13 +19,15 @@ import { GetValuesFromObjectByKeyPrefix} from "../../../../utilities";
 
 import {validate} from "./validate";
 import {FIELDS} from "./fields";
-import MediaListItem from "../Media/MediaListItemComponent";
 import AddNewMedia from "../Media/AddNewMedia";
+import MediaList from "../Media/MediaList";
 
 const classes = new BEMHelper({
     name: 'concept-form',
     prefix: 'c-',
 });
+
+const formName = 'conceptForm';
 
 const SectionComponent = ({title}) =>
     <div {...classes('section')}>
@@ -55,8 +57,12 @@ class Concept extends React.Component {
 
         this.onSubmit = this.onSubmit.bind(this);
         this.onSelectMedia = this.onSelectMedia.bind(this);
-        this.toggleMediaModal = this.toggleMediaModal.bind(this);
         this.renderSubmitButton = this.renderSubmitButton.bind(this);
+        this.renderMediaSection = this.renderMediaSection.bind(this);
+        this.closeMediaModal = this.closeMediaModal.bind(this);
+        this.openMediaModal = this.openMediaModal.bind(this);
+        this.renderMediaFields = this.renderMediaFields.bind(this);
+        this.deleteMedia = this.deleteMedia.bind(this);
     }
 
     componentDidMount() {
@@ -75,8 +81,7 @@ class Concept extends React.Component {
 
         const meta = getIds(meta_from_objects).concat(getIds(meta_from_list));
         const {externalId = -1, statusId, content, title, sourceAuthor, source = null, id = -1} = values;
-        
-        const media = [];
+        const {media = []} = values;
 
         if (! statusId)
             return;
@@ -91,7 +96,8 @@ class Concept extends React.Component {
             sourceAuthor,
             source,
             metaIds: meta,
-            media
+            media,
+            languageId: 1
         };
         return this.props.submitConcept(concept).catch(errors => {
             if (errors) {
@@ -103,7 +109,7 @@ class Concept extends React.Component {
 
     renderSubmitButton() {
         const {isReadOnly, submitting, title} = this.props;
-        return <Button disabled={isReadOnly || submitting} >{(title)}</Button>;
+        return <Button disabled={isReadOnly || submitting} className="form-button">{(title)}</Button>;
     }
 
     renderFieldsSection() {
@@ -145,36 +151,61 @@ class Concept extends React.Component {
     }
 
     onSelectMedia(media) {
-        console.log("meid", media)
-        this.toggleMediaModal();
+        this.props.dispatch(arrayPush(formName, 'media', media));
+        this.closeMediaModal();
     }
-
-    toggleMediaModal(){
-        this.setState((prev, props) => ({mediaModalIsOpen: !prev.mediaModalIsOpen}))
+    deleteMedia(index) {
+        this.props.dispatch(arrayRemove(formName, 'media', index));
+    }
+    openMediaModal() {
+        this.setState({mediaModalIsOpen: true});
+    }
+    closeMediaModal() {
+        this.setState({mediaModalIsOpen: false});
     }
 
     renderMediaSection() {
-        const {media, t, locale, isReadOnly, submitting} = this.props;
-
+        const {t, locale, isReadOnly, submitting} = this.props;
+        const disabled = isReadOnly || submitting;
         return (
             <React.Fragment>
                 <SectionComponent title="Media" />
-                {Boolean(media.length === 0) && <p {...classes('message')}>{t('conceptForm.noMedia')}</p>}
 
-                {media.map(m => <MediaListItem media={m} classes={classes('form-field')} />)}
+                <FieldArray name="media" component={this.renderMediaFields} />
 
-                {Boolean(!isReadOnly && !submitting) &&
+                {Boolean(!disabled) &&
                     <AddNewMedia
                         t={t}
                         locale={locale}
-                        close={this.toggleMediaModal}
+                        close={this.closeMediaModal}
                         onSelectMedia={this.onSelectMedia}
                         isOpen={this.state.mediaModalIsOpen}
                     />
                 }
+                <Button
+                    outline
+                    disabled={disabled}
+                    onClick={() => this.openMediaModal()}
+                    className="form-button"
+                >
+                    {t('conceptForm.button.addMedia')}
+                </Button>
 
-                <Button outline onClick={this.toggleMediaModal}>{t('conceptForm.button.addMedia')}</Button>
+
             </React.Fragment>
+        )
+    }
+
+    renderMediaFields({fields}){
+
+        const {isReadOnly, submitting} = this.props;
+        const disabled = isReadOnly || submitting;
+        return (
+            <React.Fragment>
+                {Boolean(fields.length === 0) && <p {...classes('message')}>{this.props.t('conceptForm.noMedia')}</p>}
+                <MediaList fields={fields} deleteMedia={this.deleteMedia} disabled={disabled} />
+            </React.Fragment>
+
         )
     }
 
@@ -208,6 +239,7 @@ Concept.propTypes = {
     initialize: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     submitConcept: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired,
 
     // Optional
     error: PropTypes.string,
@@ -224,6 +256,6 @@ Concept.defaultProps = {
 
 export default reduxForm({
     validate,
-    form: 'conceptForm',
+    form: formName,
     enableReinitialize: true,
 })(Concept);

@@ -127,7 +127,7 @@ class UpdateConceptPageContainer extends React.Component {
     }
 
     renderDeleteButton() {
-        return <Button outline={true} disabled={this.isReadOnly() || this.props.deleteButtonIsDisabled}>{this.props.t("updateConcept.button.delete")}</Button>;
+        return <Button className="form-button" outline={true} disabled={this.isReadOnly() || this.props.deleteButtonIsDisabled}>{this.props.t("updateConcept.button.delete")}</Button>;
     }
 
     renderContent() {
@@ -147,7 +147,7 @@ class UpdateConceptPageContainer extends React.Component {
                               onConfirm={this.onDeleteClicked}
                               title="updateConcept.confirmModal.delete.title"
                               content="updateConcept.confirmModal.delete.action"/>
-                <Button outline={true} onClick={this.onCloneClicked} disabled={this.isReadOnly()}>{this.props.t("updateConcept.button.clone")}</Button>
+                <Button className="form-button" outline={true} onClick={this.onCloneClicked} disabled={this.isReadOnly()}>{this.props.t("updateConcept.button.clone")}</Button>
             </Concept>;
         } else {
             return <Loading message="loadingMessage.initializingForm"/>

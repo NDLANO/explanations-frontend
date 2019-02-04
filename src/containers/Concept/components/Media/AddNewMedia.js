@@ -21,7 +21,7 @@ import AudioApi from "../../../../services/audioApiService";
 import ImageApi from "../../../../services/ImageApiService";
 
 const classes = new BEMHelper({
-    name: 'media-list',
+    name: 'add-new-media-list',
     prefix: 'c-',
 });
 
@@ -63,19 +63,27 @@ class AddNewMedia extends React.Component {
 
 
     onSelect(media) {
+        const {title: {title = ''} = ''} = media;
         const serializedMedia = {
-            id: media.id,
-            external: false,
+            externalId: media.id,
+            isExternalResource: false,
             url: '',
-            type: this.state.mediaType,
-            title: media.title.title
+            title: title,
+            previewUrl: media.url,
+            mediaTypeId: 1,
+            mediaType: {
+                type: this.state.mediaType,
+                name: "name",
+
+            }
         };
 
         if (serializedMedia.type === 'video') {
-            serializedMedia.external = true;
+            serializedMedia.isExternalResource = true;
             serializedMedia.url = media.url;
         }
 
+        this.setState({mediaType: ''});
         this.props.onSelectMedia(serializedMedia);
     }
 

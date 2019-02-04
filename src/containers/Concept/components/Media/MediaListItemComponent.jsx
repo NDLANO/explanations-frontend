@@ -7,25 +7,35 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from "@ndla/button";
+import { DeleteForever } from '@ndla/icons/editor/';
 
-const MediaListItem = ({classes, media: {name, mediaType}}) =>
-    <div {...classes}>
+
+
+const MediaListItem = ({ classes, media: {title, mediaType, previewUrl}, deleteMedia, index, disabled}) =>
+    <li>
         <label>{mediaType.name}</label>
-        <div>
-            <span>{name}</span>
-            <Button outline onClick={() => console.log("ja")}>Preview</Button>
+        <div {...classes('content')}>
+            <span>{title}</span>
+            <span>
+                <DeleteForever disabled={disabled} className="c-icon--large" onClick={() => deleteMedia(index)} />
+            </span>
         </div>
-    </div>;
+    </li>;
 
 MediaListItem.propTypes = {
+    // Required
     media: PropTypes.shape({
         mediaType: PropTypes.shape({
             name: PropTypes.string.isRequired
         }),
-        name: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
     }).isRequired,
     classes: PropTypes.func.isRequired,
+    deleteMedia: PropTypes.func.isRequired,
+    index: PropTypes.number.isRequired,
+
+    // Optional
+    disabled: PropTypes.bool
 };
 
 export default MediaListItem;

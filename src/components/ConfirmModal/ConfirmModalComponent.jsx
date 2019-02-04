@@ -7,6 +7,7 @@
 
 import React from 'react';
 import Modal, {ModalBody, ModalCloseButton, ModalHeader} from '@ndla/modal';
+import Button from '@ndla/button';
 
 import PropTypes from 'prop-types';
 
@@ -23,10 +24,10 @@ const ConfirmModal = ({title, content, onConfirm, t, triggerButton}) =>
                     <p>{t(content)}</p>
                     <div className="u-horisontal-list">
                         <div>
-                            <button className="c-button" onClick={() => {onConfirm(); onClose();}}>{t("confirmModal.default.button.confirm")}</button>
+                            <Button onClick={() => {onConfirm(); onClose();}}>{t("confirmModal.default.button.confirm")}</Button>
                             <div></div>
                         </div>
-                        <button className="c-button c-button--outline" onClick={onClose}>{t("confirmModal.default.button.cancel")}</button>
+                        <Button outline onClick={onClose}>{t("confirmModal.default.button.cancel")}</Button>
                     </div>
                 </ModalBody>
             </div>

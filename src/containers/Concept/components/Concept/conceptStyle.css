@@ -11,7 +11,7 @@
   &__message {
     text-align: center;
   }
-  button{
+  button.form-button{
     padding: 5px;
     display: block;
     margin-bottom: 5px;
