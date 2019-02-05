@@ -38,10 +38,11 @@ export const submitErrorHandler = (errors, {titleMessage, actionType}, updateFla
     return errors;
 };
 
-export const mapStateToPropsCommon = ({locale, cacheFromServer: {status, meta},  credentials: {accessToken}}) => {
+export const mapStateToPropsCommon = ({locale, cacheFromServer: {status, meta, mediaTypes},  credentials: {accessToken}}) => {
     return {
         accessToken: accessToken,
-        meta: meta,
+        meta,
+        mediaTypes,
         locale,
         status: status.map(x => ({value: x.id, label: x.name})),
     }
@@ -62,6 +63,27 @@ export const getMetasFromApiResult = concept => {
             meta[key] = {value: x.id, label: x.name};
     });
     return meta;
+};
+
+export const mediaSwitch = (mediaType, callbacks) => {
+    switch(mediaType.toLowerCase()) {
+        case 'video':
+            if (callbacks.video)
+                return callbacks.video;
+            break;
+        case 'audio':
+            if (callbacks.audio)
+                return callbacks.audio;
+            break;
+        case 'image':
+            if (callbacks.image)
+                return callbacks.image;
+            break;
+        default:
+            if (callbacks.default)
+                return callbacks.default;
+    }
+    return null;
 };
 
 

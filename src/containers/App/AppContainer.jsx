@@ -51,7 +51,7 @@ import ApiService from "../../services/apiService";
 import ErrorBoundary from "../ErrorBoundary";
 import Login from "../Login";
 
-import {loadMeta, loadStatus} from './actions';
+import {loadMediaTypes, loadMeta, loadStatus} from './actions';
 
 Moment.globalFormat = 'lll';
 
@@ -66,10 +66,10 @@ class App extends React.Component {
     }
 
     loadInitialData() {
-        const {apiService, loadStatus, loadMeta} = this.props;
+        const {apiService, loadStatus, loadMeta, loadMediaTypes} = this.props;
 
         apiService.getAllStatus().then(data => loadStatus(data));
-
+        apiService.getAllMediaTypes().then(data => loadMediaTypes(data)).catch(err => console.log(err));
         const promises = [apiService.getAllCategories(), apiService.getAllMetas()];
         Promise.all(promises).then(([categories, metas]) => loadMeta(categories, metas));
     }
@@ -146,7 +146,7 @@ const mapStateToProps = state => {
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, {loadMeta, loadStatus, loginSuccess, updateNext}),
+    connect(mapStateToProps, {loadMeta, loadStatus, loadMediaTypes, loginSuccess, updateNext}),
     withAuthenticationService,
     withApiService,
     injectT,

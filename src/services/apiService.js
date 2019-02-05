@@ -21,6 +21,7 @@ export default class ApiService {
             meta: `${this.apiUrl}/metadata`,
             category: `${this.apiUrl}/category`,
             status: `${this.apiUrl}/status`,
+            mediaType: `${this.apiUrl}/mediatype`,
         };
 
         this.searchCancellationToken = this.getCancellationToken();
@@ -84,6 +85,7 @@ export default class ApiService {
     getAllStatus        = () =>         this.api.get(`${this.endpoints.status}`).then(this.getData);
     getAllMetas         = () =>         this.api.get(`${this.endpoints.meta}`).then(this.getData);
     getAllCategories    = () =>         this.api.get(`${this.endpoints.category}`).then(this.getData);
+    getAllMediaTypes    = () =>         this.api.get(`${this.endpoints.mediaType}`).then(this.getData);
 
     updateConcept       = concept =>    this.api.put(`${this.endpoints.concept}`,concept, this.getRequestConfig());
 

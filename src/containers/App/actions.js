@@ -6,7 +6,9 @@
  */
 export const UPDATE_STATUS = "UPDATE_STATUS";
 export const UPDATE_METAS = "UPDATE_METAS";
+export const UPDATE_MEDIA_TYPES = "UPDATE_MEDIA_TYPES";
 
+export const loadMediaTypes = payload => ({type: UPDATE_MEDIA_TYPES, payload});
 export const loadStatus = payload => ({type: UPDATE_STATUS, payload});
 
 export const loadMeta = (categories, metas) => {

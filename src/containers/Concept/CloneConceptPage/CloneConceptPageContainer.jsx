@@ -102,7 +102,8 @@ class CloneConceptPageContainer extends React.Component {
                             locale={this.props.locale}
                             metas={this.props.meta}
                             title={this.props.t("createConcept.title")}
-                            submitConcept={this.submit} />;
+                            submitConcept={this.submit}
+                            mediaTypes={this.props.mediaTypes}/>;
         } else {
             return <Loading message="loadingMessage.initializingForm"/>
         }
@@ -140,7 +141,7 @@ CloneConceptPageContainer.propTypes = {
     updateFlashMessage: PropTypes.func.isRequired,
     updateInitialFormValues: PropTypes.func.isRequired,
     apiService: PropTypes.instanceOf(ApiService).isRequired,
-
+    mediaTypes: PropTypes.array.isRequired,
     // Optional
     flashMessage: PropTypes.shape(flashMessageShape),
     initialFormValues: PropTypes.object,

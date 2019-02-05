@@ -85,6 +85,7 @@ class CreateConceptPageContainer extends React.Component {
                              media={[]}
                              title={t("createConcept.title")}
                              submitConcept={this.submit}
+                             mediaTypes={this.props.mediaTypes}
                     />
                 </OneColumn>
             </React.Fragment>
@@ -102,6 +103,7 @@ CreateConceptPageContainer.propTypes = {
     initialFormValues: PropTypes.object.isRequired,
     apiService: PropTypes.instanceOf(ApiService).isRequired,
     locale: PropTypes.string.isRequired,
+    mediaTypes: PropTypes.array.isRequired,
 
     // Optional
     flashMessage: PropTypes.shape(flashMessageShape),

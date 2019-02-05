@@ -133,7 +133,6 @@ class Concept extends React.Component {
     }
 
     renderMetaSection() {
-        console.log("render meta")
         const { t, initialValues, error, isReadOnly} = this.props;
 
         return  (
@@ -181,6 +180,7 @@ class Concept extends React.Component {
                         close={this.closeMediaModal}
                         onSelectMedia={this.onSelectMedia}
                         isOpen={this.state.mediaModalIsOpen}
+                        mediaTypes={this.props.mediaTypes}
                     />
                 }
                 <Button
@@ -233,13 +233,14 @@ Concept.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
     metas: PropTypes.array.isRequired,
-    title: PropTypes.string.isRequired,
     status: PropTypes.array.isRequired,
+    title: PropTypes.string.isRequired,
     locale: PropTypes.string.isRequired,
+    dispatch: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
+    mediaTypes: PropTypes.array.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     submitConcept: PropTypes.func.isRequired,
-    dispatch: PropTypes.func.isRequired,
 
     // Optional
     error: PropTypes.string,

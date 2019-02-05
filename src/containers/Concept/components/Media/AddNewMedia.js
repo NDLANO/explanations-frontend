@@ -64,18 +64,15 @@ class AddNewMedia extends React.Component {
 
     onSelect(media) {
         const {title: {title = ''} = ''} = media;
+        const mediaType = this.props.mediaTypes.find(x => x.title.toLowerCase() === this.state.mediaType.toLowerCase()); // concert this.state.mediaType with this props.t(this.state.mediaType)
         const serializedMedia = {
             externalId: media.id,
             isExternalResource: false,
             url: '',
             title: title,
             previewUrl: media.url,
-            mediaTypeId: 1,
-            mediaType: {
-                type: this.state.mediaType,
-                title: "name",
-
-            }
+            mediaTypeId: mediaType.id,
+            mediaType
         };
 
         if (serializedMedia.type === 'video') {
@@ -167,6 +164,7 @@ AddNewMedia.propTypes = {
     close: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     onSelectMedia: PropTypes.func.isRequired,
+    mediaTypes: PropTypes.array.isRequired,
 
     // Optional
     videoApiService: PropTypes.instanceOf(VideoApi),

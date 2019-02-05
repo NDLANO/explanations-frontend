@@ -23,7 +23,7 @@ import Loading from '../../../components/Loading';
 import WithEither from "../../../components/HOC/WithEither";
 import {updateFlashMessage, clearFlashMessage} from "../../../components/FlashMessage/";
 import {
-    getMetasFromApiResult,
+    getMetasFromApiResult, mediaSwitch,
     metaExists,
     statusExists,
     submitErrorHandler,
@@ -73,28 +73,23 @@ class UpdateConceptPageContainer extends React.Component {
 
         this.props.apiService.getConceptById(this.getConceptId())
             .then(concept => {
-
                 const meta = getMetasFromApiResult(concept);
                 const statusId = {value: concept.status.id, label: concept.status.name};
                 return new Promise((resolve, reject) => {
                     const mediaFromApi = concept.media.map(x => {
-                        switch (x.mediaType.id) {
-                            case 1:
-                                let imageApi = new ImageApi();
-                                return imageApi.getById(x.external_id)
-                            default:
-                                return null;
-                        }
+                        const mediaType = x.mediaType.title;
+                        const imageCallback = () => new ImageApi().getById(x.externalId);
+                        return mediaSwitch(mediaType, {image: imageCallback})();
                     });
                     Promise.all(mediaFromApi).then(x => {
                         const media = [];
                         x.forEach((m, index) => {
-                            switch (concept.media[index].mediaType.id) {
-                                case 1:
-                                    media.push({...concept.media[index], title: m.title.title, previewUrl: m.imageUrl})
 
-                            }
+                            const mediaType = concept.media[index].mediaType.title;
+                            const image = ({...concept.media[index], title: m.title.title, previewUrl: m.imageUrl});
+                            media.push(mediaSwitch(mediaType, {image}))
                         });
+
                         this.props.updateInitialFormValues({
                             ...concept,
                             statusId,
@@ -166,7 +161,8 @@ class UpdateConceptPageContainer extends React.Component {
                                submitConcept={this.submit}
                                showTimestamps={true}
                                isReadOnly={this.isReadOnly()}
-                               locale={this.props.locale}>
+                               locale={this.props.locale}
+                               mediaTypes={this.props.mediaTypes}>
 
                 <ConfirmModal t={this.props.t}
                               triggerButton={this.renderDeleteButton}
@@ -214,7 +210,7 @@ UpdateConceptPageContainer.propTypes = {
     apiService: PropTypes.instanceOf(ApiService).isRequired,
     userScopes: PropTypes.arrayOf(PropTypes.string).isRequired,
     requiredScopes: PropTypes.arrayOf(PropTypes.string).isRequired,
-
+    mediaTypes: PropTypes.array.isRequired,
     // Optional
     meta: PropTypes.array,
     status: PropTypes.array,

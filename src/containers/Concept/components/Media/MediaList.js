@@ -4,6 +4,7 @@ import BEMHelper from "react-bem-helper";
 import {Field} from "redux-form";
 
 import MediaListItem from "./MediaListItemComponent";
+import {mediaSwitch} from "../../conceptCommon";
 
 
 const classes = new BEMHelper({
@@ -11,19 +12,19 @@ const classes = new BEMHelper({
     prefix: 'c-',
 });
 
-const MediaList = ({fields, deleteMedia, disabled}) => (
+const MediaList = ({fields, deleteMedia, isReadOnly, disabled}) => (
     <ul {...classes()}>
         {fields.map((mediaName, index) => {
             const media = fields.get(index);
-            let preview = () => console.log("preview");
-            switch(media.mediaType.id) {
-                case 1:
-                    preview = () => <img src={media.previewUrl} />;
-            }
+            const preview = mediaSwitch(media.mediaType.title, {
+                image: <img src={media.previewUrl} alt={media.altText} />,
+                default: null
+            });
             return <Field
                 key={index}
                 name={mediaName}
                 classes={classes}
+                isReadOnly={isReadOnly}
                 disabled={disabled}
                 index={index}
                 deleteMedia={deleteMedia}
@@ -42,7 +43,8 @@ MediaList.propTypes = {
     deleteMedia: PropTypes.func.isRequired,
 
     // Optional
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    isReadOnly: PropTypes.bool,
 };
 
 export default MediaList;
