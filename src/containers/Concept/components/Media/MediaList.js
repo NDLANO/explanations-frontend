@@ -13,16 +13,25 @@ const classes = new BEMHelper({
 
 const MediaList = ({fields, deleteMedia, disabled}) => (
     <ul {...classes()}>
-        {fields.map((media, index) =>
-            <Field
+        {fields.map((mediaName, index) => {
+            const media = fields.get(index);
+            let preview = () => console.log("preview");
+            switch(media.mediaType.id) {
+                case 1:
+                    preview = () => <img src={media.previewUrl} />;
+            }
+            return <Field
                 key={index}
-                name={media}
+                name={mediaName}
                 classes={classes}
                 disabled={disabled}
                 index={index}
                 deleteMedia={deleteMedia}
-                media={fields.get(index)}
+                media={media}
+                renderPreview={preview}
                 component={MediaListItem} />
+            }
+
         )}
     </ul>
 );

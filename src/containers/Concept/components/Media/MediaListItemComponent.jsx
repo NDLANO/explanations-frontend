@@ -9,19 +9,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DeleteForever } from '@ndla/icons/editor/';
 
-
-
-const MediaListItem = ({ classes, media: {title, mediaType}, deleteMedia, index, disabled}) =>
-    <li>
-        <label>{mediaType.title}</label>
+const MediaListItem = ({ classes, media: {title, mediaType}, deleteMedia, index, disabled, renderPreview}) =>
+    <li {...classes('item')}>
         <div {...classes('content')}>
-            <span>{title}</span>
-            <span>
+            <label>{mediaType.title}</label>
+            <div {...classes('content', 'info')}>
+                <span>{title}</span>
+                <span>
                 <DeleteForever disabled={disabled} className="c-icon--large" onClick={() => {
                     if(!disabled)
                         deleteMedia(index);
                 }} />
             </span>
+            </div>
+        </div>
+        <div {...classes('preview')}>
+            {renderPreview && renderPreview()}
         </div>
     </li>;
 
@@ -37,8 +40,10 @@ MediaListItem.propTypes = {
     deleteMedia: PropTypes.func.isRequired,
     index: PropTypes.number.isRequired,
 
+
     // Optional
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    renderPreview: PropTypes.func
 };
 
 export default MediaListItem;

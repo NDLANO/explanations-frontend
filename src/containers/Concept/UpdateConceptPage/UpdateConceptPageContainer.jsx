@@ -88,7 +88,13 @@ class UpdateConceptPageContainer extends React.Component {
                     });
                     Promise.all(mediaFromApi).then(x => {
                         const media = [];
-                        x.forEach((m, index) => media.push({...concept.media[index], title: m.title.title}));
+                        x.forEach((m, index) => {
+                            switch (concept.media[index].mediaType.id) {
+                                case 1:
+                                    media.push({...concept.media[index], title: m.title.title, previewUrl: m.imageUrl})
+
+                            }
+                        });
                         this.props.updateInitialFormValues({
                             ...concept,
                             statusId,
