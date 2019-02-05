@@ -19,7 +19,6 @@ export const mapStateToProps = state => {
     const initialValueName = (name) => `meta_${name}`;
     meta.forEach(x => {
         let name = x.category.name.toLowerCase();
-
         let value = {
             value: x.defaultValue.id,
             label: x.defaultValue.name

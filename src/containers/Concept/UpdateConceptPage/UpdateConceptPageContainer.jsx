@@ -41,6 +41,7 @@ import {
 import ApiService from "../../../services/apiService";
 import withApiService from "../../../components/HOC/withApiService";
 import {historyShape, matchShape} from "../../../utilities/commonShapes";
+import ImageApi from "../../../services/ImageApiService";
 
 
 class UpdateConceptPageContainer extends React.Component {
@@ -69,16 +70,35 @@ class UpdateConceptPageContainer extends React.Component {
             history
         };
 
+
         this.props.apiService.getConceptById(this.getConceptId())
             .then(concept => {
+
                 const meta = getMetasFromApiResult(concept);
                 const statusId = {value: concept.status.id, label: concept.status.name};
-                this.props.updateInitialFormValues({
-                    ...concept,
-                    statusId,
-                    ...meta,
-                });
-                this.props.setDeleteButtonAsDisabled(statusId.label === "Archived");
+                return new Promise((resolve, reject) => {
+                    const mediaFromApi = concept.media.map(x => {
+                        switch (x.mediaType.id) {
+                            case 1:
+                                let imageApi = new ImageApi();
+                                return imageApi.getById(x.external_id)
+                            default:
+                                return null;
+                        }
+                    });
+                    Promise.all(mediaFromApi).then(x => {
+                        const media = [];
+                        x.forEach((m, index) => media.push({...concept.media[index], title: m.title.title}));
+                        this.props.updateInitialFormValues({
+                            ...concept,
+                            statusId,
+                            ...meta,
+                            media
+                        });
+                        this.props.setDeleteButtonAsDisabled(statusId.label === "Archived");
+                        resolve();
+                    }).catch(err => reject(err));
+                })
             })
             .catch(err =>  submitErrorHandler(err, errorHandler, updateFlashMessage));
     }

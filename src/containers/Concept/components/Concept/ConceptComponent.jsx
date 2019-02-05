@@ -133,6 +133,7 @@ class Concept extends React.Component {
     }
 
     renderMetaSection() {
+        console.log("render meta")
         const { t, initialValues, error, isReadOnly} = this.props;
 
         return  (
@@ -232,7 +233,6 @@ Concept.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
     metas: PropTypes.array.isRequired,
-    media: PropTypes.array.isRequired,
     title: PropTypes.string.isRequired,
     status: PropTypes.array.isRequired,
     locale: PropTypes.string.isRequired,

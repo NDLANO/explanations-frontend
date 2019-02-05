@@ -11,13 +11,16 @@ import { DeleteForever } from '@ndla/icons/editor/';
 
 
 
-const MediaListItem = ({ classes, media: {title, mediaType, previewUrl}, deleteMedia, index, disabled}) =>
+const MediaListItem = ({ classes, media: {title, mediaType}, deleteMedia, index, disabled}) =>
     <li>
-        <label>{mediaType.name}</label>
+        <label>{mediaType.title}</label>
         <div {...classes('content')}>
             <span>{title}</span>
             <span>
-                <DeleteForever disabled={disabled} className="c-icon--large" onClick={() => deleteMedia(index)} />
+                <DeleteForever disabled={disabled} className="c-icon--large" onClick={() => {
+                    if(!disabled)
+                        deleteMedia(index);
+                }} />
             </span>
         </div>
     </li>;
@@ -26,7 +29,7 @@ MediaListItem.propTypes = {
     // Required
     media: PropTypes.shape({
         mediaType: PropTypes.shape({
-            name: PropTypes.string.isRequired
+            title: PropTypes.string.isRequired
         }),
         title: PropTypes.string.isRequired,
     }).isRequired,

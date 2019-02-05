@@ -11,7 +11,7 @@ const classes = new BEMHelper({
     prefix: 'c-',
 });
 
-const MediaList = ({fields, deleteMedia, previewMedia, disabled}) => (
+const MediaList = ({fields, deleteMedia, disabled}) => (
     <ul {...classes()}>
         {fields.map((media, index) =>
             <Field
@@ -21,7 +21,6 @@ const MediaList = ({fields, deleteMedia, previewMedia, disabled}) => (
                 disabled={disabled}
                 index={index}
                 deleteMedia={deleteMedia}
-                previewMedia={previewMedia}
                 media={fields.get(index)}
                 component={MediaListItem} />
         )}
@@ -32,7 +31,6 @@ MediaList.propTypes = {
     // Required
     fields: PropTypes.object.isRequired,
     deleteMedia: PropTypes.func.isRequired,
-    previewMedia: PropTypes.func.isRequired,
 
     // Optional
     disabled: PropTypes.bool

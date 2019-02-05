@@ -73,7 +73,7 @@ class AddNewMedia extends React.Component {
             mediaTypeId: 1,
             mediaType: {
                 type: this.state.mediaType,
-                name: "name",
+                title: "name",
 
             }
         };
