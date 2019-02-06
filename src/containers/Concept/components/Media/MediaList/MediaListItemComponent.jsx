@@ -78,7 +78,6 @@ MediaListItem.propTypes = {
             title: PropTypes.string.isRequired
         }),
         title: PropTypes.string.isRequired,
-        previewUrl: PropTypes.string.isRequired,
     }).isRequired,
     classes: PropTypes.func.isRequired,
     deleteMedia: PropTypes.func.isRequired,

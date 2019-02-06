@@ -13,3 +13,7 @@ PreviewAudio.propTypes = {
 };
 
 export default PreviewAudio;
+
+<iframe className="c-video-preview__video" title="Was ist typisch deutsch?"
+        src="//players.brightcove.net/4806596774001/BkLm8fT_default/index.html?videoId=5796749222001"
+        allowFullScreen=""></iframe>

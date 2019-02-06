@@ -29,19 +29,20 @@ const serverConfig = {
         GOOGLE: {
             searchApiKey:       getEnvironment('GOOGLE__SEARCH_API_KEY'),
             searchEngineId:     getEnvironment('GOOGLE__SEARCH_ENGINE_ID'),
-            api:                'https://www.googleapis.com/youtube/v3',
+            api:                'https://www.googleapis.com',
         },
         BRIGHTCOVE: {
-            apiKey:             getEnvironment('BRIGHTCOVE__API_KEY'),
             apiUrl:             'https://cms.api.brightcove.com',
+            accountId:          getEnvironment('BRIGHTCOVE__ACCOUNT_ID'),
+            player:             getEnvironment('BRIGHTCOVE__PLAYER'),
         }
     },
     SERVER: {
         port:                   getEnvironment('PORT') || 3000,
         BRIGHTCOVE: {
-            apiSecret:          getEnvironment('BRIGHTCOVE__API_SECRET'),
+            apiSecret:          getEnvironment('BRIGHTCOVE__SECRET'),
             clientId:           getEnvironment('BRIGHTCOVE__CLIENT_ID'),
-            tokenUrl:           'https://oauth.brightcove.com/v3/access_token'
+            tokenUrl:           'https://oauth.brightcove.com/v3/access_token?grant_type=client_credentials'
         }
     }
 };

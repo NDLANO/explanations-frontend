@@ -20,6 +20,8 @@ import VideoApi from "../../../../../services/videoApiService";
 import AudioApi from "../../../../../services/audioApiService";
 import ImageApi from "../../../../../services/imageApiService";
 
+import {config} from "../../../../../config";
+
 const classes = new BEMHelper({
     name: 'add-new-media-list',
     prefix: 'c-',
@@ -65,24 +67,34 @@ class AddNewMedia extends React.Component {
     onSelect(media) {
         const mediaType = this.props.mediaTypes.find(x => x.title.toLowerCase() === this.state.mediaType.toLowerCase()); // concert this.state.mediaType with this props.t(this.state.mediaType)
         const serializedMedia = {
-            externalId: media.id,
-            isExternalResource: false,
-            title: media.title.title,
             mediaTypeId: mediaType.id,
-            mediaType
+            mediaType,
+            source: 'ndla'
         };
 
         switch(mediaType.title.toLowerCase()) {
             case 'video':
-                serializedMedia.isExternalResource = true;
-                serializedMedia.previewUrl = media.url;
-                serializedMedia.url = media.url;
+                if (media.displayLink === 'www.youtube.com') {
+                    serializedMedia.previewUrl = media.link;
+                    serializedMedia.externalId = media.pagemap.videoobject[0].videoid;
+                    serializedMedia.title = media.title;
+                    serializedMedia.source = 'youtube';
+                }
+                else if (media.account_id === config.BRIGHTCOVE.accountId) {
+                    serializedMedia.externalId = media.pagemap.videoobject[0].videoid;
+                    serializedMedia.source = 'brightcove';
+                    serializedMedia.title = media.name;
+                }
                 break;
             case 'image':
-                serializedMedia.previewUrl = media.url;
+                serializedMedia.externalId = media.id;
+                serializedMedia.title = media.title.title;
+                serializedMedia.previewUrl = media.imageUrl;
                 serializedMedia.altText = media.alttext.alttext;
                 break;
             case 'audio':
+                serializedMedia.externalId = media.id;
+                serializedMedia.title = media.title.title;
                 serializedMedia.previewUrl = media.url;
                 break;
             default:

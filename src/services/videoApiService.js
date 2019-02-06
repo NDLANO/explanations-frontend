@@ -35,7 +35,7 @@ export default class VideoApi {
             start: query.start ? query.start : undefined,
         });
 
-        return axios.get(`${this.google.api}?${params.toString()}`).then(x => x.data);
+        return axios.get(`${this.google.api}/customsearch/v1/?${params.toString()}`).then(x => x.data);
     };
 
     searchBrightCove = ({query, offset, limit}) => {
@@ -44,8 +44,7 @@ export default class VideoApi {
             offset,
             limit,
         });
-        const url = `${this.brightCove.apiUrl}/?${urlParam.toString()}`;
-
+        const url = `${this.brightCove.apiUrl}/v1/accounts/${this.brightCove.accountId}/videos/?${urlParam.toString()}`;
         const expiresAt = this.brightCove.accessToken
             ? this.brightCove.expires
             : 0;
@@ -57,12 +56,11 @@ export default class VideoApi {
                 this.renewBrightCoveToken(x);
                 return this.fetchWithBrightCoveToken(url);
             });
-
         else
             return this.fetchWithBrightCoveToken(url);
     };
 
-    fetchWithBrightCoveToken = url => axios.get(url, {headers: { Authorization: `Bearer ${this.brightCove.accessToken}` }});
+    fetchWithBrightCoveToken = url => axios.get(url, {headers: { Authorization: `Bearer ${this.brightCove.accessToken}` }}).then(x => x.data);
 
     fetchBrightCoveAccessToken = () => axios.get('/get_brightcove_token').then(x => x.data);
 
@@ -72,4 +70,19 @@ export default class VideoApi {
 
         this.updateBrightCoveStore(this.brightCove.accessToken, this.brightCove.expires);
     }
+
+    getById(id, type) {
+        if (type === 'youtube') {
+            return this.getByIdFromYoutube(id);
+        }
+        return this.getByIdFromBrightCove(id);
+    }
+    getByIdFromYoutube(id){
+        return axios.get(`${this.google.api}/youtube/v3/videos/?${id}`).then(x => {
+            if(x.data.items.length > 0)
+                return x.data.items[0];
+            return null;
+        });
+    }
+    getByIdFromBrightCove(id){}
 }

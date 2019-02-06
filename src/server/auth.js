@@ -18,7 +18,6 @@ const b64EncodeUnicode = str =>
 
 export const getBrightcoveToken = () => {
     const clientIdSecret = `${config.SERVER.BRIGHTCOVE.clientId}:${config.SERVER.BRIGHTCOVE.apiSecret}`;
-
     return axios({
         url: config.SERVER.BRIGHTCOVE.tokenUrl,
         method: 'POST',
