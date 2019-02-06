@@ -190,6 +190,9 @@ const NB = {
         audio: "Lyd",
         video: "Film",
         image: "Bilde"
+    },
+    sentence: {
+        previewNotSupported: "Preview not supported"
     }
 };
 

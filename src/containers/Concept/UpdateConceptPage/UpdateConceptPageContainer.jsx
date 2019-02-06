@@ -23,7 +23,7 @@ import Loading from '../../../components/Loading';
 import WithEither from "../../../components/HOC/WithEither";
 import {updateFlashMessage, clearFlashMessage} from "../../../components/FlashMessage/";
 import {
-    getMetasFromApiResult, mediaSwitch,
+    getMetasFromApiResult,
     metaExists,
     statusExists,
     submitErrorHandler,
@@ -41,7 +41,8 @@ import {
 import ApiService from "../../../services/apiService";
 import withApiService from "../../../components/HOC/withApiService";
 import {historyShape, matchShape} from "../../../utilities/commonShapes";
-import ImageApi from "../../../services/ImageApiService";
+import ImageApi from "../../../services/imageApiService";
+import AudioApi from "../../../services/audioApiService";
 
 
 class UpdateConceptPageContainer extends React.Component {
@@ -78,16 +79,35 @@ class UpdateConceptPageContainer extends React.Component {
                 return new Promise((resolve, reject) => {
                     const mediaFromApi = concept.media.map(x => {
                         const mediaType = x.mediaType.title;
-                        const imageCallback = () => new ImageApi().getById(x.externalId);
-                        return mediaSwitch(mediaType, {image: imageCallback})();
+                        switch(mediaType.toLowerCase()) {
+                            case 'image':
+                                return new ImageApi().getById(x.externalId);
+                            case 'audio':
+                                return new AudioApi().getById(x.externalId);
+                            default:
+                                return null;
+                        }
                     });
                     Promise.all(mediaFromApi).then(x => {
                         const media = [];
                         x.forEach((m, index) => {
-
                             const mediaType = concept.media[index].mediaType.title;
-                            const image = ({...concept.media[index], title: m.title.title, previewUrl: m.imageUrl});
-                            media.push(mediaSwitch(mediaType, {image}))
+                            const mediaObject = {...concept.media[index]};
+                            switch(mediaType.toLowerCase()) {
+                                case 'image':
+                                    mediaObject.title = m.title.title;
+                                    mediaObject.previewUrl = m.imageUrl;
+                                    mediaObject.altText = m.alttext.alttext;
+                                    break;
+                                case 'audio':
+                                    mediaObject.title = m.title.title;
+                                    mediaObject.previewUrl = m.audioFile.url;
+                                    mediaObject.audioType = m.audioFile.mimeType;
+                                    break;
+                                default:
+                                    break;
+                            }
+                            media.push(mediaObject)
                         });
 
                         this.props.updateInitialFormValues({

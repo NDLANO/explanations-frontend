@@ -18,7 +18,7 @@ import ImageSearch from "../ImageSearch";
 
 import VideoApi from "../../../../../services/videoApiService";
 import AudioApi from "../../../../../services/audioApiService";
-import ImageApi from "../../../../../services/ImageApiService";
+import ImageApi from "../../../../../services/imageApiService";
 
 const classes = new BEMHelper({
     name: 'add-new-media-list',
@@ -63,21 +63,30 @@ class AddNewMedia extends React.Component {
 
 
     onSelect(media) {
-        const {title: {title = ''} = ''} = media;
         const mediaType = this.props.mediaTypes.find(x => x.title.toLowerCase() === this.state.mediaType.toLowerCase()); // concert this.state.mediaType with this props.t(this.state.mediaType)
         const serializedMedia = {
             externalId: media.id,
             isExternalResource: false,
-            url: '',
-            title: title,
-            previewUrl: media.url,
+            title: media.title.title,
             mediaTypeId: mediaType.id,
             mediaType
         };
 
-        if (serializedMedia.type === 'video') {
-            serializedMedia.isExternalResource = true;
-            serializedMedia.url = media.url;
+        switch(mediaType.title.toLowerCase()) {
+            case 'video':
+                serializedMedia.isExternalResource = true;
+                serializedMedia.previewUrl = media.url;
+                serializedMedia.url = media.url;
+                break;
+            case 'image':
+                serializedMedia.previewUrl = media.url;
+                serializedMedia.altText = media.alttext.alttext;
+                break;
+            case 'audio':
+                serializedMedia.previewUrl = media.url;
+                break;
+            default:
+                break;
         }
 
         this.setState({mediaType: ''});

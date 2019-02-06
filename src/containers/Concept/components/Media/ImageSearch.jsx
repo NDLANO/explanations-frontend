@@ -9,7 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ImageSearch from '@ndla/image-search';
 
-import ImageApi from "../../../../services/ImageApiService";
+import ImageApi from "../../../../services/imageApiService";
 
 const ImageSearchComponent = ({t, locale, onError, onSelect, api}) => {
     const translations = {

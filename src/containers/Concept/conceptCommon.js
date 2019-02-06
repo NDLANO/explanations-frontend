@@ -65,28 +65,6 @@ export const getMetasFromApiResult = concept => {
     return meta;
 };
 
-export const mediaSwitch = (mediaType, callbacks) => {
-    switch(mediaType.toLowerCase()) {
-        case 'video':
-            if (callbacks.video)
-                return callbacks.video;
-            break;
-        case 'audio':
-            if (callbacks.audio)
-                return callbacks.audio;
-            break;
-        case 'image':
-            if (callbacks.image)
-                return callbacks.image;
-            break;
-        default:
-            if (callbacks.default)
-                return callbacks.default;
-    }
-    return null;
-};
-
-
 export const metaExists = ({meta}) =>  meta.length > 0;
 export const statusExists = ({status}) => status.length > 0;
 

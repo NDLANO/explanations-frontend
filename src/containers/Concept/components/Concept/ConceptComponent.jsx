@@ -199,12 +199,13 @@ class Concept extends React.Component {
 
     renderMediaFields({fields}){
 
-        const {isReadOnly, submitting} = this.props;
+        const {isReadOnly, submitting, t} = this.props;
+
         const disabled = isReadOnly || submitting;
         return (
             <React.Fragment>
                 {Boolean(fields.length === 0) && <p {...classes('message')}>{this.props.t('conceptForm.noMedia')}</p>}
-                <MediaList fields={fields} deleteMedia={this.deleteMedia} disabled={disabled} isReadOnly={isReadOnly} />
+                <MediaList t={t} fields={fields} deleteMedia={this.deleteMedia} disabled={disabled} isReadOnly={isReadOnly} />
             </React.Fragment>
 
         )
