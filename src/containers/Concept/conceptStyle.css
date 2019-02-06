@@ -5,5 +5,5 @@
  * LICENSE file in the root directory of this source tree.
  */
 @import 'components/Concept/conceptStyle.css';
-@import 'components/Media/mediaListStyle.css';
-@import 'components/Media/addNewMedia.style.css';
+@import 'components/Media/MediaList/mediaListStyle.css';
+@import 'components/Media/AddNewMedia/addNewMedia.style.css';

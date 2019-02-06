@@ -12,13 +12,13 @@ import BEMHelper from 'react-bem-helper';
 import { Quote, Camera, SquareVideo } from '@ndla/icons/editor';
 import Modal, {ModalBody, ModalCloseButton, ModalHeader} from "@ndla/modal";
 
-import VideoSearch from "./VideoSearch";
-import AudioSearch from "./AudioSearch";
-import ImageSearch from "./ImageSearch";
+import VideoSearch from "../VideoSearch";
+import AudioSearch from "../AudioSearch";
+import ImageSearch from "../ImageSearch";
 
-import VideoApi from "../../../../services/videoApiService";
-import AudioApi from "../../../../services/audioApiService";
-import ImageApi from "../../../../services/ImageApiService";
+import VideoApi from "../../../../../services/videoApiService";
+import AudioApi from "../../../../../services/audioApiService";
+import ImageApi from "../../../../../services/ImageApiService";
 
 const classes = new BEMHelper({
     name: 'add-new-media-list',

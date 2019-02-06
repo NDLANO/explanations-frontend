@@ -204,7 +204,7 @@ class Concept extends React.Component {
         return (
             <React.Fragment>
                 {Boolean(fields.length === 0) && <p {...classes('message')}>{this.props.t('conceptForm.noMedia')}</p>}
-                <MediaList fields={fields} deleteMedia={this.deleteMedia} disabled={disabled} />
+                <MediaList fields={fields} deleteMedia={this.deleteMedia} disabled={disabled} isReadOnly={isReadOnly} />
             </React.Fragment>
 
         )

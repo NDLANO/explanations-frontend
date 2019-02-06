@@ -4,7 +4,7 @@ import BEMHelper from "react-bem-helper";
 import {Field} from "redux-form";
 
 import MediaListItem from "./MediaListItemComponent";
-import {mediaSwitch} from "../../conceptCommon";
+import {mediaSwitch} from "../../../conceptCommon";
 
 
 const classes = new BEMHelper({
