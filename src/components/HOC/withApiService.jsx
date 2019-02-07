@@ -14,7 +14,11 @@ const withApiService = WrappedComponent  =>{
     class HOC extends React.Component {
         render () {
             const {accessToken, history} = this.props;
-            const apiService = new ApiService({accessToken, history, apiUrl: config.EXTERNAL_URL.conceptApi});
+            const apiService = new ApiService({
+                accessToken,
+                history,
+                apiUrl: config.EXTERNAL_URL.conceptApi || `${config.EXTERNAL_URL.ndla_API}/concepts/api/v1`
+            });
 
             return (
                 <WrappedComponent

@@ -19,8 +19,8 @@ const serverConfig = {
             usernameKey:        getEnvironment('AUTH0__ACCESS_TOKEN_USERNAME_KEY'),
         },
         EXTERNAL_URL: {
-            conceptApi:        getEnvironment('EXTERNAL_URL__CONCEPT_API') || getEnvironment('NDLA_API_URL'),
-            ndlaApi:           getEnvironment('NDLA_API_URL')
+            conceptApi:        getEnvironment('EXTERNAL_URL__CONCEPT_API'),
+            ndlaApi:           getEnvironment('EXTERNAL_URL__NDLA_API_URL')
         },
         SCOPES: {
             concept_write:      getEnvironment('SCOPES__CONCEPT_WRITE'),
@@ -35,7 +35,7 @@ const serverConfig = {
         BRIGHTCOVE: {
             baseApiUrl:         'https://cms.api.brightcove.com',
             accountId:          getEnvironment('BRIGHTCOVE__ACCOUNT_ID'),
-            playerId:           getEnvironment('BRIGHTCOVE__PLAYER'),
+            playerId:           getEnvironment('BRIGHTCOVE__PLAYER_ID'),
             player:             'https://players.brightcove.net',
         },
         VIDEO_SOURCES: {
