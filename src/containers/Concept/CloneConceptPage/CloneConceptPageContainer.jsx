@@ -20,9 +20,9 @@ import Loading from '../../../components/Loading';
 import Concept from "../components/Concept";
 import WithEither from "../../../components/HOC/WithEither";
 import withApiService from "../../../components/HOC/withApiService";
-import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE} from "../UpdateConceptPage/updateConceptActions";
+
 import {
-    getMetasFromApiResult,
+    loadConcept,
     metaExists,
     statusExists,
     submitErrorHandler,
@@ -35,6 +35,7 @@ import {historyShape, matchShape} from "../../../utilities/commonShapes";
 import ApiService from "../../../services/apiService";
 
 import {UPDATE_FLASH_MESSAGE_CONCEPT_CLONE, updateInitialFormValues} from "./cloneConceptActions";
+import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE} from "../UpdateConceptPage";
 
 class CloneConceptPageContainer extends React.Component {
     constructor(props) {
@@ -43,7 +44,15 @@ class CloneConceptPageContainer extends React.Component {
     }
 
     componentDidMount() {
-        this.loadConcept();
+        const {updateFlashMessage, history} = this.props;
+        const errorHandler = {
+            titleMessage: 'cloneConcept.loadDataMessage.error.title',
+            actionType: UPDATE_FLASH_MESSAGE_CONCEPT_CLONE,
+            history
+        };
+        loadConcept(this.props.apiService, this.getConceptId())
+            .then(concept => this.props.updateInitialFormValues(concept))
+            .catch( err => submitErrorHandler(err, errorHandler, updateFlashMessage));
     }
 
     componentWillUnmount() {
@@ -75,23 +84,6 @@ class CloneConceptPageContainer extends React.Component {
 
     getConceptId() {
         return this.props.match.params.id;
-    }
-
-    loadConcept() {
-        this.props.apiService.getConceptById(this.getConceptId()).then(concept => {
-
-            delete concept.created;
-            delete concept.id;
-            delete concept.updated;
-
-            const meta = getMetasFromApiResult(concept);
-
-            this.props.updateInitialFormValues({
-                ...concept,
-                statusId: {value: concept.status.id, label: concept.status.name},
-                ...meta,
-            });
-        })
     }
 
     renderContent() {

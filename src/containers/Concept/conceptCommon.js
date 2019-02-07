@@ -8,6 +8,9 @@
 
 import {SEVERITY} from "../../components/FlashMessage";
 import {updateRoute} from "../../utilities/routeHelper";
+import ImageApi from "../../services/imageApiService";
+import AudioApi from "../../services/audioApiService";
+import VideoApi from "../../services/videoApiService";
 
 
 export const submitFormHandling = (submitFunction, successHandler, errorHandler, updateFlashMessage) => {
@@ -64,6 +67,70 @@ export const getMetasFromApiResult = concept => {
     });
     return meta;
 };
+
+
+export const getMediaFromApies = (media, t) => media.map(x => {
+    const mediaType = x.mediaType.title;
+    switch(mediaType.toLowerCase()) {
+        case 'image':
+            return new ImageApi().getById(x.externalId);
+        case 'audio':
+            return new AudioApi().getById(x.externalId);
+        case 'video':
+            return new VideoApi().getById(x.externalId, x.source);
+        default:
+            return null;
+    }
+});
+
+export const mapDataFromAPieToMedia = conceptMedia => new Promise((resolve, reject) => {
+    Promise.all(getMediaFromApies(conceptMedia)).then(x => {
+        const media = [];
+        x.forEach((m, index) => {
+            const mediaType = conceptMedia[index].mediaType.title;
+            const mediaObject = {...conceptMedia[index]};
+            switch(mediaType.toLowerCase()) {
+                case 'image':
+                    mediaObject.title = m.title.title;
+                    mediaObject.previewUrl = m.imageUrl;
+                    mediaObject.altText = m.alttext.alttext;
+                    break;
+                case 'audio':
+                    mediaObject.title = m.title.title;
+                    mediaObject.previewUrl = m.audioFile.url;
+                    mediaObject.audioType = m.audioFile.mimeType;
+                    break;
+                case 'video':
+                    mediaObject.previewUrl = m;
+                    break;
+                default:
+                    break;
+            }
+            media.push(mediaObject)
+        });
+
+        resolve(media);
+    }).catch(err => reject(err));
+});
+
+
+export const loadConcept = (api, id) => new Promise((resolve, reject) =>
+    api.getConceptById(id)
+        .then(concept => {
+            const meta = getMetasFromApiResult(concept);
+            const statusId = {value: concept.status.id, label: concept.status.name};
+            mapDataFromAPieToMedia(concept.media).then(media => {
+                resolve({
+                    ...concept,
+                    statusId,
+                    ...meta,
+                    media
+                });
+            });
+        })
+        .catch(err =>  reject(err))
+);
+
 
 export const metaExists = ({meta}) =>  meta.length > 0;
 export const statusExists = ({status}) => status.length > 0;

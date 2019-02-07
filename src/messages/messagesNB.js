@@ -102,6 +102,11 @@ const NB = {
                 title: "Klarte ikke å clone og opprette begrep",
             }
         },
+        loadDataMessage: {
+            error: {
+                title: "Fikk ikke hentet data fra server."
+            }
+        }
     },
     deleteConcept: {
         title: "Slett (arkiver)"
@@ -193,7 +198,7 @@ const NB = {
         delete: "Slett"
     },
     sentence: {
-        previewNotSupported: "Preview not supported"
+        previewNotSupported: "Støtter ikke fohåndsvisining av dette formatet"
     }
 };
 

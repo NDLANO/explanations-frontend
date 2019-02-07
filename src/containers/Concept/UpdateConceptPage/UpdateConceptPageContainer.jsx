@@ -23,7 +23,7 @@ import Loading from '../../../components/Loading';
 import WithEither from "../../../components/HOC/WithEither";
 import {updateFlashMessage, clearFlashMessage} from "../../../components/FlashMessage/";
 import {
-    getMetasFromApiResult,
+    loadConcept,
     metaExists,
     statusExists,
     submitErrorHandler,
@@ -41,9 +41,6 @@ import {
 import ApiService from "../../../services/apiService";
 import withApiService from "../../../components/HOC/withApiService";
 import {historyShape, matchShape} from "../../../utilities/commonShapes";
-import ImageApi from "../../../services/imageApiService";
-import AudioApi from "../../../services/audioApiService";
-import VideoApi from "../../../services/videoApiService";
 
 
 class UpdateConceptPageContainer extends React.Component {
@@ -56,78 +53,21 @@ class UpdateConceptPageContainer extends React.Component {
     }
 
     componentDidMount() {
-        this.loadConcept();
-    }
-
-    componentWillUnmount() {
-        this.props.clearFlashMessage(UPDATE_FLASH_MESSAGE);
-        this.props.updateInitialFormValues(null);
-    }
-
-    loadConcept() {
         const {updateFlashMessage, history} = this.props;
         const errorHandler = {
             titleMessage: 'updateConcept.loadDataMessage.error.title',
             actionType: UPDATE_FLASH_MESSAGE,
             history
         };
+        loadConcept(this.props.apiService, this.getConceptId()).then(concept => {
+            this.props.updateInitialFormValues(concept);
+            this.props.setDeleteButtonAsDisabled(concept.statusId.label === "Archived");
+        }).catch( err => submitErrorHandler(err, errorHandler, updateFlashMessage));
+    }
 
-
-        this.props.apiService.getConceptById(this.getConceptId())
-            .then(concept => {
-                const meta = getMetasFromApiResult(concept);
-                const statusId = {value: concept.status.id, label: concept.status.name};
-                return new Promise((resolve, reject) => {
-                    const mediaFromApi = concept.media.map(x => {
-                        const mediaType = x.mediaType.title;
-                        switch(mediaType.toLowerCase()) {
-                            case 'image':
-                                return new ImageApi().getById(x.externalId);
-                            case 'audio':
-                                return new AudioApi().getById(x.externalId);
-                            case 'video':
-                                return new VideoApi().getById(x.externalId, x.source);
-                            default:
-                                return null;
-                        }
-                    });
-                    Promise.all(mediaFromApi).then(x => {
-                        const media = [];
-                        x.forEach((m, index) => {
-                            const mediaType = concept.media[index].mediaType.title;
-                            const mediaObject = {...concept.media[index]};
-                            switch(mediaType.toLowerCase()) {
-                                case 'image':
-                                    mediaObject.title = m.title.title;
-                                    mediaObject.previewUrl = m.imageUrl;
-                                    mediaObject.altText = m.alttext.alttext;
-                                    break;
-                                case 'audio':
-                                    mediaObject.title = m.title.title;
-                                    mediaObject.previewUrl = m.audioFile.url;
-                                    mediaObject.audioType = m.audioFile.mimeType;
-                                    break;
-                                case 'video':
-                                    mediaObject.previewUrl = m;
-                                    break;
-                                default:
-                                    break;
-                            }
-                            media.push(mediaObject)
-                        });
-
-                        this.props.updateInitialFormValues({
-                            ...concept,
-                            statusId,
-                            ...meta,
-                            media
-                        });
-                        this.props.setDeleteButtonAsDisabled(statusId.label === "Archived");
-                        resolve();
-                    }).catch(err => reject(err));
-                })
-            })
-            .catch(err =>  submitErrorHandler(err, errorHandler, updateFlashMessage));
+    componentWillUnmount() {
+        this.props.clearFlashMessage(UPDATE_FLASH_MESSAGE);
+        this.props.updateInitialFormValues(null);
     }
 
     getConceptId() {
