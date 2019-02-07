@@ -129,7 +129,6 @@ const NB = {
         requiredField: "Dette feltet er obligatorisk",
         button: {
             addMeta: "Legg til ",
-            addMedia: "Legg til media"
         },
         noMedia: "Ingen medier er lagt til"
     },

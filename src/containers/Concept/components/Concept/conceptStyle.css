@@ -89,5 +89,8 @@
     }
   }
 
+  svg {
+    margin-bottom: 10px;
+  }
 
 }

@@ -7,7 +7,6 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Plus } from '@ndla/icons/common';
 import {Button} from "@ndla/button/es/Button";
 
 import PreviewImage from "./PreviewMedia/PreviewImageComponent";
