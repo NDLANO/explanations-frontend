@@ -37,31 +37,7 @@ $ yarn start
 #### Environment variables  
 > To set environment variables, create a .env file in the root directory with the following values
 
-Login variables
-```
-REACT_APP_AUTH0__DOMAIN
-REACT_APP_AUTH0__CLIENT_ID
-REACT_APP_AUTH0__REDIRECT_URI
-REACT_APP_AUTH0__RESPONSE_TYPE
-REACT_APP_AUTH0__AUDIENCE
-REACT_APP_AUTH0__SCOPE
-```
-
-Key to fetch username from jwt
-```
-REACT_APP_AUTH0__ACCESS_TOKEN_USERNAME_KEY
-```
-
-Enabling scopes for read and write towards the database:
-```
-REACT_APP_SCOPES__CONCEPT_WRITE
-REACT_APP_SCOPES__CONCEPT_ADMIN
-```
-
-To use a different api set:
-```
-REACT_APP_EXTERNAL_URL__CONCEPT_API
-```
+See ```./src/config.js``` for required environment variables.
 
 
 ### Code style
