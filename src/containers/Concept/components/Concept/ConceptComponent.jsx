@@ -63,7 +63,6 @@ class Concept extends React.Component {
         this.closeMediaModal = this.closeMediaModal.bind(this);
         this.openMediaModal = this.openMediaModal.bind(this);
         this.renderMediaFields = this.renderMediaFields.bind(this);
-        this.deleteMedia = this.deleteMedia.bind(this);
     }
 
     componentDidMount() {
@@ -157,9 +156,6 @@ class Concept extends React.Component {
         // TODO else send flashMessage saying cannot add media...
         this.closeMediaModal();
     }
-    deleteMedia(index) {
-        this.props.dispatch(arrayRemove(formName, 'media', index));
-    }
     openMediaModal() {
         this.setState({mediaModalIsOpen: true});
     }
@@ -200,18 +196,20 @@ class Concept extends React.Component {
             <React.Fragment>
                 {Boolean(fields.length === 0) && <p {...classes('message')}>{this.props.t('conceptForm.noMedia')}</p>}
 
-                {fields.map((mediaName, index) =>
-                    <Field
-                        key={index}
+                {fields.map((mediaName, index) => {
+                    const media = fields.get(index);
+                    return <Field
+                        key={media.previewUrl}
                         name={mediaName}
                         classes={classes}
                         isReadOnly={isReadOnly}
                         disabled={disabled}
                         itemIndex={index}
                         t={t}
-                        deleteMedia={this.deleteMedia}
-                        media={fields.get(index)}
+                        deleteMedia={() => fields.remove(index)}
+                        media={media}
                         component={Media} />
+                    }
                 )}
 
             </React.Fragment>
