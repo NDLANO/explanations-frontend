@@ -82,14 +82,14 @@ export default class ApiService {
     };
 
     getConceptById      = id =>         this.api.get(`${this.endpoints.concept}/${id}`).then(this.getData).catch(this.rejected);
-    getAllStatus        = () =>         this.api.get(`${this.endpoints.status}`).then(this.getData);
-    getAllMetas         = () =>         this.api.get(`${this.endpoints.meta}`).then(this.getData);
-    getAllCategories    = () =>         this.api.get(`${this.endpoints.category}`).then(this.getData);
-    getAllMediaTypes    = () =>         this.api.get(`${this.endpoints.mediaType}`).then(this.getData);
+    getAllStatus        = () =>         this.api.get(`${this.endpoints.status}`).then(this.getData).catch(this.rejected);
+    getAllMetas         = () =>         this.api.get(`${this.endpoints.meta}`).then(this.getData).catch(this.rejected);
+    getAllCategories    = () =>         this.api.get(`${this.endpoints.category}`).then(this.getData).catch(this.rejected);
+    getAllMediaTypes    = () =>         this.api.get(`${this.endpoints.mediaType}`).then(this.getData).catch(this.rejected);
 
-    updateConcept       = concept =>    this.api.put(`${this.endpoints.concept}`,concept, this.getRequestConfig());
+    updateConcept       = concept =>    this.api.put(`${this.endpoints.concept}`,concept, this.getRequestConfig()).catch(this.rejected);
 
-    createConcept       = concept =>    this.api.post(`${this.endpoints.concept}`,concept, this.getRequestConfig());
+    createConcept       = concept =>    this.api.post(`${this.endpoints.concept}`,concept, this.getRequestConfig()).catch(this.rejected);
 
-    archiveConcept      = id =>         this.api.delete(`${this.endpoints.concept}/${id}`, this.getRequestConfig());
+    archiveConcept      = id =>         this.api.delete(`${this.endpoints.concept}/${id}`, this.getRequestConfig()).catch(this.rejected);
 }
