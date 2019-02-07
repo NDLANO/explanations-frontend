@@ -152,7 +152,9 @@ class Concept extends React.Component {
     }
 
     onSelectMedia(media) {
-        this.props.dispatch(arrayPush(formName, 'media', media));
+        if (media)
+            this.props.dispatch(arrayPush(formName, 'media', media));
+        // TODO else send flashMessage saying cannot add media...
         this.closeMediaModal();
     }
     deleteMedia(index) {

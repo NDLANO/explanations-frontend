@@ -72,37 +72,54 @@ class AddNewMedia extends React.Component {
             source: 'ndla'
         };
 
-        switch(mediaType.title.toLowerCase()) {
-            case 'video':
-                if (media.displayLink === 'www.youtube.com') {
-                    serializedMedia.previewUrl = media.link;
-                    serializedMedia.externalId = media.pagemap.videoobject[0].videoid;
-                    serializedMedia.title = media.title;
-                    serializedMedia.source = config.VIDEO_SOURCES.youtube;
-                }
-                else if (media.account_id === config.BRIGHTCOVE.accountId) {
-                    serializedMedia.externalId = media.id;
-                    serializedMedia.source = config.VIDEO_SOURCES.brightcove;
-                    serializedMedia.title = media.name;
-                }
-                break;
-            case 'image':
-                serializedMedia.externalId = media.id;
-                serializedMedia.title = media.title.title;
-                serializedMedia.previewUrl = media.imageUrl;
-                serializedMedia.altText = media.alttext.alttext;
-                break;
-            case 'audio':
-                serializedMedia.externalId = media.id;
-                serializedMedia.title = media.title.title;
-                serializedMedia.previewUrl = media.url;
-                break;
-            default:
-                break;
-        }
-
-        this.setState({mediaType: ''});
-        this.props.onSelectMedia(serializedMedia);
+        new Promise((resolve, reject) => {
+            switch(mediaType.title.toLowerCase()) {
+                case 'video':
+                    if (media.displayLink === 'www.youtube.com') {
+                        const youTubeId = media.pagemap.videoobject[0].videoid;
+                        resolve({
+                            previewUrl: this.props.videoApiService.getById(youTubeId, config.VIDEO_SOURCES.youtube),
+                            externalId: youTubeId,
+                            title: media.title,
+                            source: config.VIDEO_SOURCES.youtube,
+                        });
+                    }
+                    else if (media.account_id === config.BRIGHTCOVE.accountId) {
+                        resolve({
+                            previewUrl: this.props.videoApiService.getById(media.id, config.VIDEO_SOURCES.brightcove),
+                            externalId: media.id,
+                            title: media.name,
+                            source: config.VIDEO_SOURCES.brightcove,
+                        })
+                    }
+                    break;
+                case 'image':
+                    resolve({
+                        previewUrl: media.imageUrl,
+                        externalId: media.id,
+                        title: media.title.title,
+                        altText: media.alttext.alttext,
+                    });
+                    break;
+                case 'audio':
+                    this.props.audioApiService.getById(media.id)
+                        .then(({audioFile}) => {
+                            resolve({
+                                previewUrl: audioFile.url,
+                                audioType: audioFile.mimeType,
+                                externalId: media.id,
+                                title: media.title.title,
+                            });
+                    });
+                    break;
+                default:
+                    reject();
+                    break;
+            }
+        })
+            .then(x => this.props.onSelectMedia({...serializedMedia, ...x}))
+            .catch(x => this.props.onSelectMedia(null))
+            .finally(() => this.setState({mediaType: ''}));
     }
 
     onError(error) {

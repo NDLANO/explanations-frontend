@@ -9,6 +9,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { injectT } from '@ndla/i18n';
 import Modal, {ModalBody, ModalCloseButton, ModalHeader} from '@ndla/modal';
+import BEMHelper from "react-bem-helper";
+
+
+const classes = new BEMHelper({
+    name: 'media-modal',
+    prefix: 'c-',
+});
 
 const MediaModal = ({children, triggerButton, t}) =>
     <Modal activateButton={triggerButton()} backgroundColor="white" size="large">
@@ -18,7 +25,9 @@ const MediaModal = ({children, triggerButton, t}) =>
                     <ModalCloseButton title={t("confirmModal.default.button.close")} onClick={onClose} />
                 </ModalHeader>
                 <ModalBody>
+                    <div {...classes('content')}>
                     {children}
+                    </div>
                 </ModalBody>
             </div>
         )}

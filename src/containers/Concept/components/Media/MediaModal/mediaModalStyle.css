@@ -1,0 +1,5 @@
+.c-media-modal {
+    &__content {
+        text-align: center;
+    }
+}

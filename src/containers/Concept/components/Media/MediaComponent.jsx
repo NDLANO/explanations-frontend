@@ -15,6 +15,7 @@ import PreviewVideo from "./PreviewMedia/PreviewVideo";
 import MediaModal from "./MediaModal";
 
 import ConfirmModal from "../../../../components/ConfirmModal";
+import PreviewAudio from "./PreviewMedia/PreviewAudio";
 
 class Media extends React.Component {
     constructor(props) {
@@ -40,6 +41,7 @@ class Media extends React.Component {
             case 'video':
                 return <PreviewVideo previewUrl={media.previewUrl}/>;
             case 'audio':
+                return <PreviewAudio previewUrl={media.previewUrl} audioType={media.audioType}/>;
             default:
                 return <PreviewNotSupported t={t}/>
         }
@@ -57,6 +59,8 @@ class Media extends React.Component {
     }
 
     render(){
+        if (!this.props.media)
+            return null;
         const { classes, media: {mediaType}, t} = this.props;
 
         return (

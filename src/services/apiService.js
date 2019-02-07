@@ -15,7 +15,7 @@ export default class ApiService {
         this.accessToken = accessToken;
         this.history = history;
         this.api = axios;
-        this.apiUrl = `${apiUrl}/concepts/api/v1`;
+        this.apiUrl = `${apiUrl}/api/v1`;
         this.endpoints = {
             concept: `${this.apiUrl}/concept`,
             meta: `${this.apiUrl}/metadata`,
