@@ -189,7 +189,9 @@ const NB = {
     phrases: {
         audio: "Lyd",
         video: "Film",
-        image: "Bilde"
+        image: "Bilde",
+        preview: "Forhåndsvis",
+        delete: "Slett"
     },
     sentence: {
         previewNotSupported: "Preview not supported"

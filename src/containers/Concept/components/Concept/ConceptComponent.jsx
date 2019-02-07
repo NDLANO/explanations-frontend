@@ -20,7 +20,7 @@ import { GetValuesFromObjectByKeyPrefix} from "../../../../utilities";
 import {validate} from "./validate";
 import {FIELDS} from "./fields";
 import AddNewMedia from "../Media/AddNewMedia";
-import MediaList from "../Media/MediaList";
+import MediaListItem from "../Media/MediaList/MediaListItemComponent";
 
 const classes = new BEMHelper({
     name: 'concept-form',
@@ -205,7 +205,21 @@ class Concept extends React.Component {
         return (
             <React.Fragment>
                 {Boolean(fields.length === 0) && <p {...classes('message')}>{this.props.t('conceptForm.noMedia')}</p>}
-                <MediaList t={t} fields={fields} deleteMedia={this.deleteMedia} disabled={disabled} isReadOnly={isReadOnly} />
+
+                {fields.map((mediaName, index) =>
+                    <Field
+                        key={index}
+                        name={mediaName}
+                        classes={classes}
+                        isReadOnly={isReadOnly}
+                        disabled={disabled}
+                        itemIndex={index}
+                        t={t}
+                        deleteMedia={this.deleteMedia}
+                        media={fields.get(index)}
+                        component={MediaListItem} />
+                )}
+
             </React.Fragment>
 
         )

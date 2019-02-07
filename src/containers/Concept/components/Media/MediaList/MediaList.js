@@ -12,7 +12,7 @@ const classes = new BEMHelper({
 });
 
 const MediaList = ({fields, deleteMedia, isReadOnly, disabled, t}) => (
-    <ul {...classes()}>
+    <React.Fragment >
         {fields.map((mediaName, index) =>
             <Field
                 key={index}
@@ -26,7 +26,7 @@ const MediaList = ({fields, deleteMedia, isReadOnly, disabled, t}) => (
                 media={fields.get(index)}
                 component={MediaListItem} />
         )}
-    </ul>
+    </React.Fragment>
 );
 
 MediaList.propTypes = {

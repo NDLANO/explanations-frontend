@@ -8,14 +8,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DeleteForever } from '@ndla/icons/editor/';
+import {Button} from "@ndla/button/es/Button";
+
 import PreviewImage from "../PreviewMedia/PreviewImageComponent";
 import PreviewNotSupported from "../PreviewMedia/PreviewNotSupported";
+import PreviewVideo from "../PreviewMedia/PreviewVideo";
+import MediaModal from "../MediaModal";
+
+import ConfirmModal from "../../../../../components/ConfirmModal";
 
 class MediaListItem extends React.Component {
     constructor(props) {
         super(props);
 
         this.deleteMedia = this.deleteMedia.bind(this);
+        this.renderPreview = this.renderPreview.bind(this);
+        this.renderPreviewButton = this.renderPreviewButton.bind(this);
+        this.renderDeleteButton = this.renderDeleteButton.bind(this);
     }
 
     deleteMedia() {
@@ -25,48 +34,42 @@ class MediaListItem extends React.Component {
     }
 
     renderPreview(){
-        const {classes, media, t} = this.props;
-
-        let preview = <PreviewNotSupported t={t}/>;
+        const {media, t} = this.props;
         switch(media.mediaType.title.toLowerCase()) {
             case 'image':
-                preview = <PreviewImage previewUrl={media.previewUrl} altText={media.altText}/>;
-                break;
-            case 'audio':
-                break;
+                return <PreviewImage previewUrl={media.previewUrl} altText={media.altText}/>;
             case 'video':
-                break;
+                return <PreviewVideo previewUrl={media.previewUrl}/>;
+            case 'audio':
             default:
-                break;
+                return <PreviewNotSupported t={t}/>
         }
-        return (
-            <div {...classes('preview')}>
-                {preview}
-            </div>
-        )
+    }
+    renderPreviewButton() {
+        return <Button outline>{this.props.t('phrases.preview')}</Button>
+    }
+    renderDeleteButton() {
+        const {disabled} = this.props;
+        return <Button disabled={disabled}>{this.props.t('phrases.delete')}</Button>
+    }
+    renderDelete() {
+        const {isReadOnly, t} = this.props;
+        return !isReadOnly && <ConfirmModal onConfirm={this.deleteMedia} t={t} triggerButton={this.renderDeleteButton}/>
     }
 
     render(){
-        const { classes, media: {title, mediaType}, isReadOnly, disabled} = this.props;
+        const { classes, media: {mediaType}, t} = this.props;
 
         return (
-            <li {...classes('item')}>
-                <div {...classes('content')}>
-                    <label>{mediaType.title}</label>
-                    <div {...classes('content', 'info')}>
-                        <span>{title}</span>
-                        <span>
-                            {!isReadOnly &&
-                                <DeleteForever disabled={disabled}
-                                               className="c-icon--large"
-                                               onClick={this.deleteMedia} />
-                            }
-                        </span>
-                    </div>
+            <div {...classes('form-field')}>
+                <label>{mediaType.title}</label>
+                <div {...classes('media-content')}>
+                    <MediaModal t={t} triggerButton={this.renderPreviewButton}>
+                        {this.renderPreview()}
+                    </MediaModal>
+                    {this.renderDelete()}
                 </div>
-                
-                {this.renderPreview()}
-            </li>
+            </div>
         )
     }
 }
@@ -77,7 +80,6 @@ MediaListItem.propTypes = {
         mediaType: PropTypes.shape({
             title: PropTypes.string.isRequired
         }),
-        title: PropTypes.string.isRequired,
     }).isRequired,
     classes: PropTypes.func.isRequired,
     deleteMedia: PropTypes.func.isRequired,

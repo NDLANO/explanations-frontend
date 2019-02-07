@@ -43,6 +43,7 @@ import withApiService from "../../../components/HOC/withApiService";
 import {historyShape, matchShape} from "../../../utilities/commonShapes";
 import ImageApi from "../../../services/imageApiService";
 import AudioApi from "../../../services/audioApiService";
+import VideoApi from "../../../services/videoApiService";
 
 
 class UpdateConceptPageContainer extends React.Component {
@@ -84,6 +85,8 @@ class UpdateConceptPageContainer extends React.Component {
                                 return new ImageApi().getById(x.externalId);
                             case 'audio':
                                 return new AudioApi().getById(x.externalId);
+                            case 'video':
+                                return new VideoApi().getById(x.externalId, x.source);
                             default:
                                 return null;
                         }
@@ -103,6 +106,9 @@ class UpdateConceptPageContainer extends React.Component {
                                     mediaObject.title = m.title.title;
                                     mediaObject.previewUrl = m.audioFile.url;
                                     mediaObject.audioType = m.audioFile.mimeType;
+                                    break;
+                                case 'video':
+                                    mediaObject.previewUrl = m;
                                     break;
                                 default:
                                     break;

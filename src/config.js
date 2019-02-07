@@ -29,12 +29,18 @@ const serverConfig = {
         GOOGLE: {
             searchApiKey:       getEnvironment('GOOGLE__SEARCH_API_KEY'),
             searchEngineId:     getEnvironment('GOOGLE__SEARCH_ENGINE_ID'),
-            api:                'https://www.googleapis.com',
+            baseApiUrl:         'https://www.googleapis.com',
+            youtubePlayer:      'https://www.youtube.com/embed',
         },
         BRIGHTCOVE: {
-            apiUrl:             'https://cms.api.brightcove.com',
+            baseApiUrl:         'https://cms.api.brightcove.com',
             accountId:          getEnvironment('BRIGHTCOVE__ACCOUNT_ID'),
-            player:             getEnvironment('BRIGHTCOVE__PLAYER'),
+            playerId:           getEnvironment('BRIGHTCOVE__PLAYER'),
+            player:             'https://players.brightcove.net',
+        },
+        VIDEO_SOURCES: {
+            youtube:            'youtube',
+            brightcove:         'brightcove'
         }
     },
     SERVER: {

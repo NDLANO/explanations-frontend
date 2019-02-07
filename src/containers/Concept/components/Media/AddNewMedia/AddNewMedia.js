@@ -78,11 +78,11 @@ class AddNewMedia extends React.Component {
                     serializedMedia.previewUrl = media.link;
                     serializedMedia.externalId = media.pagemap.videoobject[0].videoid;
                     serializedMedia.title = media.title;
-                    serializedMedia.source = 'youtube';
+                    serializedMedia.source = config.VIDEO_SOURCES.youtube;
                 }
                 else if (media.account_id === config.BRIGHTCOVE.accountId) {
-                    serializedMedia.externalId = media.pagemap.videoobject[0].videoid;
-                    serializedMedia.source = 'brightcove';
+                    serializedMedia.externalId = media.id;
+                    serializedMedia.source = config.VIDEO_SOURCES.brightcove;
                     serializedMedia.title = media.name;
                 }
                 break;

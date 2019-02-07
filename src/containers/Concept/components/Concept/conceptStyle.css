@@ -55,6 +55,21 @@
     }
   }
 
+  &__media-content{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+
+    div:not(:last-child) {
+      padding-right: 10px;
+    }
+
+    div, button{
+      width: 100%;
+    }
+  }
+
   &__section{
     padding: 10px;
     display: flex;
