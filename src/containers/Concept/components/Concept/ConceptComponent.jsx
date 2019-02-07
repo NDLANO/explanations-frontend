@@ -20,7 +20,7 @@ import { GetValuesFromObjectByKeyPrefix} from "../../../../utilities";
 import {validate} from "./validate";
 import {FIELDS} from "./fields";
 import AddNewMedia from "../Media/AddNewMedia";
-import MediaListItem from "../Media/MediaList/MediaListItemComponent";
+import Media from "../Media/MediaComponent";
 
 const classes = new BEMHelper({
     name: 'concept-form',
@@ -217,7 +217,7 @@ class Concept extends React.Component {
                         t={t}
                         deleteMedia={this.deleteMedia}
                         media={fields.get(index)}
-                        component={MediaListItem} />
+                        component={Media} />
                 )}
 
             </React.Fragment>

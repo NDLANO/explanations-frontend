@@ -7,17 +7,17 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DeleteForever } from '@ndla/icons/editor/';
+import { Plus } from '@ndla/icons/common';
 import {Button} from "@ndla/button/es/Button";
 
-import PreviewImage from "../PreviewMedia/PreviewImageComponent";
-import PreviewNotSupported from "../PreviewMedia/PreviewNotSupported";
-import PreviewVideo from "../PreviewMedia/PreviewVideo";
-import MediaModal from "../MediaModal";
+import PreviewImage from "./PreviewMedia/PreviewImageComponent";
+import PreviewNotSupported from "./PreviewMedia/PreviewNotSupported";
+import PreviewVideo from "./PreviewMedia/PreviewVideo";
+import MediaModal from "./MediaModal";
 
-import ConfirmModal from "../../../../../components/ConfirmModal";
+import ConfirmModal from "../../../../components/ConfirmModal";
 
-class MediaListItem extends React.Component {
+class Media extends React.Component {
     constructor(props) {
         super(props);
 
@@ -74,7 +74,7 @@ class MediaListItem extends React.Component {
     }
 }
 
-MediaListItem.propTypes = {
+Media.propTypes = {
     // Required
     media: PropTypes.shape({
         mediaType: PropTypes.shape({
@@ -90,9 +90,9 @@ MediaListItem.propTypes = {
     disabled: PropTypes.bool,
     isReadOnly: PropTypes.bool
 };
-MediaListItem.defaultProps = {
+Media.defaultProps = {
     disabled: true,
     isReadOnly: true
 };
 
-export default MediaListItem;
+export default Media;
