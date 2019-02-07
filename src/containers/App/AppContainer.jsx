@@ -69,7 +69,7 @@ class App extends React.Component {
         const {apiService, loadStatus, loadMeta, loadMediaTypes} = this.props;
 
         apiService.getAllStatus().then(data => loadStatus(data));
-        apiService.getAllMediaTypes().then(data => loadMediaTypes(data)).catch(err => console.log(err));
+        apiService.getAllMediaTypes().then(data => loadMediaTypes(data));
         const promises = [apiService.getAllCategories(), apiService.getAllMetas()];
         Promise.all(promises).then(([categories, metas]) => loadMeta(categories, metas));
     }
@@ -126,7 +126,7 @@ App.propTypes = {
     loadStatus: PropTypes.func.isRequired,
     loadMeta: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
-
+    loadMediaTypes: PropTypes.func.isRequired,
     // Optional
     username: PropTypes.string,
 };

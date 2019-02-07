@@ -17,7 +17,7 @@ const withApiService = WrappedComponent  =>{
             const apiService = new ApiService({
                 accessToken,
                 history,
-                apiUrl: config.EXTERNAL_URL.conceptApi || `${config.EXTERNAL_URL.ndla_API}/concepts/api/v1`
+                apiUrl: config.EXTERNAL_URL.conceptApi || `${config.EXTERNAL_URL.ndlaApi}`
             });
 
             return (
