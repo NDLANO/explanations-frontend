@@ -12,7 +12,7 @@ import Button from '@ndla/button';
 import PropTypes from 'prop-types';
 import BEMHelper from "react-bem-helper";
 import Plus from "@ndla/icons/es/action/Plus";
-import {Field, FieldArray, reduxForm, SubmissionError, arrayPush, arrayRemove} from "redux-form";
+import {Field, FieldArray, reduxForm, SubmissionError, arrayPush} from "redux-form";
 
 import Meta from "../Meta";
 import ConfirmModal from "../../../../components/ConfirmModal/";
