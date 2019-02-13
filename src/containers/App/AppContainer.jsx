@@ -69,9 +69,10 @@ class App extends React.Component {
     loadInitialData() {
         const {apiService, loadStatus, loadMeta, loadMediaTypes} = this.props;
 
-        apiService.getAllStatus().then(data => loadStatus(data));
-        apiService.getAllMediaTypes().then(data => loadMediaTypes(data));
-        const promises = [apiService.getAllCategories(), apiService.getAllMetas()];
+        apiService.get(apiService.endpoints.status).then(data => loadStatus(data));
+        apiService.get(apiService.endpoints.mediaType).then(data => loadMediaTypes(data));
+
+        const promises = [apiService.get(apiService.endpoints.category), apiService.get(apiService.endpoints.meta)];
         Promise.all(promises).then(([categories, metas]) => loadMeta(categories, metas));
     }
 

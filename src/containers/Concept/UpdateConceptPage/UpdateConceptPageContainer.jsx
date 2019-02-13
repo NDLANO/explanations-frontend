@@ -88,12 +88,12 @@ class UpdateConceptPageContainer extends React.Component {
 
         clearFlashMessage(UPDATE_FLASH_MESSAGE);
 
-        this.handleSubmit(this.props.apiService.archiveConcept(this.getConceptId()), "deleteMessage");
+        this.handleSubmit(this.props.apiService.delete(this.getConceptId(), this.props.apiService.endpoints.concept), "deleteMessage");
     }
 
     submit(concept) {
         this.props.clearFlashMessage(UPDATE_FLASH_MESSAGE);
-        const update = this.props.apiService.updateConcept(concept);
+        const update = this.props.apiService.update(concept, this.props.apiService.endpoints.concept);
         this.handleSubmit(update, "submitMessage");
         return update;
     }

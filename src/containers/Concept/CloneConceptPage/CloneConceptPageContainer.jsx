@@ -64,7 +64,7 @@ class CloneConceptPageContainer extends React.Component {
 
         clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT_CLONE);
 
-        const create = this.props.apiService.createConcept(concept);
+        const create = this.props.apiService.create(concept, this.props.apiService.endpoints.concept);
         const errorHandler = {
             titleMessage: `cloneConcept.submitMessage.error.title`,
             actionType: UPDATE_FLASH_MESSAGE_CONCEPT_CLONE,

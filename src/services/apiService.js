@@ -81,16 +81,12 @@ export default class ApiService {
             {cancelToken: this.searchCancellationToken.token}).then(this.getData);
     };
 
-    getConceptById      = id =>         this.api.get(`${this.endpoints.concept}/${id}`).then(this.getData).catch(this.rejected);
-    getAllStatus        = () =>         this.api.get(`${this.endpoints.status}`).then(this.getData).catch(this.rejected);
-    getAllMetas         = () =>         this.api.get(`${this.endpoints.meta}`).then(this.getData).catch(this.rejected);
-    getById             = (id, url) =>  this.api.get(`${url}/${id}`).then(this.getData).catch(this.rejected);
-    getAllCategories    = () =>         this.api.get(`${this.endpoints.category}`).then(this.getData).catch(this.rejected);
-    getAllMediaTypes    = () =>         this.api.get(`${this.endpoints.mediaType}`).then(this.getData).catch(this.rejected);
+    getById    = (id, url) =>           this.api.get(`${url}/${id}`).then(this.getData).catch(this.rejected);
+    get        = url =>                 this.api.get(url).then(this.getData).catch(this.rejected);
 
-    updateConcept       = concept =>    this.api.put(`${this.endpoints.concept}`,concept, this.getRequestConfig()).catch(this.rejected);
+    update     = (concept, url) =>      this.api.put(url,concept, this.getRequestConfig()).catch(this.rejected);
 
-    createConcept       = concept =>    this.api.post(`${this.endpoints.concept}`,concept, this.getRequestConfig()).catch(this.rejected);
+    create     = (concept, url) =>      this.api.post(url,concept, this.getRequestConfig()).catch(this.rejected);
 
-    archiveConcept      = id =>         this.api.delete(`${this.endpoints.concept}/${id}`, this.getRequestConfig()).catch(this.rejected);
+    delete     = (id, url) =>           this.api.delete(`${url}/${id}`, this.getRequestConfig()).catch(this.rejected);
 }

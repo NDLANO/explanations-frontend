@@ -115,7 +115,7 @@ export const mapDataFromAPieToMedia = conceptMedia => new Promise((resolve, reje
 
 
 export const loadConcept = (api, id) => new Promise((resolve, reject) =>
-    api.getConceptById(id)
+    api.getById(id, api.endpoints.concept)
         .then(concept => {
             const meta = getMetasFromApiResult(concept);
             const statusId = {value: concept.status.id, label: concept.status.name};
