@@ -7,11 +7,14 @@
  */
 import {sortObjectsByKey} from "../../utilities/sorting";
 
-import {SEARCH_FOR_CONCEPT} from './searchPageActions';
+import {SEARCH_FOR_CONCEPT, UPDATE_INITIAL_FORM_VALUES} from './searchPageActions';
 
 const initialState = {
     results: [],
-    autocompleteTitles: []
+    autocompleteTitles: [],
+    term: '',
+    language: null,
+    subject: null
 };
 
 export const search = (state=initialState, action) => {
@@ -20,6 +23,8 @@ export const search = (state=initialState, action) => {
             let results = action.payload.sort(sortObjectsByKey('title'));
             let autocompleteTitles = results.map(x => x.title);
             return {...state, results, autocompleteTitles};
+        case UPDATE_INITIAL_FORM_VALUES:
+            return {...state, ...action.payload};
         default:
             return state;
     }

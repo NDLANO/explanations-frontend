@@ -12,6 +12,7 @@ export const updateRoute = (id=':id') => `/update/${id}`;
 export const createRoute = () => '/create';
 export const cloneRoute = (id=':id') => `/clone/${id}`;
 export const loginRoute =  () => '/login';
+export const embeddedRoute =  () => '/embedded';
 export const logoutRoute =  () => '/logout';
 export const notAuthorizedRoute = () => '/forbidden';
 export const notFoundRoute = () => '/notFound';

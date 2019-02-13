@@ -19,7 +19,7 @@ import WithEither from "../../components/HOC/WithEither";
 import withApiService from "../../components/HOC/withApiService";
 
 import SearchForm from "./components/SearchForm";
-import {updateSearchResult} from "./searchPageActions";
+import {updateInitialFormValues, updateSearchResult} from "./searchPageActions";
 import SearchResultList from "./components/SearchResult";
 import {mapStateToProps} from "./searchPageMapStateToProps";
 import ApiService from "../../services/apiService";
@@ -40,14 +40,17 @@ class SearchContainer extends React.Component {
             .then(() => this.setState({userHasSearched: true}));
     }
 
+    componentWillUnmount() {
+        this.props.updateInitialFormValues({term: '', language: null, subject: null});
+    }
+
     render() {
         const {t,
             languages,
             subjects,
             searchResult,
             autoComplete,
-            selectedLanguage,
-            selectedSubject,
+            initialFormValues
         } = this.props;
 
         const resultHeader = this.state.userHasSearched ? `${searchResult.length} ${t('searchPage.resultHits')}` : '';
@@ -61,12 +64,11 @@ class SearchContainer extends React.Component {
                 <Breadcrumb items={breadCrumbs}/>
                 <Helmet title={t('pageTitles.searchForConcept')} />
                 <SearchForm t={t}
+                            initialValues={initialFormValues}
                             languages={languages}
                             subjects={subjects}
                             search={this.search}
-                            autoComplete={autoComplete}
-                            selectedLanguage={selectedLanguage}
-                            selectedSubject={selectedSubject}/>
+                            autoComplete={autoComplete}/>
                 <SearchResultList results={searchResult} resultHeader={resultHeader} t={t}/>
             </OneColumn>
         )
@@ -80,12 +82,12 @@ SearchContainer.propTypes = {
     languages: PropTypes.array.isRequired,
     updateSearchResult: PropTypes.func.isRequired,
     apiService: PropTypes.instanceOf(ApiService).isRequired,
-    selectedSubject: PropTypes.object.isRequired,
-    selectedLanguage: PropTypes.object.isRequired,
+    updateInitialFormValues: PropTypes.func.isRequired,
 
     // Optional
     searchResult: PropTypes.array,
     autoComplete: PropTypes.array,
+    initialFormValues: PropTypes.object
 };
 
 
@@ -97,7 +99,7 @@ const languageAndSubjectsShouldBePresent = compose(
 )(SearchContainer);
 
 export default compose(
-    connect(mapStateToProps, {updateSearchResult}),
+    connect(mapStateToProps, {updateSearchResult, updateInitialFormValues}),
     withApiService,
     injectT,
 )(languageAndSubjectsShouldBePresent);

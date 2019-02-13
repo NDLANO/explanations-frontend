@@ -18,8 +18,8 @@ const classes = new BEMHelper({
 class Dropdown extends React.Component {
     constructor(props) {
         super(props);
-        const {selected} = this.props;
-        this.state = {selected};
+        const {selected, input: {value}} = this.props;
+        this.state = {selected: selected || value};
 
         this.onChange = this.onChange.bind(this);
         this.onBlur = this.onBlur.bind(this);
@@ -83,7 +83,7 @@ Dropdown.propTypes = {
     selected: PropTypes.oneOfType([
         dropdownElementShape,
         PropTypes.arrayOf(dropdownElementShape)
-    ]).isRequired,
+    ]),
 };
 
 Dropdown.defaultProps = {

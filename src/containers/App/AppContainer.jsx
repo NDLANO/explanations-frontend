@@ -35,7 +35,7 @@ import {
     catchAllRoute,
     logoutRoute,
     notAuthorizedRoute,
-    notFoundRoute, loginRoute
+    notFoundRoute, loginRoute, embeddedRoute
 } from '../../utilities/routeHelper';
 import CloneConceptPage from '../Concept/CloneConceptPage';
 import UpdateConceptPage from '../Concept/UpdateConceptPage';
@@ -50,6 +50,7 @@ import withApiService from "../../components/HOC/withApiService";
 import ApiService from "../../services/apiService";
 import ErrorBoundary from "../ErrorBoundary";
 import Login from "../Login";
+import Embedding from "../Embedding";
 
 import {loadMediaTypes, loadMeta, loadStatus} from './actions';
 
@@ -89,11 +90,12 @@ class App extends React.Component {
         return (
             <PageContainer>
                 <Helmet title={t('pageTitles.default')} />
-                <Content id="ma">
+                <Content>
                     <Header t={t} username={username} isLoggedIn={isAuthenticated} />
                     <ErrorBoundary>
                         <Switch>
                             <Route path={loginRoute()} component={Login}/>
+                            <Route path={embeddedRoute()} component={Embedding}/>
                             <Route path={updateRoute()} render={this.renderUpdateComponent}/>
                             <PrivateRoute requiredScopes={createPageRequiredScope}
                                           path={createRoute()}

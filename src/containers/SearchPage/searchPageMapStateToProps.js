@@ -21,6 +21,8 @@ const ALL_SUBJECTS = {
     description: " "
 };
 
+const metaToDropdownValue = ob => ({value: ob.id, label: ob.name});
+
 const getMetaByCategory = (list, name, DEFAULT_OBJECT) => {
     let fromState = list.find(x => x.category.name === name);
 
@@ -35,14 +37,6 @@ const getMetaByCategory = (list, name, DEFAULT_OBJECT) => {
     return [];
 };
 
-const getDefaultLanguage = (languages, locale) => {
-    let lang = languages.find(x => x.abbreviation === locale);
-    let defaultLanguage = null;
-    if (lang) {
-        defaultLanguage = {value: lang.id, label: lang.name};
-    }
-    return defaultLanguage;
-};
 
 const getAutoCompleteList = (state) => {
     let autoComplete = [];
@@ -57,16 +51,21 @@ const getAutoCompleteList = (state) => {
 };
 
 export const mapStateToProps = state =>{
+    const {language, subject, term} = state.search;
     const subjects = getMetaByCategory(state.cacheFromServer.meta, "Fag", ALL_SUBJECTS);
     const languages = getMetaByCategory(state.cacheFromServer.meta, "Språk", ALL_LANGUAGES);
+
+    const initialFormValues = {
+        title: term,
+        language: metaToDropdownValue(language ? language : languages.find(x => x.abbreviation === state.locale)),
+        subject: metaToDropdownValue(subject ? subject : ALL_SUBJECTS)};
 
     return  ({
         searchResult: state.search.results,
         languages: languages.map(x => ({value: x.id, label: x.name})),
         subjects: subjects.map(x => ({value: x.id, label: x.name})),
-        selectedLanguage: getDefaultLanguage(languages, state.locale),
-        selectedSubject: {value: ALL_SUBJECTS.id, label: ALL_SUBJECTS.name},
-        autoComplete: getAutoCompleteList(state)
+        autoComplete: getAutoCompleteList(state),
+        initialFormValues,
     })
 };
 

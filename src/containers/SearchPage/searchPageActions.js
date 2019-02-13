@@ -7,3 +7,6 @@
  */
 export const SEARCH_FOR_CONCEPT = 'SEARCH_FOR_CONCEPT';
 export const updateSearchResult = payload => ({type: SEARCH_FOR_CONCEPT, payload});
+
+export const UPDATE_INITIAL_FORM_VALUES = 'UPDATE_INITIAL_FORM_VALUES';
+export const updateInitialFormValues = payload => ({type: UPDATE_INITIAL_FORM_VALUES, payload});

@@ -84,6 +84,7 @@ export default class ApiService {
     getConceptById      = id =>         this.api.get(`${this.endpoints.concept}/${id}`).then(this.getData).catch(this.rejected);
     getAllStatus        = () =>         this.api.get(`${this.endpoints.status}`).then(this.getData).catch(this.rejected);
     getAllMetas         = () =>         this.api.get(`${this.endpoints.meta}`).then(this.getData).catch(this.rejected);
+    getById             = (id, url) =>  this.api.get(`${url}/${id}`).then(this.getData).catch(this.rejected);
     getAllCategories    = () =>         this.api.get(`${this.endpoints.category}`).then(this.getData).catch(this.rejected);
     getAllMediaTypes    = () =>         this.api.get(`${this.endpoints.mediaType}`).then(this.getData).catch(this.rejected);
 
