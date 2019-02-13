@@ -17,3 +17,13 @@
   align-items: center;
   justify-content: center;
 }
+
+.footer-form {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.footer-form > .c-dropdown {
+  max-width: 10em;
+}

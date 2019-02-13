@@ -13,14 +13,15 @@ import {Footer, Logo} from '@ndla/ui';
 import SelectLocale from '../../containers/SelectLocale/index';
 import {indexRoute} from "../../utilities/routeHelper";
 
+
 const FooterWrapper = ({ t, editorChief, editorManaging }) => (
     <Footer>
-        <form className="footer_form">
+        <form className="footer-form">
             <label className="footer_label footer--bold" htmlFor="language-select">
                 {t('footer.selectLanguage')}
             </label>
 
-        <SelectLocale id="language-select" className="footer_language-select" />
+        <SelectLocale t={t} className="footer_language-select" />
         </form>
         <Footer.Ruler />
        <div className="footer-text-wrapper">

@@ -16,6 +16,8 @@ export const decodeAccessToken = accessToken => {
 };
 
 export const isTokenExpired = accessToken => {
+    if(!accessToken)
+        return true;
     const token = decodeAccessToken(accessToken);
 
     if (!token)

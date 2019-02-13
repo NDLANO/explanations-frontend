@@ -172,11 +172,6 @@ const NB = {
     flashMessage: {
         dismiss: "Lukk"
     },
-    metaKeys: {
-        language: "Språk",
-        subject: "Fag",
-        licence: "Lisens"
-    },
     searchMedia: {
         audioTitle: "Søk etter lydklipp",
         videoTitle: "Søk etter video",
@@ -195,10 +190,17 @@ const NB = {
         video: "Film",
         image: "Bilde",
         preview: "Forhåndsvis",
-        delete: "Slett"
+        delete: "Slett",
+        language: "Språk",
+        subject: "Fag",
+        licence: "Lisens"
     },
     sentence: {
         previewNotSupported: "Støtter ikke fohåndsvisining av dette formatet"
+    },
+    embeddingPage: {
+        notVerifiedToken: "Klarte ikke å validere token",
+        tokenIsExpired: "Token er utgått"
     }
 };
 

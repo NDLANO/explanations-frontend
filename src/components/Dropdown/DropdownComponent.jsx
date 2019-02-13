@@ -18,7 +18,7 @@ const classes = new BEMHelper({
 class Dropdown extends React.Component {
     constructor(props) {
         super(props);
-        const {selected, input: {value}} = this.props;
+        const {selected, input: {value} = {value: ''}} = this.props;
         this.state = {selected: selected || value};
 
         this.onChange = this.onChange.bind(this);
@@ -36,12 +36,7 @@ class Dropdown extends React.Component {
     }
 
     onBlur() {
-        if (this.state.selected) {
-            if (this.props.input)
-                this.props.input.onChange(this.state.selected);
-            if (this.props.onChange)
-                this.props.onChange(this.state.selected);
-        }
+        
     }
 
     render() {
@@ -84,6 +79,7 @@ Dropdown.propTypes = {
         dropdownElementShape,
         PropTypes.arrayOf(dropdownElementShape)
     ]),
+    options: PropTypes.arrayOf(dropdownElementShape)
 };
 
 Dropdown.defaultProps = {
@@ -92,6 +88,7 @@ Dropdown.defaultProps = {
     isClearable: false,
     isMultiSelect: false,
     placeholder: 'dropdown.placeholder',
+    options: []
 };
 
 export default Dropdown;
