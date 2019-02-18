@@ -53,7 +53,6 @@ class SearchContainer extends React.Component {
             initialFormValues
         } = this.props;
 
-        const resultHeader = this.state.userHasSearched ? `${searchResult.length} ${t('searchPage.resultHits')}` : '';
         const breadCrumbs = [
             {to: indexRoute(), name: t('indexPage.title')},
             {to: searchRoute(), name: t('search.title')},
@@ -69,7 +68,7 @@ class SearchContainer extends React.Component {
                             subjects={subjects}
                             search={this.search}
                             autoComplete={autoComplete}/>
-                <SearchResultList results={searchResult} resultHeader={resultHeader} t={t}/>
+                <SearchResultList results={searchResult} userHasSearched={this.state.userHasSearched} t={t}/>
             </OneColumn>
         )
     }

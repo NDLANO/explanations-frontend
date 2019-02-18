@@ -11,17 +11,21 @@ import BEMHelper from "react-bem-helper";
 import PropTypes from 'prop-types';
 
 import SearchResultItem from "../Item/SearchResultItemComponent";
+import SearchResultHeader from '../Header';
 
 const classes = new BEMHelper({
     name: 'search-result-list',
     prefix: 'c-',
 });
 
-const SearchResultList = ({results, resultHeader, t})=>
+const SearchResultList = ({results, userHasSearched, t})=>
     <div>
         <h6 {...classes('count')}>
-            {resultHeader}
+            {userHasSearched ? `${results.length} ${t('searchPage.resultHits')}` : ''}
         </h6>
+        {//<SearchResultHeader userHasSearched={userHasSearched} t={t} results={results} />
+        }
+
         {Boolean(results.length) &&
             <ul {...classes()}>
                 {results.map(result => <SearchResultItem key={result.id} {...result} t={t}/>)}
@@ -31,12 +35,12 @@ const SearchResultList = ({results, resultHeader, t})=>
 
 SearchResultList.propTypes = {
     results: PropTypes.array,
-    resultHeader: PropTypes.string
+    userHasSearched: PropTypes.bool
 };
 
 SearchResultList.defaultProps = {
     results: [],
-    resultHeader: ''
+    userHasSearched: false
 };
 
 export default SearchResultList;
