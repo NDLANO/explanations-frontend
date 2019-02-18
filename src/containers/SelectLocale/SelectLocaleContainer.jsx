@@ -56,49 +56,6 @@ class SelectLocale extends React.Component {
         )
     }
 }
-/*
-const SelectLocale = ({ locale, location: { pathname, search }, updateLocale }) => {
-    const handleChange = ({value, label}) => {
-        // Next 3 lines is to trim previous locale
-        let path = pathname.slice();
-        appLocales.forEach(l => path = path.replace(`/${l.abbreviation}/`, ''));
-        path = path.startsWith('/') ? path.substring(1) : path;
-        createHistory().push(`/${value}/${path}${search}`); // Need create new history or else basename is included
-        window.location.reload();
-        updateLocale(value)
-    };
-
-    const currentLocale = appLocales.find(x => x.abbreviation === locale);
-    const selectedLocale = {
-        label: 'Ukjent',
-        value: 'ukjent'
-    };
-    if (currentLocale){
-        selectedLocale.value = currentLocale.abbreviation;
-        selectedLocale.label = currentLocale.name;
-    }
-
-    return (
-        <Dropdown
-            t={l => console.log("ad", l)}
-            onChange={handleChange}
-            selected={selectedLocale}
-            options={appLocales.map(l => ({value: l.abbreviation, label: l.name}))}>
-        </Dropdown>
-    )
-    /* return (
-         <select
-             onChange={evt => handleChange(evt.target.value)}
-             value={locale}>
-             {appLocales.map(l => (
-                 <option key={l.abbreviation} value={l.abbreviation}>
-                     {l.name}
-                 </option>
-             ))}
-         </select>
-     );
-};
-*/
 SelectLocale.propTypes = {
     location: locationShape.isRequired,
     locale: PropTypes.string.isRequired,
@@ -108,7 +65,5 @@ SelectLocale.propTypes = {
 const mapStateToProps = ({locale}) => ({
     locale,
 });
-
-
 
 export default withRouter(connect(mapStateToProps, {updateLocale})(SelectLocale));

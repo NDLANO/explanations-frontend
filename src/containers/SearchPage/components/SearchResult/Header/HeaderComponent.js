@@ -2,7 +2,6 @@ import React from 'react';
 import BEMHelper from "react-bem-helper";
 import PropTypes from "prop-types";
 
-
 const classes = new BEMHelper({
     name: 'search-result-header',
     prefix: 'c-',
@@ -10,39 +9,47 @@ const classes = new BEMHelper({
 
 class HeaderComponent extends React.Component {
 
+    renderNotFound(condition, searchValue) {
+        if (condition)
+            return null;
+
+        return (
+            <div>
+                {this.props.t('searchPage.notResultsWith')} <strong>{searchValue}</strong>
+            </div>
+        )
+    }
+
     render() {
         const {results, userHasSearched, t, searchQuery} = this.props;
         if (!userHasSearched)
             return null;
 
+        const resultsContainsLanguageMeta = results.filter(x => x.meta.find(y => y.id === searchQuery.language.value));
+        const resultsContainsSubjectMeta = results.filter(x => x.meta.find(y => y.id === searchQuery.subject.value));
+        const resultsWithTitle = results.filter(x => x.title === searchQuery.title);
 
-        if (results.length === 0) {
-            return (
-                <div {...classes}>
-                    {t('Fant ingen begreper med meta som ....')}
-                </div>
-            )
-        } else {
-            console.log("query", searchQuery)
-            console.log("res", results.filter(x => x.meta).filter(x => x.meta.find(y => y.id === searchQuery.language.value)))
-
-           /* const conceptsWithSubejctExists = results.find(x => x.meta && x.meta.find(m => m.id === searchQueryValues.subject.id));
-            const conceptsWithLanguageExists = results.find(x => x.meta && x.meta.find(m => m.id === searchQueryValues.language.id));
-
-            console.log("meta", conceptsWithLanguageExists, conceptsWithSubejctExists)*/
-            return (
-                <div>
-                    Du søkte på ...
-                </div>
-            )
-        }
-
+        return (
+            <div {...classes()}>
+                <strong>
+                    {userHasSearched ? `${results.length} ${t('searchPage.resultHits')}` : ''}
+                </strong>
+                {results.length > 0 && <React.Fragment>
+                    {searchQuery.title && this.renderNotFound(resultsWithTitle.length, searchQuery.title)}
+                    {searchQuery.language.value !== -1 && this.renderNotFound(resultsContainsLanguageMeta.length, searchQuery.language.label)}
+                    {searchQuery.subject.value !== -1 && this.renderNotFound(resultsContainsSubjectMeta.length, searchQuery.subject.label)}
+                </React.Fragment>
+                }
+            </div>
+        )
     }
 }
 
 HeaderComponent.propTypes = {
+    // Required
     searchQuery: PropTypes.object.isRequired,
 
+    // Optional
     results: PropTypes.array,
     userHasSearched: PropTypes.bool
 };

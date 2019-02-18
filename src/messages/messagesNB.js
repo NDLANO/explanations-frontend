@@ -164,7 +164,8 @@ const NB = {
         description: "Her har du ikke tilgang..."
     },
     searchPage: {
-        resultHits: 'treff'
+        resultHits: 'treff',
+        notResultsWith: 'Ingen treff på',
     },
     indexPage: {
         title: "Hjem"
