@@ -4,25 +4,16 @@
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import 'url-search-params-polyfill';
-
-export const createSearchQueryFromValues = values => {
-    const {title, ...metas} = values;
-
-    const searchParams = new URLSearchParams();
-
-    if (title)
-        searchParams.append('title', title);
-
-    Object.values(metas)
-        .filter(x => x.value > -1)
-        .forEach(x => searchParams.append('meta', x.value));
-
-    return searchParams.toString();
+export const normalizeFormValues = ({title: term, language, subject}) => {
+    const query = {term: '', language: null, subject: null};
+    if (term)
+        query['term'] = term;
+    if (language && language.value !== -1)
+        query['language'] = {id: language.value, name: language.label};
+    if (subject && subject.value !== -1)
+        query['subject'] = {id: subject.value, name: subject.label};
+    return query;
 };
 
-let timeout = null;
-export const onChange = (values, dispatch, props, previousValues) => {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => props.search(createSearchQueryFromValues(values)), 300);
-};
+
+export const onChange = (values, dispatch, props, previousValues) =>  props.search(normalizeFormValues(values));

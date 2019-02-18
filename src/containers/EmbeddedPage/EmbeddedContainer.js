@@ -19,7 +19,7 @@ import AuthenticationService from "../../services/authenticationService";
 import {indexRoute} from "../../utilities/routeHelper";
 import {historyShape} from "../../utilities/commonShapes";
 import Loading from "../../components/Loading";
-import {updateInitialFormValues} from "../SearchPage/searchPageActions";
+import {updateSearchQuery} from "../SearchPage/searchPageActions";
 import withApiService from "../../components/HOC/withApiService";
 import ApiService from "../../services/apiService";
 import {isTokenExpired} from "../../utilities/tokenHelper";
@@ -105,7 +105,7 @@ EmbeddedContainer.propTypes = {
 const mapStateToProps = state => ({accessTokenFromStore: state.credentials.accessToken});
 
 export default compose(
-    connect(mapStateToProps, {loginSuccess, logoutSuccess, updateInitialFormValues}),
+    connect(mapStateToProps, {loginSuccess, logoutSuccess, updateInitialFormValues: updateSearchQuery}),
     withAuthenticationService,
     withApiService,
     injectT,

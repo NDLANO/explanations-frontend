@@ -7,7 +7,7 @@
  */
 import {sortObjectsByKey} from "../../utilities/sorting";
 
-import {SEARCH_FOR_CONCEPT, UPDATE_INITIAL_FORM_VALUES} from './searchPageActions';
+import {SEARCH_FOR_CONCEPT, UPDATE_SEARCH_QUERY} from './searchPageActions';
 
 const initialState = {
     results: [],
@@ -23,7 +23,7 @@ export const search = (state=initialState, action) => {
             let results = action.payload.sort(sortObjectsByKey('title'));
             let autocompleteTitles = results.map(x => x.title);
             return {...state, results, autocompleteTitles};
-        case UPDATE_INITIAL_FORM_VALUES:
+        case UPDATE_SEARCH_QUERY:
             return {...state, ...action.payload};
         default:
             return state;

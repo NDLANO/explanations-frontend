@@ -11,17 +11,25 @@ const classes = new BEMHelper({
 class HeaderComponent extends React.Component {
 
     render() {
-        const {results, userHasSearched, t} = this.props;
+        const {results, userHasSearched, t, searchQuery} = this.props;
         if (!userHasSearched)
             return null;
 
+
         if (results.length === 0) {
             return (
-                <div>
-                    Fant ingen begreper med meta som ....
+                <div {...classes}>
+                    {t('Fant ingen begreper med meta som ....')}
                 </div>
             )
         } else {
+            console.log("query", searchQuery)
+            console.log("res", results.filter(x => x.meta).filter(x => x.meta.find(y => y.id === searchQuery.language.value)))
+
+           /* const conceptsWithSubejctExists = results.find(x => x.meta && x.meta.find(m => m.id === searchQueryValues.subject.id));
+            const conceptsWithLanguageExists = results.find(x => x.meta && x.meta.find(m => m.id === searchQueryValues.language.id));
+
+            console.log("meta", conceptsWithLanguageExists, conceptsWithSubejctExists)*/
             return (
                 <div>
                     Du søkte på ...
@@ -33,6 +41,8 @@ class HeaderComponent extends React.Component {
 }
 
 HeaderComponent.propTypes = {
+    searchQuery: PropTypes.object.isRequired,
+
     results: PropTypes.array,
     userHasSearched: PropTypes.bool
 };

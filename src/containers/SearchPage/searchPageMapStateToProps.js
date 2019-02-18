@@ -55,7 +55,7 @@ export const mapStateToProps = state =>{
     const subjects = getMetaByCategory(state.cacheFromServer.meta, "Fag", ALL_SUBJECTS);
     const languages = getMetaByCategory(state.cacheFromServer.meta, "Språk", ALL_LANGUAGES);
 
-    const initialFormValues = {
+    const searchQuery = {
         title: term,
         language: metaToDropdownValue(language ? language : languages.find(x => x.abbreviation === state.locale)),
         subject: metaToDropdownValue(subject ? subject : ALL_SUBJECTS)};
@@ -65,7 +65,7 @@ export const mapStateToProps = state =>{
         languages: languages.map(x => ({value: x.id, label: x.name})),
         subjects: subjects.map(x => ({value: x.id, label: x.name})),
         autoComplete: getAutoCompleteList(state),
-        initialFormValues,
+        searchQuery,
     })
 };
 

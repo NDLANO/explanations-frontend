@@ -8,6 +8,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 import {connect} from "react-redux";
 import {OneColumn, Breadcrumb} from '@ndla/ui';
 import {injectT} from "@ndla/i18n";
@@ -19,29 +20,53 @@ import WithEither from "../../components/HOC/WithEither";
 import withApiService from "../../components/HOC/withApiService";
 
 import SearchForm from "./components/SearchForm";
-import {updateInitialFormValues, updateSearchResult} from "./searchPageActions";
+import {updateSearchQuery, updateSearchResult} from "./searchPageActions";
 import SearchResultList from "./components/SearchResult";
 import {mapStateToProps} from "./searchPageMapStateToProps";
 import ApiService from "../../services/apiService";
 import {indexRoute, searchRoute} from "../../utilities/routeHelper";
 
 
+import 'url-search-params-polyfill';
+
 class SearchContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {userHasSearched: false};
         this.search = this.search.bind(this);
+
+        this.search = _.throttle(this.search, 300);
     }
 
-    search(query) {
+    createSearchQueryFromValues(values) {
+        const {term, ...metas} = values;
+
+        const searchParams = new URLSearchParams();
+
+        if (term)
+            searchParams.append('title', term);
+
+        Object.values(_.pickBy(metas, _.identity))
+            .forEach(x => searchParams.append('meta', x.id));
+
+        return searchParams.toString();
+    }
+
+    search(values) {
+        const query = this.createSearchQueryFromValues(values);
+        if (!query)
+            return;
+
+        this.props.updateSearchQuery(values);
         const {updateSearchResult, apiService} = this.props;
+
         apiService.searchForConcepts(query)
             .then(updateSearchResult)
             .then(() => this.setState({userHasSearched: true}));
     }
 
     componentWillUnmount() {
-        this.props.updateInitialFormValues({term: '', language: null, subject: null});
+        this.props.updateSearchQuery({term: '', language: null, subject: null});
     }
 
     render() {
@@ -50,7 +75,7 @@ class SearchContainer extends React.Component {
             subjects,
             searchResult,
             autoComplete,
-            initialFormValues
+            searchQuery
         } = this.props;
 
         const breadCrumbs = [
@@ -63,12 +88,12 @@ class SearchContainer extends React.Component {
                 <Breadcrumb items={breadCrumbs}/>
                 <Helmet title={t('pageTitles.searchForConcept')} />
                 <SearchForm t={t}
-                            initialValues={initialFormValues}
+                            initialValues={searchQuery}
                             languages={languages}
                             subjects={subjects}
                             search={this.search}
                             autoComplete={autoComplete}/>
-                <SearchResultList results={searchResult} userHasSearched={this.state.userHasSearched} t={t}/>
+                <SearchResultList results={searchResult} searchQuery={searchQuery} userHasSearched={this.state.userHasSearched} t={t}/>
             </OneColumn>
         )
     }
@@ -81,12 +106,12 @@ SearchContainer.propTypes = {
     languages: PropTypes.array.isRequired,
     updateSearchResult: PropTypes.func.isRequired,
     apiService: PropTypes.instanceOf(ApiService).isRequired,
-    updateInitialFormValues: PropTypes.func.isRequired,
+    updateSearchQuery: PropTypes.func.isRequired,
 
     // Optional
     searchResult: PropTypes.array,
     autoComplete: PropTypes.array,
-    initialFormValues: PropTypes.object
+    searchQuery: PropTypes.object
 };
 
 
@@ -98,7 +123,7 @@ const languageAndSubjectsShouldBePresent = compose(
 )(SearchContainer);
 
 export default compose(
-    connect(mapStateToProps, {updateSearchResult, updateInitialFormValues}),
+    connect(mapStateToProps, {updateSearchResult, updateSearchQuery: updateSearchQuery}),
     withApiService,
     injectT,
 )(languageAndSubjectsShouldBePresent);

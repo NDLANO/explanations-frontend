@@ -11,32 +11,24 @@ import PropTypes from 'prop-types';
 import Button from '@ndla/button';
 import {Search as SearchIcon} from "@ndla/icons/es/common";
 
+import {normalizeFormValues, onChange} from './onChange'
 import {FIELDS} from "./fields";
-import {createSearchQueryFromValues, onChange} from "./onChange";
 
 const classes = new BEMHelper({
     name: 'search-form',
     prefix: 'c-',
 });
 
-class SearchForm extends React.Component {
 
+class SearchForm extends React.Component {
     constructor(props) {
         super(props);
 
         this.onSearch = this.onSearch.bind(this);
-        this.submitButton = this.submitButton.bind(this);
-    }
-
-    submitButton(e) {
-        e.preventDefault();
-        this.onSearch();
     }
 
     onSearch(values) {
-        const query = createSearchQueryFromValues(values);
-        if (query)
-            this.props.search(query);
+        this.props.search(normalizeFormValues(values));
     }
 
     render() {
