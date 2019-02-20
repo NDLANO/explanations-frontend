@@ -9,6 +9,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import Listview from 'list-frontend';
 import {connect} from "react-redux";
 import {OneColumn, Breadcrumb} from '@ndla/ui';
 import {injectT} from "@ndla/i18n";
@@ -24,8 +25,7 @@ import {updateSearchQuery, updateSearchResult} from "./searchPageActions";
 import SearchResultList from "./components/SearchResult";
 import {mapStateToProps} from "./searchPageMapStateToProps";
 import ApiService from "../../services/apiService";
-import {indexRoute, searchRoute} from "../../utilities/routeHelper";
-
+import {indexRoute, searchRoute, updateRoute} from "../../utilities/routeHelper";
 
 import 'url-search-params-polyfill';
 
@@ -69,6 +69,19 @@ class SearchContainer extends React.Component {
         this.props.updateSearchQuery({term: '', language: null, subject: null});
     }
 
+    mapSearchResultToListview() {
+        return this.props.searchResult.map(({title, content, id, media, meta}) => {
+            const item = {title, description: content, link: updateRoute(id), id};
+
+            if (media && media[0])
+                item['image'] = 'https://test.api.ndla.no/image-api/raw/id/'+media[0].externalId;
+
+            meta.sort((a, b) => a.category.name.toLowerCase().localeCompare(b.category.name.toLowerCase()));
+            item['tags'] = meta.map(({name, id, abbreviation}) => ({label: abbreviation || name, value: id}));
+            return item;
+        })
+    }
+
     render() {
         const {t,
             languages,
@@ -94,10 +107,13 @@ class SearchContainer extends React.Component {
                             search={this.search}
                             autoComplete={autoComplete}/>
                 <SearchResultList results={searchResult} searchQuery={searchQuery} userHasSearched={this.state.userHasSearched} t={t}/>
+                <Listview items={this.mapSearchResultToListview()} />
+
             </OneColumn>
         )
     }
 }
+
 
 SearchContainer.propTypes = {
     // Required
