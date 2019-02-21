@@ -11,10 +11,11 @@ import {loginRoute, notAuthorizedRoute, notFoundRoute, opsSomethingHappened} fro
 
 export default class ApiService {
 
-    constructor({accessToken, history, apiUrl}) {
+    constructor({accessToken, history, apiUrl, locale}) {
         this.accessToken = accessToken;
         this.history = history;
         this.api = axios;
+        this.language = locale;
         this.apiUrl = `${apiUrl}/api/v1`;
         this.endpoints = {
             concept: `${this.apiUrl}/concept`,
@@ -82,7 +83,7 @@ export default class ApiService {
     };
 
     getById    = (id, url) =>           this.api.get(`${url}/${id}`).then(this.getData).catch(this.rejected);
-    get        = url =>                 this.api.get(url).then(this.getData).catch(this.rejected);
+    get        = (url, params='') =>    this.api.get(url + params).then(this.getData).catch(this.rejected);
 
     update     = (concept, url) =>      this.api.put(url,concept, this.getRequestConfig()).catch(this.rejected);
 

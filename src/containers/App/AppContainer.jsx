@@ -54,6 +54,9 @@ import EmbeddedPage from "../EmbeddedPage";
 
 import {loadMediaTypes, loadMeta, loadStatus} from './actions';
 
+
+import 'url-search-params-polyfill';
+
 Moment.globalFormat = 'lll';
 
 class App extends React.Component {
@@ -67,12 +70,18 @@ class App extends React.Component {
     }
 
     loadInitialData() {
-        const {apiService, loadStatus, loadMeta, loadMediaTypes} = this.props;
+        const {apiService, loadStatus, loadMeta, loadMediaTypes, locale} = this.props;
+        const searchParams = new URLSearchParams();
+        searchParams.append('language', locale);
+        const param = searchParams.toString();
 
-        apiService.get(apiService.endpoints.status).then(data => loadStatus(data));
-        apiService.get(apiService.endpoints.mediaType).then(data => loadMediaTypes(data));
+        apiService.get(apiService.endpoints.status, param).then(data => loadStatus(data));
+        apiService.get(apiService.endpoints.mediaType, param).then(data => loadMediaTypes(data));
 
-        const promises = [apiService.get(apiService.endpoints.category), apiService.get(apiService.endpoints.meta)];
+        const promises = [
+            apiService.get(apiService.endpoints.meta, param),
+            apiService.get(apiService.endpoints.category, param),
+        ];
         Promise.all(promises).then(([categories, metas]) => loadMeta(categories, metas));
     }
 
@@ -130,6 +139,8 @@ App.propTypes = {
     loadMeta: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
     loadMediaTypes: PropTypes.func.isRequired,
+    locale: PropTypes.string.isRequired,
+
     // Optional
     username: PropTypes.string,
 };
@@ -138,6 +149,7 @@ const mapStateToProps = state => {
     const token = state.credentials.accessToken;
     const createConceptRequiredScope = [config.SCOPES.concept_write, config.SCOPES.concept_admin];
     return {
+        locale: state.locale,
         accessToken: token,
         username: state.credentials.username,
         isAuthenticated: state.credentials.isAuthenticated,

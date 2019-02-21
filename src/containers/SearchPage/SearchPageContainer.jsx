@@ -14,6 +14,7 @@ import {OneColumn, Breadcrumb} from '@ndla/ui';
 import {injectT} from "@ndla/i18n";
 import {compose} from "redux";
 import {Helmet} from "react-helmet";
+import Pager from "@ndla/pager";
 
 import Loading from '../../components/Loading';
 import WithEither from "../../components/HOC/WithEither";
@@ -32,10 +33,16 @@ import 'url-search-params-polyfill';
 class SearchContainer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {userHasSearched: false};
+        this.state = {
+            userHasSearched: false,
+            page: 1,
+            pageSize: 10,
+            lastPage: 1,
+            query: ''
+        };
         this.search = this.search.bind(this);
 
-        this.search = _.throttle(this.search, 300);
+        this.search = _.debounce(this.search, 300);
     }
 
     createSearchQueryFromValues(values) {
@@ -49,20 +56,39 @@ class SearchContainer extends React.Component {
         Object.values(_.pickBy(metas, _.identity))
             .forEach(x => searchParams.append('meta', x.id));
 
-        return searchParams.toString();
+        return searchParams;
     }
 
     search(values) {
         const query = this.createSearchQueryFromValues(values);
-        if (!query)
+        if (!query.toString())
             return;
 
         this.props.updateSearchQuery(values);
-        const {updateSearchResult, apiService} = this.props;
+        query.append('language', this.props.locale);
+        query.append('page', this.state.page);
+        query.append('pageSize', this.state.pageSize);
+        this.setState({query: query.toString()});
 
-        apiService.searchForConcepts(query)
+        this.searchForConcepts();
+    }
+
+    searchForConcepts(){
+        const {updateSearchResult, apiService} = this.props;
+        apiService.searchForConcepts(this.state.query)
             .then(updateSearchResult)
             .then(() => this.setState({userHasSearched: true}));
+    }
+
+    clickPager() {
+        this.setState(prev => {
+            if (prev.page < prev.lastPage)
+                return {page: prev.page + 1};
+            return {};
+        },
+            this.searchForConcepts
+        );
+
     }
 
     componentWillUnmount() {
@@ -75,7 +101,7 @@ class SearchContainer extends React.Component {
             subjects,
             searchResult,
             autoComplete,
-            searchQuery
+            searchQuery,
         } = this.props;
 
         const breadCrumbs = [
@@ -94,6 +120,7 @@ class SearchContainer extends React.Component {
                             search={this.search}
                             autoComplete={autoComplete}/>
                 <SearchResultList results={searchResult} searchQuery={searchQuery} userHasSearched={this.state.userHasSearched} t={t}/>
+                {Boolean(searchResult.length) && <Pager lastPage={this.state.lastPage} page={this.state.page} onClick={this.clickPager}  />}
             </OneColumn>
         )
     }
@@ -102,6 +129,7 @@ class SearchContainer extends React.Component {
 SearchContainer.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
+    locale: PropTypes.string.isRequired,
     subjects: PropTypes.array.isRequired,
     languages: PropTypes.array.isRequired,
     updateSearchResult: PropTypes.func.isRequired,

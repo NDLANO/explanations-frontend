@@ -61,6 +61,7 @@ export const mapStateToProps = state =>{
         subject: metaToDropdownValue(subject ? subject : ALL_SUBJECTS)};
 
     return  ({
+        locale: state.locale,
         searchResult: state.search.results,
         languages: languages.map(x => ({value: x.id, label: x.name})),
         subjects: subjects.map(x => ({value: x.id, label: x.name})),
