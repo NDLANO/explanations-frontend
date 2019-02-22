@@ -30,6 +30,8 @@ import {indexRoute, searchRoute} from "../../utilities/routeHelper";
 
 import 'url-search-params-polyfill';
 
+const PageItemComponent = ({children, ...rest}) => <span {...rest}>{children}</span>;
+
 class SearchContainer extends React.Component {
     constructor(props) {
         super(props);
@@ -37,11 +39,10 @@ class SearchContainer extends React.Component {
             userHasSearched: false,
             page: 1,
             pageSize: 10,
-            lastPage: 1,
-            query: ''
+            query: {}
         };
         this.search = this.search.bind(this);
-
+        this.clickPager = this.clickPager.bind(this);
         this.search = _.debounce(this.search, 300);
     }
 
@@ -65,27 +66,27 @@ class SearchContainer extends React.Component {
             return;
 
         this.props.updateSearchQuery(values);
-        query.append('language', this.props.locale);
-        query.append('page', this.state.page);
-        query.append('pageSize', this.state.pageSize);
-        this.setState({query: query.toString()});
+        this.setState({query});
 
         this.searchForConcepts();
     }
 
     searchForConcepts(){
         const {updateSearchResult, apiService} = this.props;
-        apiService.searchForConcepts(this.state.query)
+
+        const query = new URLSearchParams();
+        [...this.state.query.keys()].map(x => query.append(`${x}`, this.state.query.get(x)));
+        query.append('language', this.props.locale);
+        query.append('page', this.state.page);
+        query.append('pageSize', this.state.pageSize);
+
+        apiService.searchForConcepts(query.toString())
             .then(updateSearchResult)
             .then(() => this.setState({userHasSearched: true}));
     }
 
-    clickPager() {
-        this.setState(prev => {
-            if (prev.page < prev.lastPage)
-                return {page: prev.page + 1};
-            return {};
-        },
+    clickPager({page}) {
+        this.setState(({page}),
             this.searchForConcepts
         );
 
@@ -102,6 +103,8 @@ class SearchContainer extends React.Component {
             searchResult,
             autoComplete,
             searchQuery,
+            searchResultMeta,
+            searchResultMeta: {page, numberOfPages}
         } = this.props;
 
         const breadCrumbs = [
@@ -119,8 +122,8 @@ class SearchContainer extends React.Component {
                             subjects={subjects}
                             search={this.search}
                             autoComplete={autoComplete}/>
-                <SearchResultList results={searchResult} searchQuery={searchQuery} userHasSearched={this.state.userHasSearched} t={t}/>
-                {Boolean(searchResult.length) && <Pager lastPage={this.state.lastPage} page={this.state.page} onClick={this.clickPager}  />}
+                <SearchResultList searchResultMeta={searchResultMeta} results={searchResult} searchQuery={searchQuery} userHasSearched={this.state.userHasSearched} t={t}/>
+                {Boolean(numberOfPages > 1) && <Pager pageItemComponentClass={PageItemComponent} lastPage={numberOfPages} page={page} onClick={this.clickPager}  />}
             </OneColumn>
         )
     }
@@ -138,6 +141,7 @@ SearchContainer.propTypes = {
 
     // Optional
     searchResult: PropTypes.array,
+    searchResultMeta: PropTypes.object,
     autoComplete: PropTypes.array,
     searchQuery: PropTypes.object
 };

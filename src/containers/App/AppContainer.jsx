@@ -82,7 +82,7 @@ class App extends React.Component {
             apiService.get(apiService.endpoints.meta, param),
             apiService.get(apiService.endpoints.category, param),
         ];
-        Promise.all(promises).then(([categories, metas]) => loadMeta(categories, metas));
+        Promise.all(promises).then(([metas, categories]) => loadMeta(categories, metas));
     }
 
     renderUpdateComponent(){

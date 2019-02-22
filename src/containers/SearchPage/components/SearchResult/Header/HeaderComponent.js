@@ -21,7 +21,7 @@ class HeaderComponent extends React.Component {
     }
 
     render() {
-        const {results, userHasSearched, t, searchQuery} = this.props;
+        const {results, userHasSearched, t, searchQuery, searchResultMeta: {totalItems}} = this.props;
         if (!userHasSearched)
             return null;
 
@@ -32,7 +32,7 @@ class HeaderComponent extends React.Component {
         return (
             <div {...classes()}>
                 <strong>
-                    {userHasSearched ? `${results.length} ${t('searchPage.resultHits')}` : ''}
+                    {userHasSearched ? `${totalItems} ${t('searchPage.resultHits')}` : ''}
                 </strong>
                 {results.length > 0 && <React.Fragment>
                     {searchQuery.title && this.renderNotFound(resultsWithTitle.length, searchQuery.title)}
@@ -51,7 +51,8 @@ HeaderComponent.propTypes = {
 
     // Optional
     results: PropTypes.array,
-    userHasSearched: PropTypes.bool
+    userHasSearched: PropTypes.bool,
+    searchResultMeta: PropTypes.object,
 };
 
 HeaderComponent.defaultProps = {

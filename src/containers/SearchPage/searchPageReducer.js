@@ -11,6 +11,13 @@ import {SEARCH_FOR_CONCEPT, UPDATE_SEARCH_QUERY} from './searchPageActions';
 
 const initialState = {
     results: [],
+    resultMeta: {
+        next: null,
+        page: 1,
+        totalItems: 0,
+        pageSize: 10,
+        numberOfPages: 1
+    },
     autocompleteTitles: [],
     term: '',
     language: null,
@@ -20,9 +27,11 @@ const initialState = {
 export const search = (state=initialState, action) => {
     switch(action.type) {
         case SEARCH_FOR_CONCEPT:
-            let results = action.payload.sort(sortObjectsByKey('title'));
+
+            const {results, ...resultMeta} = action.payload;
+            results.sort(sortObjectsByKey('title'));
             let autocompleteTitles = results.map(x => x.title);
-            return {...state, results, autocompleteTitles};
+            return {...state, results, autocompleteTitles, resultMeta};
         case UPDATE_SEARCH_QUERY:
             return {...state, ...action.payload};
         default:

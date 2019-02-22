@@ -44,13 +44,13 @@ class CloneConceptPageContainer extends React.Component {
     }
 
     componentDidMount() {
-        const {updateFlashMessage, history} = this.props;
+        const {updateFlashMessage, history, t} = this.props;
         const errorHandler = {
             titleMessage: 'cloneConcept.loadDataMessage.error.title',
             actionType: UPDATE_FLASH_MESSAGE_CONCEPT_CLONE,
             history
         };
-        loadConcept(this.props.apiService, this.getConceptId())
+        loadConcept(this.props.apiService, this.getConceptId(), t)
             .then(concept => this.props.updateInitialFormValues(concept))
             .catch( err => submitErrorHandler(err, errorHandler, updateFlashMessage));
     }

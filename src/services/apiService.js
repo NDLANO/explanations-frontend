@@ -83,7 +83,7 @@ export default class ApiService {
     };
 
     getById    = (id, url) =>           this.api.get(`${url}/${id}`).then(this.getData).catch(this.rejected);
-    get        = (url, params='') =>    this.api.get(url + params).then(this.getData).catch(this.rejected);
+    get        = (url, params='') =>    this.api.get(`${url}?${params}`).then(this.getData).catch(this.rejected);
 
     update     = (concept, url) =>      this.api.put(url,concept, this.getRequestConfig()).catch(this.rejected);
 

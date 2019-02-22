@@ -18,9 +18,9 @@ const classes = new BEMHelper({
     prefix: 'c-',
 });
 
-const SearchResultList = ({results, userHasSearched, t, searchQuery})=>
+const SearchResultList = ({results, userHasSearched, t, searchQuery, searchResultMeta})=>
     <div>
-        <SearchResultHeader searchQuery={searchQuery} userHasSearched={userHasSearched} t={t} results={results} />
+        <SearchResultHeader searchResultMeta={searchResultMeta} searchQuery={searchQuery} userHasSearched={userHasSearched} t={t} results={results} />
 
         {Boolean(results.length) &&
             <ul {...classes()}>
@@ -32,10 +32,10 @@ const SearchResultList = ({results, userHasSearched, t, searchQuery})=>
 SearchResultList.propTypes = {
     // Required
     searchQuery: PropTypes.object.isRequired,
-
     // Optional
     results: PropTypes.array,
     userHasSearched: PropTypes.bool,
+    searchResultMeta: PropTypes.object,
 };
 
 SearchResultList.defaultProps = {

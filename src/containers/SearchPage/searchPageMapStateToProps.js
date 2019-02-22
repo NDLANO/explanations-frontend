@@ -62,6 +62,7 @@ export const mapStateToProps = state =>{
 
     return  ({
         locale: state.locale,
+        searchResultMeta: state.search.resultMeta,
         searchResult: state.search.results,
         languages: languages.map(x => ({value: x.id, label: x.name})),
         subjects: subjects.map(x => ({value: x.id, label: x.name})),

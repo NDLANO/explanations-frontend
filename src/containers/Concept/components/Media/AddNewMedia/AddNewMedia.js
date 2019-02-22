@@ -65,6 +65,7 @@ class AddNewMedia extends React.Component {
 
 
     onSelect(media) {
+        const {t} = this.props;
         const mediaType = this.props.mediaTypes.find(x => x.title.toLowerCase() === this.state.mediaType.toLowerCase()); // concert this.state.mediaType with this props.t(this.state.mediaType)
         const serializedMedia = {
             mediaTypeId: mediaType.id,
@@ -74,7 +75,7 @@ class AddNewMedia extends React.Component {
 
         new Promise((resolve, reject) => {
             switch(mediaType.title.toLowerCase()) {
-                case 'video':
+                case t('phrases.video').toLowerCase():
                     if (media.displayLink === 'www.youtube.com') {
                         const youTubeId = media.pagemap.videoobject[0].videoid;
                         resolve({
@@ -93,7 +94,7 @@ class AddNewMedia extends React.Component {
                         })
                     }
                     break;
-                case 'image':
+                case t('phrases.image').toLowerCase():
                     resolve({
                         previewUrl: media.imageUrl,
                         externalId: media.id,
@@ -101,7 +102,7 @@ class AddNewMedia extends React.Component {
                         altText: media.alttext.alttext,
                     });
                     break;
-                case 'audio':
+                case t('phrases.audio').toLowerCase():
                     this.props.audioApiService.getById(media.id)
                         .then(({audioFile}) => {
                             resolve({
@@ -139,11 +140,11 @@ class AddNewMedia extends React.Component {
             onSelect: this.onSelect
         };
         switch(this.state.mediaType) {
-            case 'video':
+            case t('phrases.video').toLowerCase():
                 return <VideoSearch {...mediaProps} api={videoApiService}/>;
-            case 'audio':
+            case t('phrases.audio').toLowerCase():
                 return <AudioSearch {...mediaProps} api={audioApiService}/>;
-            case 'image':
+            case t('phrases.image').toLowerCase():
                 return <ImageSearch {...mediaProps} api={imageApiService}/>;
             default:
                 return <ul {...classes()}>

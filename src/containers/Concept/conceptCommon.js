@@ -72,35 +72,35 @@ export const getMetasFromApiResult = concept => {
 export const getMediaFromApies = (media, t) => media.map(x => {
     const mediaType = x.mediaType.title;
     switch(mediaType.toLowerCase()) {
-        case 'image':
+        case t('phrases.image').toLowerCase():
             return new ImageApi().getById(x.externalId);
-        case 'audio':
+        case t('phrases.audio').toLowerCase():
             return new AudioApi().getById(x.externalId);
-        case 'video':
+        case t('phrases.video').toLowerCase():
             return new VideoApi().getById(x.externalId, x.source);
         default:
             return null;
     }
 });
 
-export const mapDataFromAPieToMedia = conceptMedia => new Promise((resolve, reject) => {
-    Promise.all(getMediaFromApies(conceptMedia)).then(x => {
+export const mapDataFromAPieToMedia = (conceptMedia, t) => new Promise((resolve, reject) => {
+    Promise.all(getMediaFromApies(conceptMedia, t)).then(x => {
         const media = [];
         x.forEach((m, index) => {
             const mediaType = conceptMedia[index].mediaType.title;
             const mediaObject = {...conceptMedia[index]};
             switch(mediaType.toLowerCase()) {
-                case 'image':
+                case t('phrases.image').toLowerCase():
                     mediaObject.title = m.title.title;
                     mediaObject.previewUrl = m.imageUrl;
                     mediaObject.altText = m.alttext.alttext;
                     break;
-                case 'audio':
+                case t('phrases.audio').toLowerCase():
                     mediaObject.title = m.title.title;
                     mediaObject.previewUrl = m.audioFile.url;
                     mediaObject.audioType = m.audioFile.mimeType;
                     break;
-                case 'video':
+                case t('phrases.video').toLowerCase():
                     mediaObject.previewUrl = m;
                     break;
                 default:
@@ -114,12 +114,12 @@ export const mapDataFromAPieToMedia = conceptMedia => new Promise((resolve, reje
 });
 
 
-export const loadConcept = (api, id) => new Promise((resolve, reject) =>
+export const loadConcept = (api, id, t) => new Promise((resolve, reject) =>
     api.getById(id, api.endpoints.concept)
         .then(concept => {
             const meta = getMetasFromApiResult(concept);
             const statusId = {value: concept.status.id, label: concept.status.name};
-            mapDataFromAPieToMedia(concept.media).then(media => {
+            mapDataFromAPieToMedia(concept.media, t).then(media => {
                 resolve({
                     ...concept,
                     statusId,
