@@ -117,10 +117,10 @@ class Concept extends React.Component {
         const { t, status, initialValues, locale} = this.props;
         return (
             <React.Fragment>
-                <Field {...this.fields.title} t={t} {...classes('form-field')} />
+                <Field {...this.fields.title}   t={t} {...classes('form-field')} />
                 <Field {...this.fields.content} t={t} {...classes('form-field')} />
-                <Field {...this.fields.author} t={t} {...classes('form-field')} />
-                <Field {...this.fields.source} t={t} {...classes('form-field')} />
+                <Field {...this.fields.author}  t={t} {...classes('form-field')} />
+                <Field {...this.fields.source}  t={t} {...classes('form-field')} />
 
                 <div {...classes('form-field')}>
                     <label  htmlFor={this.fields.status.id}>{t("conceptForm.status")}</label>
@@ -139,13 +139,14 @@ class Concept extends React.Component {
             <React.Fragment>
                 <SectionComponent title="Meta" />
                 {error && <span {...classes('form-field', 'validation-error--meta')}>{error}</span>}
-
-                {this.props.metas.map(meta => <Meta meta={meta}
-                                                    initialValues={initialValues}
-                                                    key={meta.category.id}
-                                                    t={t}
-                                                    classes={classes}
-                                                    readOnly={isReadOnly}/>
+                {this.props.metas.map(meta => {
+                    return <Meta meta={meta}
+                                 initialValues={initialValues}
+                                 key={meta.category.id}
+                                 t={t}
+                                 classes={classes}
+                                 readOnly={isReadOnly}/>
+                    }
                 )}
             </React.Fragment>);
     }
@@ -220,7 +221,6 @@ class Concept extends React.Component {
     render() {
         const { t, handleSubmit} = this.props;
         const submit = handleSubmit(this.onSubmit);
-
         return (
             <form onSubmit={submit} {...classes()}>
                 {this.renderFieldsSection()}

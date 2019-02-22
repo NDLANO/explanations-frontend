@@ -61,7 +61,7 @@ class UpdateConceptPageContainer extends React.Component {
         };
         loadConcept(this.props.apiService, this.getConceptId()).then(concept => {
             this.props.updateInitialFormValues(concept);
-            this.props.setDeleteButtonAsDisabled(concept.statusId.label === "Archived");
+            this.props.setDeleteButtonAsDisabled(concept.statusId.label === "Archived"); // TODO i18n
         }).catch( err => submitErrorHandler(err, errorHandler, updateFlashMessage));
     }
 
@@ -167,6 +167,7 @@ UpdateConceptPageContainer.propTypes = {
     match: matchShape.isRequired,
     history: historyShape.isRequired,
     locale: PropTypes.string.isRequired,
+    mediaTypes: PropTypes.array.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     clearFlashMessage: PropTypes.func.isRequired,
     updateFlashMessage: PropTypes.func.isRequired,
@@ -176,12 +177,11 @@ UpdateConceptPageContainer.propTypes = {
     apiService: PropTypes.instanceOf(ApiService).isRequired,
     userScopes: PropTypes.arrayOf(PropTypes.string).isRequired,
     requiredScopes: PropTypes.arrayOf(PropTypes.string).isRequired,
-    mediaTypes: PropTypes.array.isRequired,
     // Optional
     meta: PropTypes.array,
     status: PropTypes.array,
-    flashMessage: PropTypes.shape(flashMessageShape),
     initialFormValues: PropTypes.object,
+    flashMessage: PropTypes.shape(flashMessageShape),
 };
 
 UpdateConceptPageContainer.defaultProps = {
