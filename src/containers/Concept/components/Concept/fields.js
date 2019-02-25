@@ -66,6 +66,7 @@ export const FIELDS = {
         messagePrefix: "conceptForm.",
         isClearable: false,
         id: "statusId",
+        rerenderOnEveryChange : true,
         component: Dropdown
     }
 };

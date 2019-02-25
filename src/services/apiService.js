@@ -40,7 +40,16 @@ export default class ApiService {
     getRequestConfig() {
         return {
             headers: {
+                "Content-Type": 'application/json'
+            },
+            data: {}
+        }
+    }
+    getRequestConfigWithAuth() {
+        return {
+            headers: {
                 Authorization: `Bearer ${this.accessToken}`,
+                ...this.getRequestConfig().headers
             }
         }
     }
@@ -82,12 +91,12 @@ export default class ApiService {
             {cancelToken: this.searchCancellationToken.token}).then(this.getData);
     };
 
-    getById    = (id, url) =>           this.api.get(`${url}/${id}`).then(this.getData).catch(this.rejected);
-    get        = (url, params='') =>    this.api.get(`${url}?${params}`).then(this.getData).catch(this.rejected);
+    getById    = (id, url) =>           this.api.get(`${url}/${id}`, this.getRequestConfig()).then(this.getData).catch(this.rejected);
+    get        = (url, params='') =>    this.api.get(`${url}?${params}`, this.getRequestConfig()).then(this.getData).catch(this.rejected);
 
-    update     = (concept, url) =>      this.api.put(url,concept, this.getRequestConfig()).catch(this.rejected);
+    update     = (concept, url) =>      this.api.put(url,concept, this.getRequestConfigWithAuth()).catch(this.rejected);
 
-    create     = (concept, url) =>      this.api.post(url,concept, this.getRequestConfig()).catch(this.rejected);
+    create     = (concept, url) =>      this.api.post(url,concept, this.getRequestConfigWithAuth()).catch(this.rejected);
 
-    delete     = (id, url) =>           this.api.delete(`${url}/${id}`, this.getRequestConfig()).catch(this.rejected);
+    delete     = (id, url) =>           this.api.delete(`${url}/${id}`, this.getRequestConfigWithAuth()).catch(this.rejected);
 }

@@ -73,6 +73,8 @@ class App extends React.Component {
         const {apiService, loadStatus, loadMeta, loadMediaTypes, locale} = this.props;
         const searchParams = new URLSearchParams();
         searchParams.append('language', locale);
+        searchParams.append('pageSize', '100');
+        searchParams.append('page', '1');
         const param = searchParams.toString();
 
         apiService.get(apiService.endpoints.status, param).then(data => loadStatus(data));

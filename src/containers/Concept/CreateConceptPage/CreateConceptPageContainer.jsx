@@ -14,6 +14,7 @@ import {compose} from "redux";
 import {injectT} from "@ndla/i18n";
 import {Helmet} from "react-helmet";
 import {Breadcrumb, OneColumn} from '@ndla/ui';
+import { change } from "redux-form";
 
 import Concept from "../components/Concept/";
 import Loading from '../../../components/Loading';
@@ -35,6 +36,14 @@ class CreateConceptPageContainer extends React.Component {
     constructor(props) {
         super(props);
         this.submit = this.submit.bind(this);
+    }
+
+    componentDidMount() {
+        console.log(this.props)
+
+        // Update status
+        //UPdate language
+        this.props.change('conceptForm', 'statusId[0]', {value: -40, label: "testing"});
     }
 
     componentWillUnmount() {
@@ -118,7 +127,7 @@ const formHasInitialValues = ({initialFormValues}) =>
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, {updateFlashMessage, clearFlashMessage }),
+    connect(mapStateToProps, {updateFlashMessage, clearFlashMessage, change }),
     withApiService,
     injectT,
     WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),

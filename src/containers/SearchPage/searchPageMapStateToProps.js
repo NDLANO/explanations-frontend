@@ -55,9 +55,13 @@ export const mapStateToProps = state =>{
     const subjects = getMetaByCategory(state.cacheFromServer.meta, "Fag", ALL_SUBJECTS);
     const languages = getMetaByCategory(state.cacheFromServer.meta, "Språk", ALL_LANGUAGES);
 
+    let fallBackLanguage = languages.find(x => x.abbreviation === state.locale);
+    if (!fallBackLanguage)
+        fallBackLanguage = ALL_LANGUAGES;
+
     const searchQuery = {
         title: term,
-        language: metaToDropdownValue(language ? language : languages.find(x => x.abbreviation === state.locale)),
+        language: metaToDropdownValue(language ? language : fallBackLanguage),
         subject: metaToDropdownValue(subject ? subject : ALL_SUBJECTS)};
 
     return  ({

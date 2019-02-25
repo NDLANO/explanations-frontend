@@ -11,7 +11,7 @@ export const UPDATE_MEDIA_TYPES = "UPDATE_MEDIA_TYPES";
 export const loadMediaTypes = payload => ({type: UPDATE_MEDIA_TYPES, payload});
 export const loadStatus = payload => ({type: UPDATE_STATUS, payload});
 
-export const loadMeta = (categories, metas) => {
+export const loadMeta = (({results: categories}, {results: metas}) => {
     let allMetas = [];
     categories.forEach(category => {
         const metaList = metas.filter(x => x.category.id === category.id);
@@ -22,4 +22,4 @@ export const loadMeta = (categories, metas) => {
         allMetas.push({category, metaList, defaultValue});
     });
     return {type: UPDATE_METAS, payload: allMetas}
-};
+});
