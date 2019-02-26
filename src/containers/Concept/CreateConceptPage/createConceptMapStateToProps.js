@@ -12,7 +12,7 @@ export const mapStateToProps = state => {
     const initialFormValues = {};
     const initialValueName = (name) => `meta_${name}`;
     meta.forEach(x => {
-        let name = x.category.categoryType.name.toLowerCase();
+        let name = x.category.typeGroup.name.toLowerCase();
         const item = {};
 
         if (!x.defaultValue) {

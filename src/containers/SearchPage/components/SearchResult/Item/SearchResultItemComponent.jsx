@@ -29,11 +29,11 @@ const filterMeta = (metas, t) => {
     let meta = [];
 
     metas.forEach(item => {
-        switch(item.category.categoryType.name.toLowerCase()){
-            case t('phrases.language').toLowerCase():
+        switch(item.category.typeGroup.name.toLowerCase()){
+            case "language":
                 languages.push(item);
                 break;
-            case t('phrases.subject').toLowerCase():
+            case "subject":
                 subjects.push(item);
                 break;
             default:

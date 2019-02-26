@@ -24,7 +24,7 @@ const ALL_SUBJECTS = {
 const metaToDropdownValue = ob => ({value: ob.id, label: ob.name});
 
 const getMetaByCategory = (list, name, DEFAULT_OBJECT) => {
-    let fromState = list.find(x => x.category.categoryType.name.toLowerCase() === name);
+    let fromState = list.find(x => x.category.typeGroup.name.toLowerCase() === name);
 
     if (fromState && fromState.metaList) {
         let [...unpacked] = fromState.metaList;
