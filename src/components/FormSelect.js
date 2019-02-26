@@ -7,22 +7,57 @@
 import React  from 'react';
 import Select from 'react-select';
 import PropTypes from 'prop-types';
+import {fieldInputShape} from '../utilities/commonShapes';
 
-const FormSelect = ({ input: { name, value, onBlur, onChange, onFocus }, options, multi, ...props }) => (
-    <Select
-        name={name}
-        multi={multi}
-        onFocus={onFocus}
-        options={options}
-        onChange={multi
-            ? values => onChange(values.map(value => value.value))
-            : value => onChange(value ? value.value : '')
-        }
-        onBlur={() => onBlur(value)}
-        value={transformValue(value, options, multi)}
-        {...props}
-    />
-);
+class FormSelect extends React.Component {
+    constructor(props) {
+        super(props);
+        this.onChange = this.onChange.bind(this);
+        this.getValue = this.getValue.bind(this);
+        this.onBlur = this.onBlur.bind(this);
+    }
+
+    onChange(value) {
+        const {multi, input: {onChange}} = this.props;
+        if (multi)
+            return onChange(value.map(value => value.value));
+        return onChange(value ? value.value : '');
+    }
+
+    getValue() {
+        const {multi, input: {value}} = this.props;
+        if (multi)
+            return typeof value === 'string' || typeof value === 'number' ? [] : this.filteredOptions();
+        return this.filteredOptions()[0];
+    }
+
+    onBlur() {
+        this.props.input.onBlur(this.props.input.value);
+    }
+
+    filteredOptions() {
+        const {multi, options, input: {value}} = this.props;
+
+        return options.filter(option => multi
+            ? value.indexOf(option.value) !== -1
+            : option.value === value
+        )
+    }
+
+    render() {
+        const { input: { name, onFocus }, ...props } = this.props;
+        return (
+            <Select
+                {...props}
+                name={name}
+                onFocus={onFocus}
+                onChange={this.onChange}
+                onBlur={this.onBlur}
+                value={this.getValue()}
+            />
+        )
+    }
+}
 
 FormSelect.defaultProps = {
     multi: false,
@@ -33,16 +68,7 @@ FormSelect.defaultProps = {
 
 FormSelect.propTypes = {
     // Required
-    input: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        value: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number
-        ]).isRequired,
-        onBlur: PropTypes.func.isRequired,
-        onChange: PropTypes.func.isRequired,
-        onFocus: PropTypes.func.isRequired,
-    }).isRequired,
+    input: fieldInputShape.isRequired,
 
     // Optional
     multi: PropTypes.bool,
@@ -54,15 +80,4 @@ FormSelect.propTypes = {
 export default FormSelect;
 
 
-const transformValue = (value, options, multi) => {
-    const filteredOptions = options.filter(option => multi
-        ? value.indexOf(option.value) !== -1
-        : option.value === value
-    );
 
-    if (!multi) {
-        return filteredOptions[0];
-    }
-
-    return typeof value === 'string' ? [] : filteredOptions;
-};

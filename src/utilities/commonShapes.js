@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import {string, func, object, bool, number, shape, any} from 'prop-types';
+import {string, func, object, bool, number, shape, oneOfType} from 'prop-types';
 import PropTypes from "prop-types";
 
 export const locationShape = shape({
@@ -48,11 +48,14 @@ export const fieldInputShape = shape({
     name: string.isRequired,
     onBlur: func.isRequired,
     onChange: func.isRequired,
-    onDrop: func.isRequired,
-    onDragStart: func.isRequired,
     onFocus: func.isRequired,
-    value: any.isRequired,
+    value: oneOfType([
+        string,
+        number
+    ]).isRequired,
 
     // Optional
+    onDrop: func,
+    onDragStart: func,
     checked: bool,
 });
