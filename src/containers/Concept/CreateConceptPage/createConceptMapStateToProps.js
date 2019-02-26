@@ -25,8 +25,10 @@ export const mapStateToProps = state => {
 
         if (name === "language") {
             let defaultLang = x.metaList.find(x => x.abbreviation === locale);
-            if (!defaultLang)
+            if (!defaultLang && x.metaList[0])
                 defaultLang = x.metaList[0];
+            else
+                defaultLang = {id: -1, name: ''};
 
             item['value'] = defaultLang.id;
             item['label'] = defaultLang.name;
