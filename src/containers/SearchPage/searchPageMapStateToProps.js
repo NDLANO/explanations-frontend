@@ -24,7 +24,7 @@ const ALL_SUBJECTS = {
 const metaToDropdownValue = ob => ({value: ob.id, label: ob.name});
 
 const getMetaByCategory = (list, name, DEFAULT_OBJECT) => {
-    let fromState = list.find(x => x.category.name === name);
+    let fromState = list.find(x => x.category.categoryType.name.toLowerCase() === name);
 
     if (fromState && fromState.metaList) {
         let [...unpacked] = fromState.metaList;
@@ -52,8 +52,8 @@ const getAutoCompleteList = (state) => {
 
 export const mapStateToProps = state =>{
     const {language, subject, term} = state.search;
-    const subjects = getMetaByCategory(state.cacheFromServer.meta, "Fag", ALL_SUBJECTS);
-    const languages = getMetaByCategory(state.cacheFromServer.meta, "Språk", ALL_LANGUAGES);
+    const subjects = getMetaByCategory(state.cacheFromServer.meta, "subject", ALL_SUBJECTS);
+    const languages = getMetaByCategory(state.cacheFromServer.meta, "language", ALL_LANGUAGES);
 
     let fallBackLanguage = languages.find(x => x.abbreviation === state.locale);
     if (!fallBackLanguage)

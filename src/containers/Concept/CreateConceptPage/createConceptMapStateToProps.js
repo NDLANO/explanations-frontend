@@ -7,24 +7,12 @@
 import {mapStateToPropsCommon} from '../conceptCommon';
 
 export const mapStateToProps = state => {
-    const {cacheFromServer: {status, meta}, concept: {create: {flashMessage}},locale} = state;
-    /*let draft = status.find(x => x.name === "Draft") || status[0];
-    if (draft) {
-        draft = {value: draft.id, label: draft.name};
-    } else {
-        draft  = null;
-    }*/
-    let draft = status.find(x => x.name === "Draft") || status[0];
-    if (draft) {
-        draft = {value: draft.id, label: draft.name};
-    } else {
-        draft  = null;
-    }
+    const {cacheFromServer: {meta}, concept: {create: {flashMessage}},locale} = state;
 
-    const initialFormValues = {statusId: draft};
+    const initialFormValues = {};
     const initialValueName = (name) => `meta_${name}`;
     meta.forEach(x => {
-        let name = x.category.name.toLowerCase();
+        let name = x.category.categoryType.name.toLowerCase();
         const item = {};
 
         if (!x.defaultValue) {

@@ -55,7 +55,7 @@ export const mapStateToPropsCommon = ({locale, cacheFromServer: {status, meta, m
 export const getMetasFromApiResult = concept => {
     const meta = {};
     concept.meta.forEach(x => {
-        const key = `meta_${x.category.name.toLowerCase()}`;
+        const key = `meta_${x.category.categoryType.name.toLowerCase()}`;
         const metaObject = {value: x.id, label: x.description};
         if (x.category.canHaveMultiple) {
             if (meta[key])

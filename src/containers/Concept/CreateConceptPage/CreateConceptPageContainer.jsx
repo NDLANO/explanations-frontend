@@ -30,6 +30,7 @@ import {UPDATE_FLASH_MESSAGE_CONCEPT_CREATE} from "./createConceptActions";
 import {createRoute, indexRoute} from "../../../utilities/routeHelper";
 import {historyShape} from "../../../utilities/commonShapes";
 import ApiService from "../../../services/apiService";
+import {CONCEPT_FORM_NAME} from "../components/Concept/ConceptComponent";
 
 
 class CreateConceptPageContainer extends React.Component {
@@ -39,11 +40,11 @@ class CreateConceptPageContainer extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props)
+        // TODO set default language
+        const status = this.props.status.find(x => x.label.toLowerCase() === this.props.t('phrases.draft').toLowerCase());
+        if (status)
+            this.props.change(CONCEPT_FORM_NAME, 'statusId', status.value);
 
-        // Update status
-        //UPdate language
-        this.props.change('conceptForm', 'statusId[0]', {value: -40, label: "testing"});
     }
 
     componentWillUnmount() {
@@ -113,6 +114,7 @@ CreateConceptPageContainer.propTypes = {
     apiService: PropTypes.instanceOf(ApiService).isRequired,
     locale: PropTypes.string.isRequired,
     mediaTypes: PropTypes.array.isRequired,
+    change: PropTypes.func.isRequired,
 
     // Optional
     flashMessage: PropTypes.shape(flashMessageShape),
@@ -122,12 +124,11 @@ CreateConceptPageContainer.propTypes = {
 const formHasInitialValues = ({initialFormValues}) =>
     Object.values(initialFormValues).indexOf(null) === -1 &&
     Object.values(initialFormValues).indexOf(undefined) === -1 &&
-    initialFormValues['statusId'] &&
     Object.keys(initialFormValues).filter(x => x.startsWith('meta_')).length > 1;
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, {updateFlashMessage, clearFlashMessage, change }),
+    connect(mapStateToProps, {updateFlashMessage, clearFlashMessage, change}),
     withApiService,
     injectT,
     WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),

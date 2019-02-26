@@ -28,7 +28,7 @@ const classes = new BEMHelper({
     prefix: 'c-',
 });
 
-const formName = 'conceptForm';
+export const CONCEPT_FORM_NAME = 'conceptForm';
 
 const SectionComponent = ({title}) =>
     <div {...classes('section')}>
@@ -86,10 +86,9 @@ class Concept extends React.Component {
         if (! statusId)
             return;
 
-
         const concept = {
             id,
-            statusId: statusId.value,
+            statusId: statusId,
             externalId,
             content,
             title,
@@ -114,7 +113,7 @@ class Concept extends React.Component {
 
     renderFieldsSection() {
 
-        const { t, status, initialValues, locale} = this.props;
+        const { t, status, locale} = this.props;
         return (
             <React.Fragment>
                 <Field {...this.fields.title}   t={t} {...classes('form-field')} />
@@ -124,7 +123,7 @@ class Concept extends React.Component {
 
                 <div {...classes('form-field')}>
                     <label  htmlFor={this.fields.status.id}>{t("conceptForm.status")}</label>
-                    <Field {...this.fields.status} t={t} selected={initialValues.statusId} options={status}/>
+                    <Field {...this.fields.status} options={status}/>
                 </div>
                 {this.props.showTimestamps && <Field {...this.fields.created} t={t} {...classes('form-field')} locale={locale} />}
                 {this.props.showTimestamps && <Field {...this.fields.updated} t={t} {...classes('form-field')} locale={locale} />}
@@ -153,7 +152,7 @@ class Concept extends React.Component {
 
     onSelectMedia(media) {
         if (media)
-            this.props.dispatch(arrayPush(formName, 'media', media));
+            this.props.dispatch(arrayPush(CONCEPT_FORM_NAME, 'media', media));
         // TODO else send flashMessage saying cannot add media...
         this.closeMediaModal();
     }
@@ -264,6 +263,6 @@ Concept.defaultProps = {
 
 export default reduxForm({
     validate,
-    form: formName,
+    form: CONCEPT_FORM_NAME,
     enableReinitialize: true,
 })(Concept);

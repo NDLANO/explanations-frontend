@@ -7,7 +7,7 @@
 import TextArea from "../../../../components/TextArea";
 import Input from "../../../../components/Input";
 import DateTime from "../../../../components/DateTime";
-import Dropdown from "../../../../components/Dropdown";
+import FormSelect from "../../../../components/FormSelect";
 
 export const FIELDS = {
     title: {
@@ -66,7 +66,7 @@ export const FIELDS = {
         messagePrefix: "conceptForm.",
         isClearable: false,
         id: "statusId",
-        rerenderOnEveryChange : true,
-        component: Dropdown
+        className: "form-dropdown",
+        component: FormSelect,
     }
 };

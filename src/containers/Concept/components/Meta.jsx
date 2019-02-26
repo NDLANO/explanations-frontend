@@ -18,14 +18,14 @@ const metaNamePrefix = (name) => `meta_${name}`;
 const Meta = ({meta, t, classes, readOnly, initialValues}) =>
         <div {...classes('form-field')}>
             <label>{capitalizeText(meta.category.description.toLowerCase())}</label>
-            <Field name={metaNamePrefix(meta.category.name.toLowerCase())}
+            <Field name={metaNamePrefix(meta.category.categoryType.name.toLowerCase())}
                    readOnly={readOnly}
                    component={Dropdown}
                    id={meta.category.id}
                    isSearcable={true}
                    isMultiSelect={meta.category.canHaveMultiple}
                    t={t}
-                   selected={initialValues[metaNamePrefix(meta.category.name.toLowerCase())]}
+                   selected={initialValues[metaNamePrefix(meta.category.categoryType.name.toLowerCase())]}
                    options={meta.metaList.map(x => ({value: x.id, label: x.name}))}/>
         </div>;
 

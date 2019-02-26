@@ -194,7 +194,8 @@ const NB = {
         delete: "Slett",
         language: "Språk",
         subject: "Fag",
-        licence: "Lisens"
+        licence: "Lisens",
+        draft: "Utkast"
     },
     sentence: {
         previewNotSupported: "Støtter ikke fohåndsvisining av dette formatet"
