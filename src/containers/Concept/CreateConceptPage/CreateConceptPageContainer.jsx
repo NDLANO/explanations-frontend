@@ -40,7 +40,6 @@ class CreateConceptPageContainer extends React.Component {
     }
 
     componentDidMount() {
-        // TODO set default language
         const status = this.props.status.find(x => x.label.toLowerCase() === this.props.t('phrases.draft').toLowerCase());
         if (status)
             this.props.change(CONCEPT_FORM_NAME, 'statusId', status.value);

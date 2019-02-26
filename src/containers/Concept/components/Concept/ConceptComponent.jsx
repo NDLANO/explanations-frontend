@@ -88,7 +88,7 @@ class Concept extends React.Component {
 
         const concept = {
             id,
-            statusId: statusId,
+            statusId,
             externalId,
             content,
             title,
@@ -106,9 +106,14 @@ class Concept extends React.Component {
         });
     }
 
+    isDisabled() {
+        const {isReadOnly, submitting} = this.props;
+        return isReadOnly || submitting;
+    }
+
     renderSubmitButton() {
-        const {isReadOnly, submitting, title} = this.props;
-        return <Button disabled={isReadOnly || submitting} className="form-button">{(title)}</Button>;
+        const { title} = this.props;
+        return <Button disabled={this.isDisabled()} className="form-button">{(title)}</Button>;
     }
 
     renderFieldsSection() {
@@ -123,7 +128,7 @@ class Concept extends React.Component {
 
                 <div {...classes('form-field')}>
                     <label  htmlFor={this.fields.status.id}>{t("conceptForm.status")}</label>
-                    <Field {...this.fields.status} options={status}/>
+                    <Field {...this.fields.status} options={status} isDisabled={this.isDisabled()}/>
                 </div>
                 {this.props.showTimestamps && <Field {...this.fields.created} t={t} {...classes('form-field')} locale={locale} />}
                 {this.props.showTimestamps && <Field {...this.fields.updated} t={t} {...classes('form-field')} locale={locale} />}
@@ -164,15 +169,14 @@ class Concept extends React.Component {
     }
 
     renderMediaSection() {
-        const {t, locale, isReadOnly, submitting} = this.props;
-        const disabled = isReadOnly || submitting;
+        const {t, locale} = this.props;
         return (
             <React.Fragment>
                 <SectionComponent title="Media" />
 
                 <FieldArray name="media" component={this.renderMediaFields} />
 
-                {Boolean(!disabled) &&
+                {Boolean(!this.isDisabled()) &&
                     <AddNewMedia
                         t={t}
                         locale={locale}
@@ -182,16 +186,15 @@ class Concept extends React.Component {
                         mediaTypes={this.props.mediaTypes}
                     />
                 }
-                {!disabled && <Plus onClick={() => this.openMediaModal()} className="c-icon--large" />}
+                {!this.isDisabled() && <Plus onClick={() => this.openMediaModal()} className="c-icon--large" />}
             </React.Fragment>
         )
     }
 
     renderMediaFields({fields}){
 
-        const {isReadOnly, submitting, t} = this.props;
+        const {isReadOnly, t} = this.props;
 
-        const disabled = isReadOnly || submitting;
         return (
             <React.Fragment>
                 {Boolean(fields.length === 0) && <p {...classes('message')}>{this.props.t('conceptForm.noMedia')}</p>}
@@ -203,7 +206,7 @@ class Concept extends React.Component {
                         name={mediaName}
                         classes={classes}
                         isReadOnly={isReadOnly}
-                        disabled={disabled}
+                        disabled={this.isDisabled()}
                         itemIndex={index}
                         t={t}
                         deleteMedia={() => fields.remove(index)}

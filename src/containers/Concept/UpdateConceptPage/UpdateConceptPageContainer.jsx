@@ -59,9 +59,11 @@ class UpdateConceptPageContainer extends React.Component {
             actionType: UPDATE_FLASH_MESSAGE,
             history
         };
+
         loadConcept(this.props.apiService, this.getConceptId()).then(concept => {
-            this.props.updateInitialFormValues(concept);
-            this.props.setDeleteButtonAsDisabled(concept.statusId.label === "Archived"); // TODO i18n
+            const status = this.props.status.find(x => x.value === concept.status.id);
+            this.props.updateInitialFormValues({...concept, statusId: status.value});
+            //this.props.setDeleteButtonAsDisabled(concept.statusId.label === "Archived"); // TODO i18n
         }).catch( err => submitErrorHandler(err, errorHandler, updateFlashMessage));
     }
 

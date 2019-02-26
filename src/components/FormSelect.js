@@ -60,10 +60,11 @@ class FormSelect extends React.Component {
 }
 
 FormSelect.defaultProps = {
+    options: [],
     multi: false,
     className: "",
+    isDisabled: false,
     valueKey: "value",
-    options: []
 };
 
 FormSelect.propTypes = {
@@ -73,6 +74,7 @@ FormSelect.propTypes = {
     // Optional
     multi: PropTypes.bool,
     options: PropTypes.array,
+    isDisabled: PropTypes.bool,
     className: PropTypes.string,
     valueKey: PropTypes.string,
 };

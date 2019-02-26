@@ -15,7 +15,6 @@ import {injectT} from "@ndla/i18n";
 import {Helmet} from "react-helmet";
 import {Breadcrumb, OneColumn} from '@ndla/ui';
 
-
 import Loading from '../../../components/Loading';
 import Concept from "../components/Concept";
 import WithEither from "../../../components/HOC/WithEither";
@@ -50,8 +49,14 @@ class CloneConceptPageContainer extends React.Component {
             actionType: UPDATE_FLASH_MESSAGE_CONCEPT_CLONE,
             history
         };
+
+        const status = this.props.status.find(x => x.label.toLowerCase() === this.props.t('phrases.draft').toLowerCase());
+        let statusId = -1;
+        if (status)
+            statusId = status.value;
+
         loadConcept(this.props.apiService, this.getConceptId(), t)
-            .then(concept => this.props.updateInitialFormValues(concept))
+            .then(concept => this.props.updateInitialFormValues({...concept, statusId}))
             .catch( err => submitErrorHandler(err, errorHandler, updateFlashMessage));
     }
 
