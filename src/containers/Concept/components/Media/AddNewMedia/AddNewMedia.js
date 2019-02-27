@@ -65,8 +65,7 @@ class AddNewMedia extends React.Component {
 
 
     onSelect(media) {
-        const {t} = this.props;
-        const mediaType = this.props.mediaTypes.find(x => x.title.toLowerCase() === this.state.mediaType.toLowerCase()); // concert this.state.mediaType with this props.t(this.state.mediaType)
+        const mediaType = this.props.mediaTypes.find(x => x.typeGroup.name.toLowerCase() === this.state.mediaType.toLowerCase()); // concert this.state.mediaType with this props.t(this.state.mediaType)
         const serializedMedia = {
             mediaTypeId: mediaType.id,
             mediaType,
@@ -74,8 +73,8 @@ class AddNewMedia extends React.Component {
         };
 
         new Promise((resolve, reject) => {
-            switch(mediaType.title.toLowerCase()) {
-                case t('phrases.video').toLowerCase():
+            switch(mediaType.typeGroup.name.toLowerCase()) {
+                case 'video':
                     if (media.displayLink === 'www.youtube.com') {
                         const youTubeId = media.pagemap.videoobject[0].videoid;
                         resolve({
@@ -94,7 +93,7 @@ class AddNewMedia extends React.Component {
                         })
                     }
                     break;
-                case t('phrases.image').toLowerCase():
+                case 'image':
                     resolve({
                         previewUrl: media.imageUrl,
                         externalId: media.id,
@@ -102,7 +101,7 @@ class AddNewMedia extends React.Component {
                         altText: media.alttext.alttext,
                     });
                     break;
-                case t('phrases.audio').toLowerCase():
+                case 'audio':
                     this.props.audioApiService.getById(media.id)
                         .then(({audioFile}) => {
                             resolve({

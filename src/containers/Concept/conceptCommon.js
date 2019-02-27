@@ -69,38 +69,37 @@ export const getMetasFromApiResult = concept => {
 };
 
 
-export const getMediaFromApies = (media, t) => media.map(x => {
-    const mediaType = x.mediaType.title;
-    switch(mediaType.toLowerCase()) {
-        case t('phrases.image').toLowerCase():
+export const getMediaFromApies = (media) => media.map(x => {
+    switch(x.typeGroup.name.toLowerCase()) {
+        case 'image':
             return new ImageApi().getById(x.externalId);
-        case t('phrases.audio').toLowerCase():
+        case 'audio':
             return new AudioApi().getById(x.externalId);
-        case t('phrases.video').toLowerCase():
+        case 'video':
             return new VideoApi().getById(x.externalId, x.source);
         default:
             return null;
     }
 });
 
-export const mapDataFromAPieToMedia = (conceptMedia, t) => new Promise((resolve, reject) => {
-    Promise.all(getMediaFromApies(conceptMedia, t)).then(x => {
+export const mapDataFromAPieToMedia = (conceptMedia) => new Promise((resolve, reject) => {
+    Promise.all(getMediaFromApies(conceptMedia)).then(x => {
         const media = [];
         x.forEach((m, index) => {
             const mediaType = conceptMedia[index].mediaType.title;
             const mediaObject = {...conceptMedia[index]};
             switch(mediaType.toLowerCase()) {
-                case t('phrases.image').toLowerCase():
+                case 'image':
                     mediaObject.title = m.title.title;
                     mediaObject.previewUrl = m.imageUrl;
                     mediaObject.altText = m.alttext.alttext;
                     break;
-                case t('phrases.audio').toLowerCase():
+                case 'audio':
                     mediaObject.title = m.title.title;
                     mediaObject.previewUrl = m.audioFile.url;
                     mediaObject.audioType = m.audioFile.mimeType;
                     break;
-                case t('phrases.video').toLowerCase():
+                case 'video':
                     mediaObject.previewUrl = m;
                     break;
                 default:
@@ -114,11 +113,11 @@ export const mapDataFromAPieToMedia = (conceptMedia, t) => new Promise((resolve,
 });
 
 
-export const loadConcept = (api, id, t) => new Promise((resolve, reject) =>
+export const loadConcept = (api, id) => new Promise((resolve, reject) =>
     api.getById(id, api.endpoints.concept)
         .then(concept => {
             const meta = getMetasFromApiResult(concept);
-            mapDataFromAPieToMedia(concept.media, t).then(media => {
+            mapDataFromAPieToMedia(concept.media).then(media => {
                 resolve({
                     ...concept,
                     ...meta,
