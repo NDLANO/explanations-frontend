@@ -11,16 +11,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
+import {compose} from "redux";
 
 import { appLocales } from '../../i18n';
 import {updateLocale} from "./actions";
 import {locationShape} from "../../utilities/commonShapes";
 import Dropdown from "../../components/Dropdown";
-import {loadData} from "../../utilities";
-import {loadMediaTypes, loadMeta, loadStatus} from "../App/actions";
-import ApiService from "../../services/apiService";
-import {compose} from "redux";
-import withApiService from "../../components/HOC/withApiService";
 
 
 class SelectLocale extends React.Component {
@@ -37,11 +33,9 @@ class SelectLocale extends React.Component {
         appLocales.forEach(l => path = path.replace(`/${l.abbreviation}/`, ''));
         path = path.startsWith('/') ? path.substring(1) : path;
         createHistory().push(`/${value}/${path}${search}`); // Need create new history or else basename is included
-        window.location.reload();
-        updateLocale(value);
 
-        const {apiService, loadStatus, loadMeta, loadMediaTypes} = this.props;
-        loadData(apiService, loadStatus, loadMeta, loadMediaTypes, value);
+        updateLocale(value);
+        window.location.reload();
     }
     render() {
         const { locale, t } = this.props;
@@ -68,10 +62,6 @@ SelectLocale.propTypes = {
     location: locationShape.isRequired,
     locale: PropTypes.string.isRequired,
     updateLocale: PropTypes.func.isRequired,
-    apiService: PropTypes.instanceOf(ApiService).isRequired,
-    loadStatus: PropTypes.func.isRequired,
-    loadMeta: PropTypes.func.isRequired,
-    loadMediaTypes: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({locale}) => ({
@@ -80,6 +70,5 @@ const mapStateToProps = ({locale}) => ({
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, {updateLocale, loadStatus, loadMeta, loadMediaTypes}),
-    withApiService,
+    connect(mapStateToProps, {updateLocale}),
 )(SelectLocale)

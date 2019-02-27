@@ -12,7 +12,7 @@ export const limitTextToLength = (text, length) => {
         return text;
 
     return `${text.slice(0, 220)}...`;
-}
+};
 
 export const GetValuesFromObjectByKeyPrefix = (object, prefix) => {
     let objects = [];
@@ -22,22 +22,4 @@ export const GetValuesFromObjectByKeyPrefix = (object, prefix) => {
         }
     }
     return objects;
-};
-
-// TODO sages
-export const loadData = (apiService, loadStatus, loadMeta, loadMediaTypes, locale) => {
-    const searchParams = new URLSearchParams();
-    searchParams.append('language', locale);
-    searchParams.append('pageSize', '100');
-    searchParams.append('page', '1');
-    const param = searchParams.toString();
-
-    apiService.get(apiService.endpoints.status, param).then(data => loadStatus(data.results));
-    apiService.get(apiService.endpoints.mediaType, param).then(data => loadMediaTypes(data));
-
-    const promises = [
-        apiService.get(apiService.endpoints.meta, param),
-        apiService.get(apiService.endpoints.category, param),
-    ];
-    Promise.all(promises).then(([metas, categories]) => loadMeta(categories, metas));
 };

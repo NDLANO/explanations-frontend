@@ -14,7 +14,7 @@ export const loadStatus = payload => ({type: UPDATE_STATUS, payload});
 export const loadMeta = (({results: categories}, {results: metas}) => {
     let allMetas = [];
     categories.forEach(category => {
-        const metaList = metas.filter(x => x.category.id === category.id);
+        const metaList = metas.filter(x => x.category.typeGroup.id === category.typeGroup.id);
         let defaultValue = null;
         if (metaList)
             defaultValue = metaList[0];

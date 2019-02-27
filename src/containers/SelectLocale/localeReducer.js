@@ -15,7 +15,7 @@ const initialState = abbreviation;
 export const locale = (state=initialState, action) => {
     switch(action.type) {
         case UPDATE_LOCALE:
-            return action.payload.data;
+            return action.payload;
         default:
             return state;
     }
