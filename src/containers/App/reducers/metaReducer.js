@@ -6,11 +6,15 @@
  *
  */
 import {UPDATE_METAS} from '../actions';
+import {UPDATE_LOCALE} from "../../SelectLocale/actions";
 
-export const meta = (state=[], action) => {
+const initial = [];
+export const meta = (state=initial, action) => {
     switch(action.type) {
         case UPDATE_METAS:
             return action.payload;
+        case UPDATE_LOCALE:
+            return initial;
         default:
             return state;
     }

@@ -6,11 +6,15 @@
  *
  */
 import { UPDATE_STATUS} from '../actions';
+import {UPDATE_LOCALE} from "../../SelectLocale/actions";
 
-export const status = (state=[], action) => {
+const initial = [];
+export const status = (state=initial, action) => {
     switch(action.type) {
         case UPDATE_STATUS:
             return action.payload;
+        case UPDATE_LOCALE:
+            return initial;
         default:
             return state;
     }

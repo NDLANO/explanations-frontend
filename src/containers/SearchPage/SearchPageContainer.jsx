@@ -89,11 +89,48 @@ class SearchContainer extends React.Component {
         this.setState(({page}),
             this.searchForConcepts
         );
-
     }
 
     componentWillUnmount() {
         this.props.updateSearchQuery({term: '', language: null, subject: null});
+    }
+
+    getInitialFormValues() {
+        const {searchQuery, locale, languages} = this.props;
+        const initialValues = {
+            term: searchQuery.term,
+        };
+
+        if (searchQuery.language && searchQuery.language.value !== -1)
+            initialValues['language'] = this.mapItemToDropdownValue(searchQuery.language);
+        else{
+            const l = languages.find(x => x.abbreviation === locale);
+            initialValues['language'] = this.mapItemToDropdownValue(l ? l : this.defaultDropdown('phrases.allLanguages'));
+        }
+
+        initialValues['subject'] = this.mapItemToDropdownValue(searchQuery.subject ? searchQuery.subject : this.defaultDropdown('phrases.allSubjects'));
+
+        return initialValues;
+    }
+
+    getSearchResultQuery() {
+        const {searchQuery} = this.props;
+
+        const resultQuery = {term: searchQuery.term};
+        resultQuery['language'] = this.mapItemToDropdownValue(!searchQuery.language ? this.defaultDropdown('phrases.allLanguages') : searchQuery.language);
+        resultQuery['subject'] = this.mapItemToDropdownValue(!searchQuery.subject ? this.defaultDropdown('phrases.allSubjects') : searchQuery.subject);
+
+        return resultQuery;
+    }
+
+    mapItemToDropdownValue(item) {
+        return {value: item.id, label: item.name};
+    }
+
+    defaultDropdown(text) {
+        const {t} = this.props;
+
+        return {id: -1, name: t(text)};
     }
 
     render() {
@@ -102,7 +139,6 @@ class SearchContainer extends React.Component {
             subjects,
             searchResult,
             autoComplete,
-            searchQuery,
             searchResultMeta,
             searchResultMeta: {page, numberOfPages}
         } = this.props;
@@ -117,12 +153,12 @@ class SearchContainer extends React.Component {
                 <Breadcrumb items={breadCrumbs}/>
                 <Helmet title={t('pageTitles.searchForConcept')} />
                 <SearchForm t={t}
-                            initialValues={searchQuery}
-                            languages={languages}
-                            subjects={subjects}
+                            initialValues={this.getInitialFormValues()}
+                            languages={[this.defaultDropdown('phrases.allLanguages'), ...languages].map(this.mapItemToDropdownValue)}
+                            subjects={[this.defaultDropdown('phrases.allSubjects'), ...subjects].map(this.mapItemToDropdownValue)}
                             search={this.search}
                             autoComplete={autoComplete}/>
-                <SearchResultList searchResultMeta={searchResultMeta} results={searchResult} searchQuery={searchQuery} userHasSearched={this.state.userHasSearched} t={t}/>
+                <SearchResultList searchResultMeta={searchResultMeta} results={searchResult} searchQuery={this.getSearchResultQuery()} userHasSearched={this.state.userHasSearched} t={t}/>
                 {Boolean(numberOfPages > 1) && <Pager pageItemComponentClass={PageItemComponent} lastPage={numberOfPages} page={page} onClick={this.clickPager}  />}
             </OneColumn>
         )
@@ -155,7 +191,7 @@ const languageAndSubjectsShouldBePresent = compose(
 )(SearchContainer);
 
 export default compose(
-    connect(mapStateToProps, {updateSearchResult, updateSearchQuery: updateSearchQuery}),
+    connect(mapStateToProps, {updateSearchResult, updateSearchQuery}),
     withApiService,
     injectT,
 )(languageAndSubjectsShouldBePresent);

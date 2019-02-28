@@ -9,13 +9,13 @@ const classes = new BEMHelper({
 
 class HeaderComponent extends React.Component {
 
-    renderNotFound(condition, searchValue) {
+    renderNotFound(condition, searchValue, text='searchPage.notResultsWith') {
         if (condition)
             return null;
 
         return (
             <div>
-                {this.props.t('searchPage.notResultsWith')} <strong>{searchValue}</strong>
+                {this.props.t(text)} <strong>{searchValue}</strong>
             </div>
         )
     }
@@ -34,12 +34,11 @@ class HeaderComponent extends React.Component {
                 <strong>
                     {userHasSearched ? `${totalItems} ${t('searchPage.resultHits')}` : ''}
                 </strong>
-                {results.length > 0 && <React.Fragment>
-                    {searchQuery.title && this.renderNotFound(resultsWithTitle.length, searchQuery.title)}
+                <React.Fragment>
+                    {searchQuery.term && this.renderNotFound(resultsWithTitle.length, searchQuery.term, 'searchPage.resultsFor')}
                     {searchQuery.language.value !== -1 && this.renderNotFound(resultsContainsLanguageMeta.length, searchQuery.language.label)}
                     {searchQuery.subject.value !== -1 && this.renderNotFound(resultsContainsSubjectMeta.length, searchQuery.subject.label)}
                 </React.Fragment>
-                }
             </div>
         )
     }

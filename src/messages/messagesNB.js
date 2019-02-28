@@ -166,6 +166,7 @@ const NB = {
     searchPage: {
         resultHits: 'treff',
         notResultsWith: 'Ingen treff på',
+        resultsFor: "Treff på"
     },
     indexPage: {
         title: "Hjem"
@@ -195,7 +196,9 @@ const NB = {
         language: "Språk",
         subject: "Fag",
         licence: "Lisens",
-        draft: "Utkast"
+        draft: "Utkast",
+        allSubjects: "Alle fag",
+        allLanguages: "Alle språk"
     },
     sentence: {
         previewNotSupported: "Støtter ikke fohåndsvisining av dette formatet"
