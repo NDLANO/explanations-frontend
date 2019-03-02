@@ -35,7 +35,7 @@ class Media extends React.Component {
 
     renderPreview(){
         const {media, t} = this.props;
-        switch(media.typeGroup.title.toLowerCase()) {
+        switch(media.mediaType.typeGroup.name.toLowerCase()) {
             case 'image':
                 return <PreviewImage previewUrl={media.previewUrl} altText={media.altText}/>;
             case 'video':

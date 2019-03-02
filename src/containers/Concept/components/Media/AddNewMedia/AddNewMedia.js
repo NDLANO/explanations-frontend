@@ -65,7 +65,7 @@ class AddNewMedia extends React.Component {
 
 
     onSelect(media) {
-        const mediaType = this.props.mediaTypes.find(x => x.typeGroup.name.toLowerCase() === this.state.mediaType.toLowerCase()); // concert this.state.mediaType with this props.t(this.state.mediaType)
+        const mediaType = this.props.mediaTypes.find(x => x.typeGroup.name.toLowerCase() === this.state.mediaType.toLowerCase());
         const serializedMedia = {
             mediaTypeId: mediaType.id,
             mediaType,
@@ -139,11 +139,11 @@ class AddNewMedia extends React.Component {
             onSelect: this.onSelect
         };
         switch(this.state.mediaType) {
-            case t('phrases.video').toLowerCase():
+            case 'video':
                 return <VideoSearch {...mediaProps} api={videoApiService}/>;
-            case t('phrases.audio').toLowerCase():
+            case 'audio':
                 return <AudioSearch {...mediaProps} api={audioApiService}/>;
-            case t('phrases.image').toLowerCase():
+            case 'image':
                 return <ImageSearch {...mediaProps} api={imageApiService}/>;
             default:
                 return <ul {...classes()}>
