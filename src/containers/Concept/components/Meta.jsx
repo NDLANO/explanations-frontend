@@ -11,37 +11,43 @@ import {Field} from "redux-form";
 import PropTypes from 'prop-types';
 
 import Dropdown from "../../../components/Dropdown";
-import {capitalizeText} from "../../../utilities";
 
-const metaNamePrefix = (name) => `meta_${name}`;
+export const metaNamePrefix = (name) => `meta_${name}`;
+export const dropdownFormat = ({id, name, languageVariation}, type="NO_TYPE") => ({value: languageVariation, id, languageVariation, label: name, type: type}); //`${id}_${languageVariation}`
 
-const Meta = ({meta, t, classes, readOnly, initialValues}) =>
+const Meta = ({meta, name, label, isMultiSelect, t, classes, readOnly, options, onChange}) => (
         <div {...classes('form-field')}>
-            <label>{capitalizeText(meta.category.description.toLowerCase())}</label>
-            <Field name={metaNamePrefix(meta.category.typeGroup.name.toLowerCase())}
+            <label>{label}</label>
+            <Field name={name}
                    readOnly={readOnly}
                    component={Dropdown}
-                   id={meta.category.id}
                    isSearcable={true}
-                   isMultiSelect={meta.category.canHaveMultiple}
+                   isMultiSelect={isMultiSelect}
                    t={t}
-                   selected={initialValues[metaNamePrefix(meta.category.typeGroup.name.toLowerCase())]}
-                   options={meta.metaList.map(x => ({value: x.id, label: x.name}))}/>
-        </div>;
+                   onChange={onChange}
+                   selected={meta ? dropdownFormat(meta, meta.category.typeGroup.name): null}
+                   options={options.map(x => dropdownFormat(x, x.category.typeGroup.name))}/>
+        </div>);
 
 Meta.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
-    meta: PropTypes.object.isRequired,
-    initialValues: PropTypes.object.isRequired,
+    meta: PropTypes.shape({
+        category: PropTypes.string.isRequired,
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+    }).isRequired,
     classes: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
 
     // Optional
-    readOnly: PropTypes.bool
+    readOnly: PropTypes.bool,
+    options: PropTypes.array
 };
 
 Meta.defaultProps = {
-    readOnly: false
+    readOnly: false,
+    options: []
 };
 
 export default Meta;

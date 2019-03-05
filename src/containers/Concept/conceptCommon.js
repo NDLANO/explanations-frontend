@@ -11,6 +11,7 @@ import {updateRoute} from "../../utilities/routeHelper";
 import ImageApi from "../../services/imageApiService";
 import AudioApi from "../../services/audioApiService";
 import VideoApi from "../../services/videoApiService";
+import {dropdownFormat} from "./components/Meta";
 
 
 export const submitFormHandling = (submitFunction, successHandler, errorHandler, updateFlashMessage) => {
@@ -47,7 +48,7 @@ export const mapStateToPropsCommon = ({locale, cacheFromServer: {status, meta, m
         meta,
         mediaTypes,
         locale,
-        status: status.map(x => ({value: x.id, label: x.name})),
+        status: status.map(x => ({value: x.languageVariation, id: x.id, label: x.name})),
     }
 };
 
@@ -56,14 +57,14 @@ export const getMetasFromApiResult = concept => {
     const meta = {};
     concept.meta.forEach(x => {
         const key = `meta_${x.category.typeGroup.name.toLowerCase()}`;
-        const metaObject = {value: x.id, label: x.description};
+        console.log(x.category)
         if (x.category.canHaveMultiple) {
             if (meta[key])
-                meta[key].push(metaObject);
+                meta[key].push(x.languageVariation);
             else
-                meta[key] = [metaObject];
+                meta[key] = [x.languageVariation];
         }else
-            meta[key] = {value: x.id, label: x.name};
+            meta[key] = x.languageVariation;
     });
     return meta;
 };

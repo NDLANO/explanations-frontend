@@ -195,7 +195,7 @@ const NB = {
         delete: "Slett",
         language: "Språk",
         subject: "Fag",
-        licence: "Lisens",
+        license: "Lisens",
         draft: "Utkast",
         allSubjects: "Alle fag",
         allLanguages: "Alle språk"

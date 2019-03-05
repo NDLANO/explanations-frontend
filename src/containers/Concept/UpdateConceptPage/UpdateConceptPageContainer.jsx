@@ -20,12 +20,9 @@ import FlashMessage, {flashMessageShape} from "../../../components/FlashMessage"
 import Concept from "../components/Concept";
 import ConfirmModal from "../../../components/ConfirmModal";
 import Loading from '../../../components/Loading';
-import WithEither from "../../../components/HOC/WithEither";
 import {updateFlashMessage, clearFlashMessage} from "../../../components/FlashMessage/";
 import {
     loadConcept,
-    metaExists,
-    statusExists,
     submitErrorHandler,
     submitFormHandling
 } from "../conceptCommon";
@@ -61,9 +58,8 @@ class UpdateConceptPageContainer extends React.Component {
         };
 
         loadConcept(this.props.apiService, this.getConceptId()).then(concept => {
-            const status = this.props.status.find(x => x.value === concept.status.id);
-            this.props.updateInitialFormValues({...concept, statusId: status.value});
-            this.props.setDeleteButtonAsDisabled(concept.status.label === this.props.t('phrases.archived'));
+            this.props.updateInitialFormValues({...concept, statusId: concept.status.languageVariation});
+            //this.props.setDeleteButtonAsDisabled(concept.status.label === this.props.t('phrases.archived'));
         }).catch( err => submitErrorHandler(err, errorHandler, updateFlashMessage));
     }
 
@@ -130,6 +126,7 @@ class UpdateConceptPageContainer extends React.Component {
                                showTimestamps={true}
                                isReadOnly={this.isReadOnly()}
                                locale={this.props.locale}
+                               apiService={this.props.apiService}
                                mediaTypes={this.props.mediaTypes}>
 
                 <ConfirmModal t={this.props.t}
@@ -196,6 +193,4 @@ export default compose(
     connect(mapStateToProps, {updateFlashMessage, clearFlashMessage, updateInitialFormValues, setDeleteButtonAsDisabled}),
     withApiService,
     injectT,
-    WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),
-    WithEither(statusExists, () => <Loading message="loadingMessage.loadingStatus"/>),
 )(UpdateConceptPageContainer);

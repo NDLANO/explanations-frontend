@@ -18,16 +18,16 @@ class FormSelect extends React.Component {
     }
 
     onChange(value) {
-        const {multi, input: {onChange}} = this.props;
-        if (multi)
-            return onChange(value.map(value => value.value));
-        return onChange(value ? value.value : '');
+        const {isMulti, input: {onChange}} = this.props;
+        if (isMulti)
+            return onChange(value.value);
+        return onChange(value);
     }
 
     getValue() {
-        const {multi, input: {value}} = this.props;
-        if (multi)
-            return typeof value === 'string' || typeof value === 'number' ? [] : this.filteredOptions();
+        const {isMulti, input: {value}} = this.props;
+        //if (isMulti)
+        //    return typeof value === 'string' || typeof value === 'number' ? [] : this.filteredOptions();
         return this.filteredOptions()[0];
     }
 
@@ -36,9 +36,9 @@ class FormSelect extends React.Component {
     }
 
     filteredOptions() {
-        const {multi, options, input: {value}} = this.props;
+        const {isMulti, options, input: {value}} = this.props;
 
-        return options.filter(option => multi
+        return options.filter(option => isMulti
             ? value.indexOf(option.value) !== -1
             : option.value === value
         )
@@ -61,7 +61,7 @@ class FormSelect extends React.Component {
 
 FormSelect.defaultProps = {
     options: [],
-    multi: false,
+    isMulti: false,
     className: "",
     isDisabled: false,
     valueKey: "value",
@@ -72,7 +72,7 @@ FormSelect.propTypes = {
     input: fieldInputShape.isRequired,
 
     // Optional
-    multi: PropTypes.bool,
+    isMulti: PropTypes.bool,
     options: PropTypes.array,
     isDisabled: PropTypes.bool,
     className: PropTypes.string,
