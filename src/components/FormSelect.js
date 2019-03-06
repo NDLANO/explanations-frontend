@@ -14,26 +14,22 @@ class FormSelect extends React.Component {
         super(props);
         this.onChange = this.onChange.bind(this);
         this.getValue = this.getValue.bind(this);
-        this.onBlur = this.onBlur.bind(this);
     }
 
     onChange(value) {
         const {isMulti, input: {onChange}} = this.props;
         if (isMulti)
-            return onChange(value.value);
-        return onChange(value);
+            return onChange(value.map(x => x.value));
+        return onChange(value.value);
     }
 
     getValue() {
         const {isMulti, input: {value}} = this.props;
-        //if (isMulti)
-        //    return typeof value === 'string' || typeof value === 'number' ? [] : this.filteredOptions();
+        if (isMulti)
+            return typeof value === 'string' || typeof value === 'number' ? [] : this.filteredOptions();
         return this.filteredOptions()[0];
     }
 
-    onBlur() {
-        this.props.input.onBlur(this.props.input.value);
-    }
 
     filteredOptions() {
         const {isMulti, options, input: {value}} = this.props;
@@ -52,7 +48,6 @@ class FormSelect extends React.Component {
                 name={name}
                 onFocus={onFocus}
                 onChange={this.onChange}
-                onBlur={this.onBlur}
                 value={this.getValue()}
             />
         )

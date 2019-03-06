@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import Dropdown from "../../../components/Dropdown";
 
 export const metaNamePrefix = (name) => `meta_${name}`;
-export const dropdownFormat = ({id, name, languageVariation}, type="NO_TYPE") => ({value: languageVariation, id, languageVariation, label: name, type: type}); //`${id}_${languageVariation}`
+export const dropdownFormat = ({id, name, languageVariation, ...rest}, type="NO_TYPE") => ({...rest, value: languageVariation, id, languageVariation, label: name, type: type}); //`${id}_${languageVariation}`
 
 const Meta = ({meta, name, label, isMultiSelect, t, classes, readOnly, options, onChange}) => (
         <div {...classes('form-field')}>

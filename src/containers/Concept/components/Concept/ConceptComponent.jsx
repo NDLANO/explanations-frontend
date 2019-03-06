@@ -13,8 +13,9 @@ import PropTypes from 'prop-types';
 import BEMHelper from "react-bem-helper";
 import Plus from "@ndla/icons/es/action/Plus";
 import {Field, FieldArray, reduxForm, SubmissionError, arrayPush} from "redux-form";
+import Select from 'react-select';
 
-import Meta, {dropdownFormat, metaNamePrefix} from "../Meta";
+import {dropdownFormat, metaNamePrefix} from "../Meta";
 import ConfirmModal from "../../../../components/ConfirmModal/";
 import {capitalizeText, GetValuesFromObjectByKeyPrefix} from "../../../../utilities";
 
@@ -23,11 +24,7 @@ import {FIELDS} from "./fields";
 import AddNewMedia from "../Media/AddNewMedia";
 import Media from "../Media/MediaComponent";
 import Loading from "../../../../components/Loading/LoadingComponent";
-import WithEither from "../../../../components/HOC/WithEither";
-import {metaExists, statusExists} from "../../conceptCommon";
-import Dropdown from "../../../../components/Dropdown";
 import FormSelect from "../../../../components/FormSelect";
-import Select from 'react-select';
 
 const classes = new BEMHelper({
     name: 'concept-form',
@@ -52,7 +49,7 @@ class Concept extends React.Component {
         super(props);
         this.state = {
             mediaModalIsOpen: false,
-            metas: [],
+            meta: [],
             categories: [],
             status: [],
         };
@@ -73,11 +70,21 @@ class Concept extends React.Component {
         this.openMediaModal = this.openMediaModal.bind(this);
         this.renderMediaFields = this.renderMediaFields.bind(this);
         this.onChangeLanguage = this.onChangeLanguage.bind(this);
+
+        this.updateStatus = this.updateStatus.bind(this);
+        this.updateMeta = this.updateMeta.bind(this);
+        this.updateCategory = this.updateCategory.bind(this);
     }
 
     onChangeLanguage(data) {
-        if (data.type && data.type.toLowerCase() === "language")
-            this.loadData(this.state.metas.find(x => x.languageVariation === data.languageVariation).abbreviation)
+        let languageVariation = "";
+        for(let i = 0; i < Object.keys(data).length; i++) {
+            if (data[i])
+                languageVariation += data[i];
+        }
+        const meta = this.state.meta.find(x => x.languageVariation === languageVariation);
+        if (meta && meta.category.typeGroup.name.toLowerCase() === "language")
+            this.loadData(meta.abbreviation)
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -98,9 +105,19 @@ class Concept extends React.Component {
         searchParams.append('page', '1');
         const param = searchParams.toString();
 
-        apiService.get(apiService.endpoints.status, param).then(data => this.setState({status: data.results}));
-        apiService.get(apiService.endpoints.meta, param).then(data => this.setState({metas: data.results}));
-        apiService.get(apiService.endpoints.category, param).then(data => this.setState({categories: data.results}));
+        apiService.get(apiService.endpoints.status, param).then(this.updateStatus);
+        apiService.get(apiService.endpoints.meta, param).then(this.updateMeta);
+        apiService.get(apiService.endpoints.category, param).then(this.updateCategory);
+    }
+
+    updateStatus({results: status}) {
+        this.setState({status: status.map(x => dropdownFormat(x))});
+    }
+    updateMeta({results: meta}) {
+        this.setState({meta: meta.map(x => dropdownFormat(x, x.category.typeGroup.name.toLowerCase()))});
+    }
+    updateCategory({results: categories}) {
+        this.setState({categories: categories.map(x => dropdownFormat(x))});
     }
 
     onSubmit(values) {
@@ -168,11 +185,13 @@ class Concept extends React.Component {
     renderStatus() {
         const {t} = this.props;
 
-        // WithEither(statusExists, () => <Loading message="loadingMessage.loadingStatus"/>),
+        if (!this.state.status)
+            return <Loading message="loadingMessage.loadingStatus"/>;
+
         return (
             <div {...classes('form-field')}>
                 <label  htmlFor={this.fields.status.id}>{t("conceptForm.status")}</label>
-                <Field {...this.fields.status} options={this.state.status.map(x => dropdownFormat(x))} isDisabled={this.isDisabled()}/>
+                <Field {...this.fields.status} options={this.state.status} isDisabled={this.isDisabled()}/>
             </div>
         )
     }
@@ -180,25 +199,24 @@ class Concept extends React.Component {
     renderMetaSection() {
         const {error, t} = this.props;
         let meta = this.state.categories.map(category => {
-            const options = this.state.metas
-                .filter(meta => meta.category.id === category.id)
-                .map(x => dropdownFormat(x, x.category.typeGroup.name));
+            const options = this.state.meta
+                .filter(meta => meta.category.id === category.id);
 
             return (
-                <div {...classes('form-field')}>
+                <div {...classes('form-field')} key={metaNamePrefix(category.typeGroup.name.toLowerCase())}>
                     <label>{capitalizeText(t(`phrases.${category.typeGroup.name.toLowerCase()}`))}</label>
 
+                    {/*
                     <Field name={metaNamePrefix(category.typeGroup.name.toLowerCase())}
                            isDisabled={this.isDisabled()}
                            component={Select}
                            isSearcable={true}
                            isMulti={category.canHaveMultiple}
                            className="form-dropdown"
-                           key={metaNamePrefix(category.typeGroup.name.toLowerCase())}
                            onChange={this.onChangeLanguage}
                            onBlur={() => console.log()}
                            options={options}/>
-                    {/*
+                    */}
                     <Field name={metaNamePrefix(category.typeGroup.name.toLowerCase())}
                            isDisabled={this.isDisabled()}
                            component={FormSelect}
@@ -208,7 +226,7 @@ class Concept extends React.Component {
                            key={metaNamePrefix(category.typeGroup.name.toLowerCase())}
                            onChange={this.onChangeLanguage}
                            options={options}/>
-                           */}
+
                 </div>
             );
         });
@@ -289,6 +307,7 @@ class Concept extends React.Component {
     render() {
         const { t, handleSubmit} = this.props;
         const submit = handleSubmit(this.onSubmit);
+        console.log(this.state)
         return (
             <form onSubmit={submit} {...classes()}>
                 {this.renderFieldsSection()}
