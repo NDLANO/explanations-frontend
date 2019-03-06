@@ -10,43 +10,45 @@ import React from 'react';
 import {Field} from "redux-form";
 import PropTypes from 'prop-types';
 
-import Dropdown from "../../../components/Dropdown";
+import {capitalizeText} from "../../../utilities";
+import FormSelect from "../../../components/FormSelect";
 
 export const metaNamePrefix = (name) => `meta_${name}`;
-export const dropdownFormat = ({id, name, languageVariation, ...rest}, type="NO_TYPE") => ({...rest, value: languageVariation, id, languageVariation, label: name, type: type}); //`${id}_${languageVariation}`
 
-const Meta = ({meta, name, label, isMultiSelect, t, classes, readOnly, options, onChange}) => (
-        <div {...classes('form-field')}>
-            <label>{label}</label>
-            <Field name={name}
-                   readOnly={readOnly}
-                   component={Dropdown}
-                   isSearcable={true}
-                   isMultiSelect={isMultiSelect}
-                   t={t}
-                   onChange={onChange}
-                   selected={meta ? dropdownFormat(meta, meta.category.typeGroup.name): null}
-                   options={options.map(x => dropdownFormat(x, x.category.typeGroup.name))}/>
-        </div>);
+const Meta = ({ category: {canHaveMultiple, typeGroup: {name}}, t, options, onChange, isDisabled, className}) => (
+    <div className={className}>
+        <label>{capitalizeText(t(`phrases.${name.toLowerCase()}`))}</label>
+        <Field name={metaNamePrefix(name.toLowerCase())}
+               isDisabled={isDisabled}
+               component={FormSelect}
+               isSearcable={true}
+               isMulti={canHaveMultiple}
+               className="form-dropdown"
+               key={metaNamePrefix(name.toLowerCase())}
+               onChange={onChange}
+               options={options}/>
+    </div>
+);
 
 Meta.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
-    meta: PropTypes.shape({
-        category: PropTypes.string.isRequired,
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
+    category: PropTypes.shape({
+        typeGroup: PropTypes.shape({
+            name: PropTypes.string.isRequired,
+        }).isRequired,
+        canHaveMultiple: PropTypes.number.isRequired,
     }).isRequired,
     classes: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
 
     // Optional
-    readOnly: PropTypes.bool,
+    isDisabled: PropTypes.bool,
     options: PropTypes.array
 };
 
 Meta.defaultProps = {
-    readOnly: false,
+    isDisabled: false,
     options: []
 };
 

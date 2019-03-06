@@ -11,8 +11,7 @@ import {updateRoute} from "../../utilities/routeHelper";
 import ImageApi from "../../services/imageApiService";
 import AudioApi from "../../services/audioApiService";
 import VideoApi from "../../services/videoApiService";
-import {dropdownFormat, metaNamePrefix} from "./components/Meta";
-
+import {metaNamePrefix} from "./components/Meta";
 
 export const submitFormHandling = (submitFunction, successHandler, errorHandler, updateFlashMessage) => {
     return submitFunction
@@ -128,6 +127,8 @@ export const loadConcept = (api, id) => new Promise((resolve, reject) =>
         .catch(err =>  reject(err))
 );
 
+
+export const dropdownFormat = ({id, name, languageVariation, ...rest}) => ({...rest, value: languageVariation, id, languageVariation, label: name});
 
 export const metaExists = ({meta}) =>  meta.length > 0;
 export const statusExists = ({status}) => status.length > 0;

@@ -6,25 +6,25 @@
  *
  */
 
-import _ from 'lodash';
 import React from 'react';
 import Button from '@ndla/button';
 import PropTypes from 'prop-types';
 import BEMHelper from "react-bem-helper";
 import Plus from "@ndla/icons/es/action/Plus";
 import {Field, FieldArray, reduxForm, SubmissionError, arrayPush} from "redux-form";
-import Select from 'react-select';
 
-import {dropdownFormat, metaNamePrefix} from "../Meta";
 import ConfirmModal from "../../../../components/ConfirmModal/";
-import {capitalizeText, GetValuesFromObjectByKeyPrefix} from "../../../../utilities";
+import {GetValuesFromObjectByKeyPrefix} from "../../../../utilities";
 
 import {validate} from "./validate";
 import {FIELDS} from "./fields";
 import AddNewMedia from "../Media/AddNewMedia";
 import Media from "../Media/MediaComponent";
 import Loading from "../../../../components/Loading/LoadingComponent";
-import FormSelect from "../../../../components/FormSelect";
+import Meta, {metaNamePrefix} from "../Meta";
+import {dropdownFormat} from "../../conceptCommon";
+import SectionComponent from "../SectionComponent";
+import ApiService from "../../../../services/apiService";
 
 const classes = new BEMHelper({
     name: 'concept-form',
@@ -32,17 +32,6 @@ const classes = new BEMHelper({
 });
 
 export const CONCEPT_FORM_NAME = 'conceptForm';
-
-const SectionComponent = ({title}) =>
-    <div {...classes('section')}>
-        <hr />
-        <h2>{title}</h2>
-        <hr />
-    </div>;
-
-SectionComponent.propTypes = {
-    title: PropTypes.string.isRequired,
-};
 
 class Concept extends React.Component {
     constructor(props) {
@@ -54,13 +43,6 @@ class Concept extends React.Component {
             status: [],
         };
         this.fields = {...FIELDS};
-        _.forEach(this.fields, field => {
-            if (props.isReadOnly) {
-                field['readOnly'] = true;
-                field['required'] = false;
-            }
-            return field;
-        });
 
         this.onSubmit = this.onSubmit.bind(this);
         this.onSelectMedia = this.onSelectMedia.bind(this);
@@ -70,7 +52,6 @@ class Concept extends React.Component {
         this.openMediaModal = this.openMediaModal.bind(this);
         this.renderMediaFields = this.renderMediaFields.bind(this);
         this.onChangeLanguage = this.onChangeLanguage.bind(this);
-
         this.updateStatus = this.updateStatus.bind(this);
         this.updateMeta = this.updateMeta.bind(this);
         this.updateCategory = this.updateCategory.bind(this);
@@ -85,12 +66,6 @@ class Concept extends React.Component {
         const meta = this.state.meta.find(x => x.languageVariation === languageVariation);
         if (meta && meta.category.typeGroup.name.toLowerCase() === "language")
             this.loadData(meta.abbreviation)
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.locale !== this.props.locale) {
-            this.loadData(this.props.locale);
-        }
     }
 
     componentDidMount() {
@@ -114,7 +89,7 @@ class Concept extends React.Component {
         this.setState({status: status.map(x => dropdownFormat(x))});
     }
     updateMeta({results: meta}) {
-        this.setState({meta: meta.map(x => dropdownFormat(x, x.category.typeGroup.name.toLowerCase()))});
+        this.setState({meta: meta.map(x => dropdownFormat(x))});
     }
     updateCategory({results: categories}) {
         this.setState({categories: categories.map(x => dropdownFormat(x))});
@@ -170,10 +145,10 @@ class Concept extends React.Component {
         const { t, locale} = this.props;
         return (
             <React.Fragment>
-                <Field {...this.fields.title}   t={t} {...classes('form-field')} />
-                <Field {...this.fields.content} t={t} {...classes('form-field')} />
-                <Field {...this.fields.author}  t={t} {...classes('form-field')} />
-                <Field {...this.fields.source}  t={t} {...classes('form-field')} />
+                <Field {...this.fields.title}   t={t} {...classes('form-field')} readOnly={this.isDisabled()}/>
+                <Field {...this.fields.content} t={t} {...classes('form-field')} readOnly={this.isDisabled()} />
+                <Field {...this.fields.author}  t={t} {...classes('form-field')} readOnly={this.isDisabled()} />
+                <Field {...this.fields.source}  t={t} {...classes('form-field')} readOnly={this.isDisabled()} />
 
                 {this.renderStatus()}
                 {this.props.showTimestamps && <Field {...this.fields.created} t={t} {...classes('form-field')} locale={locale} />}
@@ -198,42 +173,21 @@ class Concept extends React.Component {
 
     renderMetaSection() {
         const {error, t} = this.props;
-        let meta = this.state.categories.map(category => {
-            const options = this.state.meta
-                .filter(meta => meta.category.id === category.id);
-
-            return (
-                <div {...classes('form-field')} key={metaNamePrefix(category.typeGroup.name.toLowerCase())}>
-                    <label>{capitalizeText(t(`phrases.${category.typeGroup.name.toLowerCase()}`))}</label>
-
-                    {/*
-                    <Field name={metaNamePrefix(category.typeGroup.name.toLowerCase())}
-                           isDisabled={this.isDisabled()}
-                           component={Select}
-                           isSearcable={true}
-                           isMulti={category.canHaveMultiple}
-                           className="form-dropdown"
-                           onChange={this.onChangeLanguage}
-                           onBlur={() => console.log()}
-                           options={options}/>
-                    */}
-                    <Field name={metaNamePrefix(category.typeGroup.name.toLowerCase())}
-                           isDisabled={this.isDisabled()}
-                           component={FormSelect}
-                           isSearcable={true}
-                           isMulti={category.canHaveMultiple}
-                           className="form-dropdown"
-                           key={metaNamePrefix(category.typeGroup.name.toLowerCase())}
-                           onChange={this.onChangeLanguage}
-                           options={options}/>
-
-                </div>
-            );
-        });
+        let meta = this.state.categories.map(category => (
+            <Meta
+                key={metaNamePrefix(category.typeGroup.name.toLowerCase())}
+                options={this.state.meta.filter(meta => meta.category.id === category.id)}
+                onChange={this.onChangeLanguage}
+                isDisabled={this.isDisabled()}
+                classes="form-dropdown"
+                category={category}
+                t={t}
+            />
+        ));
 
         return  (
             <React.Fragment>
-                <SectionComponent title="Meta" />
+                <SectionComponent title="Meta" className={classes('section').className} />
                 {error && <span {...classes('form-field', 'validation-error--meta')}>{error}</span>}
                 {meta ? meta : <Loading message="loadingMessage.loadingMeta"/>}
             </React.Fragment>);
@@ -256,7 +210,7 @@ class Concept extends React.Component {
         const {t, locale} = this.props;
         return (
             <React.Fragment>
-                <SectionComponent title="Media" />
+                <SectionComponent title="Media" className={classes('section').className} />
 
                 <FieldArray name="media" component={this.renderMediaFields} />
 
@@ -277,7 +231,7 @@ class Concept extends React.Component {
 
     renderMediaFields({fields}){
 
-        const {isReadOnly, t} = this.props;
+        const {t} = this.props;
 
         return (
             <React.Fragment>
@@ -289,7 +243,6 @@ class Concept extends React.Component {
                         key={media.previewUrl}
                         name={mediaName}
                         classes={classes}
-                        isReadOnly={isReadOnly}
                         disabled={this.isDisabled()}
                         itemIndex={index}
                         t={t}
@@ -298,7 +251,6 @@ class Concept extends React.Component {
                         component={Media} />
                     }
                 )}
-
             </React.Fragment>
 
         )
@@ -307,7 +259,7 @@ class Concept extends React.Component {
     render() {
         const { t, handleSubmit} = this.props;
         const submit = handleSubmit(this.onSubmit);
-        console.log(this.state)
+
         return (
             <form onSubmit={submit} {...classes()}>
                 {this.renderFieldsSection()}
@@ -333,6 +285,7 @@ Concept.propTypes = {
     mediaTypes: PropTypes.array.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     submitConcept: PropTypes.func.isRequired,
+    apiService: PropTypes.instanceOf(ApiService).isRequired,
 
     // Optional
     error: PropTypes.string,
