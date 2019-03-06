@@ -54,7 +54,6 @@ class Concept extends React.Component {
         this.onChangeLanguage = this.onChangeLanguage.bind(this);
         this.updateStatus = this.updateStatus.bind(this);
         this.updateMeta = this.updateMeta.bind(this);
-        this.updateCategory = this.updateCategory.bind(this);
     }
 
     onChangeLanguage(data) {
@@ -81,18 +80,18 @@ class Concept extends React.Component {
         const param = searchParams.toString();
 
         apiService.get(apiService.endpoints.status, param).then(this.updateStatus);
-        apiService.get(apiService.endpoints.meta, param).then(this.updateMeta);
-        apiService.get(apiService.endpoints.category, param).then(this.updateCategory);
+
+        Promise.all([
+            apiService.get(apiService.endpoints.category, param),
+            apiService.get(apiService.endpoints.meta, param)
+        ]).then(this.updateMeta);
     }
 
     updateStatus({results: status}) {
         this.setState({status: status.map(x => dropdownFormat(x))});
     }
-    updateMeta({results: meta}) {
-        this.setState({meta: meta.map(x => dropdownFormat(x))});
-    }
-    updateCategory({results: categories}) {
-        this.setState({categories: categories.map(x => dropdownFormat(x))});
+    updateMeta([{results: categories}, {results: meta}]) {
+        this.setState({meta: meta.map(x => dropdownFormat(x)), categories: categories.map(x => dropdownFormat(x))});
     }
 
     onSubmit(values) {
@@ -174,15 +173,14 @@ class Concept extends React.Component {
     renderMetaSection() {
         const {error, t} = this.props;
         let meta = this.state.categories.map(category => (
-            <Meta
-                key={metaNamePrefix(category.typeGroup.name.toLowerCase())}
-                options={this.state.meta.filter(meta => meta.category.id === category.id)}
-                onChange={this.onChangeLanguage}
-                isDisabled={this.isDisabled()}
-                classes="form-dropdown"
-                category={category}
-                t={t}
-            />
+            <Meta key={metaNamePrefix(category.typeGroup.name.toLowerCase())}
+                  options={this.state.meta.filter(meta => meta.category.id === category.id)}
+                  onChange={this.onChangeLanguage}
+                  isDisabled={this.isDisabled()}
+                  className={classes('form-field').className}
+                  category={category}
+                  t={t}
+                />
         ));
 
         return  (

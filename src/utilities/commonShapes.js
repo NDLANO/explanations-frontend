@@ -44,7 +44,8 @@ export const lastLocationShape = shape({
     pathname: PropTypes.string.isRequired
 });
 
-export const fieldInputShape = shape({
+
+export const fieldInputProps = {
     name: string.isRequired,
     onBlur: func.isRequired,
     onChange: func.isRequired,
@@ -58,4 +59,6 @@ export const fieldInputShape = shape({
     onDrop: func,
     onDragStart: func,
     checked: bool,
-});
+};
+
+export const fieldInputShape = shape(fieldInputProps);

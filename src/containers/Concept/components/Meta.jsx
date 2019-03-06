@@ -37,9 +37,9 @@ Meta.propTypes = {
         typeGroup: PropTypes.shape({
             name: PropTypes.string.isRequired,
         }).isRequired,
-        canHaveMultiple: PropTypes.number.isRequired,
+        canHaveMultiple: PropTypes.bool.isRequired,
     }).isRequired,
-    classes: PropTypes.func.isRequired,
+    className: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
 
     // Optional

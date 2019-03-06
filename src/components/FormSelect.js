@@ -6,8 +6,8 @@
  */
 import React  from 'react';
 import Select from 'react-select';
-import PropTypes from 'prop-types';
-import {fieldInputShape} from '../utilities/commonShapes';
+import PropTypes, {number, oneOfType, string} from 'prop-types';
+import {fieldInputProps} from '../utilities/commonShapes';
 
 class FormSelect extends React.Component {
     constructor(props) {
@@ -64,7 +64,14 @@ FormSelect.defaultProps = {
 
 FormSelect.propTypes = {
     // Required
-    input: fieldInputShape.isRequired,
+    input: PropTypes.shape({
+        ...fieldInputProps,
+        value: oneOfType([
+            string,
+            number,
+            PropTypes.array
+        ]).isRequired
+    }).isRequired,
 
     // Optional
     isMulti: PropTypes.bool,
