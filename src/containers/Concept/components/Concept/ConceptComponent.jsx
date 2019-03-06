@@ -72,6 +72,11 @@ class Concept extends React.Component {
     }
 
     loadData(language) {
+        this.setState({
+            meta: [],
+            categories: [],
+            status: []
+        });
         const {apiService} = this.props;
         const searchParams = new URLSearchParams();
         searchParams.append('language', language);
@@ -159,7 +164,7 @@ class Concept extends React.Component {
     renderStatus() {
         const {t} = this.props;
 
-        if (!this.state.status)
+        if (this.state.status.length === 0)
             return <Loading message="loadingMessage.loadingStatus"/>;
 
         return (
@@ -174,7 +179,7 @@ class Concept extends React.Component {
         const {error, t} = this.props;
         let meta = this.state.categories.map(category => (
             <Meta key={metaNamePrefix(category.typeGroup.name.toLowerCase())}
-                  options={this.state.meta.filter(meta => meta.category.id === category.id)}
+                  options={this.state.meta.filter(meta => meta.category.typeGroup.id === category.typeGroup.id)}
                   onChange={this.onChangeLanguage}
                   isDisabled={this.isDisabled()}
                   className={classes('form-field').className}
@@ -182,12 +187,11 @@ class Concept extends React.Component {
                   t={t}
                 />
         ));
-
         return  (
             <React.Fragment>
                 <SectionComponent title="Meta" className={classes('section').className} />
                 {error && <span {...classes('form-field', 'validation-error--meta')}>{error}</span>}
-                {meta ? meta : <Loading message="loadingMessage.loadingMeta"/>}
+                {Boolean(meta.length) ? meta : <Loading message="loadingMessage.loadingMeta"/>}
             </React.Fragment>);
     }
 
