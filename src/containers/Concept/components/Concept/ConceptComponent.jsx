@@ -54,6 +54,7 @@ class Concept extends React.Component {
         this.onChangeLanguage = this.onChangeLanguage.bind(this);
         this.updateStatus = this.updateStatus.bind(this);
         this.updateMeta = this.updateMeta.bind(this);
+        this.submitFailed = this.submitFailed.bind(this);
     }
 
     onChangeLanguage(data) {
@@ -101,22 +102,36 @@ class Concept extends React.Component {
 
     onSubmit(values) {
         const all_meta = GetValuesFromObjectByKeyPrefix(values, "meta_");
-
-        const getIds = list => list.map(x => x.value) || [];
+        const getMetaIds = list => list.map(x => {
+            const m = this.state.meta.find(y => y.languageVariation === x);
+            if (m)
+                return m.id;
+            return null;
+        }) || [];
 
         const meta_from_list = all_meta.filter(x => Array.isArray(x)).reduce((a, b) => a.concat(b), []);
         const meta_from_objects =  all_meta.filter(x => !Array.isArray(x));
 
-        const meta = getIds(meta_from_objects).concat(getIds(meta_from_list));
-        const {externalId = -1, statusId, content, title, sourceAuthor, source = null, id = -1} = values;
-        const {media = []} = values;
-
-        if (! statusId)
+        const meta = getMetaIds(meta_from_objects).concat(getMetaIds(meta_from_list));
+        const {
+            externalId = -1,
+            statusId: statusLanguageVariation,
+            content,
+            title,
+            sourceAuthor,
+            source = null,
+            id = -1,
+            media = []
+        } = values;
+        const status = this.state.status.find(x => x.languageVariation === statusLanguageVariation);
+        if (!status)
             return;
+
+
 
         const concept = {
             id,
-            statusId,
+            statusId: status.id,
             externalId,
             content,
             title,
@@ -124,14 +139,19 @@ class Concept extends React.Component {
             source,
             metaIds: meta,
             media,
-            languageId: 1 // TODO
         };
-        return this.props.submitConcept(concept).catch(errors => {
-            if (errors) {
-                errors['_error'] = errors['metaIds'];
-                throw new SubmissionError(errors);
+        return this.props.submitConcept(concept).catch(this.submitFailed);
+    }
+
+    submitFailed({errors}) {
+        if (errors) {
+            if (errors['metaIds']) {
+                this.state.categories.forEach(category =>
+                    errors[metaNamePrefix(category.typeGroup.name.toLowerCase())] = errors['metaIds']
+                )
             }
-        });
+            throw new SubmissionError(errors);
+        }
     }
 
     isDisabled() {
@@ -176,7 +196,7 @@ class Concept extends React.Component {
     }
 
     renderMetaSection() {
-        const {error, t} = this.props;
+        const {t} = this.props;
         let meta = this.state.categories.map(category => (
             <Meta key={metaNamePrefix(category.typeGroup.name.toLowerCase())}
                   options={this.state.meta.filter(meta => meta.category.typeGroup.id === category.typeGroup.id)}
@@ -190,7 +210,6 @@ class Concept extends React.Component {
         return  (
             <React.Fragment>
                 <SectionComponent title="Meta" className={classes('section').className} />
-                {error && <span {...classes('form-field', 'validation-error--meta')}>{error}</span>}
                 {Boolean(meta.length) ? meta : <Loading message="loadingMessage.loadingMeta"/>}
             </React.Fragment>);
     }

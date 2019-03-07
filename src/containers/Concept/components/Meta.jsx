@@ -23,7 +23,6 @@ const Meta = ({ category: {canHaveMultiple, typeGroup: {name}}, t, options, onCh
                component={FormSelect}
                isSearcable={true}
                isMulti={canHaveMultiple}
-               className="form-dropdown"
                key={metaNamePrefix(name.toLowerCase())}
                onChange={onChange}
                options={options}/>

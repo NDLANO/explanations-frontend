@@ -6,7 +6,7 @@
  *
  */
 import axios from 'axios';
-import {loginRoute, notAuthorizedRoute, notFoundRoute, opsSomethingHappened} from "../utilities/routeHelper";
+import {loginRoute, notAuthorizedRoute, notFoundRoute} from "../utilities/routeHelper";
 
 
 export default class ApiService {
@@ -57,10 +57,6 @@ export default class ApiService {
     rejected = ({response}) => {
         return new Promise((resolve, reject) => {
             switch(response.status) {
-                case 400:
-                    if (response && response.data && response.data)
-                        reject({statusCode: response.status, ...response.data.data});
-                    break;
                 case 401:
                     this.history.push(loginRoute());
                     break;
@@ -70,13 +66,10 @@ export default class ApiService {
                 case 404:
                     this.history.push(notFoundRoute());
                     break;
-                case 500:
-                    this.history.push(opsSomethingHappened());
-                    break;
                 default:
-                    this.history.push(notFoundRoute());
+                    break;
             }
-            reject(null);
+            reject(response.data);
         });
     };
 

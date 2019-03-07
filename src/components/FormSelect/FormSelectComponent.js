@@ -6,8 +6,15 @@
  */
 import React  from 'react';
 import Select from 'react-select';
+import BEMHelper from "react-bem-helper";
 import PropTypes, {number, oneOfType, string} from 'prop-types';
-import {fieldInputProps} from '../utilities/commonShapes';
+import {fieldInputProps} from '../../utilities/commonShapes';
+
+
+const classes = new BEMHelper({
+    name: 'form-select',
+    prefix: 'c-',
+});
 
 class FormSelect extends React.Component {
     constructor(props) {
@@ -41,15 +48,23 @@ class FormSelect extends React.Component {
     }
 
     render() {
-        const { input: { name, onFocus }, ...props } = this.props;
+        const { meta, input: { name, onFocus }, input, ...props } = this.props;
         return (
-            <Select
-                {...props}
-                name={name}
-                onFocus={onFocus}
-                onChange={this.onChange}
-                value={this.getValue()}
-            />
+            <div {...classes('wrapper')}>
+                <Select
+                    {...props}
+                    {...classes()}
+                    name={name}
+                    onFocus={onFocus}
+                    onChange={this.onChange}
+                    value={this.getValue()}
+                />
+                {meta.touched && meta.error
+                    ? <span className="validation-error" {...input}>
+                    {meta.error}
+                    </span>
+                    : null}
+            </div>
         )
     }
 }
@@ -71,6 +86,10 @@ FormSelect.propTypes = {
             number,
             PropTypes.array
         ]).isRequired
+    }).isRequired,
+    meta: PropTypes.shape({
+        touched: PropTypes.bool,
+        error: PropTypes.string
     }).isRequired,
 
     // Optional

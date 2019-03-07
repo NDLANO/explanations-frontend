@@ -18,6 +18,11 @@
     width: 100%;
   }
 
+  .validation-error {
+    font-size: 12px;
+    color: rgba(209, 55, 46, .9);
+  }
+
   &__form-field {
     display: flex;
     align-items: flex-start;
@@ -31,16 +36,6 @@
     &--input-group {
       width: 100%;
     }
-
-    &--validation-error, &--validation-error--meta {
-      font-size: 12px;
-      color: rgba(209, 55, 46, .9);
-
-    }
-    &--validation-error--meta {
-       display: flex;
-       justify-content: center;
-     }
 
     input[readonly], textarea[readonly], select[readonly] {
       background: #EFF0F2;
