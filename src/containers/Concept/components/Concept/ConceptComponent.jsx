@@ -8,6 +8,7 @@
 
 import React from 'react';
 import Button from '@ndla/button';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import BEMHelper from "react-bem-helper";
 import Plus from "@ndla/icons/es/action/Plus";
@@ -38,9 +39,9 @@ class Concept extends React.Component {
         super(props);
         this.state = {
             mediaModalIsOpen: false,
-            meta: [],
-            categories: [],
-            status: [],
+            meta: props.meta,
+            categories: props.categories,
+            status: props.status,
         };
         this.fields = {...FIELDS};
 
@@ -69,7 +70,11 @@ class Concept extends React.Component {
     }
 
     componentDidMount() {
-        this.loadData(this.props.initialValues.language.abbreviation || this.props.locale);
+        const locale = _.get(this.props.initialValues, 'language.abbreviation');
+        if (locale)
+            this.loadData(locale);
+        else
+            this.loadData(this.props.locale);
     }
 
     loadData(language) {
@@ -314,11 +319,17 @@ Concept.propTypes = {
     submitting: PropTypes.bool,
     showTimestamps: PropTypes.bool,
     initialValues: PropTypes.object,
+    status: PropTypes.array,
+    meta: PropTypes.array,
+    categories: PropTypes.array,
 };
 
 Concept.defaultProps = {
     isReadOnly: false,
     showTimestamps: false,
+    status: [],
+    meta: [],
+    categories: []
 };
 
 export default reduxForm({

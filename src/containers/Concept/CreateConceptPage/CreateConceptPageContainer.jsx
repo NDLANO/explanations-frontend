@@ -95,6 +95,7 @@ class CreateConceptPageContainer extends React.Component {
                              title={t("createConcept.title")}
                              submitConcept={this.submit}
                              mediaTypes={this.props.mediaTypes}
+                             apiService={this.props.apiService}
                     />
                 </OneColumn>
             </React.Fragment>

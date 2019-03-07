@@ -117,10 +117,8 @@ class UpdateConceptPageContainer extends React.Component {
 
     renderContent() {
         if (this.props.initialFormValues) {
-            return <Concept    status={this.props.status}
-                               initialValues={this.props.initialFormValues}
+            return <Concept    initialValues={this.props.initialFormValues}
                                t={this.props.t}
-                               metas={this.props.meta}
                                title={this.props.t("updateConcept.title")}
                                submitConcept={this.submit}
                                showTimestamps={true}
