@@ -40,7 +40,6 @@ class FormSelect extends React.Component {
 
     filteredOptions() {
         const {isMulti, options, input: {value}} = this.props;
-
         return options.filter(option => isMulti
             ? value.indexOf(option.value) !== -1
             : option.value === value

@@ -77,14 +77,9 @@ class App extends React.Component {
         searchParams.append('page', '1');
         const param = searchParams.toString();
 
-        apiService.get(apiService.endpoints.status, param).then(data => loadStatus(data));
-        apiService.get(apiService.endpoints.mediaType, param).then(data => loadMediaTypes(data));
-
-        const promises = [
-            apiService.get(apiService.endpoints.meta, param),
-            apiService.get(apiService.endpoints.category, param),
-        ];
-        Promise.all(promises).then(([metas, categories]) => loadMeta(categories, metas));
+        apiService.get(apiService.endpoints.status, param).then(data => loadStatus(data.results));
+        apiService.get(apiService.endpoints.mediaType, param).then(data => loadMediaTypes(data.results));
+        apiService.get(apiService.endpoints.meta, param).then(data => loadMeta(data.results));
     }
 
     renderUpdateComponent(){

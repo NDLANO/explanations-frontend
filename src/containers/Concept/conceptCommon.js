@@ -69,7 +69,7 @@ export const getMetasFromApiResult = concept => {
 
 
 export const getMediaFromApies = (media) => media.map(x => {
-    switch(x.typeGroup.name.toLowerCase()) {
+    switch(x.mediaType.typeGroup.name.toLowerCase()) {
         case 'image':
             return new ImageApi().getById(x.externalId);
         case 'audio':

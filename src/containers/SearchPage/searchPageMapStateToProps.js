@@ -10,12 +10,7 @@ import {SEARCH_FORM_NAME} from "./components/SearchForm";
 
 
 const getMetaByCategory = (list, name) => {
-    let fromState = list.find(x => x.category.typeGroup.name.toLowerCase() === name);
-
-    if (fromState && fromState.metaList) {
-        return fromState.metaList;
-    }
-    return [];
+    return list.filter(x => x.category.typeGroup.name.toLowerCase() === name) || [];
 };
 
 
@@ -36,6 +31,16 @@ export const mapStateToProps = state =>{
     const subjects = getMetaByCategory(state.cacheFromServer.meta, "subject");
     const languages = getMetaByCategory(state.cacheFromServer.meta, "language");
 
+    const defaultLanguage = languages.find(x => x.abbreviation === state.locale);
+
+    const searchQuery = {
+        language,
+        subject,
+        term
+    };
+
+    if (!searchQuery.language && defaultLanguage)
+        searchQuery.language = defaultLanguage;
 
     return  ({
         locale: state.locale,
@@ -44,11 +49,7 @@ export const mapStateToProps = state =>{
         languages: languages,
         subjects: subjects,
         autoComplete: getAutoCompleteList(state),
-        searchQuery: {
-            language,
-            subject,
-            term
-        }
+        searchQuery
     })
 };
 

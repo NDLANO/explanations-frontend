@@ -43,7 +43,6 @@ class Concept extends React.Component {
             categories: props.categories,
             status: props.status,
         };
-        this.fields = {...FIELDS};
 
         this.onSubmit = this.onSubmit.bind(this);
         this.onSelectMedia = this.onSelectMedia.bind(this);
@@ -132,7 +131,7 @@ class Concept extends React.Component {
         if (!status)
             return;
 
-
+        media.forEach(m => m.mediaTypeId = m.mediaType.id);
 
         const concept = {
             id,
@@ -159,6 +158,7 @@ class Concept extends React.Component {
         }
     }
 
+
     isDisabled() {
         const {isReadOnly, submitting} = this.props;
         return isReadOnly || submitting;
@@ -174,14 +174,14 @@ class Concept extends React.Component {
         const { t, locale} = this.props;
         return (
             <React.Fragment>
-                <Field {...this.fields.title}   t={t} {...classes('form-field')} readOnly={this.isDisabled()}/>
-                <Field {...this.fields.content} t={t} {...classes('form-field')} readOnly={this.isDisabled()} />
-                <Field {...this.fields.author}  t={t} {...classes('form-field')} readOnly={this.isDisabled()} />
-                <Field {...this.fields.source}  t={t} {...classes('form-field')} readOnly={this.isDisabled()} />
+                <Field {...FIELDS.title}   t={t} {...classes('form-field')} readOnly={this.isDisabled()}/>
+                <Field {...FIELDS.content} t={t} {...classes('form-field')} readOnly={this.isDisabled()} />
+                <Field {...FIELDS.author}  t={t} {...classes('form-field')} readOnly={this.isDisabled()} />
+                <Field {...FIELDS.source}  t={t} {...classes('form-field')} readOnly={this.isDisabled()} />
 
                 {this.renderStatus()}
-                {this.props.showTimestamps && <Field {...this.fields.created} t={t} {...classes('form-field')} locale={locale} />}
-                {this.props.showTimestamps && <Field {...this.fields.updated} t={t} {...classes('form-field')} locale={locale} />}
+                {this.props.showTimestamps && <Field {...FIELDS.created} t={t} {...classes('form-field')} locale={locale} />}
+                {this.props.showTimestamps && <Field {...FIELDS.updated} t={t} {...classes('form-field')} locale={locale} />}
             </React.Fragment>
         )
     }
@@ -194,8 +194,8 @@ class Concept extends React.Component {
 
         return (
             <div {...classes('form-field')}>
-                <label  htmlFor={this.fields.status.id}>{t("conceptForm.status")}</label>
-                <Field {...this.fields.status} options={this.state.status} isDisabled={this.isDisabled()}/>
+                <label  htmlFor={FIELDS.status.id}>{t("conceptForm.status")}</label>
+                <Field {...FIELDS.status} options={this.state.status} isDisabled={this.isDisabled()}/>
             </div>
         )
     }
@@ -266,7 +266,7 @@ class Concept extends React.Component {
                 {fields.map((mediaName, index) => {
                     const media = fields.get(index);
                     return <Field
-                        key={media.previewUrl}
+                        key={media.id}
                         name={mediaName}
                         classes={classes}
                         disabled={this.isDisabled()}
