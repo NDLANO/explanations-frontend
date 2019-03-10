@@ -43,20 +43,15 @@ class CloneConceptPageContainer extends React.Component {
     }
 
     componentDidMount() {
-        const {updateFlashMessage, history, t} = this.props;
+        const {updateFlashMessage, history, t, updateInitialFormValues} = this.props;
         const errorHandler = {
             titleMessage: 'cloneConcept.loadDataMessage.error.title',
             actionType: UPDATE_FLASH_MESSAGE_CONCEPT_CLONE,
             history
         };
 
-        const status = this.props.status.find(x => x.label.toLowerCase() === this.props.t('phrases.draft').toLowerCase());
-        let statusId = -1;
-        if (status)
-            statusId = status.value;
-
         loadConcept(this.props.apiService, this.getConceptId(), t)
-            .then(concept => this.props.updateInitialFormValues({...concept, statusId}))
+            .then(concept => updateInitialFormValues({...concept, statusId: concept.status.languageVariation}))
             .catch( err => submitErrorHandler(err, errorHandler, updateFlashMessage));
     }
 
@@ -81,7 +76,7 @@ class CloneConceptPageContainer extends React.Component {
                 actionType: UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE,
                 titleMessage: `cloneConcept.submitMessage.success.title`,
                 history,
-                id: data.data.data.id,
+                id: this.getConceptId(),
             }, updateFlashMessage))
             .catch(err => submitErrorHandler(err, errorHandler, updateFlashMessage));
         return create;
@@ -100,7 +95,8 @@ class CloneConceptPageContainer extends React.Component {
                             metas={this.props.meta}
                             title={this.props.t("createConcept.title")}
                             submitConcept={this.submit}
-                            mediaTypes={this.props.mediaTypes}/>;
+                            mediaTypes={this.props.mediaTypes}
+                            apiService={this.props.apiService}/>;
         } else {
             return <Loading message="loadingMessage.initializingForm"/>
         }
