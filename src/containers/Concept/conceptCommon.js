@@ -29,7 +29,6 @@ export const submitSuccessHandler = (data, {titleMessage, actionType, history, i
 };
 
 export const submitErrorHandler = (errors, {titleMessage, actionType}, updateFlashMessageFunction) => {
-
     const message = {};
     message['severity'] = SEVERITY.error;
     message['title'] = titleMessage;

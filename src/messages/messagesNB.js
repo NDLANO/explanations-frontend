@@ -51,8 +51,8 @@ const NB = {
         title: "Oppdater begrep",
         confirmModal: {
             delete: {
-                title: "Bekreft sletting",
-                action: "Er du sikker på at du vil slette begrepet?"
+                title: "Bekreft arkivering",
+                action: "Er du sikker på at du vil arkivere begrepet?"
             }
         },
         button: {
@@ -72,7 +72,7 @@ const NB = {
                 title: "Begrepet er arkivert!"
             },
             error: {
-                title: "Klarte ikke å slette begrep",
+                title: "Klarte ikke å arkivere begrep",
             }
         },
         loadDataMessage: {

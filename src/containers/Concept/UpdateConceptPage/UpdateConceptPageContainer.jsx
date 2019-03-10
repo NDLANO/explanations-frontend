@@ -47,20 +47,26 @@ class UpdateConceptPageContainer extends React.Component {
         this.onDeleteClicked = this.onDeleteClicked.bind(this);
         this.onCloneClicked = this.onCloneClicked.bind(this);
         this.renderDeleteButton  = this.renderDeleteButton.bind(this);
+        this.getConceptFromApi = this.getConceptFromApi.bind(this);
     }
 
     componentDidMount() {
-        const {updateFlashMessage, history} = this.props;
+       this.getConceptFromApi();
+    }
+
+    getConceptFromApi() {
+        const {updateFlashMessage, history, updateInitialFormValues} = this.props;
         const errorHandler = {
             titleMessage: 'updateConcept.loadDataMessage.error.title',
             actionType: UPDATE_FLASH_MESSAGE,
             history
         };
-
-        loadConcept(this.props.apiService, this.getConceptId()).then(concept => {
-            this.props.updateInitialFormValues({...concept, statusId: concept.status.languageVariation});
-            //this.props.setDeleteButtonAsDisabled(concept.status.label === this.props.t('phrases.archived'));
-        }).catch( err => submitErrorHandler(err, errorHandler, updateFlashMessage));
+        loadConcept(
+            this.props.apiService,
+            this.getConceptId())
+            .then(concept => updateInitialFormValues({...concept, statusId: concept.status.languageVariation}))
+            .catch( err => submitErrorHandler(err, errorHandler, updateFlashMessage)
+            );
     }
 
     componentWillUnmount() {
@@ -86,7 +92,10 @@ class UpdateConceptPageContainer extends React.Component {
 
         clearFlashMessage(UPDATE_FLASH_MESSAGE);
 
-        this.handleSubmit(this.props.apiService.delete(this.getConceptId(), this.props.apiService.endpoints.concept), "deleteMessage");
+        const onDelete = this.props.apiService
+            .delete(this.getConceptId(), this.props.apiService.endpoints.concept)
+            .then(this.getConceptFromApi);
+        this.handleSubmit(onDelete, "deleteMessage");
     }
 
     submit(concept) {
