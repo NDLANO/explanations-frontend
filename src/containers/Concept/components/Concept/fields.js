@@ -8,8 +8,14 @@ import TextArea from "../../../../components/TextArea";
 import Input from "../../../../components/Input";
 import DateTime from "../../../../components/DateTime";
 import FormSelect from "../../../../components/FormSelect";
+import HiddenFormElement from "../../../../components/HiddenFormElement";
 
 export const FIELDS = {
+    groupId: {
+        name: "groupId",
+        type: "hidden",
+        component: HiddenFormElement
+    },
     title: {
         name: "title",
         label: "conceptForm.title",

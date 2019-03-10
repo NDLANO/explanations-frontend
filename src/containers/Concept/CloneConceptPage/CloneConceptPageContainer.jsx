@@ -76,7 +76,7 @@ class CloneConceptPageContainer extends React.Component {
                 actionType: UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE,
                 titleMessage: `cloneConcept.submitMessage.success.title`,
                 history,
-                id: this.getConceptId(),
+                id: data.data.data.id,
             }, updateFlashMessage))
             .catch(err => submitErrorHandler(err, errorHandler, updateFlashMessage));
         return create;

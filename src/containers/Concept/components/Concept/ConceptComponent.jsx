@@ -126,7 +126,8 @@ class Concept extends React.Component {
             sourceAuthor,
             source = null,
             id = -1,
-            media = []
+            media = [],
+            groupId,
         } = values;
         const status = this.state.status.find(x => x.languageVariation === statusLanguageVariation);
         if (!status)
@@ -144,6 +145,7 @@ class Concept extends React.Component {
             source,
             metaIds: meta,
             media,
+            groupId
         };
         return this.props.submitConcept(concept).catch(this.submitFailed);
     }
@@ -179,6 +181,7 @@ class Concept extends React.Component {
                 <Field {...FIELDS.content} t={t} {...classes('form-field')} readOnly={this.isDisabled()} />
                 <Field {...FIELDS.author}  t={t} {...classes('form-field')} readOnly={this.isDisabled()} />
                 <Field {...FIELDS.source}  t={t} {...classes('form-field')} readOnly={this.isDisabled()} />
+                <Field {...FIELDS.groupId}  t={t} {...classes('form-field')} readOnly={this.isDisabled()} />
 
                 {this.renderStatus()}
                 {this.props.showTimestamps && <Field {...FIELDS.created} t={t} {...classes('form-field')} locale={locale} />}
@@ -203,6 +206,7 @@ class Concept extends React.Component {
 
     renderMetaSection() {
         const {t} = this.props;
+        console.log("render", this.state.categories, this.state.meta)
         let meta = this.state.categories.map(category => (
             <Meta key={metaNamePrefix(category.typeGroup.name.toLowerCase())}
                   options={this.state.meta.filter(meta => meta.category.typeGroup.id === category.typeGroup.id)}
