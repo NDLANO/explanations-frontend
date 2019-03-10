@@ -69,6 +69,7 @@ class Concept extends React.Component {
     }
 
     componentDidMount() {
+        this.props.initialize(this.props.initialValues);
         const locale = _.get(this.props.initialValues, 'language.abbreviation');
         if (locale)
             this.loadData(locale);

@@ -9,9 +9,13 @@ import {mapStateToPropsCommon} from '../conceptCommon';
 import {metaNamePrefix} from "../components/Meta";
 
 export const mapStateToProps = state => {
-    const {cacheFromServer: {meta = []}, concept: {create: {flashMessage}},locale} = state;
+    const {cacheFromServer: {meta = [], status = []}, concept: {create: {flashMessage}},locale} = state;
     const metaWithUniqueCategories = _.uniqBy(meta, 'category.name') || [];
     const initialFormValues = {};
+
+    const statusId = status.find(x => x.typeGroup.name.toLowerCase() === "draft");
+    if (statusId)
+        initialFormValues["statusId"] = statusId.languageVariation;
 
     metaWithUniqueCategories.forEach(m => {
         const name = m.category.typeGroup.name.toLowerCase();

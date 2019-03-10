@@ -30,20 +30,12 @@ import {UPDATE_FLASH_MESSAGE_CONCEPT_CREATE} from "./createConceptActions";
 import {createRoute, indexRoute} from "../../../utilities/routeHelper";
 import {historyShape} from "../../../utilities/commonShapes";
 import ApiService from "../../../services/apiService";
-import {CONCEPT_FORM_NAME} from "../components/Concept/ConceptComponent";
 
 
 class CreateConceptPageContainer extends React.Component {
     constructor(props) {
         super(props);
         this.submit = this.submit.bind(this);
-    }
-
-    componentDidMount() {
-        const status = this.props.status.find(x => x.label.toLowerCase() === this.props.t('phrases.draft').toLowerCase());
-        if (status)
-            this.props.change(CONCEPT_FORM_NAME, 'statusId', status.value);
-
     }
 
     componentWillUnmount() {
