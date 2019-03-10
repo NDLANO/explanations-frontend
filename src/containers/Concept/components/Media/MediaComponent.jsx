@@ -13,8 +13,6 @@ import PreviewImage from "./PreviewMedia/PreviewImageComponent";
 import PreviewNotSupported from "./PreviewMedia/PreviewNotSupported";
 import PreviewVideo from "./PreviewMedia/PreviewVideo";
 import MediaModal from "./MediaModal";
-
-import ConfirmModal from "../../../../components/ConfirmModal";
 import PreviewAudio from "./PreviewMedia/PreviewAudio";
 
 class Media extends React.Component {
@@ -24,7 +22,6 @@ class Media extends React.Component {
         this.deleteMedia = this.deleteMedia.bind(this);
         this.renderPreview = this.renderPreview.bind(this);
         this.renderPreviewButton = this.renderPreviewButton.bind(this);
-        this.renderDeleteButton = this.renderDeleteButton.bind(this);
     }
 
     deleteMedia() {
@@ -49,19 +46,11 @@ class Media extends React.Component {
     renderPreviewButton() {
         return <Button outline>{this.props.t('phrases.preview')}</Button>
     }
-    renderDeleteButton() {
-        const {disabled} = this.props;
-        return <Button disabled={disabled}>{this.props.t('phrases.delete')}</Button>
-    }
-    renderDelete() {
-        const {isReadOnly, t} = this.props;
-        return !isReadOnly && <ConfirmModal onConfirm={this.deleteMedia} t={t} triggerButton={this.renderDeleteButton}/>
-    }
 
     render(){
         if (!this.props.media)
             return null;
-        const { classes, media: {mediaType}, t} = this.props;
+        const { classes, media: {mediaType}, t, disabled} = this.props;
 
         return (
             <div {...classes('form-field')}>
@@ -70,7 +59,7 @@ class Media extends React.Component {
                     <MediaModal t={t} triggerButton={this.renderPreviewButton}>
                         {this.renderPreview()}
                     </MediaModal>
-                    {this.renderDelete()}
+                    <Button disabled={disabled} onClick={this.deleteMedia}>{this.props.t('phrases.delete')}</Button>
                 </div>
             </div>
         )
@@ -90,8 +79,7 @@ Media.propTypes = {
 
 
     // Optional
-    disabled: PropTypes.bool,
-    isReadOnly: PropTypes.bool
+    disabled: PropTypes.bool
 };
 Media.defaultProps = {
     disabled: true,
