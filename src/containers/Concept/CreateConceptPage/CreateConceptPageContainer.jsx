@@ -14,7 +14,7 @@ import {compose} from "redux";
 import {injectT} from "@ndla/i18n";
 import {Helmet} from "react-helmet";
 import {Breadcrumb, OneColumn} from '@ndla/ui';
-import { change } from "redux-form";
+import {change} from "redux-form";
 
 import Concept from "../components/Concept/";
 import Loading from '../../../components/Loading';
@@ -87,8 +87,7 @@ class CreateConceptPageContainer extends React.Component {
                              title={t("createConcept.title")}
                              submitConcept={this.submit}
                              mediaTypes={this.props.mediaTypes}
-                             apiService={this.props.apiService}
-                    />
+                             apiService={this.props.apiService}/>
                 </OneColumn>
             </React.Fragment>
         );

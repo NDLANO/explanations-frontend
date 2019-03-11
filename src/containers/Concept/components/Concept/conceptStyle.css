@@ -23,6 +23,10 @@
     color: rgba(209, 55, 46, .9);
   }
 
+  label[for=concept-is-language-variation] {
+    width: 100%;
+  }
+
   &__form-field {
     display: flex;
     align-items: flex-start;

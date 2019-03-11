@@ -132,6 +132,7 @@ const NB = {
         created: "Opprettet",
         updated: "Oppdatert",
         requiredField: "Dette feltet er obligatorisk",
+        isLanguageVariation: "Er språkvariant",
         button: {
             addMeta: "Legg til ",
         },

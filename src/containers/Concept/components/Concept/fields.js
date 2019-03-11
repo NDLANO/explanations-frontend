@@ -11,7 +11,15 @@ import FormSelect from "../../../../components/FormSelect";
 import HiddenFormElement from "../../../../components/HiddenFormElement";
 
 export const FIELDS = {
+    isLanguageVariant: {
+        label: "conceptForm.group",
+        name: "isLanguageVariant",
+        type: "checkbox",
+        messagePrefix: "conceptForm.",
+        component: Input
+    },
     groupId: {
+        label: "conceptForm.group",
         name: "groupId",
         type: "hidden",
         messagePrefix: "conceptForm.",

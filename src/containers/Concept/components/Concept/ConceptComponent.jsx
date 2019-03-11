@@ -12,10 +12,11 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import BEMHelper from "react-bem-helper";
 import Plus from "@ndla/icons/es/action/Plus";
+import CheckboxItem from "@ndla/forms/es/CheckboxItem";
 import {Field, FieldArray, reduxForm, SubmissionError, arrayPush} from "redux-form";
+
 import ConfirmModal from "../../../../components/ConfirmModal/";
 import {GetValuesFromObjectByKeyPrefix} from "../../../../utilities";
-
 import {validate} from "./validate";
 import {FIELDS} from "./fields";
 import AddNewMedia from "../Media/AddNewMedia";
@@ -41,6 +42,7 @@ class Concept extends React.Component {
             meta: props.meta,
             categories: props.categories,
             status: props.status,
+            useLanguageVariation: props.isLanguageVariation
         };
 
         this.onSubmit = this.onSubmit.bind(this);
@@ -54,6 +56,7 @@ class Concept extends React.Component {
         this.updateStatus = this.updateStatus.bind(this);
         this.updateMeta = this.updateMeta.bind(this);
         this.submitFailed = this.submitFailed.bind(this);
+        this.updateLanguageVariation = this.updateLanguageVariation.bind(this);
     }
 
     onChangeLanguage(data) {
@@ -143,9 +146,11 @@ class Concept extends React.Component {
             sourceAuthor,
             source,
             metaIds: meta,
-            media,
-            groupId
+            media
         };
+        if (this.state.useLanguageVariation && groupId)
+            concept['groupId'] = groupId;
+
         return this.props.submitConcept(concept).catch(this.submitFailed);
     }
 
@@ -160,6 +165,9 @@ class Concept extends React.Component {
         }
     }
 
+    updateLanguageVariation() {
+        this.setState(prev =>( {useLanguageVariation: !prev.useLanguageVariation}));
+    }
 
     isDisabled() {
         const {isReadOnly, submitting} = this.props;
@@ -173,7 +181,7 @@ class Concept extends React.Component {
 
     renderFieldsSection() {
 
-        const { t, locale} = this.props;
+        const { t, locale, isLanguageVariation} = this.props;
         return (
             <React.Fragment>
                 <Field {...FIELDS.title}   t={t} {...classes('form-field')} readOnly={this.isDisabled()}/>
@@ -184,6 +192,19 @@ class Concept extends React.Component {
                 {this.renderStatus()}
                 {this.props.showTimestamps && <Field {...FIELDS.created} t={t} {...classes('form-field')} locale={locale} />}
                 {this.props.showTimestamps && <Field {...FIELDS.updated} t={t} {...classes('form-field')} locale={locale} />}
+
+                {
+                    isLanguageVariation && (
+                        <div {...classes('form-field')}>
+                            <Field {...FIELDS.groupId} t={t} {...classes('form-field')} readOnly={this.isDisabled()} />
+                            <label  htmlFor={FIELDS.groupId}>{t("conceptForm.isLanguageVariation")}</label>
+                            <CheckboxItem id="concept-is-language-variation"
+                                          onChange={this.updateLanguageVariation}
+                                          checked={this.state.useLanguageVariation}
+                                          readOnly={this.isDisabled()} />
+                        </div>
+                    )
+                }
             </React.Fragment>
         )
     }
@@ -284,6 +305,7 @@ class Concept extends React.Component {
         )
     }
 
+
     render() {
         const { t, handleSubmit} = this.props;
         const submit = handleSubmit(this.onSubmit);
@@ -324,6 +346,7 @@ Concept.propTypes = {
     status: PropTypes.array,
     meta: PropTypes.array,
     categories: PropTypes.array,
+    isLanguageVariation: PropTypes.bool,
 };
 
 Concept.defaultProps = {
@@ -331,7 +354,8 @@ Concept.defaultProps = {
     showTimestamps: false,
     status: [],
     meta: [],
-    categories: []
+    categories: [],
+    isLanguageVariation: false
 };
 
 export default reduxForm({

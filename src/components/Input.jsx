@@ -13,7 +13,7 @@ import {fieldInputShape} from "../utilities/commonShapes";
 
 const Input = props =>
     <FormElement {...props}>
-        <input placeholder={props.t(props.placeholder)} readOnly={props.readOnly} {...props.input}/>
+        <input placeholder={props.t(props.placeholder)} readOnly={props.readOnly} type={props.type} {...props.input}/>
     </FormElement>;
 
 
@@ -23,11 +23,14 @@ Input.propTypes = {
     input: fieldInputShape.isRequired,
     placeholder: PropTypes.string.isRequired,
 
+    // Optional
+    type: PropTypes.string,
     readOnly: PropTypes.bool
 };
 
 Input.defaultProps = {
-    readOnly: false
+    readOnly: false,
+    type: "text"
 };
 
 export default Input;
