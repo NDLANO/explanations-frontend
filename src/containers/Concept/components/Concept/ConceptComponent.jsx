@@ -13,7 +13,6 @@ import PropTypes from 'prop-types';
 import BEMHelper from "react-bem-helper";
 import Plus from "@ndla/icons/es/action/Plus";
 import {Field, FieldArray, reduxForm, SubmissionError, arrayPush} from "redux-form";
-
 import ConfirmModal from "../../../../components/ConfirmModal/";
 import {GetValuesFromObjectByKeyPrefix} from "../../../../utilities";
 
@@ -181,7 +180,6 @@ class Concept extends React.Component {
                 <Field {...FIELDS.content} t={t} {...classes('form-field')} readOnly={this.isDisabled()} />
                 <Field {...FIELDS.author}  t={t} {...classes('form-field')} readOnly={this.isDisabled()} />
                 <Field {...FIELDS.source}  t={t} {...classes('form-field')} readOnly={this.isDisabled()} />
-                <Field {...FIELDS.groupId}  t={t} {...classes('form-field')} readOnly={this.isDisabled()} />
 
                 {this.renderStatus()}
                 {this.props.showTimestamps && <Field {...FIELDS.created} t={t} {...classes('form-field')} locale={locale} />}
@@ -206,7 +204,6 @@ class Concept extends React.Component {
 
     renderMetaSection() {
         const {t} = this.props;
-        console.log("render", this.state.categories, this.state.meta)
         let meta = this.state.categories.map(category => (
             <Meta key={metaNamePrefix(category.typeGroup.name.toLowerCase())}
                   options={this.state.meta.filter(meta => meta.category.typeGroup.id === category.typeGroup.id)}

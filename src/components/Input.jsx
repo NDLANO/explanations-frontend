@@ -13,8 +13,7 @@ import {fieldInputShape} from "../utilities/commonShapes";
 
 const Input = props =>
     <FormElement {...props}>
-        <input placeholder={props.t(props.placeholder)} readOnly={props.readOnly}
-                {...props.input}/>
+        <input placeholder={props.t(props.placeholder)} readOnly={props.readOnly} {...props.input}/>
     </FormElement>;
 
 

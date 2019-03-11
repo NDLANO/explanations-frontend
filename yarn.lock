@@ -261,12 +261,35 @@
     polished "^2.2.0"
     sass-mq "^5.0.0"
 
-"@ndla/forms@^0.1.0", "@ndla/forms@^0.1.4":
+"@ndla/core@^0.4.10":
+  version "0.4.10"
+  resolved "https://registry.yarnpkg.com/@ndla/core/-/core-0.4.10.tgz#877d0ebbde525113c317aa257cb13500dd7e52fe"
+  dependencies:
+    facepaint "^1.2.1"
+    inuitcss "6.0.0-beta.4"
+    polished "^2.3.3"
+    sass-mq "^5.0.0"
+
+"@ndla/editor@^0.3.20":
+  version "0.3.20"
+  resolved "https://registry.yarnpkg.com/@ndla/editor/-/editor-0.3.20.tgz#5ee4737b9c2e84c85468c87b88ec342c974ff14a"
+  dependencies:
+    "@ndla/core" "^0.4.10"
+    "@ndla/icons" "^0.6.9"
+
+"@ndla/forms@^0.1.0":
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-0.1.4.tgz#fbd3edc2bd8959d9364e4e836c49138c524d16eb"
   dependencies:
     "@ndla/core" "^0.4.2"
     "@ndla/icons" "^0.6.1"
+
+"@ndla/forms@^0.2.11":
+  version "0.2.11"
+  resolved "https://registry.yarnpkg.com/@ndla/forms/-/forms-0.2.11.tgz#9c2d893c5c85029c71cf17b05788a463f5248def"
+  dependencies:
+    "@ndla/core" "^0.4.10"
+    "@ndla/icons" "^0.6.9"
 
 "@ndla/i18n@^0.4.1":
   version "0.4.1"
@@ -280,6 +303,10 @@
 "@ndla/icons@^0.6.1", "@ndla/icons@^0.6.5":
   version "0.6.5"
   resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.5.tgz#69f7c16351e2e9ace1b26f58a72cbf5795edeb67"
+
+"@ndla/icons@^0.6.9":
+  version "0.6.9"
+  resolved "https://registry.yarnpkg.com/@ndla/icons/-/icons-0.6.9.tgz#9a271e013a02b6e0b6d76c2665ea2ab5ae66c3be"
 
 "@ndla/image-search@0.7.0":
   version "0.7.0"
@@ -7595,7 +7622,7 @@ png-js@>=0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/png-js/-/png-js-0.1.1.tgz#1cc7c212303acabe74263ec3ac78009580242d93"
 
-polished@^2.2.0:
+polished@^2.2.0, polished@^2.3.3:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/polished/-/polished-2.3.3.tgz#bdbaba962ba8271b0e11aa287f2befd4c87be99a"
   dependencies:

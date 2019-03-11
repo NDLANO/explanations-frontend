@@ -14,6 +14,7 @@ export const FIELDS = {
     groupId: {
         name: "groupId",
         type: "hidden",
+        messagePrefix: "conceptForm.",
         component: HiddenFormElement
     },
     title: {

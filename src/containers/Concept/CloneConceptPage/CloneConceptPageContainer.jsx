@@ -35,6 +35,8 @@ import ApiService from "../../../services/apiService";
 
 import {UPDATE_FLASH_MESSAGE_CONCEPT_CLONE, updateInitialFormValues} from "./cloneConceptActions";
 import {UPDATE_FLASH_MESSAGE_CONCEPT_UPDATE} from "../UpdateConceptPage";
+import {FIELDS} from "../components/Concept/fields";
+import {Field} from "redux-form";
 
 class CloneConceptPageContainer extends React.Component {
     constructor(props) {
@@ -87,19 +89,19 @@ class CloneConceptPageContainer extends React.Component {
     }
 
     renderContent() {
-        if (this.props.initialFormValues) {
-            return <Concept Concept status={this.props.status}
-                            initialValues={this.props.initialFormValues}
-                            t={this.props.t}
-                            locale={this.props.locale}
-                            metas={this.props.meta}
-                            title={this.props.t("createConcept.title")}
-                            submitConcept={this.submit}
-                            mediaTypes={this.props.mediaTypes}
-                            apiService={this.props.apiService}/>;
-        } else {
-            return <Loading message="loadingMessage.initializingForm"/>
-        }
+        return (
+                <Concept Concept status={this.props.status}
+                         initialValues={this.props.initialFormValues}
+                         t={this.props.t}
+                         locale={this.props.locale}
+                         metas={this.props.meta}
+                         title={this.props.t("createConcept.title")}
+                         submitConcept={this.submit}
+                         mediaTypes={this.props.mediaTypes}
+                         apiService={this.props.apiService}>
+                    <Field name="test" />
+                </Concept>
+            )
     }
 
     render() {
@@ -114,7 +116,10 @@ class CloneConceptPageContainer extends React.Component {
                 <FlashMessage {...flashMessage} t={t}/>
                 <OneColumn>
                     <Breadcrumb items={breadCrumbs} />
-                    {this.renderContent()}
+                    {this.props.initialFormValues
+                        ? this.renderContent()
+                        : <Loading message="loadingMessage.initializingForm"/>
+                    }
                 </OneColumn>
             </React.Fragment>
         );
