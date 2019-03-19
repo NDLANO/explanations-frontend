@@ -15,13 +15,14 @@ import FormSelect from "../../../components/FormSelect";
 
 export const metaNamePrefix = (name) => `meta_${name}`;
 
-const Meta = ({ category: {canHaveMultiple, typeGroup: {name}}, t, options, onChange, isDisabled, className}) => (
+const Meta = ({category: {canHaveMultiple,isRequired, label, typeGroup: {name}}, t, options, onChange, isDisabled, className}) => (
     <div className={className}>
-        <label>{capitalizeText(t(`phrases.${name.toLowerCase()}`))}</label>
+        <label>{capitalizeText(label.toLowerCase())} {isRequired ? '*' : ''}</label>
         <Field name={metaNamePrefix(name.toLowerCase())}
                isDisabled={isDisabled}
                component={FormSelect}
                isSearcable={true}
+               placeholder={t('phrases.choose')}
                isMulti={canHaveMultiple}
                key={metaNamePrefix(name.toLowerCase())}
                onChange={onChange}
@@ -37,6 +38,7 @@ Meta.propTypes = {
             name: PropTypes.string.isRequired,
         }).isRequired,
         canHaveMultiple: PropTypes.bool.isRequired,
+        name: PropTypes.string.isRequired,
     }).isRequired,
     className: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,

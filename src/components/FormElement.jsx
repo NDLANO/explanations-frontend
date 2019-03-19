@@ -8,9 +8,9 @@ import React from "react";
 import PropTypes from 'prop-types';
 import {fieldInputShape} from "../utilities/commonShapes";
 
-const FormElement = ({className, input, label, meta, children, t, messagePrefix}) => (
+const FormElement = ({className, input, label, required, meta, children, t, messagePrefix}) => (
     <div className={className}>
-        <label htmlFor={input.id}>{t(label)}</label>
+        <label htmlFor={input.id}>{t(label)} {required ? '*' : ''}</label>
         <div className={`${className}--input-group`}>
             {children}
             {meta.touched && meta.error
@@ -25,18 +25,20 @@ const FormElement = ({className, input, label, meta, children, t, messagePrefix}
 FormElement.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
+    meta: PropTypes.object.isRequired,
     input: fieldInputShape.isRequired,
     label: PropTypes.string.isRequired,
     className: PropTypes.string.isRequired,
-    meta: PropTypes.object.isRequired,
 
     // Optional
+    required: PropTypes.bool,
     messagePrefix: PropTypes.string,
 };
 
 
 FormElement.defaultProps = {
     messagePrefix: '',
+    required: false
 };
 
 export default FormElement;

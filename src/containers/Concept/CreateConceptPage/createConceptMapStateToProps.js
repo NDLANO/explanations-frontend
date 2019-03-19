@@ -17,7 +17,9 @@ export const mapStateToProps = state => {
     if (statusId)
         initialFormValues["statusId"] = statusId.languageVariation;
 
-    metaWithUniqueCategories.forEach(m => {
+
+
+    metaWithUniqueCategories.filter(x => x.category.isRequired).forEach(m => {
         const name = m.category.typeGroup.name.toLowerCase();
         const metaName = metaNamePrefix(name);
 

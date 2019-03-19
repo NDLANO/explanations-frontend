@@ -34,6 +34,7 @@ class FormSelect extends React.Component {
         const {isMulti, input: {value}} = this.props;
         if (isMulti)
             return typeof value === 'string' || typeof value === 'number' ? [] : this.filteredOptions();
+
         return this.filteredOptions()[0];
     }
 
@@ -97,6 +98,7 @@ FormSelect.propTypes = {
     isDisabled: PropTypes.bool,
     className: PropTypes.string,
     valueKey: PropTypes.string,
+    placeholder: PropTypes.string,
 };
 
 export default FormSelect;

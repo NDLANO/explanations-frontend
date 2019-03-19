@@ -199,7 +199,8 @@ const NB = {
         license: "Lisens",
         draft: "Utkast",
         allSubjects: "Alle fag",
-        allLanguages: "Alle språk"
+        allLanguages: "Alle språk",
+        choose: "Velg"
     },
     sentence: {
         previewNotSupported: "Støtter ikke fohåndsvisining av dette formatet"
