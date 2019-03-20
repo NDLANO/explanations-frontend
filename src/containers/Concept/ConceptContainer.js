@@ -30,10 +30,13 @@ import {historyShape, matchShape} from "../../utilities/commonShapes";
 import ApiService from "../../services/apiService";
 import {UPDATE_FLASH_MESSAGE_CONCEPT, updateInitialFormValues} from "./conceptActions";
 
-import {cloneRoute, indexRoute} from "../../utilities/routeHelper";
+import {cloneRoute, indexRoute, routeIsAllowed} from "../../utilities/routeHelper";
 
 import Concept from "./components/Concept";
 import ConceptRoutes from "./ConceptRoutes";
+import PrivateRoute from '../PrivateRoute';
+import {config} from "../../config";
+
 class ConceptPageContainer extends React.Component {
     constructor(props) {
         super(props);
@@ -64,6 +67,10 @@ class ConceptPageContainer extends React.Component {
 
     componentWillUnmount() {
         this.props.clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT);
+    }
+
+    isReadOnly(){
+        return !routeIsAllowed(this.props.requiredScopes, this.props.userScopes, this.props.isAuthenticated);
     }
 
     submit(callback, submitSuccessMessage, submitFailMessage) {
@@ -106,7 +113,7 @@ class ConceptPageContainer extends React.Component {
             breadCrumbs.push({to: indexRoute(), name: t(pageTitle)});
 
         if (useInitialValues && !initialFormValues)
-            return <p>wait</p>;
+            return <Loading message="loadingMessage.initializingForm"/>;
 
         return (
             <React.Fragment>
@@ -117,6 +124,7 @@ class ConceptPageContainer extends React.Component {
                          initialValues={useInitialValues ? initialFormValues : null}
                          mediaTypes={mediaTypes}
                          locale={locale}
+                         isReadOnly={this.isReadOnly()}
                          status={status}
                          submitMessages={messages}
                          submitConcept={isUpdate ? this.updateConcept : this.createConcept}
@@ -136,6 +144,8 @@ class ConceptPageContainer extends React.Component {
                            updateFlashMessage={this.props.updateFlashMessage}
                            t={this.props.t}
                            updateInitialFormValues={this.props.updateInitialFormValues}
+                           createConceptRequiredScope={this.props.createConceptRequiredScope}
+                           updateConceptRequiredScope={this.props.updateConceptRequiredScope}
                             clearFlashMessage={this.props.clearFlashMessage}/>
         )
     }
@@ -148,7 +158,7 @@ class ConceptPageContainer extends React.Component {
                 <FlashMessage {...flashMessage} t={t}/>
                 <OneColumn>
                     <Switch>
-                        <Route path={`${match.url}/new`} render={this.renderNewPage} />
+                        <PrivateRoute path={`${match.url}/new`} render={this.renderNewPage} />
                         <Route path={`${match.url}/:id`} render={this.renderConceptRoutes} />
                     </Switch>
                 </OneColumn>
@@ -173,20 +183,32 @@ ConceptPageContainer.propTypes = {
     isLanguageVariation: PropTypes.bool,
 
     // Optional
-    flashMessage: PropTypes.shape(flashMessageShape),
+    isAuthenticated: PropTypes.bool,
     initialFormValues: PropTypes.object,
+    userScopes: PropTypes.arrayOf(PropTypes.string),
+    flashMessage: PropTypes.shape(flashMessageShape),
+    requiredScopes: PropTypes.arrayOf(PropTypes.string),
+    createConceptRequiredScope: PropTypes.arrayOf(PropTypes.string),
+    updateConceptRequiredScope: PropTypes.arrayOf(PropTypes.string),
 };
 
 ConceptPageContainer.defaultProps = {
-    isLanguageVariation: false
+    userScopes: [],
+    isAuthenticated: false,
+    isLanguageVariation: false,
+    requiredScopes: [config.SCOPES.concept_write, config.SCOPES.concept_admin],
+    createConceptRequiredScope: [config.SCOPES.concept_write, config.SCOPES.concept_admin],
+    updateConceptRequiredScope: [config.SCOPES.concept_write, config.SCOPES.concept_admin],
 };
 
 const mapStateToPropsCommon = ({
     concept: {initialFormValues, flashMessage},
     locale,
     cacheFromServer: {status, meta, mediaTypes},
-    credentials: {accessToken}}) => ({
-        accessToken: accessToken,
+    credentials: {accessToken, isAuthenticated, scopes}}) => ({
+        accessToken,
+        isAuthenticated,
+        userScopes: scopes,
         meta,
         mediaTypes,
         locale,

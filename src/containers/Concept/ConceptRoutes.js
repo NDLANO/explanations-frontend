@@ -16,6 +16,7 @@ import {loadConcept, submitErrorHandler} from "./conceptCommon";
 import ApiService from "../../services/apiService";
 import NotFoundPage from "../ErrorPage/NotFoundPage";
 import {catchAllRoute} from "../../utilities/routeHelper";
+import PrivateRoute from '../PrivateRoute';
 
 class ConceptRoutes extends React.Component {
     constructor(props) {
@@ -41,12 +42,18 @@ class ConceptRoutes extends React.Component {
     }
 
     render() {
-        const {match, renderCopyPage, renderEditPage, renderCreateLanguageVariationPage} = this.props;
+        const {
+            match,
+            renderCopyPage,
+            renderEditPage,
+            renderCreateLanguageVariationPage,
+            createConceptRequiredScope
+        } = this.props;
         return (
             <Switch>
-                <Route path={`${match.url}/copy`} render={renderCopyPage.bind(match.params.id, false)} />
+                <PrivateRoute path={`${match.url}/copy`} render={renderCopyPage.bind(match.params.id, false)} requiredScopes={createConceptRequiredScope} />
                 <Route path={`${match.url}/edit`} render={renderEditPage.bind(match.params.id)} />
-                <Route path={`${match.url}/newLanguageVariation`} render={renderCreateLanguageVariationPage.bind(match.params.id)} />
+                <PrivateRoute path={`${match.url}/newLanguageVariation`} render={renderCreateLanguageVariationPage.bind(match.params.id)} requiredScopes={createConceptRequiredScope} />
                 <Route path={catchAllRoute()} render={this.renderNotFoundPage} />
             </Switch>
         )
@@ -64,6 +71,8 @@ ConceptRoutes.propTypes = {
     updateInitialFormValues: PropTypes.func.isRequired,
     apiService: PropTypes.instanceOf(ApiService).isRequired,
     renderCreateLanguageVariationPage: PropTypes.func.isRequired,
+    createConceptRequiredScope: PropTypes.arrayOf(PropTypes.string),
+    updateConceptRequiredScope: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default withRouter(ConceptRoutes);
