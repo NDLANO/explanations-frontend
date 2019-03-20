@@ -148,13 +148,22 @@ class ConceptPageContainer extends React.Component {
                 >
                     {isUpdate && !this.isReadOnly() && (
                         <React.Fragment>
-                            <Button onClick={() => history.push(copyConceptRoute(id))}>
+                            <Button className="form-button"
+                                    outline={true}
+                                    onClick={() => history.push(copyConceptRoute(id))}
+                            >
                                 {t("editConceptPage.button.copy")}
                             </Button>
-                            <Button onClick={() => history.push(createLanguageVariationRoute(id))}>
+                            <Button className="form-button"
+                                    outline={true}
+                                    onClick={() => history.push(createLanguageVariationRoute(id))}
+                            >
                                 {t("editConceptPage.button.createNewLanguageVariation")}
                             </Button>
-                            <Button onClick={this.archiveConcept.bind(this, id)}>
+                            <Button className="form-button"
+                                    outline={true}
+                                    onClick={this.archiveConcept.bind(this, id)}
+                            >
                                 {t("editConceptPage.button.delete")}
                             </Button>
                         </React.Fragment>
