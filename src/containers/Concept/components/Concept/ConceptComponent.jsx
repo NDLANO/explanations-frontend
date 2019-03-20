@@ -70,12 +70,20 @@ class Concept extends React.Component {
     }
 
     componentDidMount() {
-        this.props.initialize(this.props.initialValues);
-        const locale = _.get(this.props.initialValues, 'language.abbreviation');
-        if (locale)
-            this.loadData(locale);
+        const {isUpdate, status, changeField,locale, initialValues, initialize} = this.props;
+
+        initialize(initialValues);
+        const l = _.get(initialValues, 'language.abbreviation');
+        if (l)
+            this.loadData(l);
         else
-            this.loadData(this.props.locale);
+            this.loadData(locale);
+
+        if (!isUpdate) {
+            const s = status.find(x => x.typeGroup.name.toLowerCase() === "archived");
+            if (s)
+                changeField(CONCEPT_FORM_NAME, "statusId", s.languageVariation)
+        }
     }
 
     loadData(language) {
@@ -333,6 +341,7 @@ Concept.propTypes = {
        success: PropTypes.string.isRequired,
        error: PropTypes.string.isRequired,
     }),
+    changeField: PropTypes.func.isRequired,
 
     // Optional
     error: PropTypes.string,
@@ -344,6 +353,7 @@ Concept.propTypes = {
     meta: PropTypes.array,
     categories: PropTypes.array,
     isLanguageVariation: PropTypes.bool,
+    isUpdate: PropTypes.bool,
 };
 
 Concept.defaultProps = {
@@ -352,7 +362,8 @@ Concept.defaultProps = {
     status: [],
     meta: [],
     categories: [],
-    isLanguageVariation: false
+    isLanguageVariation: false,
+    isUpdate: false,
 };
 
 export default reduxForm({

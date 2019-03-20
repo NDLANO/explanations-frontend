@@ -146,7 +146,7 @@ class ConceptPageContainer extends React.Component {
     }
 
     renderPage({pageTitle, useInitialValues=true, isLanguageVariation=false, isUpdate=false, messages={success :'', error: ''}, route}, id=null) {
-        const {t, meta, apiService, initialFormValues, mediaTypes, locale, status, history} = this.props;
+        const {t, meta, apiService, initialFormValues, mediaTypes, locale, status, history, change} = this.props;
         const breadCrumbs = [
             {to: indexRoute(), name: t('indexPage.title')},
         ];
@@ -172,6 +172,8 @@ class ConceptPageContainer extends React.Component {
                          submitMessages={messages}
                          submitConcept={isUpdate ? this.updateConcept : this.createConcept}
                          submitButtonText={t(pageTitle)}
+                         isUpdate={isUpdate}
+                         changeField={change}
                          isLanguageVariation={isLanguageVariation}
                 >
                     {isUpdate && !this.isReadOnly() && (
