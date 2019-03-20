@@ -38,12 +38,27 @@ class ConceptPageContainer extends React.Component {
     constructor(props) {
         super(props);
         this.submit = this.submit.bind(this);
-        this.renderCopyPage = this.renderPage.bind(this, {pageTitle: "copyPage.title",  useInitialValues: true});
-        this.renderCreateLanguageVariationPage = this.renderPage.bind(this, {pageTitle: "newLanguageVariationPage.title",  useInitialValues: true,  isLanguageVariation: true});
-        this.renderEditPage = this.renderPage.bind(this, {pageTitle: "editPage.title",  useInitialValues: true});
-        this.renderNewPage = this.renderPage.bind(this, {pageTitle: "editPage.title",  useInitialValues: false});
-        this.createConcept = this.createConcept.bind(this);
         this.updateConcept = this.updateConcept.bind(this);
+        this.createConcept = this.createConcept.bind(this);
+        this.renderCopyPage = this.renderPage.bind(this, {
+            pageTitle: "copyConceptPage.title",
+            messages: {success: "copyConceptPage.success", error: "copyConceptPage.error"}
+        });
+        this.renderCreateLanguageVariationPage = this.renderPage.bind(this, {
+            pageTitle: "newLanguageVariationPage.title",
+            isLanguageVariation: true,
+            messages: {success: "createLanguageConceptPage.success", error: "createLanguageConceptPage.error"}
+        });
+        this.renderEditPage = this.renderPage.bind(this, {
+            pageTitle: "editConceptPage.title",
+            isUpdate: true,
+            messages: {success: "editConceptPage.success", error: "editConceptPage.error"}
+        });
+        this.renderNewPage = this.renderPage.bind(this, {
+            pageTitle: "newConceptPage.title",
+            useInitialValues: false,
+            messages: {success: "newConceptPage.success", error: "newConceptPage.error"}
+        });
         this.renderConceptRoutes = this.renderConceptRoutes.bind(this);
     }
 
@@ -73,14 +88,14 @@ class ConceptPageContainer extends React.Component {
         return callback;
     }
 
-    createConcept(concept) {
-        return this.submit(this.props.apiService.create(concept, this.props.apiService.endpoints.concept, "create failed", "create success"))
+    createConcept(concept, messages) {
+        return this.submit(this.props.apiService.create(concept, this.props.apiService.endpoints.concept), messages.success, messages.error);
     }
-    updateConcept(concept) {
-        return this.submit(this.props.apiService.update(concept, this.props.apiService.endpoints.concept, "update failed", "update success"))
+    updateConcept(concept, messages) {
+        return this.submit(this.props.apiService.update(concept, this.props.apiService.endpoints.concept), messages.success, messages.error);
     }
 
-    renderPage({pageTitle, useInitialValues=true, isLanguageVariation=false}, id=null, isUpdate=false) {
+    renderPage({pageTitle, useInitialValues=true, isLanguageVariation=false, isUpdate=false, messages={success :'', error: ''}}, id=null) {
         const {t, meta, apiService, initialFormValues, mediaTypes, locale, status, } = this.props;
         const breadCrumbs = [
             {to: indexRoute(), name: t('indexPage.title')},
@@ -88,7 +103,7 @@ class ConceptPageContainer extends React.Component {
         if (id)
             breadCrumbs.push({to: cloneRoute(id), name: t(pageTitle)});
         else
-            breadCrumbs.push({to: "/", name: t(pageTitle)});
+            breadCrumbs.push({to: indexRoute(), name: t(pageTitle)});
 
         if (useInitialValues && !initialFormValues)
             return <p>wait</p>;
@@ -103,6 +118,7 @@ class ConceptPageContainer extends React.Component {
                          mediaTypes={mediaTypes}
                          locale={locale}
                          status={status}
+                         submitMessages={messages}
                          submitConcept={isUpdate ? this.updateConcept : this.createConcept}
                          submitButtonText={t(pageTitle)}
                          isLanguageVariation={isLanguageVariation}/>
@@ -125,7 +141,6 @@ class ConceptPageContainer extends React.Component {
     }
 
     render() {
-        console.log(this.props.flashMessage)
         const {t, flashMessage, match} = this.props;
         return (
             <React.Fragment>

@@ -151,7 +151,7 @@ class Concept extends React.Component {
         if (this.state.useLanguageVariation && groupId)
             concept['groupId'] = groupId;
 
-        return this.props.submitConcept(concept).catch(this.submitFailed);
+        return this.props.submitConcept(concept, this.props.submitMessages).catch(this.submitFailed);
     }
 
     submitFailed({errors}) {
@@ -335,6 +335,10 @@ Concept.propTypes = {
     handleSubmit: PropTypes.func.isRequired,
     submitConcept: PropTypes.func.isRequired,
     apiService: PropTypes.instanceOf(ApiService).isRequired,
+    submitMessages: PropTypes.shape({
+       success: PropTypes.string.isRequired,
+       error: PropTypes.string.isRequired,
+    }),
 
     // Optional
     error: PropTypes.string,

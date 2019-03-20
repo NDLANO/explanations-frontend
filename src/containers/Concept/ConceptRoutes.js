@@ -14,8 +14,15 @@ import {historyShape, matchShape} from "../../utilities/commonShapes";
 import {UPDATE_FLASH_MESSAGE_CONCEPT} from "./conceptActions";
 import {loadConcept, submitErrorHandler} from "./conceptCommon";
 import ApiService from "../../services/apiService";
+import NotFoundPage from "../ErrorPage/NotFoundPage";
+import {catchAllRoute} from "../../utilities/routeHelper";
 
 class ConceptRoutes extends React.Component {
+    constructor(props) {
+        super(props);
+        this.renderNotFoundPage = this.renderNotFoundPage.bind(this);
+    }
+
     componentDidMount() {
         const {updateFlashMessage, history, t, updateInitialFormValues} = this.props;
         const errorHandler = {
@@ -29,14 +36,18 @@ class ConceptRoutes extends React.Component {
             .catch( err => submitErrorHandler(err, errorHandler, updateFlashMessage));
     }
 
+    renderNotFoundPage() {
+        return <NotFoundPage t={this.props.t} />
+    }
+
     render() {
         const {match, renderCopyPage, renderEditPage, renderCreateLanguageVariationPage} = this.props;
         return (
             <Switch>
-                <Route path={`${match.url}/copy`} render={renderCopyPage.bind(null, match.params.id)} />
-                <Route path={`${match.url}/edit`} render={renderEditPage.bind(null, match.params.id, true)} />
-                <Route path={`${match.url}/newLanguageVariation`} render={renderCreateLanguageVariationPage.bind(null, match.params.id)} />
-                <Route path="*" render={() => <p>not found</p>} />
+                <Route path={`${match.url}/copy`} render={renderCopyPage.bind(match.params.id, false)} />
+                <Route path={`${match.url}/edit`} render={renderEditPage.bind(match.params.id)} />
+                <Route path={`${match.url}/newLanguageVariation`} render={renderCreateLanguageVariationPage.bind(match.params.id)} />
+                <Route path={catchAllRoute()} render={this.renderNotFoundPage} />
             </Switch>
         )
     }
