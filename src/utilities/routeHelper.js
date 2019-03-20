@@ -6,20 +6,19 @@
  */
 import _ from "lodash";
 
-export const indexRoute = () => '/';
-export const searchRoute = () => indexRoute();
-export const updateRoute = (id=':id') => `/update/${id}`;
-export const editConceptRoute = id => `/concept/${id}/edit`;
-export const createRoute = () => '/create';
-export const cloneRoute = (id=':id') => `/clone/${id}`;
-export const loginRoute =  () => '/login';
-export const embeddedRoute =  () => '/embedded';
-export const logoutRoute =  () => '/logout';
-export const notAuthorizedRoute = () => '/forbidden';
-export const notFoundRoute = () => '/notFound';
-export const conceptRoute = () => '/concept';
-export const opsSomethingHappened = () => '/notFound';
-export const catchAllRoute = () => '*';
+export const indexRoute =                       () => '/';
+export const searchRoute =                      () => indexRoute();
+export const conceptRoute =                     () => '/concept';
+export const createConceptRoute =               () => `${conceptRoute()}/new`;
+export const editConceptRoute =                 id => `${conceptRoute()}/${id}/edit`;
+export const copyConceptRoute =                 id => `${conceptRoute()}/${id}/copy`;
+export const createLanguageVariationRoute =     id => `${conceptRoute()}/${id}/newLanguageVariation`;
+export const loginRoute =                       () => '/login';
+export const embeddedRoute =                    () => '/embedded';
+export const logoutRoute =                      () => '/logout';
+export const notAuthorizedRoute =               () => '/forbidden';
+export const notFoundRoute =                    () => '/notFound';
+export const catchAllRoute =                    () => '*';
 
 export const routeIsAllowed = (requiredScope=[], currentScopes=[], isAuthenticated) =>
     isAuthenticated && _.intersection(currentScopes, requiredScope).length > 0;

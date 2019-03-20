@@ -20,11 +20,15 @@ class PrivateRouteContainer extends React.Component {
     }
 
     renderComponent() {
-        const {isAuthenticated, allowedScopesForUser, requiredScopes, location, component: Component} = this.props;
+        const {isAuthenticated, allowedScopesForUser, requiredScopes, location, component: Component, render} = this.props;
 
-        if (routeIsAllowed(requiredScopes, allowedScopesForUser, isAuthenticated))
-            return <Component {...this.props} />;
-
+        if (routeIsAllowed(requiredScopes, allowedScopesForUser, isAuthenticated)){
+            if (render)
+                return render(this.props);
+            else
+                return <Component {...this.props} />;
+        }
+        console.log("no", requiredScopes, allowedScopesForUser, isAuthenticated)
         const route = isAuthenticated ? notAuthorizedRoute() : loginRoute();
         return <Redirect to={{
                 pathname: route,
@@ -41,7 +45,8 @@ class PrivateRouteContainer extends React.Component {
 
 PrivateRouteContainer.propTypes = {
     location: locationShape.isRequired,
-    component: PropTypes.func.isRequired,
+    component: PropTypes.object.isRequired,
+    render: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     requiredScopes: PropTypes.arrayOf(PropTypes.string).isRequired,
     allowedScopesForUser: PropTypes.arrayOf(PropTypes.string).isRequired

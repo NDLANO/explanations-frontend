@@ -30,7 +30,14 @@ import {historyShape, matchShape} from "../../utilities/commonShapes";
 import ApiService from "../../services/apiService";
 import {UPDATE_FLASH_MESSAGE_CONCEPT, updateInitialFormValues} from "./conceptActions";
 
-import {cloneRoute, indexRoute, routeIsAllowed} from "../../utilities/routeHelper";
+import {
+    copyConceptRoute,
+    createLanguageVariationRoute,
+    editConceptRoute,
+    indexRoute,
+    routeIsAllowed,
+    createConceptRoute
+} from "../../utilities/routeHelper";
 
 import Concept from "./components/Concept";
 import ConceptRoutes from "./ConceptRoutes";
@@ -45,22 +52,26 @@ class ConceptPageContainer extends React.Component {
         this.createConcept = this.createConcept.bind(this);
         this.renderCopyPage = this.renderPage.bind(this, {
             pageTitle: "copyConceptPage.title",
-            messages: {success: "copyConceptPage.success", error: "copyConceptPage.error"}
+            messages: {success: "copyConceptPage.message.success", error: "copyConceptPage.message.error"},
+            route: copyConceptRoute
         });
         this.renderCreateLanguageVariationPage = this.renderPage.bind(this, {
             pageTitle: "newLanguageVariationPage.title",
             isLanguageVariation: true,
-            messages: {success: "createLanguageConceptPage.success", error: "createLanguageConceptPage.error"}
+            messages: {success: "createLanguageConceptPage.message.success", error: "createLanguageConceptPage.message.error"},
+            route: createLanguageVariationRoute
         });
         this.renderEditPage = this.renderPage.bind(this, {
             pageTitle: "editConceptPage.title",
             isUpdate: true,
-            messages: {success: "editConceptPage.success", error: "editConceptPage.error"}
+            messages: {success: "editConceptPage.message.success", error: "editConceptPage.message.error"},
+            route: editConceptRoute
         });
         this.renderNewPage = this.renderPage.bind(this, {
             pageTitle: "newConceptPage.title",
             useInitialValues: false,
-            messages: {success: "newConceptPage.success", error: "newConceptPage.error"}
+            messages: {success: "newConceptPage.message.success", error: "newConceptPage.message.error"},
+            route: createConceptRoute
         });
         this.renderConceptRoutes = this.renderConceptRoutes.bind(this);
     }
@@ -102,13 +113,13 @@ class ConceptPageContainer extends React.Component {
         return this.submit(this.props.apiService.update(concept, this.props.apiService.endpoints.concept), messages.success, messages.error);
     }
 
-    renderPage({pageTitle, useInitialValues=true, isLanguageVariation=false, isUpdate=false, messages={success :'', error: ''}}, id=null) {
+    renderPage({pageTitle, useInitialValues=true, isLanguageVariation=false, isUpdate=false, messages={success :'', error: ''}, route}, id=null) {
         const {t, meta, apiService, initialFormValues, mediaTypes, locale, status, } = this.props;
         const breadCrumbs = [
             {to: indexRoute(), name: t('indexPage.title')},
         ];
         if (id)
-            breadCrumbs.push({to: cloneRoute(id), name: t(pageTitle)});
+            breadCrumbs.push({to: route(id), name: t(pageTitle)});
         else
             breadCrumbs.push({to: indexRoute(), name: t(pageTitle)});
 
@@ -158,7 +169,7 @@ class ConceptPageContainer extends React.Component {
                 <FlashMessage {...flashMessage} t={t}/>
                 <OneColumn>
                     <Switch>
-                        <PrivateRoute path={`${match.url}/new`} render={this.renderNewPage} />
+                        <PrivateRoute path={`${match.url}/new`} render={this.renderNewPage} requiredScopes={this.props.updateConceptRequiredScope}/>
                         <Route path={`${match.url}/:id`} render={this.renderConceptRoutes} />
                     </Switch>
                 </OneColumn>

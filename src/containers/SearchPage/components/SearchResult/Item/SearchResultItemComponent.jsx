@@ -12,7 +12,7 @@ import {Link} from "react-router-dom";
 
 import MetaList from "./components/SearchResultItemMetaListComponent";
 
-import {updateRoute} from "../../../../../utilities/routeHelper";
+import {editConceptRoute} from "../../../../../utilities/routeHelper";
 import {sortObjectsByKey} from "../../../../../utilities/sorting";
 import {limitTextToLength} from "../../../../../utilities";
 
@@ -55,7 +55,7 @@ const SearchResultItem = ({id, title, sourceAuthor, content, meta, t}) => {
         <li key={id} {...classes()}>
                 <header {...classes('header')}>
                     <h1>
-                        <Link to={updateRoute(id)}>{title}</Link>
+                        <Link to={editConceptRoute(id)}>{title}</Link>
                     </h1>
                 </header>
 
