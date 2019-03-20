@@ -16,6 +16,7 @@ import {Helmet} from "react-helmet";
 import {Route, Switch} from "react-router";
 import {Breadcrumb, OneColumn} from "@ndla/ui";
 import Button from "@ndla/button";
+import {change } from 'redux-form'
 
 import Loading from '../../components/Loading';
 import WithEither from "../../components/HOC/WithEither";
@@ -25,6 +26,7 @@ import {dropdownFormat, submitErrorHandler, submitSuccessHandler} from './concep
 import {
     metaExists,
     statusExists,
+
 } from "./conceptCommon";
 import FlashMessage, {clearFlashMessage, flashMessageShape, updateFlashMessage} from "../../components/FlashMessage";
 import {historyShape, matchShape} from "../../utilities/commonShapes";
@@ -44,6 +46,7 @@ import Concept from "./components/Concept";
 import ConceptRoutes from "./ConceptRoutes";
 import PrivateRoute from '../PrivateRoute';
 import {config} from "../../config";
+import {CONCEPT_FORM_NAME} from "./components/Concept/ConceptComponent";
 
 class ConceptPageContainer extends React.Component {
     constructor(props) {
@@ -114,7 +117,32 @@ class ConceptPageContainer extends React.Component {
     }
 
     archiveConcept(id) {
-        this.props.apiService.delete(id, this.props.apiService.endpoints.concept)
+        const {clearFlashMessage, history, updateFlashMessage} = this.props;
+
+        clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT);
+
+        const successHandler = {
+            actionType: UPDATE_FLASH_MESSAGE_CONCEPT,
+            titleMessage: `editConceptPage.deleteMessage.success`,
+            history,
+            id
+        };
+        const errorHandler = {
+            titleMessage: `editConceptPage.deleteMessage.error`,
+            actionType: UPDATE_FLASH_MESSAGE_CONCEPT,
+        };
+
+        this.props.apiService
+            .delete(id, this.props.apiService.endpoints.concept)
+            .then(data => submitSuccessHandler(data, successHandler, updateFlashMessage))
+            .then(data => {
+                const status = this.props.status.find(x => x.typeGroup.name.toLowerCase() === "archived");
+                if (status)
+                    this.props.change(CONCEPT_FORM_NAME, "statusId", status.languageVariation)
+            })
+            .catch(err => submitErrorHandler(err, errorHandler, updateFlashMessage));
+
+
     }
 
     renderPage({pageTitle, useInitialValues=true, isLanguageVariation=false, isUpdate=false, messages={success :'', error: ''}, route}, id=null) {
@@ -220,6 +248,7 @@ ConceptPageContainer.propTypes = {
     apiService: PropTypes.instanceOf(ApiService).isRequired,
     mediaTypes: PropTypes.array.isRequired,
     isLanguageVariation: PropTypes.bool,
+    change: PropTypes.func.isRequired,
 
     // Optional
     isAuthenticated: PropTypes.bool,
@@ -259,7 +288,7 @@ const mapStateToPropsCommon = ({
 
 export default compose(
     withRouter,
-    connect(mapStateToPropsCommon, {updateFlashMessage, updateInitialFormValues, clearFlashMessage}),
+    connect(mapStateToPropsCommon, {updateFlashMessage, updateInitialFormValues, clearFlashMessage, change}),
     withApiService,
     injectT,
     WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),
