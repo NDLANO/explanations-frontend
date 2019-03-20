@@ -12,7 +12,6 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import BEMHelper from "react-bem-helper";
 import Plus from "@ndla/icons/es/action/Plus";
-import CheckboxItem from "@ndla/forms/es/CheckboxItem";
 import {Field, FieldArray, reduxForm, SubmissionError, arrayPush} from "redux-form";
 
 import ConfirmModal from "../../../../components/ConfirmModal/";
@@ -196,11 +195,6 @@ class Concept extends React.Component {
                     isLanguageVariation && (
                         <div {...classes('form-field')}>
                             <Field {...FIELDS.groupId} t={t} {...classes('form-field')} readOnly={this.isDisabled()} />
-                            <label  htmlFor={FIELDS.groupId}>{t("conceptForm.isLanguageVariation")}</label>
-                            <CheckboxItem id="concept-is-language-variation"
-                                          onChange={this.updateLanguageVariation}
-                                          checked={this.state.useLanguageVariation}
-                                          readOnly={this.isDisabled()} />
                         </div>
                     )
                 }
