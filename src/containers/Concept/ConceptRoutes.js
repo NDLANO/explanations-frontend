@@ -27,7 +27,7 @@ class ConceptRoutes extends React.Component {
     componentDidMount() {
         const {updateFlashMessage, history, t, updateInitialFormValues} = this.props;
         const errorHandler = {
-            titleMessage: 'cloneConcept.loadDataMessage.error.title',
+            titleMessage: 'conceptPage.loadDataMessage.error',
             actionType: UPDATE_FLASH_MESSAGE_CONCEPT,
             history
         };
@@ -51,9 +51,17 @@ class ConceptRoutes extends React.Component {
         } = this.props;
         return (
             <Switch>
-                <PrivateRoute path={`${match.url}/copy`} render={renderCopyPage.bind(match.params.id, false)} requiredScopes={createConceptRequiredScope} />
-                <Route path={`${match.url}/edit`} render={renderEditPage.bind(match.params.id)} />
-                <PrivateRoute path={`${match.url}/newLanguageVariation`} render={renderCreateLanguageVariationPage.bind(match.params.id)} requiredScopes={createConceptRequiredScope} />
+                <Route path={`${match.url}/edit`}
+                       render={renderEditPage.bind(null, 1)}
+                       id={match.params.id}/>
+                <PrivateRoute path={`${match.url}/copy`}
+                              render={renderCopyPage}
+                              requiredScopes={createConceptRequiredScope}
+                              id={match.params.id} />
+                <PrivateRoute path={`${match.url}/newLanguageVariation`}
+                              render={renderCreateLanguageVariationPage}
+                              requiredScopes={createConceptRequiredScope}
+                              id={match.params.id} />
                 <Route path={catchAllRoute()} render={this.renderNotFoundPage} />
             </Switch>
         )

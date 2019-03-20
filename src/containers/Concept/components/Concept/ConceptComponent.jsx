@@ -312,7 +312,7 @@ class Concept extends React.Component {
                 {this.renderMediaSection()}
 
                 {this.props.children}
-                <ConfirmModal t={t} triggerButton={this.renderSubmitButton} onConfirm={submit}/>
+                {!this.isDisabled() && <ConfirmModal t={t} triggerButton={this.renderSubmitButton} onConfirm={submit}/>}
             </form>
         )
     }

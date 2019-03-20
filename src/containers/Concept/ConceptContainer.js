@@ -15,6 +15,7 @@ import {injectT} from "@ndla/i18n";
 import {Helmet} from "react-helmet";
 import {Route, Switch} from "react-router";
 import {Breadcrumb, OneColumn} from "@ndla/ui";
+import Button from "@ndla/button";
 
 import Loading from '../../components/Loading';
 import WithEither from "../../components/HOC/WithEither";
@@ -52,30 +53,29 @@ class ConceptPageContainer extends React.Component {
         this.createConcept = this.createConcept.bind(this);
         this.renderCopyPage = this.renderPage.bind(this, {
             pageTitle: "copyConceptPage.title",
-            messages: {success: "copyConceptPage.message.success", error: "copyConceptPage.message.error"},
+            messages: {success: "copyConceptPage.submitMessage.success", error: "copyConceptPage.submitMessage.error"},
             route: copyConceptRoute
         });
         this.renderCreateLanguageVariationPage = this.renderPage.bind(this, {
-            pageTitle: "newLanguageVariationPage.title",
+            pageTitle: "createConceptLanguageVariationPage.title",
             isLanguageVariation: true,
-            messages: {success: "createLanguageConceptPage.message.success", error: "createLanguageConceptPage.message.error"},
+            messages: {success: "createConceptLanguageVariationPage.submitMessage.success", error: "createConceptLanguageVariationPage.submitMessage.error"},
             route: createLanguageVariationRoute
         });
         this.renderEditPage = this.renderPage.bind(this, {
             pageTitle: "editConceptPage.title",
             isUpdate: true,
-            messages: {success: "editConceptPage.message.success", error: "editConceptPage.message.error"},
-            route: editConceptRoute
+            messages: {success: "editConceptPage.submitMessage.success", error: "editConceptPage.submitMessage.error"},
+            route: editConceptRoute,
         });
         this.renderNewPage = this.renderPage.bind(this, {
-            pageTitle: "newConceptPage.title",
+            pageTitle: "createConceptPage.title",
             useInitialValues: false,
-            messages: {success: "newConceptPage.message.success", error: "newConceptPage.message.error"},
+            messages: {success: "createConceptPage.submitMessage.success", error: "createConceptPage.submitMessage.error"},
             route: createConceptRoute
         });
         this.renderConceptRoutes = this.renderConceptRoutes.bind(this);
     }
-
     componentWillUnmount() {
         this.props.clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT);
     }
@@ -113,8 +113,12 @@ class ConceptPageContainer extends React.Component {
         return this.submit(this.props.apiService.update(concept, this.props.apiService.endpoints.concept), messages.success, messages.error);
     }
 
+    archiveConcept(id) {
+        this.props.apiService.delete(id, this.props.apiService.endpoints.concept)
+    }
+
     renderPage({pageTitle, useInitialValues=true, isLanguageVariation=false, isUpdate=false, messages={success :'', error: ''}, route}, id=null) {
-        const {t, meta, apiService, initialFormValues, mediaTypes, locale, status, } = this.props;
+        const {t, meta, apiService, initialFormValues, mediaTypes, locale, status, history} = this.props;
         const breadCrumbs = [
             {to: indexRoute(), name: t('indexPage.title')},
         ];
@@ -140,7 +144,22 @@ class ConceptPageContainer extends React.Component {
                          submitMessages={messages}
                          submitConcept={isUpdate ? this.updateConcept : this.createConcept}
                          submitButtonText={t(pageTitle)}
-                         isLanguageVariation={isLanguageVariation}/>
+                         isLanguageVariation={isLanguageVariation}
+                >
+                    {isUpdate && !this.isReadOnly() && (
+                        <React.Fragment>
+                            <Button onClick={() => history.push(copyConceptRoute(id))}>
+                                {t("editConceptPage.button.copy")}
+                            </Button>
+                            <Button onClick={() => history.push(createLanguageVariationRoute(id))}>
+                                {t("editConceptPage.button.createNewLanguageVariation")}
+                            </Button>
+                            <Button onClick={this.archiveConcept.bind(this, id)}>
+                                {t("editConceptPage.button.delete")}
+                            </Button>
+                        </React.Fragment>
+                    )}
+                </Concept>
             </React.Fragment>
         )
     }

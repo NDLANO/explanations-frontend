@@ -46,8 +46,12 @@ const NB = {
     dropdown: {
         placeholder: "Velg..."
     },
-
-    updateConcept: {
+    conceptPage: {
+        loadMessage: {
+            error: "Fikk ikke hentet data fra server."
+        }
+    },
+    editConceptPage: {
         title: "Oppdater begrep",
         confirmModal: {
             delete: {
@@ -57,55 +61,37 @@ const NB = {
         },
         button: {
             delete: "Slett begrep",
-            clone: "Klon begrep"
+            copy: "Kopier begrep",
+            createNewLanguageVariation: "Opprett ny språkvariant"
         },
         submitMessage: {
-            success: {
-                title: "Begrepet er oppdatert!"
-            },
-            error: {
-                title: "Klarte ikke å sende inn skjemaet",
-            }
+            success:  "Begrepet er oppdatert!",
+            error: "Klarte ikke å sende inn skjemaet",
         },
         deleteMessage: {
-            success: {
-                title: "Begrepet er arkivert!"
-            },
-            error: {
-                title: "Klarte ikke å arkivere begrep",
-            }
-        },
-        loadDataMessage: {
-           error: {
-               title: "Fikk ikke hentet data fra server."
-           }
+            success: "Begrepet er arkivert!",
+            error: "Klarte ikke å arkivere begrep",
         }
     },
-    createConcept: {
+    createConceptPage: {
         title: "Opprett begrep",
         submitMessage: {
-            success: {
-                title: "Begrepet er opprettet!"
-            },
-            error: {
-                title: "Klarte ikke å opprette begrep"
-            }
+            success: "Begrepet er opprettet!",
+            error: "Klarte ikke å opprette begrep"
         }
     },
-    cloneConcept: {
-        title: "Klon begrep",
+    createConceptLanguageVariationPage: {
+        title: "Opprett språkvariant",
         submitMessage: {
-            success: {
-                title: "Begrepet er klonet og opprettet!"
-            },
-            error: {
-                title: "Klarte ikke å clone og opprette begrep",
-            }
-        },
-        loadDataMessage: {
-            error: {
-                title: "Fikk ikke hentet data fra server."
-            }
+            success: "Språkvariant er opprettet!",
+            error: "Klarte ikke å opprette språkvariant"
+        }
+    },
+    copyConceptPage: {
+        title: "Kopier begrep",
+        submitMessage: {
+            success: "Begrepet er opprettet!",
+            error: "Klarte ikke å opprette begrep",
         }
     },
     deleteConcept: {

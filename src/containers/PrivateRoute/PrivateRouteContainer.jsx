@@ -24,11 +24,11 @@ class PrivateRouteContainer extends React.Component {
 
         if (routeIsAllowed(requiredScopes, allowedScopesForUser, isAuthenticated)){
             if (render)
-                return render(this.props);
+                return render();
             else
                 return <Component {...this.props} />;
         }
-        console.log("no", requiredScopes, allowedScopesForUser, isAuthenticated)
+
         const route = isAuthenticated ? notAuthorizedRoute() : loginRoute();
         return <Redirect to={{
                 pathname: route,
