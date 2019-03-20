@@ -28,21 +28,16 @@ import SearchPage from '../SearchPage/SearchPageContainer';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header/';
 import {
-    createRoute,
     searchRoute,
-    updateRoute,
-    cloneRoute,
     catchAllRoute,
     logoutRoute,
     notAuthorizedRoute,
-    notFoundRoute, loginRoute, embeddedRoute
+    notFoundRoute,
+    loginRoute,
+    embeddedRoute,
+    conceptRoute
 } from '../../utilities/routeHelper';
-import CloneConceptPage from '../Concept/CloneConceptPage';
-import UpdateConceptPage from '../Concept/UpdateConceptPage';
-import CreateConceptPage from '../Concept/CreateConceptPage';
-import PrivateRoute from '../PrivateRoute';
 import LogoutPage from '../LogoutPage';
-import {config} from "../../config";
 import NotFoundPage from "../ErrorPage/NotFoundPage";
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
 import {loginSuccess, updateNext} from "../Login";
@@ -54,17 +49,14 @@ import EmbeddedPage from "../EmbeddedPage";
 
 import {loadMediaTypes, loadMeta, loadStatus} from './actions';
 
+import ConceptPage from '../Concept/';
+
 
 import 'url-search-params-polyfill';
 
 Moment.globalFormat = 'lll';
 
 class App extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.renderUpdateComponent = this.renderUpdateComponent.bind(this);
-    }
     componentDidMount() {
         const {apiService, loadStatus, loadMeta, loadMediaTypes, locale} = this.props;
         this.loadData(apiService, loadStatus, loadMeta, loadMediaTypes, locale);
@@ -82,17 +74,12 @@ class App extends React.Component {
         apiService.get(apiService.endpoints.meta, param).then(data => loadMeta(data.results));
     }
 
-    renderUpdateComponent(){
-        return <UpdateConceptPage requiredScopes={this.props.updatePageRequiredScope} />;
-    }
 
     render() {
         const {
             t,
             username,
             isAuthenticated,
-            clonePageRequiredScope,
-            createPageRequiredScope
         } = this.props;
         return (
             <PageContainer>
@@ -101,15 +88,9 @@ class App extends React.Component {
                     <Header t={t} username={username} isLoggedIn={isAuthenticated} />
                     <ErrorBoundary>
                         <Switch>
+                            <Route path={conceptRoute()} component={ConceptPage}/>
                             <Route path={loginRoute()} component={Login}/>
                             <Route path={embeddedRoute()} component={EmbeddedPage}/>
-                            <Route path={updateRoute()} render={this.renderUpdateComponent}/>
-                            <PrivateRoute requiredScopes={createPageRequiredScope}
-                                          path={createRoute()}
-                                          component={CreateConceptPage}/>
-                            <PrivateRoute requiredScopes={clonePageRequiredScope}
-                                          path={cloneRoute()}
-                                          component={CloneConceptPage}/>
                             <Route path={logoutRoute()} component={LogoutPage}/>
                             <Route path={notAuthorizedRoute()} component={NotAuthorizedPage}/>
                             <Route path={notFoundRoute()} component={NotFoundPage}/>
@@ -127,9 +108,6 @@ class App extends React.Component {
 App.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
-    clonePageRequiredScope: PropTypes.arrayOf(PropTypes.string).isRequired,
-    createPageRequiredScope: PropTypes.arrayOf(PropTypes.string).isRequired,
-    updatePageRequiredScope: PropTypes.arrayOf(PropTypes.string).isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     apiService: PropTypes.instanceOf(ApiService).isRequired,
     loadStatus: PropTypes.func.isRequired,
@@ -144,15 +122,11 @@ App.propTypes = {
 
 const mapStateToProps = state => {
     const token = state.credentials.accessToken;
-    const createConceptRequiredScope = [config.SCOPES.concept_write, config.SCOPES.concept_admin];
     return {
         locale: state.locale,
         accessToken: token,
         username: state.credentials.username,
         isAuthenticated: state.credentials.isAuthenticated,
-        updatePageRequiredScope: createConceptRequiredScope,
-        createPageRequiredScope: createConceptRequiredScope,
-        clonePageRequiredScope: createConceptRequiredScope,
     }
 };
 

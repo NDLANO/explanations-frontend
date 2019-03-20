@@ -9,6 +9,7 @@ import _ from "lodash";
 export const indexRoute = () => '/';
 export const searchRoute = () => indexRoute();
 export const updateRoute = (id=':id') => `/update/${id}`;
+export const editConceptRoute = id => `/concept/${id}/edit`;
 export const createRoute = () => '/create';
 export const cloneRoute = (id=':id') => `/clone/${id}`;
 export const loginRoute =  () => '/login';
@@ -16,6 +17,7 @@ export const embeddedRoute =  () => '/embedded';
 export const logoutRoute =  () => '/logout';
 export const notAuthorizedRoute = () => '/forbidden';
 export const notFoundRoute = () => '/notFound';
+export const conceptRoute = () => '/concept';
 export const opsSomethingHappened = () => '/notFound';
 export const catchAllRoute = () => '*';
 

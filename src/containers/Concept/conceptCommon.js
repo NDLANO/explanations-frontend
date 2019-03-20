@@ -7,24 +7,18 @@
  */
 
 import {SEVERITY} from "../../components/FlashMessage";
-import {updateRoute} from "../../utilities/routeHelper";
+import {editConceptRoute} from "../../utilities/routeHelper";
 import ImageApi from "../../services/imageApiService";
 import AudioApi from "../../services/audioApiService";
 import VideoApi from "../../services/videoApiService";
 import {metaNamePrefix} from "./components/Meta";
-
-export const submitFormHandling = (submitFunction, successHandler, errorHandler, updateFlashMessage) => {
-    return submitFunction
-        .then(data => submitSuccessHandler(data, successHandler, updateFlashMessage))
-        .catch(err => submitErrorHandler(err, errorHandler, updateFlashMessage));
-};
 
 export const submitSuccessHandler = (data, {titleMessage, actionType, history, id}, updateFlashMessageFunction) => {
     const message = {};
     message['severity'] = SEVERITY.success;
     message['title'] = titleMessage;
     updateFlashMessageFunction(actionType, message);
-    history.push(updateRoute(id));
+    history.push(editConceptRoute(id));
     return data;
 };
 
@@ -38,16 +32,6 @@ export const submitErrorHandler = (errors, {titleMessage, actionType}, updateFla
     updateFlashMessageFunction(actionType, message);
 
     return errors;
-};
-
-export const mapStateToPropsCommon = ({locale, cacheFromServer: {status, meta, mediaTypes},  credentials: {accessToken}}) => {
-    return {
-        accessToken: accessToken,
-        meta,
-        mediaTypes,
-        locale,
-        status: status.map(x => dropdownFormat(x)),
-    }
 };
 
 

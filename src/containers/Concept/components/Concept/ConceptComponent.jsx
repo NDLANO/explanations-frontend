@@ -175,8 +175,7 @@ class Concept extends React.Component {
     }
 
     renderSubmitButton() {
-        const { title} = this.props;
-        return <Button disabled={this.isDisabled()} className="form-button">{(title)}</Button>;
+        return <Button disabled={this.isDisabled()} className="form-button">{(this.props.submitButtonText)}</Button>;
     }
 
     renderFieldsSection() {
@@ -328,7 +327,7 @@ class Concept extends React.Component {
 Concept.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
-    title: PropTypes.string.isRequired,
+    submitButtonText: PropTypes.string.isRequired,
     locale: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,

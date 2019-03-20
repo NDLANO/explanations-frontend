@@ -6,15 +6,24 @@
  */
 
 
-import { combineReducers } from 'redux';
 
-import {createConceptReducer} from './CreateConceptPage/'
-import {updateConceptReducer} from './UpdateConceptPage/';
-import {cloneConceptReducer} from "./CloneConceptPage";
+import {emptyFlashMessage} from "../../components/FlashMessage";
+import {UPDATE_FLASH_MESSAGE_CONCEPT, UPDATE_INITIAL_FORM_VALUES_FOR_CONCEPT} from "./conceptActions";
 
+const initialState = {
+    flashMessage: emptyFlashMessage,
+    initialFormValues: null,
+};
 
-export const conceptReducer = combineReducers({
-    create: createConceptReducer,
-    update: updateConceptReducer,
-    clone: cloneConceptReducer,
-});
+export const cloneConceptReducer = (state=initialState, action) => {
+    switch(action.type) {
+        case UPDATE_FLASH_MESSAGE_CONCEPT:
+            return {...state, flashMessage: action.payload};
+        case UPDATE_INITIAL_FORM_VALUES_FOR_CONCEPT:
+            return {...state, initialFormValues: action.payload};
+        default:
+            return state;
+    }
+};
+
+export const conceptReducer = cloneConceptReducer;
