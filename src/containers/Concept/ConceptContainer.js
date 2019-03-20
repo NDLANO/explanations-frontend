@@ -145,8 +145,22 @@ class ConceptPageContainer extends React.Component {
 
     }
 
+    initDataForNewConcept() {
+        const {locale, meta} = this.props;
+        const data = {};
+
+        const language = meta.find(x => x.abbreviation === locale);
+        const licence =  meta.find(x => x.category.typeGroup.name.toLowerCase() === "license");
+
+        if (language)
+            data['meta_language'] = language.languageVariation;
+        if(licence)
+            data['meta_license'] = licence.languageVariation;
+        return data;
+    }
+
     renderPage({pageTitle, useInitialValues=true, isLanguageVariation=false, isUpdate=false, messages={success :'', error: ''}, route}, id=null) {
-        const {t, meta, apiService, initialFormValues, mediaTypes, locale, status, history, change} = this.props;
+        const {t, meta, apiService, initialFormValues, mediaTypes, locale, status, history, change, flashMessage, clearFlashMessage} = this.props;
         const breadCrumbs = [
             {to: indexRoute(), name: t('indexPage.title')},
         ];
@@ -158,13 +172,16 @@ class ConceptPageContainer extends React.Component {
         if (useInitialValues && !initialFormValues)
             return <Loading message="loadingMessage.initializingForm"/>;
 
+        if (!isUpdate && flashMessage.title && initialFormValues)
+            clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT);
+
         return (
             <React.Fragment>
                 <Breadcrumb items={breadCrumbs}/>
                 <Concept t={t}
                          metas={meta}
                          apiService={apiService}
-                         initialValues={useInitialValues ? initialFormValues : null}
+                         initialValues={useInitialValues ? initialFormValues : this.initDataForNewConcept()}
                          mediaTypes={mediaTypes}
                          locale={locale}
                          isReadOnly={this.isReadOnly()}

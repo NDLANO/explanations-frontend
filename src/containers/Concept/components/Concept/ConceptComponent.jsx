@@ -82,7 +82,7 @@ class Concept extends React.Component {
         if (!isUpdate) {
             const s = status.find(x => x.typeGroup.name.toLowerCase() === "archived");
             if (s)
-                changeField(CONCEPT_FORM_NAME, "statusId", s.languageVariation)
+                changeField(CONCEPT_FORM_NAME, FIELDS.status.name, s.languageVariation)
         }
     }
 
