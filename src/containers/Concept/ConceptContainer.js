@@ -12,7 +12,6 @@ import {connect} from "react-redux";
 import { withRouter } from 'react-router-dom';
 import {compose} from "redux";
 import {injectT} from "@ndla/i18n";
-import {Helmet} from "react-helmet";
 import {Route, Switch} from "react-router";
 import {Breadcrumb, OneColumn} from "@ndla/ui";
 import Button from "@ndla/button";
@@ -188,7 +187,7 @@ class ConceptPageContainer extends React.Component {
                          status={status}
                          submitMessages={messages}
                          submitConcept={isUpdate ? this.updateConcept : this.createConcept}
-                         submitButtonText={t(pageTitle)}
+                         submitButtonText={pageTitle}
                          isUpdate={isUpdate}
                          changeField={change}
                          isLanguageVariation={isLanguageVariation}
@@ -240,7 +239,6 @@ class ConceptPageContainer extends React.Component {
         const {t, flashMessage, match} = this.props;
         return (
             <React.Fragment>
-                <Helmet title={t('pageTitles.cloneConcept')} />
                 <FlashMessage {...flashMessage} t={t}/>
                 <OneColumn>
                     <Switch>

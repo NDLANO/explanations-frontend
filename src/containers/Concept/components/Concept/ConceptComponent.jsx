@@ -12,6 +12,7 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import BEMHelper from "react-bem-helper";
 import Plus from "@ndla/icons/es/action/Plus";
+import {Helmet} from "react-helmet";
 import {Field, FieldArray, reduxForm, SubmissionError, arrayPush} from "redux-form";
 
 import ConfirmModal from "../../../../components/ConfirmModal/";
@@ -182,7 +183,7 @@ class Concept extends React.Component {
     }
 
     renderSubmitButton() {
-        return <Button disabled={this.isDisabled()} className="form-button">{(this.props.submitButtonText)}</Button>;
+        return <Button disabled={this.isDisabled()} className="form-button">{this.props.t(this.props.submitButtonText)}</Button>;
     }
 
     renderFieldsSection() {
@@ -308,20 +309,24 @@ class Concept extends React.Component {
 
 
     render() {
-        const { t, handleSubmit} = this.props;
+        const { t, handleSubmit, submitButtonText} = this.props;
         const submit = handleSubmit(this.onSubmit);
 
         return (
-            <form onSubmit={submit} {...classes()}>
-                {this.renderFieldsSection()}
+            <React.Fragment>
 
-                {this.renderMetaSection()}
+                <Helmet title={t(submitButtonText)} />
+                <form onSubmit={submit} {...classes()}>
+                    {this.renderFieldsSection()}
 
-                {this.renderMediaSection()}
+                    {this.renderMetaSection()}
 
-                {this.props.children}
-                {!this.isDisabled() && <ConfirmModal t={t} triggerButton={this.renderSubmitButton} onConfirm={submit}/>}
-            </form>
+                    {this.renderMediaSection()}
+
+                    {this.props.children}
+                    {!this.isDisabled() && <ConfirmModal t={t} triggerButton={this.renderSubmitButton} onConfirm={submit}/>}
+                </form>
+            </React.Fragment>
         )
     }
 }

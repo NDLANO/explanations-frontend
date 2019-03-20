@@ -47,7 +47,7 @@ const NB = {
         placeholder: "Velg..."
     },
     conceptPage: {
-        loadMessage: {
+        loadDataMessage: {
             error: "Fikk ikke hentet data fra server."
         }
     },
