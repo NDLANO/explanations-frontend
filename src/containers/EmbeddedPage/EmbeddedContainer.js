@@ -18,7 +18,6 @@ import 'url-search-params-polyfill';
 import {loginSuccess} from "../Login";
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
 import AuthenticationService from "../../services/authenticationService";
-import {indexRoute} from "../../utilities/routeHelper";
 import {historyShape} from "../../utilities/commonShapes";
 import {updateSearchQuery} from "../SearchPage/searchPageActions";
 import withApiService from "../../components/HOC/withApiService";
@@ -26,42 +25,29 @@ import ApiService from "../../services/apiService";
 import {isTokenExpired} from "../../utilities/tokenHelper";
 import {logoutSuccess} from "../LogoutPage";
 import RoutesContainer from "../Routes/RoutesContainer";
+import Loading from "../../components/Loading/LoadingComponent";
 
 
 class EmbeddedContainer extends React.Component {
-
-    componentDidMount() {
-        const {history,apiService} = this.props;
-        const searchParam = new URLSearchParams(history.location.search);
-        const language = searchParam.get('language');
-        const subject = searchParam.get('subject');
-
-        const initialFormValues = {term: searchParam.get('term')};
-        const promiseMap = {};
-        const promises = [];
-
-        if (language){
-            promiseMap[promises.length] = 'language';
-            promises.push(apiService.getById(language, apiService.endpoints.meta));
-        }
-        if (subject) {
-            promiseMap[promises.length] = 'subject';
-            promises.push(apiService.getById(subject, apiService.endpoints.meta));
-        }
-
-        Promise.all(promises)
-            .then((resolvedPromises) => resolvedPromises.forEach((value, index) => initialFormValues[promiseMap[index]] = value))
-            .catch()
-            .finally(() => this.validateToken(searchParam.get('accessToken'), initialFormValues));
+    constructor(props) {
+        super(props);
+        this.state = {
+            message: "loadingMessage.default",
+            error: false
+        };
     }
 
-    validateToken(accessToken, additionalParameters) {
+    componentDidMount() {
+        const {history} = this.props;
+        const searchParam = new URLSearchParams(history.location.search);
+        this.validateToken(searchParam.get('accessToken'));
+    }
+
+    validateToken(accessToken, ) {
         const {
             authenticationService,
             loginSuccess,
             logoutSuccess,
-            history,
-            updateInitialFormValues,
             accessTokenFromStore
         } = this.props;
 
@@ -69,7 +55,7 @@ class EmbeddedContainer extends React.Component {
             accessToken = accessTokenFromStore;
 
         if (isTokenExpired(accessToken)) {
-            this.setState({message: 'embeddingPage.tokenIsExpired'});
+            this.setState({message: 'embeddingPage.tokenIsExpired', error: true});
             logoutSuccess();
             return;
         }
@@ -77,13 +63,14 @@ class EmbeddedContainer extends React.Component {
         const creds = authenticationService.createCredentials(accessToken);
         if (creds) {
             loginSuccess(creds);
-            updateInitialFormValues(additionalParameters);
-            history.replace(indexRoute());
-        }else
-            this.setState({message: 'embeddingPage.notVerifiedToken'});
+        }else {
+            this.setState({message: 'embeddingPage.notVerifiedToken', error: true});
+        }
     }
 
     render() {
+        if (this.state.error)
+            return <Loading message={this.state.message} t={this.props.t} />;
         return (
             <Switch>
                 <RoutesContainer />

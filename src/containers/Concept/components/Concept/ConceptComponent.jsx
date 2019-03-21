@@ -26,6 +26,7 @@ import Meta, {metaNamePrefix} from "../Meta";
 import {dropdownFormat} from "../../conceptCommon";
 import SectionComponent from "../SectionComponent";
 import ApiService from "../../../../services/apiService";
+import {UPDATE_FLASH_MESSAGE_CONCEPT} from "../../conceptActions";
 
 const classes = new BEMHelper({
     name: 'concept-form',
@@ -84,6 +85,7 @@ class Concept extends React.Component {
             const s = status.find(x => x.typeGroup.name.toLowerCase() === "archived");
             if (s)
                 changeField(CONCEPT_FORM_NAME, FIELDS.status.name, s.languageVariation)
+            this.props.clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT);
         }
     }
 

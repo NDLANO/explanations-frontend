@@ -27,7 +27,10 @@ class FormSelect extends React.Component {
         const {isMulti, input: {onChange}} = this.props;
         if (isMulti)
             return onChange(value.map(x => x.value));
-        return onChange(value.value);
+        if (value)
+            return onChange(value.value);
+        else
+            return onChange(null);
     }
 
     getValue() {
@@ -73,8 +76,10 @@ FormSelect.defaultProps = {
     options: [],
     isMulti: false,
     className: "",
+    isClearable: true,
     isDisabled: false,
     valueKey: "value",
+    clearValue: () => console.log("LCEAR")
 };
 
 FormSelect.propTypes = {
@@ -91,6 +96,7 @@ FormSelect.propTypes = {
         touched: PropTypes.bool,
         error: PropTypes.string
     }).isRequired,
+    clearValue: PropTypes.func.isRequired,
 
     // Optional
     isMulti: PropTypes.bool,
@@ -99,6 +105,7 @@ FormSelect.propTypes = {
     className: PropTypes.string,
     valueKey: PropTypes.string,
     placeholder: PropTypes.string,
+    isClearable: PropTypes.bool,
 };
 
 export default FormSelect;

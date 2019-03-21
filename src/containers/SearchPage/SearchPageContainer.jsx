@@ -15,6 +15,7 @@ import {injectT} from "@ndla/i18n";
 import {compose} from "redux";
 import {Helmet} from "react-helmet";
 import Pager from "@ndla/pager";
+import {withRouter} from "react-router";
 
 import Loading from '../../components/Loading';
 import WithEither from "../../components/HOC/WithEither";
@@ -30,7 +31,6 @@ import {createRoute, indexRoute, searchRoute} from "../../utilities/routeHelper"
 
 import 'url-search-params-polyfill';
 import {matchShape} from "../../utilities/commonShapes";
-import {withRouter} from "react-router";
 
 const PageItemComponent = ({children, ...rest}) => <span {...rest}>{children}</span>;
 

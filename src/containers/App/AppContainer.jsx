@@ -24,7 +24,7 @@ import withAuthenticationService from "../../components/HOC/withAuthenticationSe
 import {loginSuccess, updateNext} from "../Login";
 import withApiService from "../../components/HOC/withApiService";
 import ApiService from "../../services/apiService";
-import Routes from '../Routes';
+import EmbeddedPage from '../EmbeddedPage';
 import Page from '../Page';
 import ErrorBoundary from "../ErrorBoundary/ErrorBoundaryContainer";
 
@@ -71,13 +71,13 @@ class App extends React.Component {
         return (
                 <ErrorBoundary>
                     <Switch>
-                        <Route path={embeddedRoute()} component={Routes} />
+                        <Route path={embeddedRoute()} component={EmbeddedPage} />
                         <Route path={siteRoute()} component={Page} />
                         <Route path={loginRoute()} component={Login}/>
                         <Route path={logoutRoute()} component={LogoutPage}/>
                         <Route path={notAuthorizedRoute()} component={NotAuthorizedPage}/>
                         <Route path={notFoundRoute()} component={NotFoundPage}/>
-                        <Route exact path={indexRoute()} render={() => <Redirect to="/site"/>}/>
+                        <Route exact path={indexRoute()} render={() => <Redirect to={siteRoute()}/>}/>
                     </Switch>
                 </ErrorBoundary>
         )

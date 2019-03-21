@@ -27,7 +27,7 @@ import {
     statusExists,
 
 } from "./conceptCommon";
-import FlashMessage, {clearFlashMessage, flashMessageShape, updateFlashMessage} from "../../components/FlashMessage";
+import {clearFlashMessage, flashMessageShape, updateFlashMessage} from "../../components/FlashMessage";
 import {historyShape, matchShape} from "../../utilities/commonShapes";
 import ApiService from "../../services/apiService";
 import {UPDATE_FLASH_MESSAGE_CONCEPT, updateInitialFormValues} from "./conceptActions";
@@ -82,6 +82,7 @@ class ConceptPageContainer extends React.Component {
         });
     }
     componentWillUnmount() {
+        console.log("unmounting")
         this.props.clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT);
     }
 
@@ -177,7 +178,17 @@ class ConceptPageContainer extends React.Component {
     }
 
     renderPage({pageTitle, useInitialValues=true, isLanguageVariation=false, isUpdate=false, messages={success :'', error: ''}, route}, id=null) {
-        const {t, meta, apiService, match, initialFormValues, mediaTypes, locale, status, change, flashMessage, clearFlashMessage} = this.props;
+        const {t,
+            meta,
+            apiService,
+            match,
+            initialFormValues,
+            mediaTypes,
+            locale,
+            status,
+            change,
+            clearFlashMessage
+        } = this.props;
         const breadCrumbs = [
             {to: indexRoute(), name: t('indexPage.title')},
         ];
@@ -189,11 +200,8 @@ class ConceptPageContainer extends React.Component {
         if (useInitialValues && !initialFormValues)
             return <Loading message="loadingMessage.initializingForm"/>;
 
-        if (!isUpdate && flashMessage.title && initialFormValues)
-            clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT);
-
         return (
-            <React.Fragment>
+            <OneColumn>
                 <Breadcrumb items={breadCrumbs}/>
                 <Concept t={t}
                          metas={meta}
@@ -209,6 +217,7 @@ class ConceptPageContainer extends React.Component {
                          isUpdate={isUpdate}
                          changeField={change}
                          isLanguageVariation={isLanguageVariation}
+                         clearFlashMessage={clearFlashMessage}
                 >
                     {isUpdate && !this.isReadOnly() && (
                         <React.Fragment>
@@ -232,7 +241,7 @@ class ConceptPageContainer extends React.Component {
                         </React.Fragment>
                     )}
                 </Concept>
-            </React.Fragment>
+            </OneColumn>
         )
     }
 
@@ -248,22 +257,17 @@ class ConceptPageContainer extends React.Component {
                            updateInitialFormValues={this.props.updateInitialFormValues}
                            createConceptRequiredScope={this.props.createConceptRequiredScope}
                            updateConceptRequiredScope={this.props.updateConceptRequiredScope}
-                            clearFlashMessage={this.props.clearFlashMessage}/>
+                            flashMessage={this.props.flashMessage}/>
         )
     }
 
     render() {
-        const {t, flashMessage, match} = this.props;
+        const { match} = this.props;
         return (
-            <React.Fragment>
-                <FlashMessage {...flashMessage} t={t}/>
-                <OneColumn>
-                    <Switch>
-                        <PrivateRoute path={`${match.url}/new`} render={this.renderNewPage} requiredScopes={this.props.updateConceptRequiredScope}/>
-                        <Route path={`${match.url}/:id`} render={this.renderConceptRoutes} />
-                    </Switch>
-                </OneColumn>
-            </React.Fragment>
+            <Switch>
+                <PrivateRoute path={`${match.url}/new`} render={this.renderNewPage} requiredScopes={this.props.updateConceptRequiredScope}/>
+                <Route path={`${match.url}/:id`} render={this.renderConceptRoutes} />
+            </Switch>
         );
     }
 }

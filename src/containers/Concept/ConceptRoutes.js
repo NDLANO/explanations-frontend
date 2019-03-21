@@ -15,8 +15,9 @@ import {UPDATE_FLASH_MESSAGE_CONCEPT} from "./conceptActions";
 import {loadConcept, submitErrorHandler} from "./conceptCommon";
 import ApiService from "../../services/apiService";
 import NotFoundPage from "../ErrorPage/NotFoundPage";
-import {catchAllRoute} from "../../utilities/routeHelper";
 import PrivateRoute from '../PrivateRoute';
+import FlashMessage from "../../components/FlashMessage";
+import {flashMessageShape} from "../../components/FlashMessage";
 
 class ConceptRoutes extends React.Component {
     constructor(props) {
@@ -47,23 +48,28 @@ class ConceptRoutes extends React.Component {
             renderCopyPage,
             renderEditPage,
             renderCreateLanguageVariationPage,
-            createConceptRequiredScope
+            createConceptRequiredScope,
+            t,
+            flashMessage
         } = this.props;
         return (
-            <Switch>
-                <Route path={`${match.url}/edit`}
-                       render={renderEditPage.bind(null, match.params.id)}
-                       id={match.params.id}/>
-                <PrivateRoute path={`${match.url}/copy`}
-                              render={renderCopyPage}
-                              requiredScopes={createConceptRequiredScope}
-                              id={match.params.id} />
-                <PrivateRoute path={`${match.url}/newLanguageVariation`}
-                              render={renderCreateLanguageVariationPage}
-                              requiredScopes={createConceptRequiredScope}
-                              id={match.params.id} />
-                <Route path={catchAllRoute()} render={this.renderNotFoundPage} />
-            </Switch>
+            <React.Fragment>
+
+                <FlashMessage {...flashMessage} t={t}/>
+                <Switch>
+                    <Route exact path={`${match.url}/edit`}
+                           render={renderEditPage.bind(null, match.params.id)}
+                           id={match.params.id}/>
+                    <PrivateRoute path={`${match.url}/copy`}
+                                  render={renderCopyPage}
+                                  requiredScopes={createConceptRequiredScope}
+                                  id={match.params.id} />
+                    <PrivateRoute path={`${match.url}/newLanguageVariation`}
+                                  render={renderCreateLanguageVariationPage}
+                                  requiredScopes={createConceptRequiredScope}
+                                  id={match.params.id} />
+                </Switch>
+            </React.Fragment>
         )
     }
 }
@@ -74,13 +80,14 @@ ConceptRoutes.propTypes = {
     history: historyShape.isRequired,
     renderCopyPage: PropTypes.func.isRequired,
     renderEditPage: PropTypes.func.isRequired,
-    clearFlashMessage: PropTypes.func.isRequired,
     updateFlashMessage: PropTypes.func.isRequired,
     updateInitialFormValues: PropTypes.func.isRequired,
     apiService: PropTypes.instanceOf(ApiService).isRequired,
     renderCreateLanguageVariationPage: PropTypes.func.isRequired,
+
     createConceptRequiredScope: PropTypes.arrayOf(PropTypes.string),
     updateConceptRequiredScope: PropTypes.arrayOf(PropTypes.string),
+    flashMessage: PropTypes.shape(flashMessageShape),
 };
 
 export default withRouter(ConceptRoutes);
