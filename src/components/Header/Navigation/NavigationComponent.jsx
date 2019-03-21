@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import {DetailSearch} from '@ndla/icons/editor';
 
 import {searchRoute, createConceptRoute} from "../../../utilities/routeHelper";
+import {matchShape} from "../../../utilities/commonShapes";
 
 export const classes = new BEMHelper({
     name: 'navigation',
@@ -35,7 +36,7 @@ export class Navigation extends Component {
     }
 
     render() {
-        const { t } = this.props;
+        const { t, match } = this.props;
         return (
             <div>
                 <Button
@@ -69,7 +70,7 @@ export class Navigation extends Component {
                             <DetailSearch className="c-icon--large" />
                             <span>{t('subNavigation.search')}</span>
                         </Link>
-                        <Link to={createConceptRoute()}
+                        <Link to={match.url + createConceptRoute()}
                               {...classes('item')}
                               onClick={this.toggleOpen}>
                             <Plus className="c-icon--large" />
@@ -94,7 +95,8 @@ export class Navigation extends Component {
 
 Navigation.propTypes = {
     // Required
-    t: PropTypes.func.isRequired
+    t: PropTypes.func.isRequired,
+    match: PropTypes.shape(matchShape).isRequired,
 };
 
 export default Navigation;

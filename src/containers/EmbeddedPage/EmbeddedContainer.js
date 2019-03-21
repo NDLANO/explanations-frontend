@@ -11,6 +11,8 @@ import {connect} from "react-redux";
 import {compose} from "redux";
 import {withRouter} from "react-router-dom";
 import {injectT} from "@ndla/i18n";
+import {Switch} from "react-router";
+
 import 'url-search-params-polyfill';
 
 import {loginSuccess} from "../Login";
@@ -18,21 +20,15 @@ import withAuthenticationService from "../../components/HOC/withAuthenticationSe
 import AuthenticationService from "../../services/authenticationService";
 import {indexRoute} from "../../utilities/routeHelper";
 import {historyShape} from "../../utilities/commonShapes";
-import Loading from "../../components/Loading";
 import {updateSearchQuery} from "../SearchPage/searchPageActions";
 import withApiService from "../../components/HOC/withApiService";
 import ApiService from "../../services/apiService";
 import {isTokenExpired} from "../../utilities/tokenHelper";
 import {logoutSuccess} from "../LogoutPage";
+import RoutesContainer from "../Routes/RoutesContainer";
 
 
 class EmbeddedContainer extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            message: "loadingMessage.default"
-        };
-    }
 
     componentDidMount() {
         const {history,apiService} = this.props;
@@ -88,7 +84,11 @@ class EmbeddedContainer extends React.Component {
     }
 
     render() {
-        return <Loading t={this.props.t} message={this.state.message} />;
+        return (
+            <Switch>
+                <RoutesContainer />
+            </Switch>
+        )
     }
 }
 

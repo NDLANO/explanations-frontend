@@ -56,6 +56,7 @@ class ConceptPageContainer extends React.Component {
         this.createConcept = this.createConcept.bind(this);
         this.renderDeleteButton = this.renderDeleteButton.bind(this);
         this.renderConceptRoutes = this.renderConceptRoutes.bind(this);
+        this.navigate = this.navigate.bind(this);
         this.renderCopyPage = this.renderPage.bind(this, {
             pageTitle: "copyConceptPage.title",
             messages: {success: "copyConceptPage.submitMessage.success", error: "copyConceptPage.submitMessage.error"},
@@ -89,7 +90,7 @@ class ConceptPageContainer extends React.Component {
     }
 
     submit(callback, submitSuccessMessage, submitFailMessage) {
-        const {clearFlashMessage, updateFlashMessage, history} = this.props;
+        const {clearFlashMessage, updateFlashMessage, history, match} = this.props;
 
         clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT);
 
@@ -105,6 +106,7 @@ class ConceptPageContainer extends React.Component {
                 titleMessage: submitSuccessMessage,
                 history,
                 id: data.data.data.id,
+                match
             }, updateFlashMessage))
             .catch(err => submitErrorHandler(err, errorHandler, updateFlashMessage));
         return callback;
@@ -118,7 +120,7 @@ class ConceptPageContainer extends React.Component {
     }
 
     onArchiveConcept(id) {
-        const {clearFlashMessage, history, updateFlashMessage} = this.props;
+        const {clearFlashMessage, history, updateFlashMessage, match} = this.props;
 
         clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT);
 
@@ -126,7 +128,8 @@ class ConceptPageContainer extends React.Component {
             actionType: UPDATE_FLASH_MESSAGE_CONCEPT,
             titleMessage: `editConceptPage.deleteMessage.success`,
             history,
-            id
+            id,
+            match
         };
         const errorHandler = {
             titleMessage: `editConceptPage.deleteMessage.error`,
@@ -142,8 +145,11 @@ class ConceptPageContainer extends React.Component {
                     this.props.change(CONCEPT_FORM_NAME, "statusId", status.languageVariation)
             })
             .catch(err => submitErrorHandler(err, errorHandler, updateFlashMessage));
+    }
 
-
+    navigate(to) {
+        const {history, match} = this.props;
+        history.push(match.url + to);
     }
 
     initDataForNewConcept() {
@@ -171,7 +177,7 @@ class ConceptPageContainer extends React.Component {
     }
 
     renderPage({pageTitle, useInitialValues=true, isLanguageVariation=false, isUpdate=false, messages={success :'', error: ''}, route}, id=null) {
-        const {t, meta, apiService, initialFormValues, mediaTypes, locale, status, history, change, flashMessage, clearFlashMessage} = this.props;
+        const {t, meta, apiService, initialFormValues, mediaTypes, locale, status, change, flashMessage, clearFlashMessage} = this.props;
         const breadCrumbs = [
             {to: indexRoute(), name: t('indexPage.title')},
         ];
@@ -208,13 +214,13 @@ class ConceptPageContainer extends React.Component {
                         <React.Fragment>
                             <Button className="form-button"
                                     outline={true}
-                                    onClick={() => history.push(copyConceptRoute(id))}
+                                    onClick={() => this.navigate(copyConceptRoute(id))}
                             >
                                 {t("editConceptPage.button.copy")}
                             </Button>
                             <Button className="form-button"
                                     outline={true}
-                                    onClick={() => history.push(createLanguageVariationRoute(id))}
+                                    onClick={() => this.navigate(createLanguageVariationRoute(id))}
                             >
                                 {t("editConceptPage.button.createNewLanguageVariation")}
                             </Button>

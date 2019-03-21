@@ -6,18 +6,19 @@
  */
 import _ from "lodash";
 
-export const indexRoute =                       () => '/';
+export const indexRoute =                       () => '';
 export const searchRoute =                      () => indexRoute();
 export const conceptRoute =                     () => '/concept';
 export const createConceptRoute =               () => `${conceptRoute()}/new`;
-export const editConceptRoute =                 id => `${conceptRoute()}/${id}/edit`;
-export const copyConceptRoute =                 id => `${conceptRoute()}/${id}/copy`;
-export const createLanguageVariationRoute =     id => `${conceptRoute()}/${id}/newLanguageVariation`;
+export const editConceptRoute =                 id => `/${id}/edit`;
+export const copyConceptRoute =                 id => `/${id}/copy`;
+export const createLanguageVariationRoute =     id => `/${id}/newLanguageVariation`;
 export const loginRoute =                       () => '/login';
 export const embeddedRoute =                    () => '/embedded';
+export const siteRoute =                        () => '/site';
 export const logoutRoute =                      () => '/logout';
-export const notAuthorizedRoute =               () => '/forbidden';
-export const notFoundRoute =                    () => '/notFound';
+export const notAuthorizedRoute =               () => 'forbidden';
+export const notFoundRoute =                    () => 'notFound';
 export const catchAllRoute =                    () => '*';
 
 export const routeIsAllowed = (requiredScope=[], currentScopes=[], isAuthenticated) =>

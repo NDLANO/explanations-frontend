@@ -8,7 +8,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Route, Switch, withRouter} from 'react-router';
+import {Redirect, Route, Switch, withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 
@@ -26,11 +26,24 @@ import withApiService from "../../components/HOC/withApiService";
 import ApiService from "../../services/apiService";
 import Routes from '../Routes';
 import Page from '../Page';
+import ErrorBoundary from "../ErrorBoundary/ErrorBoundaryContainer";
 
 import {loadMediaTypes, loadMeta, loadStatus} from './actions';
 
 
 import 'url-search-params-polyfill';
+import {
+    embeddedRoute,
+    indexRoute,
+    loginRoute,
+    logoutRoute,
+    notAuthorizedRoute, notFoundRoute,
+    siteRoute
+} from "../../utilities/routeHelper";
+import Login from "../Login";
+import LogoutPage from "../LogoutPage";
+import NotAuthorizedPage from "../ErrorPage/NotAuthorized";
+import NotFoundPage from "../ErrorPage/NotFoundPage";
 
 Moment.globalFormat = 'lll';
 
@@ -56,9 +69,17 @@ class App extends React.Component {
 
     render() {
         return (
-                <Switch>
-                    <Route path="/embedded" component={Routes} />
-                </Switch>
+                <ErrorBoundary>
+                    <Switch>
+                        <Route path={embeddedRoute()} component={Routes} />
+                        <Route path={siteRoute()} component={Page} />
+                        <Route path={loginRoute()} component={Login}/>
+                        <Route path={logoutRoute()} component={LogoutPage}/>
+                        <Route path={notAuthorizedRoute()} component={NotAuthorizedPage}/>
+                        <Route path={notFoundRoute()} component={NotFoundPage}/>
+                        <Route exact path={indexRoute()} render={() => <Redirect to="/site"/>}/>
+                    </Switch>
+                </ErrorBoundary>
         )
     }
 }

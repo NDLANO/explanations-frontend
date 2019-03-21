@@ -15,15 +15,16 @@ import {injectT} from "@ndla/i18n";
 import ErrorBoundary from "../ErrorBoundary";
 import Footer from '../../components/Footer';
 import Routes from '../Routes';
-
-import Header from "../App/AppContainer";
+import Header from "../../components/Header";
+import {matchShape} from "../../utilities/commonShapes";
 import {withRouter} from "react-router";
 
-const AppPageContainer = ({t, username, isAuthenticated}) => (
+
+const AppPageContainer = ({t, username, isAuthenticated, match}) => (
     <PageContainer>
         <Helmet title={t('pageTitles.default')} />
         <Content>
-            <Header t={t} username={username} isLoggedIn={isAuthenticated} />
+            <Header t={t} username={username} isLoggedIn={isAuthenticated} match={match} />
             <ErrorBoundary>
                 <Routes />
                 <Footer t={t} />
@@ -37,6 +38,7 @@ AppPageContainer.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
+    match: PropTypes.shape(matchShape).isRequired,
 
     // Optional
     username: PropTypes.string,
@@ -51,7 +53,7 @@ const mapStateToProps = state => ({
     isAuthenticated: state.credentials.isAuthenticated,
 });
 export default compose(
-    withRouter,
     connect(mapStateToProps),
+    withRouter,
     injectT,
 )(AppPageContainer);

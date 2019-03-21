@@ -13,18 +13,19 @@ import PropTypes from 'prop-types';
 
 import LogInOrOut from './LoginOrOut'
 import Navigation from "./Navigation";
+import {matchShape} from "../../utilities/commonShapes";
 
 const classes = new BEMHelper({
     name: 'masthead',
     prefix: 'c-',
 });
 
-const Header = ({t, username, isLoggedIn}) => {
+const Header = ({t, username, isLoggedIn, match}) => {
     return (
         <Masthead>
             <div {...classes('component')}>
                 <MastheadItem>
-                    <Navigation t={t} />
+                    <Navigation t={t} match={match} />
                 </MastheadItem>
                 <MastheadItem>
                     <h1>{t('header.title')}</h1>
@@ -40,6 +41,7 @@ const Header = ({t, username, isLoggedIn}) => {
 Header.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
+    match: PropTypes.shape(matchShape).isRequired,
 
     // Optional
     username: PropTypes.string,

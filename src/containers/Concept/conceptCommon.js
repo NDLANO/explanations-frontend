@@ -14,15 +14,15 @@ import VideoApi from "../../services/videoApiService";
 import {metaNamePrefix} from "./components/Meta";
 import {config} from '../../config';
 
-export const submitSuccessHandler = (data, {titleMessage, actionType, history, id}, updateFlashMessageFunction) => {
+export const submitSuccessHandler = (data, {titleMessage, actionType, history, id, match}, updateFlashMessageFunction) => {
     const message = {};
     message['severity'] = SEVERITY.success;
     message['title'] = titleMessage;
     updateFlashMessageFunction(actionType, message);
-    history.push(editConceptRoute(id));
+    history.push(match.url + editConceptRoute(id));
 
     try{
-        window.parent.postMessage({conceptId: id}, config.EXTERNAL_URL['postMessage']);
+        window.parent.postMessage({conceptId: id}, config.EXTERNAL_URL.postMessage);
     }catch(e){}
 
     return data;
