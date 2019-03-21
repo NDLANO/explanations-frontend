@@ -46,6 +46,7 @@ import ConceptRoutes from "./ConceptRoutes";
 import PrivateRoute from '../PrivateRoute';
 import {config} from "../../config";
 import {CONCEPT_FORM_NAME} from "./components/Concept/ConceptComponent";
+import ConfirmModal from "../../components/ConfirmModal";
 
 class ConceptPageContainer extends React.Component {
     constructor(props) {
@@ -53,6 +54,8 @@ class ConceptPageContainer extends React.Component {
         this.submit = this.submit.bind(this);
         this.updateConcept = this.updateConcept.bind(this);
         this.createConcept = this.createConcept.bind(this);
+        this.renderDeleteButton = this.renderDeleteButton.bind(this);
+        this.renderConceptRoutes = this.renderConceptRoutes.bind(this);
         this.renderCopyPage = this.renderPage.bind(this, {
             pageTitle: "copyConceptPage.title",
             messages: {success: "copyConceptPage.submitMessage.success", error: "copyConceptPage.submitMessage.error"},
@@ -76,7 +79,6 @@ class ConceptPageContainer extends React.Component {
             messages: {success: "createConceptPage.submitMessage.success", error: "createConceptPage.submitMessage.error"},
             route: createConceptRoute
         });
-        this.renderConceptRoutes = this.renderConceptRoutes.bind(this);
     }
     componentWillUnmount() {
         this.props.clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT);
@@ -115,7 +117,7 @@ class ConceptPageContainer extends React.Component {
         return this.submit(this.props.apiService.update(concept, this.props.apiService.endpoints.concept), messages.success, messages.error);
     }
 
-    archiveConcept(id) {
+    onArchiveConcept(id) {
         const {clearFlashMessage, history, updateFlashMessage} = this.props;
 
         clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT);
@@ -156,6 +158,16 @@ class ConceptPageContainer extends React.Component {
         if(licence)
             data['meta_license'] = licence.languageVariation;
         return data;
+    }
+
+    renderDeleteButton() {
+        const {t} = this.props;
+        return (
+            <Button className="form-button"
+                    outline={true}
+            >
+                {t("editConceptPage.button.delete")}
+            </Button>);
     }
 
     renderPage({pageTitle, useInitialValues=true, isLanguageVariation=false, isUpdate=false, messages={success :'', error: ''}, route}, id=null) {
@@ -206,12 +218,11 @@ class ConceptPageContainer extends React.Component {
                             >
                                 {t("editConceptPage.button.createNewLanguageVariation")}
                             </Button>
-                            <Button className="form-button"
-                                    outline={true}
-                                    onClick={this.archiveConcept.bind(this, id)}
-                            >
-                                {t("editConceptPage.button.delete")}
-                            </Button>
+                            <ConfirmModal t={this.props.t}
+                                          triggerButton={this.renderDeleteButton}
+                                          onConfirm={this.onArchiveConcept.bind(this, id)}
+                                          title="editConceptPage.confirmModal.delete.title"
+                                          content="editConceptPage.confirmModal.delete.action"/>
                         </React.Fragment>
                     )}
                 </Concept>

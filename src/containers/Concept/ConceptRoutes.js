@@ -52,7 +52,7 @@ class ConceptRoutes extends React.Component {
         return (
             <Switch>
                 <Route path={`${match.url}/edit`}
-                       render={renderEditPage.bind(null, 1)}
+                       render={renderEditPage.bind(null, match.params.id)}
                        id={match.params.id}/>
                 <PrivateRoute path={`${match.url}/copy`}
                               render={renderCopyPage}
