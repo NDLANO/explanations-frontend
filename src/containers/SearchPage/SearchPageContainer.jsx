@@ -29,6 +29,8 @@ import {indexRoute, searchRoute} from "../../utilities/routeHelper";
 
 
 import 'url-search-params-polyfill';
+import {matchShape} from "../../utilities/commonShapes";
+import {withRouter} from "react-router";
 
 const PageItemComponent = ({children, ...rest}) => <span {...rest}>{children}</span>;
 
@@ -135,12 +137,14 @@ class SearchContainer extends React.Component {
 
     render() {
         const {t,
+            match,
             languages,
             subjects,
             searchResult,
             autoComplete,
             searchResultMeta,
-            searchResultMeta: {page, numberOfPages}
+            searchResultMeta: {page, numberOfPages},
+
         } = this.props;
 
         const breadCrumbs = [
@@ -158,7 +162,7 @@ class SearchContainer extends React.Component {
                             subjects={[this.defaultDropdown('phrases.allSubjects'), ...subjects].map(this.mapItemToDropdownValue)}
                             search={this.search}
                             autoComplete={autoComplete}/>
-                <SearchResultList searchResultMeta={searchResultMeta} results={searchResult} searchQuery={this.getSearchResultQuery()} userHasSearched={this.state.userHasSearched} t={t}/>
+                <SearchResultList match={match} searchResultMeta={searchResultMeta} results={searchResult} searchQuery={this.getSearchResultQuery()} userHasSearched={this.state.userHasSearched} t={t}/>
                 {Boolean(numberOfPages > 1) && <Pager pageItemComponentClass={PageItemComponent} lastPage={numberOfPages} page={page} onClick={this.clickPager}  />}
             </OneColumn>
         )
@@ -174,6 +178,7 @@ SearchContainer.propTypes = {
     updateSearchResult: PropTypes.func.isRequired,
     apiService: PropTypes.instanceOf(ApiService).isRequired,
     updateSearchQuery: PropTypes.func.isRequired,
+    match: PropTypes.shape(matchShape).isRequired,
 
     // Optional
     searchResult: PropTypes.array,
@@ -191,6 +196,7 @@ const languageAndSubjectsShouldBePresent = compose(
 )(SearchContainer);
 
 export default compose(
+    withRouter,
     connect(mapStateToProps, {updateSearchResult, updateSearchQuery}),
     withApiService,
     injectT,

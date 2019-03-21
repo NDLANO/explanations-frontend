@@ -8,12 +8,9 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {  PageContainer, Content } from '@ndla/ui';
 import {Route, Switch, withRouter} from 'react-router';
-import {injectT} from '@ndla/i18n';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
-import {Helmet} from "react-helmet";
 
 /* eslint-disable no-unused-vars */
 import * as moment from 'moment';
@@ -23,62 +20,20 @@ import 'moment/locale/nb';
 import 'moment/locale/nn';
 import Moment from 'react-moment';
 
-import NotAuthorizedPage from '../ErrorPage/NotAuthorized'
-import SearchPage from '../SearchPage/SearchPageContainer';
-import Footer from '../../components/Footer';
-import Header from '../../components/Header/';
-import {
-    searchRoute,
-    catchAllRoute,
-    logoutRoute,
-    notAuthorizedRoute,
-    notFoundRoute,
-    loginRoute,
-    embeddedRoute,
-    conceptRoute
-} from '../../utilities/routeHelper';
-import LogoutPage from '../LogoutPage';
-import NotFoundPage from "../ErrorPage/NotFoundPage";
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
 import {loginSuccess, updateNext} from "../Login";
 import withApiService from "../../components/HOC/withApiService";
 import ApiService from "../../services/apiService";
-import ErrorBoundary from "../ErrorBoundary";
-import Login from "../Login";
-import EmbeddedPage from "../EmbeddedPage";
+import Routes from '../Routes';
+import Page from '../Page';
 
 import {loadMediaTypes, loadMeta, loadStatus} from './actions';
-
-import ConceptPage from '../Concept/';
 
 
 import 'url-search-params-polyfill';
 
 Moment.globalFormat = 'lll';
 
-class Test extends React.Component {
-
-    componentDidMount() {
-        window.addEventListener("message", this.receiveMessage, false);
-
-    }
-    receiveMessage(event)
-    {
-        console.log(event)
-    }
-    componentWillUnmount() {
-        window.removeEventListener("message", this.receiveMessage, false);
-
-    }
-
-    render() {
-        return (
-            <iframe src="http://localhost:3000/concept/742/edit" width="1000px" height="1000px">
-
-            </iframe>
-        )
-    }
-}
 
 class App extends React.Component {
     componentDidMount() {
@@ -100,49 +55,22 @@ class App extends React.Component {
 
 
     render() {
-        const {
-            t,
-            username,
-            isAuthenticated,
-        } = this.props;
         return (
-            <PageContainer>
-                <Helmet title={t('pageTitles.default')} />
-                <Content>
-                    <Header t={t} username={username} isLoggedIn={isAuthenticated} />
-                    <ErrorBoundary>
-                        <Switch>
-                            <Route path={conceptRoute()} component={ConceptPage}/>
-                            <Route path={loginRoute()} component={Login}/>
-                            <Route path={embeddedRoute()} component={EmbeddedPage}/>
-                            <Route path={logoutRoute()} component={LogoutPage}/>
-                            <Route path={notAuthorizedRoute()} component={NotAuthorizedPage}/>
-                            <Route path={notFoundRoute()} component={NotFoundPage}/>
-                            <Route path={searchRoute()} exact component={SearchPage}/>
-                            <Route path="/test" exact component={Test}/>
-                            <Route path={catchAllRoute()} component={NotFoundPage}/>
-                        </Switch>
-                        <Footer t={t} />
-                    </ErrorBoundary>
-                </Content>
-            </PageContainer>
+                <Switch>
+                    <Route path="/embedded" component={Routes} />
+                </Switch>
         )
     }
 }
 
 App.propTypes = {
     // Required
-    t: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool.isRequired,
     apiService: PropTypes.instanceOf(ApiService).isRequired,
     loadStatus: PropTypes.func.isRequired,
     loadMeta: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
     loadMediaTypes: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
-
-    // Optional
-    username: PropTypes.string,
 };
 
 const mapStateToProps = state => {
@@ -150,8 +78,6 @@ const mapStateToProps = state => {
     return {
         locale: state.locale,
         accessToken: token,
-        username: state.credentials.username,
-        isAuthenticated: state.credentials.isAuthenticated,
     }
 };
 
@@ -160,5 +86,4 @@ export default compose(
     connect(mapStateToProps, {loadMeta, loadStatus, loadMediaTypes, loginSuccess, updateNext}),
     withAuthenticationService,
     withApiService,
-    injectT,
 )(App);

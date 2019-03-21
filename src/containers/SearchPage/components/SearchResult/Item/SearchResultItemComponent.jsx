@@ -15,6 +15,7 @@ import MetaList from "./components/SearchResultItemMetaListComponent";
 import {editConceptRoute} from "../../../../../utilities/routeHelper";
 import {sortObjectsByKey} from "../../../../../utilities/sorting";
 import {limitTextToLength} from "../../../../../utilities";
+import {matchShape} from "../../../../../utilities/commonShapes";
 
 const classes = new BEMHelper({
     name: 'search-result-item',
@@ -48,14 +49,14 @@ const filterMeta = (metas, t) => {
     }
 };
 
-const SearchResultItem = ({id, title, sourceAuthor, content, meta, t}) => {
+const SearchResultItem = ({id, match, title, sourceAuthor, content, meta, t}) => {
 
     const filteredMetas = filterMeta(meta, t);
     return (
         <li key={id} {...classes()}>
                 <header {...classes('header')}>
                     <h1>
-                        <Link to={editConceptRoute(id)}>{title}</Link>
+                        <Link to={`${match.url}${editConceptRoute(id)}`}>{title}</Link>
                     </h1>
                 </header>
 
@@ -80,6 +81,7 @@ SearchResultItem.propTypes = {
     title: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     sourceAuthor: PropTypes.string.isRequired,
+    match: PropTypes.shape(matchShape).isRequired,
 };
 SearchResultItem.defaultProps = {
     meta: []
