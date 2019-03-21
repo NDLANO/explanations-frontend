@@ -20,7 +20,7 @@ const serverConfig = {
         },
         EXTERNAL_URL: {
             conceptApi:        getEnvironment('EXTERNAL_URL__CONCEPT_API'),
-            ndlaApi:           getEnvironment('EXTERNAL_URL__NDLA_API_URL')
+            ndlaApi:           getEnvironment('EXTERNAL_URL__NDLA_API_URL'),
         },
         SCOPES: {
             concept_write:      getEnvironment('SCOPES__CONCEPT_WRITE'),
@@ -41,7 +41,7 @@ const serverConfig = {
         VIDEO_SOURCES: {
             youtube:            'youtube',
             brightcove:         'brightcove'
-        }
+        },
     },
     SERVER: {
         port:                   getEnvironment('PORT') || 3000,
@@ -52,6 +52,10 @@ const serverConfig = {
         }
     }
 };
+
+serverConfig.CLIENT.EXTERNAL_URL['postMessage'] = serverConfig.CLIENT.ENVIRONMENT === "dev"
+    ? `http://localhost:${serverConfig.SERVER.port}`
+    : serverConfig.CLIENT.EXTERNAL_URL.ndlaApi;
 
 export const config =
     process.env.BUILD_TARGET === 'server'

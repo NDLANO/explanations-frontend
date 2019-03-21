@@ -56,6 +56,30 @@ import 'url-search-params-polyfill';
 
 Moment.globalFormat = 'lll';
 
+class Test extends React.Component {
+
+    componentDidMount() {
+        window.addEventListener("message", this.receiveMessage, false);
+
+    }
+    receiveMessage(event)
+    {
+        console.log(event)
+    }
+    componentWillUnmount() {
+        window.removeEventListener("message", this.receiveMessage, false);
+
+    }
+
+    render() {
+        return (
+            <iframe src="http://localhost:3000/concept/742/edit" width="1000px" height="1000px">
+
+            </iframe>
+        )
+    }
+}
+
 class App extends React.Component {
     componentDidMount() {
         const {apiService, loadStatus, loadMeta, loadMediaTypes, locale} = this.props;
@@ -95,6 +119,7 @@ class App extends React.Component {
                             <Route path={notAuthorizedRoute()} component={NotAuthorizedPage}/>
                             <Route path={notFoundRoute()} component={NotFoundPage}/>
                             <Route path={searchRoute()} exact component={SearchPage}/>
+                            <Route path="/test" exact component={Test}/>
                             <Route path={catchAllRoute()} component={NotFoundPage}/>
                         </Switch>
                         <Footer t={t} />
