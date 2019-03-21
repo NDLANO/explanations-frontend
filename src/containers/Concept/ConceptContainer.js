@@ -38,7 +38,7 @@ import {
     editConceptRoute,
     indexRoute,
     routeIsAllowed,
-    createConceptRoute
+    createConceptRoute, createRoute
 } from "../../utilities/routeHelper";
 
 import Concept from "./components/Concept";
@@ -149,7 +149,7 @@ class ConceptPageContainer extends React.Component {
 
     navigate(to) {
         const {history, match} = this.props;
-        history.push(match.url + to);
+        history.push(createRoute(match, to));
     }
 
     initDataForNewConcept() {
@@ -177,14 +177,14 @@ class ConceptPageContainer extends React.Component {
     }
 
     renderPage({pageTitle, useInitialValues=true, isLanguageVariation=false, isUpdate=false, messages={success :'', error: ''}, route}, id=null) {
-        const {t, meta, apiService, initialFormValues, mediaTypes, locale, status, change, flashMessage, clearFlashMessage} = this.props;
+        const {t, meta, apiService, match, initialFormValues, mediaTypes, locale, status, change, flashMessage, clearFlashMessage} = this.props;
         const breadCrumbs = [
             {to: indexRoute(), name: t('indexPage.title')},
         ];
         if (id)
-            breadCrumbs.push({to: route(id), name: t(pageTitle)});
+            breadCrumbs.push({to: createRoute(match,route(id)), name: t(pageTitle)});
         else
-            breadCrumbs.push({to: indexRoute(), name: t(pageTitle)});
+            breadCrumbs.push({to: createRoute(match,indexRoute()), name: t(pageTitle)});
 
         if (useInitialValues && !initialFormValues)
             return <Loading message="loadingMessage.initializingForm"/>;

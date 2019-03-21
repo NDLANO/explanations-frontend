@@ -14,7 +14,7 @@ import { Plus, Minus } from '@ndla/icons/action';
 import { Link } from 'react-router-dom';
 import {DetailSearch} from '@ndla/icons/editor';
 
-import {searchRoute, createConceptRoute} from "../../../utilities/routeHelper";
+import {searchRoute, createConceptRoute, createRoute} from "../../../utilities/routeHelper";
 import {matchShape} from "../../../utilities/commonShapes";
 
 export const classes = new BEMHelper({
@@ -70,7 +70,7 @@ export class Navigation extends Component {
                             <DetailSearch className="c-icon--large" />
                             <span>{t('subNavigation.search')}</span>
                         </Link>
-                        <Link to={match.url + createConceptRoute()}
+                        <Link to={createRoute(match, createConceptRoute())}
                               {...classes('item')}
                               onClick={this.toggleOpen}>
                             <Plus className="c-icon--large" />

@@ -25,7 +25,7 @@ import {updateSearchQuery, updateSearchResult} from "./searchPageActions";
 import SearchResultList from "./components/SearchResult";
 import {mapStateToProps} from "./searchPageMapStateToProps";
 import ApiService from "../../services/apiService";
-import {indexRoute, searchRoute} from "../../utilities/routeHelper";
+import {createRoute, indexRoute, searchRoute} from "../../utilities/routeHelper";
 
 
 import 'url-search-params-polyfill';
@@ -144,12 +144,11 @@ class SearchContainer extends React.Component {
             autoComplete,
             searchResultMeta,
             searchResultMeta: {page, numberOfPages},
-
         } = this.props;
 
         const breadCrumbs = [
-            {to: indexRoute(), name: t('indexPage.title')},
-            {to: searchRoute(), name: t('search.title')},
+            {to: createRoute(match,indexRoute()), name: t('indexPage.title')},
+            {to: createRoute(match,searchRoute()), name: t('search.title')},
         ];
 
         return (

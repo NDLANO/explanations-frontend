@@ -12,7 +12,7 @@ import {Link} from "react-router-dom";
 
 import MetaList from "./components/SearchResultItemMetaListComponent";
 
-import {editConceptRoute} from "../../../../../utilities/routeHelper";
+import {conceptRoute, createRoute, editConceptRoute} from "../../../../../utilities/routeHelper";
 import {sortObjectsByKey} from "../../../../../utilities/sorting";
 import {limitTextToLength} from "../../../../../utilities";
 import {matchShape} from "../../../../../utilities/commonShapes";
@@ -56,7 +56,7 @@ const SearchResultItem = ({id, match, title, sourceAuthor, content, meta, t}) =>
         <li key={id} {...classes()}>
                 <header {...classes('header')}>
                     <h1>
-                        <Link to={`${match.url}${editConceptRoute(id)}`}>{title}</Link>
+                        <Link to={createRoute(match, conceptRoute() + editConceptRoute(id))}>{title}</Link>
                     </h1>
                 </header>
 

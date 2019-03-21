@@ -23,3 +23,5 @@ export const catchAllRoute =                    () => '*';
 
 export const routeIsAllowed = (requiredScope=[], currentScopes=[], isAuthenticated) =>
     isAuthenticated && _.intersection(currentScopes, requiredScope).length > 0;
+
+export const createRoute = (match, to) => match.url + to;
