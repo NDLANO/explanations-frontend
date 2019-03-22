@@ -189,15 +189,25 @@ class Concept extends React.Component {
     }
 
     renderFieldsSection() {
-
-        const { t, locale, isLanguageVariation} = this.props;
+        const { t, locale, isLanguageVariation, initialValues} = this.props;
         return (
             <React.Fragment>
                 <Field {...FIELDS.title}   t={t} {...classes('form-field')} readOnly={this.isDisabled()}/>
                 <Field {...FIELDS.content} t={t} {...classes('form-field')} readOnly={this.isDisabled()} />
+
                 <Field {...FIELDS.author}  t={t} {...classes('form-field')} readOnly={this.isDisabled()} />
                 <Field {...FIELDS.source}  t={t} {...classes('form-field')} readOnly={this.isDisabled()} />
-
+                {
+                    initialValues.urlToContent && (
+                        <div {...classes('form-field')}>
+                            <label htmlFor={FIELDS.linkToSource.id}>{t(FIELDS.linkToSource.label)}</label>
+                            <span {...classes(null, 'link')}>
+                        <a id={FIELDS.linkToSource.id}
+                           href={initialValues.urlToContent}
+                           target="_blank" rel="noopener noreferrer">{initialValues.urlToContent}</a>
+                    </span>
+                        </div>)
+                }
                 {this.renderStatus()}
                 {this.props.showTimestamps && <Field {...FIELDS.created} t={t} {...classes('form-field')} locale={locale} />}
                 {this.props.showTimestamps && <Field {...FIELDS.updated} t={t} {...classes('form-field')} locale={locale} />}

@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-
 const NB = {
     header: {
         title: "Forklaringstjeneste",
@@ -42,7 +41,7 @@ const NB = {
         consent_link: "personvernpolicy",
         consent_after_link: ", og jeg gir mitt samtykke til at NDLA bruker min personlige informasjon."
     },
-    
+
     dropdown: {
         placeholder: "Velg..."
     },
@@ -119,6 +118,7 @@ const NB = {
         updated: "Oppdatert",
         requiredField: "Dette feltet er obligatorisk",
         isLanguageVariation: "Er språkvariant",
+        urlToContent: "Link til artikkel",
         button: {
             addMeta: "Legg til ",
         },
@@ -195,6 +195,6 @@ const NB = {
         notVerifiedToken: "Klarte ikke å validere token",
         tokenIsExpired: "Token er utgått"
     }
-};
+}
 
 export default NB;

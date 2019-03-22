@@ -83,5 +83,13 @@ export const FIELDS = {
         id: "statusId",
         className: "form-dropdown",
         component: FormSelect,
+    },
+    linkToSource: {
+        type: "url",
+        name: "urlToContent",
+        label: "conceptForm.urlToContent",
+        messagePrefix: "conceptForm.",
+        id: "urlToContent",
+        component: Input,
     }
 };
