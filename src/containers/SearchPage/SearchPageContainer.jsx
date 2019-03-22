@@ -10,6 +10,7 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import {connect} from "react-redux";
+import {change} from 'redux-form';
 import {OneColumn, Breadcrumb} from '@ndla/ui';
 import {injectT} from "@ndla/i18n";
 import {compose} from "redux";
@@ -21,7 +22,7 @@ import Loading from '../../components/Loading';
 import WithEither from "../../components/HOC/WithEither";
 import withApiService from "../../components/HOC/withApiService";
 
-import SearchForm from "./components/SearchForm";
+import SearchForm, {SEARCH_FORM_NAME} from "./components/SearchForm";
 import {updateSearchQuery, updateSearchResult} from "./searchPageActions";
 import SearchResultList from "./components/SearchResult";
 import {mapStateToProps} from "./searchPageMapStateToProps";
@@ -30,7 +31,7 @@ import {createRoute, indexRoute, searchRoute} from "../../utilities/routeHelper"
 
 
 import 'url-search-params-polyfill';
-import {matchShape} from "../../utilities/commonShapes";
+import {historyShape, matchShape} from "../../utilities/commonShapes";
 
 const PageItemComponent = ({children, ...rest}) => <span {...rest}>{children}</span>;
 
@@ -46,6 +47,14 @@ class SearchContainer extends React.Component {
         this.search = this.search.bind(this);
         this.clickPager = this.clickPager.bind(this);
         this.search = _.debounce(this.search, 300);
+    }
+
+    componentDidMount() {
+        const {history, change} = this.props;
+        const searchParam = new URLSearchParams(history.location.search);
+
+        if (searchParam.get('term'))
+            change(SEARCH_FORM_NAME, "title", searchParam.get('term'));
     }
 
     createSearchQueryFromValues(values) {
@@ -171,7 +180,9 @@ class SearchContainer extends React.Component {
 SearchContainer.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
+    history: PropTypes.shape(historyShape).isRequired,
     subjects: PropTypes.array.isRequired,
     languages: PropTypes.array.isRequired,
     updateSearchResult: PropTypes.func.isRequired,
@@ -196,7 +207,7 @@ const languageAndSubjectsShouldBePresent = compose(
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, {updateSearchResult, updateSearchQuery}),
+    connect(mapStateToProps, {updateSearchResult, updateSearchQuery, change}),
     withApiService,
     injectT,
 )(languageAndSubjectsShouldBePresent);

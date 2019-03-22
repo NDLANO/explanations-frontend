@@ -82,7 +82,6 @@ class ConceptPageContainer extends React.Component {
         });
     }
     componentWillUnmount() {
-        console.log("unmounting")
         this.props.clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT);
     }
 

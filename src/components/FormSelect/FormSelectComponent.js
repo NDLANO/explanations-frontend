@@ -79,7 +79,6 @@ FormSelect.defaultProps = {
     isClearable: true,
     isDisabled: false,
     valueKey: "value",
-    clearValue: () => console.log("LCEAR")
 };
 
 FormSelect.propTypes = {
@@ -96,7 +95,6 @@ FormSelect.propTypes = {
         touched: PropTypes.bool,
         error: PropTypes.string
     }).isRequired,
-    clearValue: PropTypes.func.isRequired,
 
     // Optional
     isMulti: PropTypes.bool,
