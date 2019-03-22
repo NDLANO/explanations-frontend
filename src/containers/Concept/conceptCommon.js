@@ -74,7 +74,7 @@ export const mapDataFromAPieToMedia = (conceptMedia) => new Promise((resolve, re
     Promise.all(getMediaFromApies(conceptMedia)).then(x => {
         const media = [];
         x.forEach((m, index) => {
-            const mediaType = conceptMedia[index].mediaType.title;
+            const mediaType = conceptMedia[index].mediaType.typeGroup.name;
             const mediaObject = {...conceptMedia[index]};
             switch(mediaType.toLowerCase()) {
                 case 'image':
