@@ -59,24 +59,28 @@ class ConceptPageContainer extends React.Component {
         this.navigate = this.navigate.bind(this);
         this.renderCopyPage = this.renderPage.bind(this, {
             pageTitle: "copyConceptPage.title",
+            submitButtonText: "copyConceptPage.button.submit",
             messages: {success: "copyConceptPage.submitMessage.success", error: "copyConceptPage.submitMessage.error"},
             route: copyConceptRoute
         });
         this.renderCreateLanguageVariationPage = this.renderPage.bind(this, {
             pageTitle: "createConceptLanguageVariationPage.title",
             isLanguageVariation: true,
+            submitButtonText: "createConceptLanguageVariationPage.button.submit",
             messages: {success: "createConceptLanguageVariationPage.submitMessage.success", error: "createConceptLanguageVariationPage.submitMessage.error"},
             route: createLanguageVariationRoute
         });
         this.renderEditPage = this.renderPage.bind(this, {
             pageTitle: "editConceptPage.title",
             isUpdate: true,
+            submitButtonText: "editConceptPage.button.submit",
             messages: {success: "editConceptPage.submitMessage.success", error: "editConceptPage.submitMessage.error"},
             route: editConceptRoute,
         });
         this.renderNewPage = this.renderPage.bind(this, {
             pageTitle: "createConceptPage.title",
             useInitialValues: false,
+            submitButtonText: "createConceptPage.button.submit",
             messages: {success: "createConceptPage.submitMessage.success", error: "createConceptPage.submitMessage.error"},
             route: createConceptRoute
         });
@@ -176,7 +180,7 @@ class ConceptPageContainer extends React.Component {
             </Button>);
     }
 
-    renderPage({pageTitle, useInitialValues=true, isLanguageVariation=false, isUpdate=false, messages={success :'', error: ''}, route}, id=null) {
+    renderPage({pageTitle, submitButtonText, useInitialValues=true, isLanguageVariation=false, isUpdate=false, messages={success :'', error: ''}, route}, id=null) {
         const {t,
             meta,
             apiService,
@@ -212,7 +216,7 @@ class ConceptPageContainer extends React.Component {
                          status={status}
                          submitMessages={messages}
                          submitConcept={isUpdate ? this.updateConcept : this.createConcept}
-                         submitButtonText={pageTitle}
+                         submitButtonText={submitButtonText}
                          isUpdate={isUpdate}
                          changeField={change}
                          isLanguageVariation={isLanguageVariation}

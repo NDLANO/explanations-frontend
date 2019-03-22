@@ -61,7 +61,8 @@ const NB = {
         button: {
             delete: "Slett begrep",
             copy: "Kopier begrep",
-            createNewLanguageVariation: "Opprett ny språkvariant"
+            createNewLanguageVariation: "Opprett ny språkvariant",
+            submit: "Large oppdateringer"
         },
         submitMessage: {
             success:  "Begrepet er oppdatert!",
@@ -77,21 +78,30 @@ const NB = {
         submitMessage: {
             success: "Begrepet er opprettet!",
             error: "Klarte ikke å opprette begrep"
-        }
+        },
+        button: {
+            submit: "Large nytt begrep"
+        },
     },
     createConceptLanguageVariationPage: {
         title: "Opprett språkvariant",
         submitMessage: {
             success: "Språkvariant er opprettet!",
             error: "Klarte ikke å opprette språkvariant"
-        }
+        },
+        button: {
+            submit: "Large ny språkvariant"
+        },
     },
     copyConceptPage: {
         title: "Kopier begrep",
         submitMessage: {
             success: "Begrepet er opprettet!",
             error: "Klarte ikke å opprette begrep",
-        }
+        },
+        button: {
+            submit: "Large nytt begrep"
+        },
     },
     deleteConcept: {
         title: "Slett (arkiver)"
