@@ -63,7 +63,7 @@ export default class AuthenticationService {
         return new Promise((resolve, reject) => {
             this.provider.renewAuth(
                 {
-                    redirectUri: `${this.authProviderConfig.redirectUri}/login/success`,
+                    redirectUri: `${this.authProviderConfig.redirectUri}/login/silent-callback`,
                     usePostMessage: true,
                 },
                 (err, authResult) => {

@@ -37,10 +37,6 @@ app.get('/login/silent-callback', (req, res) => {
     res.send('<!doctype html>\n' + Auth0SilentCallback); // eslint-disable-line
 });
 
-app.get('/login/success', (req, res) => {
-    res.send('<!doctype html>\n' + Auth0SilentCallback); // eslint-disable-line
-});
-
 app.get('*', (req, res) => {
 
     const paths = req.url.split('/');
