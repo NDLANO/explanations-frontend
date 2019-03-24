@@ -47,6 +47,8 @@ import PrivateRoute from '../PrivateRoute';
 import {config} from "../../config";
 import {CONCEPT_FORM_NAME} from "./components/Concept/ConceptComponent";
 import ConfirmModal from "../../components/ConfirmModal";
+import {loginSuccess} from "../Login";
+import withAuthenticationService from "../../components/HOC/withAuthenticationService";
 
 class ConceptPageContainer extends React.Component {
     constructor(props) {
@@ -257,6 +259,7 @@ class ConceptPageContainer extends React.Component {
                            apiService={this.props.apiService}
                            updateFlashMessage={this.props.updateFlashMessage}
                            t={this.props.t}
+                           accessToken={this.props.accessToken}
                            updateInitialFormValues={this.props.updateInitialFormValues}
                            createConceptRequiredScope={this.props.createConceptRequiredScope}
                            updateConceptRequiredScope={this.props.updateConceptRequiredScope}
@@ -292,6 +295,7 @@ ConceptPageContainer.propTypes = {
     change: PropTypes.func.isRequired,
 
     // Optional
+    accessToken: PropTypes.string,
     isAuthenticated: PropTypes.bool,
     initialFormValues: PropTypes.object,
     userScopes: PropTypes.arrayOf(PropTypes.string),
@@ -303,6 +307,7 @@ ConceptPageContainer.propTypes = {
 
 ConceptPageContainer.defaultProps = {
     userScopes: [],
+    accessToken: '',
     isAuthenticated: false,
     isLanguageVariation: false,
     requiredScopes: [config.SCOPES.concept_write, config.SCOPES.concept_admin],
@@ -329,7 +334,8 @@ const mapStateToPropsCommon = ({
 
 export default compose(
     withRouter,
-    connect(mapStateToPropsCommon, {updateFlashMessage, updateInitialFormValues, clearFlashMessage, change}),
+    withAuthenticationService,
+    connect(mapStateToPropsCommon, {updateFlashMessage, updateInitialFormValues, clearFlashMessage, change, loginSuccess}),
     withApiService,
     injectT,
     WithEither(metaExists, () => <Loading message="loadingMessage.loadingMeta"/>),

@@ -32,6 +32,8 @@ import {createRoute, indexRoute, searchRoute} from "../../utilities/routeHelper"
 
 import 'url-search-params-polyfill';
 import {historyShape, matchShape} from "../../utilities/commonShapes";
+import {loginSuccess} from "../Login";
+import withAuthenticationService from "../../components/HOC/withAuthenticationService";
 
 const PageItemComponent = ({children, ...rest}) => <span {...rest}>{children}</span>;
 
@@ -207,7 +209,8 @@ const languageAndSubjectsShouldBePresent = compose(
 
 export default compose(
     withRouter,
-    connect(mapStateToProps, {updateSearchResult, updateSearchQuery, change}),
+    withAuthenticationService,
+    connect(mapStateToProps, {updateSearchResult, updateSearchQuery, change, loginSuccess}),
     withApiService,
     injectT,
 )(languageAndSubjectsShouldBePresent);

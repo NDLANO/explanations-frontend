@@ -28,3 +28,22 @@ export const getBrightcoveToken = () => {
         body: 'grant_type=client_credentials',
     }).then(x => x.data);
 };
+
+
+export const Auth0SilentCallback = `
+  <html lang="no">
+    <head >
+    <body>
+      <script src="https://cdn.auth0.com/js/auth0/9.8.0/auth0.min.js"></script>
+      <script type="text/javascript">
+        var webAuth = new auth0.WebAuth({
+          domain: '${config.CLIENT.AUTH0.domain}',
+          clientID: '${config.CLIENT.AUTH0.clientID}'
+        });
+        var result = webAuth.parseHash({ hash: window.location.hash }, function(err, data) {
+          parent.postMessage(err || data, window.location.origin);
+        });
+      </script>
+    </body>
+  </html>
+  `;

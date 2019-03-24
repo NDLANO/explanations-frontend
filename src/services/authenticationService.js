@@ -48,7 +48,7 @@ export default class AuthenticationService {
 
     parseHash(hash) {
         return new Promise((resolve, reject) => {
-            this.provider.parseHash({ nonce: this.nonce,hash, _idTokenVerification: false }, (err, authResult) => {
+            this.provider.parseHash({ hash, _idTokenVerification: false }, (err, authResult) => {
                 if (!err) {
                     resolve(authResult);
                 } else {
@@ -57,6 +57,25 @@ export default class AuthenticationService {
                 }
             });
         });
+    }
+
+    renew() {
+        return new Promise((resolve, reject) => {
+            this.provider.renewAuth(
+                {
+                    redirectUri: `${this.authProviderConfig.redirectUri}/login/success`,
+                    usePostMessage: true,
+                },
+                (err, authResult) => {
+                    if (authResult && authResult.accessToken) {
+                        resolve(authResult.accessToken);
+                    } else {
+                        reject();
+                    }
+                },
+            );
+        });
+
     }
 
     loginUser(loginType) {

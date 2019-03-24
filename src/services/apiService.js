@@ -7,16 +7,19 @@
  */
 import axios from 'axios';
 import {loginRoute, notAuthorizedRoute, notFoundRoute} from "../utilities/routeHelper";
+import {isTokenExpired} from "../utilities/tokenHelper";
 
 
 export default class ApiService {
 
-    constructor({accessToken, history, apiUrl, locale}) {
+    constructor({accessToken, history, apiUrl, locale, authenticationService, setCredentialsInStore}) {
         this.accessToken = accessToken;
         this.history = history;
         this.api = axios;
         this.language = locale;
+        this.setCredentialsInStore = setCredentialsInStore;
         this.apiUrl = `${apiUrl}/api/v1`;
+        this.authenticationService = authenticationService;
         this.endpoints = {
             concept: `${this.apiUrl}/concept`,
             meta: `${this.apiUrl}/metadata`,
@@ -30,7 +33,7 @@ export default class ApiService {
 
     getData = response => {
         return new Promise((resolve, reject) => {
-            if (response && response.data && response.data)
+            if (response && response.data)
                 resolve(response.data.data);
             else
                 reject(null);
@@ -56,6 +59,9 @@ export default class ApiService {
 
     rejected = ({response}) => {
         return new Promise((resolve, reject) => {
+            if (!response)
+                this.history.push(notFoundRoute());
+
             switch(response.status) {
                 case 401:
                     this.history.push(loginRoute());
@@ -84,12 +90,26 @@ export default class ApiService {
             {cancelToken: this.searchCancellationToken.token}).then(this.getData);
     };
 
+    getWithAccessToken = () =>  new Promise((resolve, reject) => {
+        if (isTokenExpired(this.accessToken)) {
+            this.authenticationService.renew()
+                .then(x => {
+                    this.accessToken = x;
+                    this.setCredentialsInStore(this.authenticationService.createCredentials(this.accessToken));
+                })
+                .catch(x => {})
+                .finally(() => resolve());
+        }else {
+            resolve();
+        }
+    });
+
     getById    = (id, url) =>           this.api.get(`${url}/${id}`, this.getRequestConfig()).then(this.getData).catch(this.rejected);
     get        = (url, params='') =>    this.api.get(`${url}?${params}`, this.getRequestConfig()).then(this.getData).catch(this.rejected);
 
-    update     = (concept, url) =>      this.api.put(url,concept, this.getRequestConfigWithAuth()).catch(this.rejected);
+    update     = (concept, url) =>      this.getWithAccessToken().then(() => this.api.put(url,concept, this.getRequestConfigWithAuth()).catch(this.rejected));
 
-    create     = (concept, url) =>      this.api.post(url,concept, this.getRequestConfigWithAuth()).catch(this.rejected);
+    create     = (concept, url) =>      this.getWithAccessToken().then(() => this.api.post(url,concept, this.getRequestConfigWithAuth()).catch(this.rejected));
 
-    delete     = (id, url) =>           this.api.delete(`${url}/${id}`, this.getRequestConfigWithAuth()).catch(this.rejected);
+    delete     = (id, url) =>           this.getWithAccessToken().then(() => this.api.delete(`${url}/${id}`, this.getRequestConfigWithAuth()).catch(this.rejected));
 }

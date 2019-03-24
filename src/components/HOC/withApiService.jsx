@@ -8,16 +8,19 @@ import React from "react";
 import PropTypes from 'prop-types';
 import ApiService from "../../services/apiService";
 import {config} from '../../config';
+import AuthenticationService from "../../services/authenticationService";
 
 
 const withApiService = WrappedComponent  =>{
     class HOC extends React.Component {
         render () {
-            const {accessToken, history} = this.props;
+            const {accessToken, history, loginSuccess, authenticationService} = this.props;
             const apiService = new ApiService({
                 accessToken,
                 history,
-                apiUrl: config.EXTERNAL_URL.conceptApi || `${config.EXTERNAL_URL.ndlaApi}/concepts`
+                setCredentialsInStore: loginSuccess,
+                apiUrl: config.EXTERNAL_URL.conceptApi || `${config.EXTERNAL_URL.ndlaApi}/concepts`,
+                authenticationService
             });
 
             return (
@@ -31,7 +34,8 @@ const withApiService = WrappedComponent  =>{
 
     HOC.propTypes = {
         history: PropTypes.object.isRequired,
-
+        loginSuccess: PropTypes.func.isRequired,
+        authenticationService: PropTypes.instanceOf(AuthenticationService).isRequired,
         accessToken: PropTypes.string,
     };
     HOC.defaultProps = {

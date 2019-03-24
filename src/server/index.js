@@ -7,7 +7,7 @@
 import express from 'express';
 import {getLocaleObject} from "../i18n";
 import {renderHtmlString} from "./renderHtmlPage";
-import {getBrightcoveToken} from "./auth";
+import {Auth0SilentCallback, getBrightcoveToken} from "./auth";
 
 const OK = 200;
 const INTERNAL_SERVER_ERROR = 500;
@@ -31,6 +31,14 @@ app.get('/robots.txt', (req, res) => {
 
 app.get('/health', (req, res) => {
     res.status(OK).json({ status: OK, text: 'Health check ok' });
+});
+
+app.get('/login/silent-callback', (req, res) => {
+    res.send('<!doctype html>\n' + Auth0SilentCallback); // eslint-disable-line
+});
+
+app.get('/login/success', (req, res) => {
+    res.send('<!doctype html>\n' + Auth0SilentCallback); // eslint-disable-line
 });
 
 app.get('*', (req, res) => {

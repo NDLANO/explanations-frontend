@@ -18,6 +18,7 @@ import NotFoundPage from "../ErrorPage/NotFoundPage";
 import PrivateRoute from '../PrivateRoute';
 import FlashMessage from "../../components/FlashMessage";
 import {flashMessageShape} from "../../components/FlashMessage";
+import withAuthenticationService from "../../components/HOC/withAuthenticationService";
 
 class ConceptRoutes extends React.Component {
     constructor(props) {
@@ -35,7 +36,7 @@ class ConceptRoutes extends React.Component {
 
         loadConcept(this.props.apiService, this.props.match.params.id, t)
             .then(concept => updateInitialFormValues({...concept, statusId: concept.status.languageVariation}))
-            .catch( err => submitErrorHandler(err, errorHandler, updateFlashMessage));
+            .catch( err => submitErrorHandler(err, errorHandler, updateFlashMessage))
     }
 
     renderNotFoundPage() {
@@ -90,5 +91,5 @@ ConceptRoutes.propTypes = {
     flashMessage: PropTypes.shape(flashMessageShape),
 };
 
-export default withRouter(ConceptRoutes);
+export default withAuthenticationService(withRouter(ConceptRoutes));
 
