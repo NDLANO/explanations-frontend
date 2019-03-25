@@ -40,6 +40,7 @@ import {loadCategories, loadMeta} from "../App/actions";
 import 'url-search-params-polyfill';
 import {indexRoute} from "../../utilities/routeHelper";
 import AutoComplete from "../../components/AutoComplete/AutoCompleteComponent";
+import ImageApi from "../../services/imageApiService";
 
 const classes = new BEMHelper({
     name: 'search-page',
@@ -131,22 +132,14 @@ class SearchContainer extends React.Component {
             if (!image)
                 resolve(concept);
 
-
-            resolve({
-                ...concept,
-                previewImage: 'https://api.ndla.no/image-api/raw/id/'+image.externalId
-            });
-            // TODO IMAGEBUG fix
-            /*
-            const api = new ImageApiService();
-            api.getById(image.externalId,)
+            this.props.imageApi.getById(image.externalId,)
                 .then(x => resolve({
                     ...concept,
                     previewImage: x.imageUrl,
                     previewAltText: x.alttext.alttext,
                 }))
                 .catch(x => resolve(concept));
-                */
+
         })));
     }
 
@@ -256,6 +249,7 @@ SearchContainer.propTypes = {
     apiService: PropTypes.instanceOf(ApiService).isRequired,
     loadMeta: PropTypes.func.isRequired,
     loadCategories: PropTypes.func.isRequired,
+    imageApi :PropTypes.instanceOf(ImageApi).isRequired,
 
     // Optional
     searchResult: PropTypes.array,

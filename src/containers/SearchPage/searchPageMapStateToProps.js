@@ -7,6 +7,8 @@
  */
 
 
+import ImageApi from "../../services/imageApiService";
+
 const getMetaByCategory = (list, name) => {
     return list.filter(x => x.category.typeGroup.name.toLowerCase() === name) || [];
 };
@@ -23,6 +25,7 @@ export const mapStateToProps = state =>{
         subjects: subjects,
         meta: state.cacheFromServer.meta,
         categories: state.cacheFromServer.categories,
+        imageApi: new ImageApi()
     })
 };
 
