@@ -1,0 +1,24 @@
+
+.c-meta-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: .77778rem;
+    line-height: 22px;
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 0;
+
+    li {
+
+        border-radius: 25px;
+        background: #f1f1f1;
+        padding: 10px;
+
+        position: relative;
+        font-size: .8rem;
+        color: #757575;
+        line-height: 1.1rem;
+        margin: 5px 5px 0 0;
+    }
+}

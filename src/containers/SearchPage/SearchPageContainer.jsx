@@ -7,48 +7,68 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types';
+import PropTypes, {func, number, oneOfType, string} from 'prop-types';
 import _ from 'lodash';
 import {connect} from "react-redux";
-import {change} from 'redux-form';
-import {OneColumn, Breadcrumb} from '@ndla/ui';
+import {change, Field, reduxForm} from 'redux-form';
+import {PageContainer, Content, Breadcrumb, OneColumn} from "@ndla/ui";
 import {injectT} from "@ndla/i18n";
 import {compose} from "redux";
-import {Helmet} from "react-helmet";
-import Pager from "@ndla/pager";
 import {withRouter} from "react-router";
+import BEMHelper from "react-bem-helper";
 
+import MetaFilter from "../../components/MetaFilter";
+import ListView from "../../components/ListView";
+
+import ListHeader from "./components/ListHeader";
 import Loading from '../../components/Loading';
 import WithEither from "../../components/HOC/WithEither";
 import withApiService from "../../components/HOC/withApiService";
 
-import SearchForm, {SEARCH_FORM_NAME} from "./components/SearchForm";
 import {updateSearchQuery, updateSearchResult} from "./searchPageActions";
-import SearchResultList from "./components/SearchResult";
 import {mapStateToProps} from "./searchPageMapStateToProps";
 import ApiService from "../../services/apiService";
-import {createRoute, indexRoute, searchRoute} from "../../utilities/routeHelper";
+
+import {categoryProps, historyShape, matchShape, metaProps} from "../../utilities/commonShapes";
+import {loginSuccess} from "../Login";
+import withAuthenticationService from "../../components/HOC/withAuthenticationService";
+import {loadCategories, loadMeta} from "../App/actions";
 
 
 import 'url-search-params-polyfill';
-import {historyShape, matchShape} from "../../utilities/commonShapes";
-import {loginSuccess} from "../Login";
-import withAuthenticationService from "../../components/HOC/withAuthenticationService";
+import {SEARCH_FORM_NAME} from "./components/SearchForm";
+import {indexRoute} from "../../utilities/routeHelper";
+import {Helmet} from "react-helmet";
+import Input from "../../components/Input";
 
-const PageItemComponent = ({children, ...rest}) => <span {...rest}>{children}</span>;
+const classes = new BEMHelper({
+    name: 'search-page',
+    prefix: 'c-',
+});
 
 class SearchContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userHasSearched: false,
             page: 1,
-            pageSize: 10,
-            query: {}
+            numberOfPages: 0,
+            totalItems: 0,
+            values: [],
+            items: [],
+            isSearching: true,
+            metaIdMap: _.chain(props.meta).keyBy('languageVariation').mapValues('id').value(),
+            showFilter: window.innerWidth - 300 > 768,
+            searchLanguage: props.locale
         };
-        this.search = this.search.bind(this);
-        this.clickPager = this.clickPager.bind(this);
-        this.search = _.debounce(this.search, 300);
+
+        this.onToggleFilter = this.onToggleFilter.bind(this);
+        this.onLanguageChange = this.onLanguageChange.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.loadFilterData = this.loadFilterData.bind(this);
+        this.onRemoveTag = this.onRemoveTag.bind(this);
+        this.search = _.debounce(this.searchConcepts.bind(this), 300, {
+            'leading': true,
+        });
     }
 
     componentDidMount() {
@@ -57,127 +77,146 @@ class SearchContainer extends React.Component {
 
         if (searchParam.get('term'))
             change(SEARCH_FORM_NAME, "title", searchParam.get('term'));
+        this.loadFilterData(this.state.searchLanguage);
     }
 
-    createSearchQueryFromValues(values) {
-        const {term, ...metas} = values;
+    loadFilterData(locale) {
+        const {apiService, loadMeta, loadCategories} = this.props;
 
         const searchParams = new URLSearchParams();
+        searchParams.append('language', locale);
+        searchParams.append('pageSize', '100');
+        searchParams.append('page', '1');
 
-        if (term)
-            searchParams.append('title', term);
+        const param = searchParams.toString();
 
-        Object.values(_.pickBy(metas, _.identity))
-            .forEach(x => searchParams.append('meta', x.id));
+        apiService.get(apiService.endpoints.meta, param).then(data => loadMeta(data.results));
+        apiService.get(apiService.endpoints.category, param).then(data => loadCategories(data.results));
 
-        return searchParams;
+        this.searchConcepts(this.state);
     }
 
-    search(values) {
-        const query = this.createSearchQueryFromValues(values);
-        if (!query.toString())
-            return;
-
-        this.props.updateSearchQuery(values);
-        this.setState({query});
-
-        this.searchForConcepts();
-    }
-
-    searchForConcepts(){
-        const {updateSearchResult, apiService} = this.props;
-
-        const query = new URLSearchParams();
-        [...this.state.query.keys()].map(x => query.append(`${x}`, this.state.query.get(x)));
-        query.append('language', this.props.locale);
-        query.append('page', this.state.page);
-        query.append('pageSize', this.state.pageSize);
-
-        apiService.searchForConcepts(query.toString())
-            .then(updateSearchResult)
-            .then(() => this.setState({userHasSearched: true}));
-    }
-
-    clickPager({page}) {
-        this.setState(({page}),
-            this.searchForConcepts
-        );
-    }
-
-    componentWillUnmount() {
-        this.props.updateSearchQuery({term: '', language: null, subject: null});
-    }
-
-    getInitialFormValues() {
-        const {searchQuery, locale, languages} = this.props;
-        const initialValues = {
-            term: searchQuery.term,
-        };
-
-        if (searchQuery.language && searchQuery.language.value !== -1)
-            initialValues['language'] = this.mapItemToDropdownValue(searchQuery.language);
-        else{
-            const l = languages.find(x => x.abbreviation === locale);
-            initialValues['language'] = this.mapItemToDropdownValue(l ? l : this.defaultDropdown('phrases.allLanguages'));
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(prevProps.meta[0] && this.props.meta[0] && prevProps.meta[0].language.id !== this.props.meta[0].language.id) {
+            this.setState({metaIdMap: _.chain(this.props.meta).keyBy('languageVariation').mapValues('id').value()})
         }
-
-        initialValues['subject'] = this.mapItemToDropdownValue(searchQuery.subject ? searchQuery.subject : this.defaultDropdown('phrases.allSubjects'));
-
-        return initialValues;
     }
 
-    getSearchResultQuery() {
-        const {searchQuery} = this.props;
 
-        const resultQuery = {term: searchQuery.term};
-        resultQuery['language'] = this.mapItemToDropdownValue(!searchQuery.language ? this.defaultDropdown('phrases.allLanguages') : searchQuery.language);
-        resultQuery['subject'] = this.mapItemToDropdownValue(!searchQuery.subject ? this.defaultDropdown('phrases.allSubjects') : searchQuery.subject);
+    searchConcepts(data) {
+        const query = new URLSearchParams();
+        query.append("language", this.state.searchLanguage);
 
-        return resultQuery;
+        if (data)
+            query.append("page", data.page);
+        else
+            query.append("page", this.state.page + 1);
+
+        this.state.values.forEach(meta => query.append("meta", this.state.metaIdMap[meta]));
+
+        this.props.apiService.searchForConcepts(query.toString())
+            .then(({results, page, numberOfPages, totalItems}) => this.mapResultsToListView(results).then(items => this.setState({items, page, numberOfPages, totalItems, isSearching: false})));
+
     }
 
-    mapItemToDropdownValue(item) {
-        return {value: item.id, label: item.name};
+    mapResultsToListView(list) {
+        return Promise.all(list.map(concept => new Promise((resolve, reject) => {
+
+            const {media} = concept;
+
+            if (!media || media.length === 0)
+                resolve(concept);
+
+            const image = media.find(x => x.mediaType.typeGroup.name.toLowerCase() === "image");
+            if (!image)
+                resolve(concept);
+
+
+            resolve({
+                ...concept,
+                previewImage: 'https://api.ndla.no/image-api/raw/id/'+image.externalId
+            });
+            // TODO IMAGEBUG fix
+            /*
+            const api = new ImageApiService();
+            api.getById(image.externalId,)
+                .then(x => resolve({
+                    ...concept,
+                    previewImage: x.imageUrl,
+                    previewAltText: x.alttext.alttext,
+                }))
+                .catch(x => resolve(concept));
+                */
+        })));
     }
 
-    defaultDropdown(text) {
-        const {t} = this.props;
-
-        return {id: -1, name: t(text)};
+    onChange(values, value) {
+        this.setState({values, page: 0}, this.search);
     }
 
-    render() {
-        const {t,
-            match,
-            languages,
-            subjects,
-            searchResult,
-            autoComplete,
-            searchResultMeta,
-            searchResultMeta: {page, numberOfPages},
-        } = this.props;
+    onRemoveTag(languageVariation) {
+        this.setState(prev => ({values: prev.values.filter(x => x !== languageVariation)}), this.search)
+    }
 
-        const breadCrumbs = [
-            {to: createRoute(match,indexRoute()), name: t('indexPage.title')},
-            {to: createRoute(match,searchRoute()), name: t('search.title')},
-        ];
+    onToggleFilter() {
+        this.setState(prev => ({showFilter: !prev.showFilter}));
+    }
+
+    onLanguageChange(abbreviation) {
+        this.setState({searchLanguage: abbreviation}, this.loadFilterData.bind(null, abbreviation));
+    }
+
+    render(){
+        const {values, items, page, numberOfPages, totalItems, isSearching, showFilter} = this.state;
+        const {categories, meta, t, locale} = this.props;
+
+        const languages = meta.filter(x => x.category.typeGroup.name.toLowerCase() === "language").map(x => ({...x, title: x.name, value: x.languageVariation}));
+        const options   = meta.filter(x => x.category.typeGroup.name.toLowerCase() !== "language").map(x => ({...x, title: x.abbreviation || x.name, value: x.languageVariation}));
 
         return (
-            <OneColumn>
-                <Breadcrumb items={breadCrumbs}/>
-                <Helmet title={t('pageTitles.searchForConcept')} />
-                <SearchForm t={t}
-                            initialValues={this.getInitialFormValues()}
-                            languages={[this.defaultDropdown('phrases.allLanguages'), ...languages].map(this.mapItemToDropdownValue)}
-                            subjects={[this.defaultDropdown('phrases.allSubjects'), ...subjects].map(this.mapItemToDropdownValue)}
-                            search={this.search}
-                            autoComplete={autoComplete}/>
-                <SearchResultList match={match} searchResultMeta={searchResultMeta} results={searchResult} searchQuery={this.getSearchResultQuery()} userHasSearched={this.state.userHasSearched} t={t}/>
-                {Boolean(numberOfPages > 1) && <Pager pageItemComponentClass={PageItemComponent} lastPage={numberOfPages} page={page} onClick={this.clickPager}  />}
-            </OneColumn>
-        )
+            <PageContainer backgroundWide >
+
+                <Helmet title={t('searchPage.title')} />
+                <Content>
+                    {Boolean(languages.length) && <MetaFilter values={values}
+                                                              t={t}
+                                                              onChange={this.onChange}
+                                                              categories={categories.filter(x => x.typeGroup.name.toLowerCase() !== "language") || []}
+                                                              options={options}
+                                                              onChangeLanguage={this.onLanguageChange}
+                                                              languageOptions={languages}
+                                                              languageDefault={languages.find(x => x.abbreviation === locale)}
+                                                              isOpen={showFilter}/>}
+
+                    <div {...classes('content')}>
+                        <ListHeader resultCount={totalItems}
+                                    isSearching={isSearching}
+                                    values={values}
+                                    options={options}
+                                    sidebarOpen={!showFilter}
+                                    onRemoveTag={this.onRemoveTag}
+                                    onFilterClick={this.onToggleFilter}
+                                    t={t}/>
+                        <OneColumn>
+                            <Field component={Input} t={t} name="test" placeholder="test" />
+                        </OneColumn>
+                        <ListView items={items}
+                                  page={page}
+                                  lastPage={numberOfPages}
+                                  onPagerClick={this.searchConcepts} />
+                    </div>
+                </Content>
+            </PageContainer>
+        );
     }
 }
+
+
+SearchContainer.defaultProps = {
+    categories: [],
+    meta: []
+};
+
 
 SearchContainer.propTypes = {
     // Required
@@ -190,13 +229,17 @@ SearchContainer.propTypes = {
     updateSearchResult: PropTypes.func.isRequired,
     apiService: PropTypes.instanceOf(ApiService).isRequired,
     updateSearchQuery: PropTypes.func.isRequired,
-    match: PropTypes.shape(matchShape).isRequired,
+    loadMeta: PropTypes.func.isRequired,
+    loadCategories: PropTypes.func.isRequired,
 
     // Optional
     searchResult: PropTypes.array,
     searchResultMeta: PropTypes.object,
     autoComplete: PropTypes.array,
-    searchQuery: PropTypes.object
+    searchQuery: PropTypes.object,
+    categories: PropTypes.arrayOf(categoryProps),
+    meta: PropTypes.arrayOf(metaProps),
+    match: PropTypes.shape(matchShape)
 };
 
 
@@ -210,8 +253,9 @@ const languageAndSubjectsShouldBePresent = compose(
 export default compose(
     withRouter,
     withAuthenticationService,
-    connect(mapStateToProps, {updateSearchResult, updateSearchQuery, change, loginSuccess}),
+    connect(mapStateToProps, {loadMeta, loadCategories, updateSearchResult, updateSearchQuery, change, loginSuccess}),
     withApiService,
     injectT,
+    reduxForm({form: "searchForm"})
 )(languageAndSubjectsShouldBePresent);
 

@@ -96,7 +96,7 @@ export class Navigation extends Component {
 Navigation.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
-    match: PropTypes.shape(matchShape).isRequired,
+    match: PropTypes.shape(matchShape),
 };
 
 export default Navigation;

@@ -49,7 +49,9 @@ export const mapStateToProps = state =>{
         languages: languages,
         subjects: subjects,
         autoComplete: getAutoCompleteList(state),
-        searchQuery
+        searchQuery,
+        meta: state.cacheFromServer.meta,
+        categories: state.cacheFromServer.categories,
     })
 };
 

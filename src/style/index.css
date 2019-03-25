@@ -7,7 +7,7 @@
  */
 
 @import '../../node_modules/@ndla/ui/lib/all.css';
-@import 'vars.css';
+@import 'variables.css';
 @import '../components/componentsStyle.css';
 @import '../containers/containerStyles.css';
 @import 'form.css';

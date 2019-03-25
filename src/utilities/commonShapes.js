@@ -61,4 +61,45 @@ export const fieldInputProps = {
     checked: bool,
 };
 
+export const typeGroupProps = {
+    id: PropTypes.number.isRequired
+};
+
+export const categoryProps = {
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    typeGroup: PropTypes.shape(typeGroupProps).isRequired,
+};
+
+export const metaProps = {
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    languageVariation: PropTypes.string.isRequired,
+    category: PropTypes.shape(categoryProps).isRequired
+};
+
+export const mediaTypeProps = {
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    typeGroup: PropTypes.shape(typeGroupProps).isRequired,
+};
+
+
+export const mediaProps = {
+    id: PropTypes.number.isRequired,
+    source: PropTypes.string.isRequired,
+    externalId: PropTypes.string.isRequired,
+    mediaType: PropTypes.shape(mediaTypeProps).isRequired,
+};
+
+
+export const conceptProps = {
+    title: PropTypes.string,
+    category: PropTypes.shape(categoryProps),
+    meta: PropTypes.arrayOf(metaProps),
+    media: PropTypes.arrayOf(mediaProps),
+};
+
 export const fieldInputShape = shape(fieldInputProps);

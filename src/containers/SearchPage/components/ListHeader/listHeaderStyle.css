@@ -1,0 +1,37 @@
+@import "../../../../style/variables.css";
+
+.c-list-header {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+
+    @media (--mobile-viewport) {
+        flex-direction: column;
+    }
+    @media (--tablet-viewport) {
+        flex-direction: column;
+    }
+
+
+
+    ul {
+        margin-bottom: 0;
+        margin-top: 10px;
+        padding: 0;
+    }
+
+
+    &__text {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        width: 100%;
+
+        @media (--desktop-viewport) {
+            flex-direction: row;
+        }
+
+    }
+
+}

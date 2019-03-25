@@ -41,11 +41,11 @@ const Header = ({t, username, isLoggedIn, match}) => {
 Header.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
-    match: PropTypes.shape(matchShape).isRequired,
 
     // Optional
     username: PropTypes.string,
     isLoggedIn: PropTypes.bool,
+    match: PropTypes.shape(matchShape),
 };
 
 Header.defaultProps = {

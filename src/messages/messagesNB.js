@@ -33,7 +33,8 @@ const NB = {
         language: {
             placeholder: "Språk",
             title: "Språk"
-        }
+        },
+
     },
     loginProviders: {
         description: "Logg inn i NDLA med",
@@ -163,7 +164,11 @@ const NB = {
     searchPage: {
         resultHits: 'treff',
         notResultsWith: 'Ingen treff på',
-        resultsFor: "Treff på"
+        resultsFor: "Treff på",
+        resultCount:  "Antall begrep funnet",
+        searching: "Søker...",
+        title: "Søk etter begrep"
+
     },
     indexPage: {
         title: "Hjem"
@@ -196,7 +201,9 @@ const NB = {
         draft: "Utkast",
         allSubjects: "Alle fag",
         allLanguages: "Alle språk",
-        choose: "Velg"
+        choose: "Velg",
+        show: "Vis",
+        hide: "Gjem"
     },
     sentence: {
         previewNotSupported: "Støtter ikke fohåndsvisining av dette formatet"

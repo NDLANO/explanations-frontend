@@ -6,6 +6,17 @@
  *
  */
 
-@import 'components/SearchForm/searchFormStyle.css';
-@import 'components/SearchResult/Item/searchResultItemStyle.css';
-@import 'components/SearchResult/List/searchResultListStyle.css';
+@import "components/TagList/tagStyle.css";
+@import "components/ListHeader/listHeaderStyle.css";
+
+.o-container .o-container--backgroundWide > .o-content {
+    display: flex;
+}
+.c-search-page {
+    &__content {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: flex-start;
+    }
+}

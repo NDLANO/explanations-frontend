@@ -1,0 +1,42 @@
+@import "../../style/variables.css";
+
+.c-meta-filter {
+    transition: width .5s;
+    width: 300px;
+
+    .c-filter__expand {
+        border: none;
+    }
+
+    &__language {
+        padding: 26px;
+        list-style: none;
+        margin-bottom: 0;
+        background: white;
+
+        li {
+            margin-bottom: 0;
+            @media (--mobile-viewport) {
+                padding: 6.5px 26px;
+            }
+        }
+    }
+}
+
+.c-filter__item-wrapper {
+
+}
+
+.c-search-filter {
+    padding: 26px !important;
+    width: 300px !important;
+    margin-bottom: 0;
+    background: white;
+}
+
+.c-filter__item  {
+    border: none !important;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}

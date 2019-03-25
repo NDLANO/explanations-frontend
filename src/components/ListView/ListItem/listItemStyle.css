@@ -1,0 +1,104 @@
+@import "../../../style/variables.css";
+
+.c-listview-item {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    border-bottom: 1px solid #ececec;
+
+    @media (--mobile-viewport) {
+        width: 100%;
+        padding-top: 0;
+        flex-direction: column-reverse;
+    }
+
+    @media (--tablet-viewport) {
+        width: 100%;
+    }
+    @media (--desktop-viewport) {
+        width: 410px;
+    }
+    @media (--wide-viewport) {
+        width: 700px;
+    }
+    @media (--very-wide-viewport) {
+        width: 1000px;
+    }
+
+    img {
+
+
+        @media (--mobile-viewport) {
+            height: 250px;
+        }
+        @media (--tablet-viewport) {
+            width: 300px;
+            height: 300px;
+            padding-right: 20px;
+        }
+        @media (--desktop-viewport) {
+            height: 290px;
+            width: 410px;
+        }
+        @media (--wide-viewport) {
+            width: 400px;
+        }
+    }
+
+    &__title {
+        text-align: left;
+        text-transform: capitalize;
+        margin-top: 0;
+
+    }
+    &__author {
+        padding-bottom: 10px;
+        color: rgba(34,34,34,.65);
+        font-weight: 500;
+    }
+    &__description {
+        overflow: hidden;
+        position: relative;
+        line-height:  1.2em;
+        max-height: 3.6em;
+        text-align: justify;
+        margin-right: -1em;
+        padding-right: 1em;
+        &:after {
+            content: '';
+            position: absolute;
+            right: 0;
+            width: 1em;
+            height: 1em;
+            margin-top: 0.2em;
+            background: white;
+        }
+    }
+    
+    &__goto {
+        display: none !important;
+        @media (--mobile-viewport) {
+            display: block !important;;
+        }
+    }
+    &__content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        @media (--mobile-viewport) {
+            padding: 20px;
+        }
+        @media (--tablet-viewport) {
+            padding: 0 20px;
+        }
+    }
+    &__top {
+    }
+    &__bottom {
+        padding-top: 20px;
+        overflow-x: auto;
+    }
+}

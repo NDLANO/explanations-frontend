@@ -1,0 +1,23 @@
+.c-tag-list {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    &__item {
+        display: flex;
+        align-items: center;
+        padding: 0 15px;
+        height: 40px;
+        font-size: 16px;
+        line-height: 40px;
+        border-radius: 25px;
+        background-color: #507AA4;
+        color: white;
+        margin-right: 5px;
+        svg {
+            border-radius: 25px;
+            margin-left: 5px;
+        }
+    }
+}

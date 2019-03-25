@@ -13,12 +13,14 @@ import App from './AppContainer';
 import {meta} from './reducers/metaReducer';
 import {status} from './reducers/statusReducer';
 import {mediaTypes} from "./reducers/mediaTypes";
+import {categories} from "./reducers/categoryReducer";
 
 
 export const appReducers = combineReducers({
     meta,
     status,
-    mediaTypes
+    mediaTypes,
+    categories,
 });
 
 export default App;

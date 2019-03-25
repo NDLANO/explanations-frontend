@@ -7,6 +7,7 @@
  */
 import React from "react";
 import PropTypes from "prop-types";
+import {withRouter} from "react-router";
 import {Content, PageContainer} from "@ndla/ui";
 import {Helmet} from "react-helmet";
 import {compose} from "redux";
@@ -17,7 +18,6 @@ import Footer from '../../components/Footer';
 import Routes from '../Routes';
 import Header from "../../components/Header";
 import {matchShape} from "../../utilities/commonShapes";
-import {withRouter} from "react-router";
 
 
 const AppPageContainer = ({t, username, isAuthenticated, match}) => (
@@ -38,10 +38,10 @@ AppPageContainer.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
-    match: PropTypes.shape(matchShape).isRequired,
 
     // Optional
     username: PropTypes.string,
+    match: PropTypes.shape(matchShape)
 };
 
 AppPageContainer.defaultProps = {
