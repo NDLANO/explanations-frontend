@@ -16,7 +16,7 @@ import {injectT} from "@ndla/i18n";
 import {logoutSuccess} from "./logoutActions";
 import AuthenticationService from "../../services/authenticationService";
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
-import {historyShape} from "../../utilities/commonShapes";
+import {historyProps} from "../../utilities/commonShapes";
 
 class LogoutContainer extends React.PureComponent {
     componentDidMount() {
@@ -31,7 +31,7 @@ class LogoutContainer extends React.PureComponent {
 }
 
 LogoutContainer.propTypes = {
-    history: historyShape.isRequired,
+    history: PropTypes.shape(historyProps).isRequired,
     logoutSuccess: PropTypes.func.isRequired,
     authenticationService: PropTypes.instanceOf(AuthenticationService).isRequired
 };

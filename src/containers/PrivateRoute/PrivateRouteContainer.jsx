@@ -45,7 +45,7 @@ class PrivateRouteContainer extends React.Component {
 
 PrivateRouteContainer.propTypes = {
     // Required
-    location: locationShape.isRequired,
+    location: PropTypes.shape(locationShape).isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     requiredScopes: PropTypes.arrayOf(PropTypes.string).isRequired,
     allowedScopesForUser: PropTypes.arrayOf(PropTypes.string).isRequired,

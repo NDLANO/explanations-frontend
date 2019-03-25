@@ -46,7 +46,7 @@ ListHeader.propTypes = {
     onRemoveTag: PropTypes.func.isRequired,
     isSearching: PropTypes.bool.isRequired,
     resultCount: PropTypes.number.isRequired,
-    options: PropTypes.arrayOf(metaProps).isRequired,
+    options: PropTypes.arrayOf(PropTypes.shape(metaProps)).isRequired,
     values: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 

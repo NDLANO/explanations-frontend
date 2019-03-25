@@ -18,7 +18,7 @@ import 'url-search-params-polyfill';
 import {loginSuccess} from "../Login";
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
 import AuthenticationService from "../../services/authenticationService";
-import {historyShape} from "../../utilities/commonShapes";
+import {historyProps} from "../../utilities/commonShapes";
 import {updateSearchQuery} from "../SearchPage/searchPageActions";
 import withApiService from "../../components/HOC/withApiService";
 import ApiService from "../../services/apiService";
@@ -80,7 +80,7 @@ class EmbeddedContainer extends React.Component {
 }
 
 EmbeddedContainer.propTypes = {
-    history: historyShape.isRequired,
+    history: PropTypes.shape(historyProps).isRequired,
     loginSuccess: PropTypes.func.isRequired,
     logoutSuccess: PropTypes.func.isRequired,
     accessTokenFromStore: PropTypes.string.isRequired,

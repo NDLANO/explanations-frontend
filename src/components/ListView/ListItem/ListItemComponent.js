@@ -13,7 +13,7 @@ import {listItemShape} from "./ListItemShape";
 import {trimTextToX} from "../utilities";
 import {createRoute, editConceptRoute} from "../../../utilities/routeHelper";
 import MetaList from "../../MetaList";
-import {matchShape} from "../../../utilities/commonShapes";
+import {matchProps} from "../../../utilities/commonShapes";
 
 const classes = new BEMHelper({
     name: 'listview-item',
@@ -66,7 +66,7 @@ class ListItemComponent extends  React.Component {
 
 ListItemComponent.propTypes = {
     ...listItemShape,
-    match: PropTypes.shape(matchShape)
+    match: PropTypes.shape(matchProps).isRequired,
 };
 
 ListItemComponent.defaultProps = {

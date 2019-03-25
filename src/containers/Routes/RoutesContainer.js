@@ -15,7 +15,7 @@ import {
     searchRoute,
     conceptRoute,
 } from '../../utilities/routeHelper';
-import {matchShape} from "../../utilities/commonShapes";
+import {matchProps} from "../../utilities/commonShapes";
 import ConceptPage from "../Concept";
 
 const RoutesContainer = ({match: {path}}) => (
@@ -26,7 +26,7 @@ const RoutesContainer = ({match: {path}}) => (
 );
 
 RoutesContainer.propTypes = {
-    match: PropTypes.shape(matchShape)
+    match: PropTypes.shape(matchProps).isRequired,
 };
 
 export default withRouter(RoutesContainer);

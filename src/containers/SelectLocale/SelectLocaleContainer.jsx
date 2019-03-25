@@ -59,7 +59,7 @@ class SelectLocale extends React.Component {
     }
 }
 SelectLocale.propTypes = {
-    location: locationShape.isRequired,
+    location: PropTypes.shape(locationShape).isRequired,
     locale: PropTypes.string.isRequired,
     updateLocale: PropTypes.func.isRequired,
 };

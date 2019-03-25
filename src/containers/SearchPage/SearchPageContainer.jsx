@@ -24,15 +24,13 @@ import MetaFilter from "../../components/MetaFilter";
 import ListView from "../../components/ListView";
 
 import ListHeader from "./components/ListHeader";
-import Loading from '../../components/Loading';
-import WithEither from "../../components/HOC/WithEither";
 import withApiService from "../../components/HOC/withApiService";
 
 import {updateSearchResult} from "./searchPageActions";
 import {mapStateToProps} from "./searchPageMapStateToProps";
 import ApiService from "../../services/apiService";
 
-import {categoryProps, historyShape, matchShape, metaProps} from "../../utilities/commonShapes";
+import {categoryProps, historyProps, matchProps, metaProps} from "../../utilities/commonShapes";
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
 import {loadCategories, loadMeta} from "../App/actions";
 
@@ -41,6 +39,7 @@ import 'url-search-params-polyfill';
 import {indexRoute} from "../../utilities/routeHelper";
 import AutoComplete from "../../components/AutoComplete/AutoCompleteComponent";
 import ImageApi from "../../services/imageApiService";
+import {loginSuccess} from "../Login";
 
 const classes = new BEMHelper({
     name: 'search-page',
@@ -176,6 +175,7 @@ class SearchContainer extends React.Component {
             {to: indexRoute(), name: t('indexPage.title')},
             {to: indexRoute(), name: t('searchPage.title')},
         ];
+
         return (
             <PageContainer backgroundWide >
 
@@ -242,36 +242,29 @@ SearchContainer.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
-    history: PropTypes.shape(historyShape).isRequired,
+    history: PropTypes.shape(historyProps).isRequired,
     subjects: PropTypes.array.isRequired,
     languages: PropTypes.array.isRequired,
     updateSearchResult: PropTypes.func.isRequired,
+    loginSuccess: PropTypes.func.isRequired,
     apiService: PropTypes.instanceOf(ApiService).isRequired,
     loadMeta: PropTypes.func.isRequired,
     loadCategories: PropTypes.func.isRequired,
     imageApi :PropTypes.instanceOf(ImageApi).isRequired,
+    match: PropTypes.shape(matchProps).isRequired,
 
     // Optional
     searchResult: PropTypes.array,
     searchResultMeta: PropTypes.object,
-    categories: PropTypes.arrayOf(categoryProps),
-    meta: PropTypes.arrayOf(metaProps),
-    match: PropTypes.shape(matchShape)
+    categories: PropTypes.arrayOf(PropTypes.shape(categoryProps)),
+    meta: PropTypes.arrayOf(PropTypes.shape(metaProps)),
 };
-
-
-const languagesExists = ({languages}) =>  languages.length > 0;
-const subjectsExists = ({subjects}) => subjects.length > 0;
-const languageAndSubjectsShouldBePresent = compose(
-    WithEither(languagesExists, () => <Loading message='loadingMessage.loadingLanguages' />),
-    WithEither(subjectsExists, () => <Loading message='loadingMessage.loadingSubjects' />),
-)(SearchContainer);
 
 export default compose(
     withRouter,
     withAuthenticationService,
-    connect(mapStateToProps, {loadMeta, loadCategories, updateSearchResult}),
+    connect(mapStateToProps, {loadMeta, loadCategories, updateSearchResult, loginSuccess}),
     withApiService,
     injectT,
-)(languageAndSubjectsShouldBePresent);
+)(SearchContainer);
 

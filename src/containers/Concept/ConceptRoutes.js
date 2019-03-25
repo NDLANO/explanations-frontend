@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from "prop-types";
 import { withRouter } from 'react-router-dom';
 import {Route, Switch} from "react-router";
-import {historyShape, matchShape} from "../../utilities/commonShapes";
+import {historyProps, matchProps} from "../../utilities/commonShapes";
 import {UPDATE_FLASH_MESSAGE_CONCEPT} from "./conceptActions";
 import {loadConcept, submitErrorHandler} from "./conceptCommon";
 import ApiService from "../../services/apiService";
@@ -77,8 +77,8 @@ class ConceptRoutes extends React.Component {
 
 ConceptRoutes.propTypes = {
     // Required
-    match: matchShape.isRequired,
-    history: historyShape.isRequired,
+    match: matchProps.isRequired,
+    history: PropTypes.shape(historyProps).isRequired,
     renderCopyPage: PropTypes.func.isRequired,
     renderEditPage: PropTypes.func.isRequired,
     updateFlashMessage: PropTypes.func.isRequired,

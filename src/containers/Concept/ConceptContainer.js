@@ -28,7 +28,7 @@ import {
 
 } from "./conceptCommon";
 import {clearFlashMessage, flashMessageShape, updateFlashMessage} from "../../components/FlashMessage";
-import {historyShape, matchShape} from "../../utilities/commonShapes";
+import {historyProps, matchProps} from "../../utilities/commonShapes";
 import ApiService from "../../services/apiService";
 import {UPDATE_FLASH_MESSAGE_CONCEPT, updateInitialFormValues} from "./conceptActions";
 
@@ -281,9 +281,9 @@ class ConceptPageContainer extends React.Component {
 ConceptPageContainer.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
-    match: matchShape.isRequired,
+    match: matchProps.isRequired,
     meta: PropTypes.array.isRequired,
-    history: historyShape.isRequired,
+    history: PropTypes.shape(historyProps).isRequired,
     status: PropTypes.array.isRequired,
     locale: PropTypes.string.isRequired,
     clearFlashMessage: PropTypes.func.isRequired,

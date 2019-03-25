@@ -23,7 +23,7 @@ const MetaListComponent = ({meta}) =>
 
 MetaListComponent.propTypes = {
     // Required
-    meta: PropTypes.arrayOf(metaProps).isRequired,
+    meta: PropTypes.arrayOf(PropTypes.shape(metaProps)).isRequired,
 
     // Optional
     labelKey: PropTypes.string,

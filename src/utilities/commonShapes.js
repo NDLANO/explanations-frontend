@@ -8,16 +8,16 @@
 import {string, func, object, bool, number, shape, oneOfType} from 'prop-types';
 import PropTypes from "prop-types";
 
-export const locationShape = shape({
+export const locationShape = {
     hash: string.isRequired,
     search: string.isRequired,
     pathname: string.isRequired,
 
     // Optional
     state: object,
-});
+};
 
-export const historyShape = shape({
+export const historyProps = {
     go: func.isRequired,
     push: func.isRequired,
     block: func.isRequired,
@@ -28,21 +28,21 @@ export const historyShape = shape({
     action: string.isRequired,
     goForward: func.isRequired,
     createHref: func.isRequired,
-    location: locationShape.isRequired,
-});
+    location: PropTypes.shape(locationShape).isRequired,
+};
 
-export const matchShape = shape({
+export const matchProps = {
     url: string.isRequired,
     path: string.isRequired,
     isExact: bool.isRequired,
 
     // Optional
     params: object,
-});
+};
 
-export const lastLocationShape = shape({
+export const lastLocationShape = {
     pathname: PropTypes.string.isRequired
-});
+};
 
 
 export const fieldInputProps = {
@@ -62,13 +62,43 @@ export const fieldInputProps = {
 };
 
 export const typeGroupProps = {
-    id: PropTypes.number.isRequired
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    updated: PropTypes.string.isRequired,
+    created: PropTypes.string.isRequired,
+};
+
+export const languageProps = {
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    abbreviation: PropTypes.string.isRequired,
+    updated: PropTypes.string.isRequired,
+    created: PropTypes.string.isRequired,
+};
+
+export const statusProps = {
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    updated: PropTypes.string.isRequired,
+    created: PropTypes.string.isRequired,
+    typeGroup: PropTypes.shape(typeGroupProps).isRequired,
+    language: PropTypes.shape(languageProps).isRequired,
+    languageVariation: PropTypes.string.isRequired,
 };
 
 export const categoryProps = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    canHaveMultiple: PropTypes.bool.isRequired,
+    isRequired: PropTypes.bool.isRequired,
+    updated: PropTypes.string.isRequired,
+    created: PropTypes.string.isRequired,
     typeGroup: PropTypes.shape(typeGroupProps).isRequired,
+    language: PropTypes.shape(languageProps).isRequired
 };
 
 export const metaProps = {
@@ -76,7 +106,11 @@ export const metaProps = {
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     languageVariation: PropTypes.string.isRequired,
-    category: PropTypes.shape(categoryProps).isRequired
+    category: PropTypes.shape(categoryProps).isRequired,
+    updated: PropTypes.string.isRequired,
+    created: PropTypes.string.isRequired,
+    status: PropTypes.shape(statusProps).isRequired,
+    abbreviation: PropTypes.string,
 };
 
 export const mediaTypeProps = {
@@ -98,7 +132,7 @@ export const mediaProps = {
 export const conceptProps = {
     title: PropTypes.string,
     category: PropTypes.shape(categoryProps),
-    meta: PropTypes.arrayOf(metaProps),
+    meta: PropTypes.arrayOf(PropTypes.shape(metaProps)),
     media: PropTypes.arrayOf(mediaProps),
 };
 

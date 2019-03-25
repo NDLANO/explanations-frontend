@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 import {DetailSearch} from '@ndla/icons/editor';
 
 import {searchRoute, createConceptRoute, createRoute} from "../../../utilities/routeHelper";
-import {matchShape} from "../../../utilities/commonShapes";
+import {matchProps} from "../../../utilities/commonShapes";
 
 export const classes = new BEMHelper({
     name: 'navigation',
@@ -96,7 +96,7 @@ export class Navigation extends Component {
 Navigation.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
-    match: PropTypes.shape(matchShape),
+    match: PropTypes.shape(matchProps).isRequired,
 };
 
 export default Navigation;

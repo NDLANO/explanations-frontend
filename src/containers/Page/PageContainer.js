@@ -17,7 +17,7 @@ import ErrorBoundary from "../ErrorBoundary";
 import Footer from '../../components/Footer';
 import Routes from '../Routes';
 import Header from "../../components/Header";
-import {matchShape} from "../../utilities/commonShapes";
+import {matchProps} from "../../utilities/commonShapes";
 
 
 const AppPageContainer = ({t, username, isAuthenticated, match}) => (
@@ -41,7 +41,7 @@ AppPageContainer.propTypes = {
 
     // Optional
     username: PropTypes.string,
-    match: PropTypes.shape(matchShape)
+    match: PropTypes.shape(matchProps).isRequired,
 };
 
 AppPageContainer.defaultProps = {

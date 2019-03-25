@@ -58,7 +58,7 @@ LoginProviderContainer.propTypes = {
     t: PropTypes.func.isRequired,
     updateNext: PropTypes.func.isRequired,
     consentUrl: PropTypes.string.isRequired,
-    lastLocation: lastLocationShape.isRequired,
+    lastLocation: PropTypes.shape(lastLocationShape).isRequired,
     authenticationService: PropTypes.instanceOf(AuthenticationService).isRequired,
 };
 

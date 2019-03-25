@@ -15,7 +15,7 @@ import AuthenticationService from '../../services/authenticationService';
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
 import {indexRoute} from "../../utilities/routeHelper";
 import {loginSuccess, updateNext} from './loginActions';
-import {historyShape, locationShape} from "../../utilities/commonShapes";
+import {historyProps, locationShape} from "../../utilities/commonShapes";
 
 class LoginSuccessContainer extends React.Component {
     componentDidMount() {
@@ -35,8 +35,8 @@ class LoginSuccessContainer extends React.Component {
 }
 
 LoginSuccessContainer.propTypes = {
-    history: historyShape.isRequired,
-    location: locationShape.isRequired,
+    history: PropTypes.shape(historyProps).isRequired,
+    location: PropTypes.shape(locationShape).isRequired,
     updateNext: PropTypes.func.isRequired,
     loginSuccess: PropTypes.func.isRequired,
     authenticationService: PropTypes.instanceOf(AuthenticationService).isRequired,

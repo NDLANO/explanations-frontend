@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 
 import LogInOrOut from './LoginOrOut'
 import Navigation from "./Navigation";
-import {matchShape} from "../../utilities/commonShapes";
+import {matchProps} from "../../utilities/commonShapes";
 
 const classes = new BEMHelper({
     name: 'masthead',
@@ -45,7 +45,7 @@ Header.propTypes = {
     // Optional
     username: PropTypes.string,
     isLoggedIn: PropTypes.bool,
-    match: PropTypes.shape(matchShape),
+    match: PropTypes.shape(matchProps).isRequired,
 };
 
 Header.defaultProps = {

@@ -11,7 +11,7 @@ import BEMHelper from "react-bem-helper";
 import PropTypes from "prop-types";
 
 import ListItemComponent from "./ListItem";
-import {matchShape} from "../../utilities/commonShapes";
+import {matchProps} from "../../utilities/commonShapes";
 
 const classes = new BEMHelper({
     name: 'listview',
@@ -44,7 +44,7 @@ ListView.propTypes = {
     query: PropTypes.object,
     lastPage: PropTypes.number,
     ListItemComponent: PropTypes.func,
-    match: PropTypes.shape(matchShape)
+    match: PropTypes.shape(matchProps).isRequired,
 };
 
 ListView.defaultProps = {
