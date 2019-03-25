@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 import {DetailSearch} from '@ndla/icons/editor';
 
 import {searchRoute, createConceptRoute, createRoute} from "../../../utilities/routeHelper";
-import {matchProps} from "../../../utilities/commonShapes";
+import {matchProps} from "../../../utilities/commonProps";
 
 export const classes = new BEMHelper({
     name: 'navigation',

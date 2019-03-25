@@ -11,7 +11,7 @@ import BEMHelper from "react-bem-helper";
 import PropTypes from "prop-types";
 
 import ListItemComponent from "./ListItem";
-import {matchProps} from "../../utilities/commonShapes";
+import {matchProps} from "../../utilities/commonProps";
 
 const classes = new BEMHelper({
     name: 'listview',

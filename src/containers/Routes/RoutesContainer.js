@@ -15,7 +15,7 @@ import {
     searchRoute,
     conceptRoute,
 } from '../../utilities/routeHelper';
-import {matchProps} from "../../utilities/commonShapes";
+import {matchProps} from "../../utilities/commonProps";
 import ConceptPage from "../Concept";
 
 const RoutesContainer = ({match: {path}}) => (

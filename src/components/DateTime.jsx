@@ -8,7 +8,7 @@
 import React from "react"
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
-import {fieldInputShape} from "../utilities/commonShapes";
+import {fieldInputShape} from "../utilities/commonProps";
 
 const DateTime = ({label, t, input, className, locale}) =>
     <div className={className}>

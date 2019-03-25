@@ -14,7 +14,7 @@ import LoginFailure from './LoginFailure';
 import LoginSuccess from './LoginSuccess';
 import LoginProviders from './LoginProvidersContainer';
 
-import {matchProps} from "../../utilities/commonShapes";
+import {matchProps} from "../../utilities/commonProps";
 
 export const LoginComponent = ({ match: {url} }) => (
   <OneColumn>

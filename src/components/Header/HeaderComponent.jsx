@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 
 import LogInOrOut from './LoginOrOut'
 import Navigation from "./Navigation";
-import {matchProps} from "../../utilities/commonShapes";
+import {matchProps} from "../../utilities/commonProps";
 
 const classes = new BEMHelper({
     name: 'masthead',

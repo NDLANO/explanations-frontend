@@ -17,7 +17,7 @@ import ErrorBoundary from "../ErrorBoundary";
 import Footer from '../../components/Footer';
 import Routes from '../Routes';
 import Header from "../../components/Header";
-import {matchProps} from "../../utilities/commonShapes";
+import {matchProps} from "../../utilities/commonProps";
 
 
 const AppPageContainer = ({t, username, isAuthenticated, match}) => (

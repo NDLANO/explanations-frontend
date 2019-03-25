@@ -13,7 +13,7 @@ import {listItemShape} from "./ListItemShape";
 import {trimTextToX} from "../utilities";
 import {createRoute, editConceptRoute} from "../../../utilities/routeHelper";
 import MetaList from "../../MetaList";
-import {matchProps} from "../../../utilities/commonShapes";
+import {matchProps} from "../../../utilities/commonProps";
 
 const classes = new BEMHelper({
     name: 'listview-item',

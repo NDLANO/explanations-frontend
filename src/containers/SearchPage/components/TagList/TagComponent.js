@@ -8,7 +8,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import { Cross } from '@ndla/icons/action';
-import {conceptProps} from "../../../../utilities/commonShapes";
+import {conceptProps} from "../../../../utilities/commonProps";
 
 const Tag = ({title, category, classes, languageVariation, onDelete}) => (
     <li {...classes('item')}>

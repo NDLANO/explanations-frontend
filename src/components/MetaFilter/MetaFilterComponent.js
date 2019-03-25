@@ -12,7 +12,7 @@ import {RadiobuttonItem} from "@ndla/forms";
 import { SearchFilter } from '@ndla/ui';
 import BEMHelper from "react-bem-helper";
 import Divider from "../Divider";
-import {categoryProps} from "../../utilities/commonShapes";
+import {categoryProps} from "../../utilities/commonProps";
 
 const classes = new BEMHelper({
     name: 'meta-filter',

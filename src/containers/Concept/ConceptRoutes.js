@@ -10,7 +10,7 @@ import React from 'react';
 import PropTypes from "prop-types";
 import { withRouter } from 'react-router-dom';
 import {Route, Switch} from "react-router";
-import {historyProps, matchProps} from "../../utilities/commonShapes";
+import {historyProps, matchProps} from "../../utilities/commonProps";
 import {UPDATE_FLASH_MESSAGE_CONCEPT} from "./conceptActions";
 import {loadConcept, submitErrorHandler} from "./conceptCommon";
 import ApiService from "../../services/apiService";

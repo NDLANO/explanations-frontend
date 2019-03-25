@@ -8,7 +8,7 @@ import React  from 'react';
 import Select from 'react-select';
 import BEMHelper from "react-bem-helper";
 import PropTypes, {number, oneOfType, string} from 'prop-types';
-import {fieldInputProps} from '../../utilities/commonShapes';
+import {fieldInputProps} from '../../utilities/commonProps';
 
 
 const classes = new BEMHelper({

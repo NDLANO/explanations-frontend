@@ -15,7 +15,7 @@ import {compose} from "redux";
 
 import { appLocales } from '../../i18n';
 import {updateLocale} from "./actions";
-import {locationShape} from "../../utilities/commonShapes";
+import {locationShape} from "../../utilities/commonProps";
 import Dropdown from "../../components/Dropdown";
 
 

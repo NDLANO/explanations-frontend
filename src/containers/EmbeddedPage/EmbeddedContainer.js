@@ -18,7 +18,7 @@ import 'url-search-params-polyfill';
 import {loginSuccess} from "../Login";
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
 import AuthenticationService from "../../services/authenticationService";
-import {historyProps} from "../../utilities/commonShapes";
+import {historyProps} from "../../utilities/commonProps";
 import {updateSearchQuery} from "../SearchPage/searchPageActions";
 import withApiService from "../../components/HOC/withApiService";
 import ApiService from "../../services/apiService";

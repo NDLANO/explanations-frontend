@@ -6,7 +6,7 @@
  */
 import React from "react";
 import PropTypes from 'prop-types';
-import {fieldInputShape} from "../utilities/commonShapes";
+import {fieldInputShape} from "../utilities/commonProps";
 
 const FormElement = ({className, input, label, required, meta, children, t, messagePrefix}) => (
     <div className={className}>

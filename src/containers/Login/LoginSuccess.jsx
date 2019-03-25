@@ -15,7 +15,7 @@ import AuthenticationService from '../../services/authenticationService';
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
 import {indexRoute} from "../../utilities/routeHelper";
 import {loginSuccess, updateNext} from './loginActions';
-import {historyProps, locationShape} from "../../utilities/commonShapes";
+import {historyProps, locationShape} from "../../utilities/commonProps";
 
 class LoginSuccessContainer extends React.Component {
     componentDidMount() {

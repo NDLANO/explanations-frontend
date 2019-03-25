@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
 import {loginRoute, notAuthorizedRoute, routeIsAllowed} from "../../utilities/routeHelper";
-import {locationShape} from "../../utilities/commonShapes";
+import {locationShape} from "../../utilities/commonProps";
 
 
 class PrivateRouteContainer extends React.Component {

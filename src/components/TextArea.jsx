@@ -8,7 +8,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 
 import FormElement from "./FormElement";
-import {fieldInputShape} from "../utilities/commonShapes";
+import {fieldInputShape} from "../utilities/commonProps";
 
 
 const TextArea = props =>

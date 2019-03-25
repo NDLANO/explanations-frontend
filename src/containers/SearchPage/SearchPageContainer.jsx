@@ -30,7 +30,7 @@ import {updateSearchResult} from "./searchPageActions";
 import {mapStateToProps} from "./searchPageMapStateToProps";
 import ApiService from "../../services/apiService";
 
-import {categoryProps, historyProps, matchProps, metaProps} from "../../utilities/commonShapes";
+import {categoryProps, historyProps, matchProps, metaProps} from "../../utilities/commonProps";
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
 import {loadCategories, loadMeta} from "../App/actions";
 

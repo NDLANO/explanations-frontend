@@ -16,7 +16,7 @@ import {injectT} from "@ndla/i18n";
 import {logoutSuccess} from "./logoutActions";
 import AuthenticationService from "../../services/authenticationService";
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
-import {historyProps} from "../../utilities/commonShapes";
+import {historyProps} from "../../utilities/commonProps";
 
 class LogoutContainer extends React.PureComponent {
     componentDidMount() {

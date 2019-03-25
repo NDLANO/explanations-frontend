@@ -18,7 +18,7 @@ import {connect} from "react-redux";
 import AuthenticationService from '../../services/authenticationService';
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
 import {updateNext} from "./loginActions";
-import {lastLocationShape} from "../../utilities/commonShapes";
+import {lastLocationShape} from "../../utilities/commonProps";
 
 
 const classes = new BEMHelper({

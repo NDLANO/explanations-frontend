@@ -28,7 +28,7 @@ import {
 
 } from "./conceptCommon";
 import {clearFlashMessage, flashMessageShape, updateFlashMessage} from "../../components/FlashMessage";
-import {historyProps, matchProps} from "../../utilities/commonShapes";
+import {historyProps, matchProps} from "../../utilities/commonProps";
 import ApiService from "../../services/apiService";
 import {UPDATE_FLASH_MESSAGE_CONCEPT, updateInitialFormValues} from "./conceptActions";
 

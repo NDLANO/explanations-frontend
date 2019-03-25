@@ -9,7 +9,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import BEMHelper from "react-bem-helper";
 import TagList from "../TagList/TagListComponent";
-import {metaProps} from "../../../../utilities/commonShapes";
+import {metaProps} from "../../../../utilities/commonProps";
 
 const classes = new BEMHelper({
     name: 'list-header',
