@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2018-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 @import "../../../style/variables.css";
 
 .c-listview-item {
@@ -74,7 +81,7 @@
             width: 1em;
             height: 1em;
             margin-top: 0.2em;
-            background: white;
+            background: rgb(248, 248, 248);
         }
     }
     

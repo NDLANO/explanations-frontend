@@ -18,10 +18,6 @@ const initialState = {
         pageSize: 10,
         numberOfPages: 1
     },
-    autocompleteTitles: [],
-    term: '',
-    language: null,
-    subject: null
 };
 
 export const search = (state=initialState, action) => {
@@ -30,8 +26,7 @@ export const search = (state=initialState, action) => {
 
             const {results, ...resultMeta} = action.payload;
             results.sort(sortObjectsByKey('title'));
-            let autocompleteTitles = results.map(x => x.title);
-            return {...state, results, autocompleteTitles, resultMeta};
+            return {...state, results, resultMeta};
         case UPDATE_SEARCH_QUERY:
             return {...state, ...action.payload};
         default:

@@ -1,10 +1,17 @@
+/**
+ * Copyright (c) 2018-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 @import "../../../../style/variables.css";
 
 .c-list-header {
     width: 100%;
-    padding: 20px;
     display: flex;
     flex-direction: row;
+    padding: 0 20px 20px 0;
 
     @media (--mobile-viewport) {
         flex-direction: column;
@@ -12,6 +19,7 @@
     @media (--tablet-viewport) {
         flex-direction: column;
     }
+
 
 
 

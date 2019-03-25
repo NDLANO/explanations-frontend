@@ -7,16 +7,19 @@
  */
 
 import React from 'react'
-import PropTypes, {func, number, oneOfType, string} from 'prop-types';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 import {connect} from "react-redux";
-import {change, Field, reduxForm} from 'redux-form';
-import {PageContainer, Content, Breadcrumb, OneColumn} from "@ndla/ui";
+import {PageContainer, Content, OneColumn, Breadcrumb} from "@ndla/ui";
+import Button from "@ndla/button";
 import {injectT} from "@ndla/i18n";
 import {compose} from "redux";
 import {withRouter} from "react-router";
 import BEMHelper from "react-bem-helper";
-
+import {Helmet} from "react-helmet";
+import {Filter} from '@ndla/icons/editor';
+import {Cross} from "@ndla/icons/action";
+import {Search} from "@ndla/icons/common";
 import MetaFilter from "../../components/MetaFilter";
 import ListView from "../../components/ListView";
 
@@ -25,21 +28,18 @@ import Loading from '../../components/Loading';
 import WithEither from "../../components/HOC/WithEither";
 import withApiService from "../../components/HOC/withApiService";
 
-import {updateSearchQuery, updateSearchResult} from "./searchPageActions";
+import {updateSearchResult} from "./searchPageActions";
 import {mapStateToProps} from "./searchPageMapStateToProps";
 import ApiService from "../../services/apiService";
 
 import {categoryProps, historyShape, matchShape, metaProps} from "../../utilities/commonShapes";
-import {loginSuccess} from "../Login";
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
 import {loadCategories, loadMeta} from "../App/actions";
 
 
 import 'url-search-params-polyfill';
-import {SEARCH_FORM_NAME} from "./components/SearchForm";
 import {indexRoute} from "../../utilities/routeHelper";
-import {Helmet} from "react-helmet";
-import Input from "../../components/Input";
+import AutoComplete from "../../components/AutoComplete/AutoCompleteComponent";
 
 const classes = new BEMHelper({
     name: 'search-page',
@@ -58,9 +58,11 @@ class SearchContainer extends React.Component {
             isSearching: true,
             metaIdMap: _.chain(props.meta).keyBy('languageVariation').mapValues('id').value(),
             showFilter: window.innerWidth - 300 > 768,
-            searchLanguage: props.locale
+            searchLanguage: props.locale,
+            term: ''
         };
-
+        this.onPageClick = this.onPageClick.bind(this);
+        this.onTermChange = this.onTermChange.bind(this);
         this.onToggleFilter = this.onToggleFilter.bind(this);
         this.onLanguageChange = this.onLanguageChange.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -72,11 +74,11 @@ class SearchContainer extends React.Component {
     }
 
     componentDidMount() {
-        const {history, change} = this.props;
+        const {history} = this.props;
         const searchParam = new URLSearchParams(history.location.search);
 
         if (searchParam.get('term'))
-            change(SEARCH_FORM_NAME, "title", searchParam.get('term'));
+            this.setState({term: searchParam.get('term')});
         this.loadFilterData(this.state.searchLanguage);
     }
 
@@ -103,14 +105,12 @@ class SearchContainer extends React.Component {
     }
 
 
-    searchConcepts(data) {
+    searchConcepts() {
         const query = new URLSearchParams();
         query.append("language", this.state.searchLanguage);
-
-        if (data)
-            query.append("page", data.page);
-        else
-            query.append("page", this.state.page + 1);
+        query.append("page", this.state.page);
+        if (this.state.term)
+            query.append("title", this.state.term);
 
         this.state.values.forEach(meta => query.append("meta", this.state.metaIdMap[meta]));
 
@@ -150,8 +150,16 @@ class SearchContainer extends React.Component {
         })));
     }
 
+    onPageClick({page}) {
+        this.setState({page}, this.search)
+    }
+
     onChange(values, value) {
-        this.setState({values, page: 0}, this.search);
+        this.setState({values, page: 1}, this.search);
+    }
+
+    onTermChange(newTerm) {
+        this.setState({term: newTerm, page: 1}, this.search);
     }
 
     onRemoveTag(languageVariation) {
@@ -167,12 +175,14 @@ class SearchContainer extends React.Component {
     }
 
     render(){
-        const {values, items, page, numberOfPages, totalItems, isSearching, showFilter} = this.state;
-        const {categories, meta, t, locale} = this.props;
-
+        const {values, items, page, numberOfPages, totalItems, isSearching, showFilter, term} = this.state;
+        const {categories, meta, t, locale, match, searchResult} = this.props;
         const languages = meta.filter(x => x.category.typeGroup.name.toLowerCase() === "language").map(x => ({...x, title: x.name, value: x.languageVariation}));
         const options   = meta.filter(x => x.category.typeGroup.name.toLowerCase() !== "language").map(x => ({...x, title: x.abbreviation || x.name, value: x.languageVariation}));
-
+        const breadCrumbs = [
+            {to: indexRoute(), name: t('indexPage.title')},
+            {to: indexRoute(), name: t('searchPage.title')},
+        ];
         return (
             <PageContainer backgroundWide >
 
@@ -189,21 +199,37 @@ class SearchContainer extends React.Component {
                                                               isOpen={showFilter}/>}
 
                     <div {...classes('content')}>
-                        <ListHeader resultCount={totalItems}
-                                    isSearching={isSearching}
-                                    values={values}
-                                    options={options}
-                                    sidebarOpen={!showFilter}
-                                    onRemoveTag={this.onRemoveTag}
-                                    onFilterClick={this.onToggleFilter}
-                                    t={t}/>
+
+                        <div {...classes('menu-toggle')}>
+                            {showFilter ?  <Cross onClick={this.onToggleFilter} /> : <Filter onClick={this.onToggleFilter} />}
+                        </div>
                         <OneColumn>
-                            <Field component={Input} t={t} name="test" placeholder="test" />
+
+                            <Breadcrumb items={breadCrumbs}/>
+                            <div {...classes('search-field')}>
+                                <AutoComplete onChange={this.onTermChange}
+                                              value={term}
+                                              onSelect={this.onTermChange}
+                                              items={searchResult.reduce(x => x.title, [])}
+                                              placeholder={t("searchPage.title")}
+                                />
+                                <Button {...classes('submit-button')}>
+                                    <Search />
+                                </Button>
+                            </div>
+                            <ListHeader resultCount={totalItems}
+                                        isSearching={isSearching}
+                                        values={values}
+                                        options={options}
+                                        sidebarOpen={!showFilter}
+                                        onRemoveTag={this.onRemoveTag}
+                                        t={t}/>
                         </OneColumn>
                         <ListView items={items}
                                   page={page}
                                   lastPage={numberOfPages}
-                                  onPagerClick={this.searchConcepts} />
+                                  match={match}
+                                  onPagerClick={this.onPageClick} />
                     </div>
                 </Content>
             </PageContainer>
@@ -214,29 +240,26 @@ class SearchContainer extends React.Component {
 
 SearchContainer.defaultProps = {
     categories: [],
-    meta: []
+    meta: [],
+    searchResult: []
 };
 
 
 SearchContainer.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
-    change: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     history: PropTypes.shape(historyShape).isRequired,
     subjects: PropTypes.array.isRequired,
     languages: PropTypes.array.isRequired,
     updateSearchResult: PropTypes.func.isRequired,
     apiService: PropTypes.instanceOf(ApiService).isRequired,
-    updateSearchQuery: PropTypes.func.isRequired,
     loadMeta: PropTypes.func.isRequired,
     loadCategories: PropTypes.func.isRequired,
 
     // Optional
     searchResult: PropTypes.array,
     searchResultMeta: PropTypes.object,
-    autoComplete: PropTypes.array,
-    searchQuery: PropTypes.object,
     categories: PropTypes.arrayOf(categoryProps),
     meta: PropTypes.arrayOf(metaProps),
     match: PropTypes.shape(matchShape)
@@ -253,9 +276,8 @@ const languageAndSubjectsShouldBePresent = compose(
 export default compose(
     withRouter,
     withAuthenticationService,
-    connect(mapStateToProps, {loadMeta, loadCategories, updateSearchResult, updateSearchQuery, change, loginSuccess}),
+    connect(mapStateToProps, {loadMeta, loadCategories, updateSearchResult}),
     withApiService,
     injectT,
-    reduxForm({form: "searchForm"})
 )(languageAndSubjectsShouldBePresent);
 

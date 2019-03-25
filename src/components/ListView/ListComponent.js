@@ -8,25 +8,27 @@
 import React from 'react';
 import Pager from '@ndla/pager';
 import BEMHelper from "react-bem-helper";
-import {array, func, number, object} from 'prop-types';
+import PropTypes from "prop-types";
 
 import ListItemComponent from "./ListItem";
+import {matchShape} from "../../utilities/commonShapes";
 
 const classes = new BEMHelper({
     name: 'listview',
     prefix: 'c-',
 });
 
-const ListView = ({items, ListItemComponent, query, page, lastPage, onPagerClick}) => (
+const ListView = ({items, ListItemComponent, query, page, match, lastPage, onPagerClick}) => (
     <div {...classes()}>
         <ul {...classes('list')}>
-            {items.map(item => <ListItemComponent key={item.id} {...item} />)}
+            {items.map(item => <ListItemComponent key={item.id} {...item} match={match} />)}
         </ul>
         {lastPage > 1 && <Pager
             {...classes('pagination')}
             page={page}
             lastPage={lastPage}
             query={query}
+            pathname=""
             onClick={onPagerClick}
         />}
     </div>
@@ -34,14 +36,15 @@ const ListView = ({items, ListItemComponent, query, page, lastPage, onPagerClick
 
 ListView.propTypes = {
     // Required
-    onPagerClick: func.isRequired,
+    onPagerClick: PropTypes.func.isRequired,
 
     // Optional
-    page: number,
-    items: array,
-    query: object,
-    lastPage: number,
-    ListItemComponent: func,
+    page: PropTypes.number,
+    items: PropTypes.array,
+    query: PropTypes.object,
+    lastPage: PropTypes.number,
+    ListItemComponent: PropTypes.func,
+    match: PropTypes.shape(matchShape)
 };
 
 ListView.defaultProps = {
