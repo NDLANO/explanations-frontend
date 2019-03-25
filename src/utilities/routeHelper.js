@@ -10,7 +10,7 @@ export const indexRoute =                       () => '';
 export const searchRoute =                      () => indexRoute();
 export const conceptRoute =                     () => '/concept';
 export const createConceptRoute =               () => `${conceptRoute()}/new`;
-export const editConceptRoute =                 id => `/${id}/edit`;
+export const editConceptRoute =                 id => `${conceptRoute()}/${id}/edit`;
 export const copyConceptRoute =                 id => `/${id}/copy`;
 export const createLanguageVariationRoute =     id => `/${id}/newLanguageVariation`;
 export const loginRoute =                       () => '/login';

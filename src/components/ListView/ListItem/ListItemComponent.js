@@ -8,10 +8,12 @@
 
 import BEMHelper from "react-bem-helper";
 import React from 'react';
+import PropTypes from 'prop-types';
 import {listItemShape} from "./ListItemShape";
 import {trimTextToX} from "../utilities";
-import {editConceptRoute} from "../../../utilities/routeHelper";
+import {createRoute, editConceptRoute} from "../../../utilities/routeHelper";
 import MetaList from "../../MetaList";
+import {matchShape} from "../../../utilities/commonShapes";
 
 const classes = new BEMHelper({
     name: 'listview-item',
@@ -31,7 +33,7 @@ class ListItemComponent extends  React.Component {
     }
 
     render() {
-        const {title, previewImage, imageText, id, content, meta, maxDescriptionLength, author} = this.props;
+        const {title, previewImage, imageText, id, content, meta, maxDescriptionLength, author, match} = this.props;
 
 
         return (
@@ -39,7 +41,7 @@ class ListItemComponent extends  React.Component {
                 <div {...classes('content')}>
                     <div {...classes('top')}>
                         <h1 {...classes('title')}>
-                            <a href={editConceptRoute(id)} target="_blank" rel="noopener noreferrer">
+                            <a href={createRoute(match, editConceptRoute(id))} target="_blank" rel="noopener noreferrer">
                                 {title}
                             </a>
                         </h1>
@@ -62,7 +64,10 @@ class ListItemComponent extends  React.Component {
     }
 }
 
-ListItemComponent.propTypes = listItemShape;
+ListItemComponent.propTypes = {
+    ...listItemShape,
+    match: PropTypes.shape(matchShape)
+};
 
 ListItemComponent.defaultProps = {
     maxDescriptionLength: 200,
