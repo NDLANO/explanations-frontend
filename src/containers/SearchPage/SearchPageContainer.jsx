@@ -112,9 +112,9 @@ class SearchContainer extends React.Component {
         query.append("page", this.state.page);
         if (this.state.term)
             query.append("title", this.state.term);
-
         this.state.values.forEach(meta => query.append("meta", this.state.metaIdMap[meta]));
 
+        this.setState({isSearching: true});
         this.props.apiService.searchForConcepts(query.toString())
             .then(({results, page, numberOfPages, totalItems}) => this.mapResultsToListView(results).then(items => this.setState({items, page, numberOfPages, totalItems, isSearching: false})));
 
