@@ -10,3 +10,6 @@ export const updateSearchResult = payload => ({type: SEARCH_FOR_CONCEPT, payload
 
 export const UPDATE_SEARCH_QUERY = 'UPDATE_SEARCH_QUERY';
 export const updateSearchQuery = payload => ({type: UPDATE_SEARCH_QUERY, payload});
+
+export const UPDATE_IS_SEARCH = "UPDATE_IS_SEARCH";
+export const updateIsSearching = payload => ({type: UPDATE_IS_SEARCH, payload});

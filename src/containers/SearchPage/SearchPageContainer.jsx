@@ -26,7 +26,7 @@ import ListView from "../../components/ListView";
 import ListHeader from "./components/ListHeader";
 import withApiService from "../../components/HOC/withApiService";
 
-import {updateSearchResult} from "./searchPageActions";
+import {updateIsSearching, updateSearchResult} from "./searchPageActions";
 import {mapStateToProps} from "./searchPageMapStateToProps";
 import ApiService from "../../services/apiService";
 
@@ -55,7 +55,6 @@ class SearchContainer extends React.Component {
             totalItems: 0,
             values: [],
             items: [],
-            isSearching: true,
             metaIdMap: _.chain(props.meta).keyBy('languageVariation').mapValues('id').value(),
             showFilter: window.innerWidth - 300 > 768,
             searchLanguage: props.locale,
@@ -75,6 +74,7 @@ class SearchContainer extends React.Component {
 
     componentDidMount() {
         const {history} = this.props;
+
         const searchParam = new URLSearchParams(history.location.search);
 
         if (searchParam.get('term'))
@@ -107,6 +107,8 @@ class SearchContainer extends React.Component {
 
 
     searchConcepts() {
+        this.props.updateIsSearching(true);
+
         const query = new URLSearchParams();
         query.append("language", this.state.searchLanguage);
         query.append("page", this.state.page);
@@ -114,9 +116,12 @@ class SearchContainer extends React.Component {
             query.append("title", this.state.term);
         this.state.values.forEach(meta => query.append("meta", this.state.metaIdMap[meta]));
 
-        this.setState({isSearching: true});
         this.props.apiService.searchForConcepts(query.toString())
-            .then(({results, page, numberOfPages, totalItems}) => this.mapResultsToListView(results).then(items => this.setState({items, page, numberOfPages, totalItems, isSearching: false})));
+            .then(({results, page, numberOfPages, totalItems}) => this.mapResultsToListView(results).then(items => {
+                this.props.updateIsSearching(false);
+                //this.props.updateSearchQuery();
+                this.setState({items, page, numberOfPages, totalItems})
+            }));
 
     }
 
@@ -168,8 +173,8 @@ class SearchContainer extends React.Component {
     }
 
     render(){
-        const {values, items, page, numberOfPages, totalItems, isSearching, showFilter, term} = this.state;
-        const {categories, meta, t, locale, match, searchResult} = this.props;
+        const {values, items, page, numberOfPages, totalItems, showFilter, term} = this.state;
+        const {categories, meta, t, locale, match, searchResult, isSearching} = this.props;
         const languages = meta.filter(x => x.category.typeGroup.name.toLowerCase() === "language").map(x => ({...x, title: x.name, value: x.languageVariation}));
         const options   = meta.filter(x => x.category.typeGroup.name.toLowerCase() !== "language").map(x => ({...x, title: x.abbreviation || x.name, value: x.languageVariation}));
         const breadCrumbs = [
@@ -235,7 +240,9 @@ class SearchContainer extends React.Component {
 SearchContainer.defaultProps = {
     categories: [],
     meta: [],
-    searchResult: []
+    searchResult: [],
+
+    isSearching: false,
 };
 
 
@@ -254,17 +261,22 @@ SearchContainer.propTypes = {
     imageApi :PropTypes.instanceOf(ImageApi).isRequired,
     match: PropTypes.shape(matchProps).isRequired,
 
+    updateIsSearching: PropTypes.func.isRequired,
+
     // Optional
     searchResult: PropTypes.array,
     searchResultMeta: PropTypes.object,
     categories: PropTypes.arrayOf(PropTypes.shape(categoryProps)),
     meta: PropTypes.arrayOf(PropTypes.shape(metaProps)),
+
+
+    isSearching: PropTypes.bool,
 };
 
 export default compose(
     withRouter,
     withAuthenticationService,
-    connect(mapStateToProps, {loadMeta, loadCategories, updateSearchResult, loginSuccess}),
+    connect(mapStateToProps, {loadMeta, loadCategories, updateSearchResult, loginSuccess, updateIsSearching}),
     withApiService,
     injectT,
 )(SearchContainer);

@@ -7,7 +7,7 @@
  */
 import {sortObjectsByKey} from "../../utilities/sorting";
 
-import {SEARCH_FOR_CONCEPT, UPDATE_SEARCH_QUERY} from './searchPageActions';
+import {SEARCH_FOR_CONCEPT, UPDATE_SEARCH_QUERY, UPDATE_IS_SEARCH} from './searchPageActions';
 
 const initialState = {
     results: [],
@@ -18,6 +18,14 @@ const initialState = {
         pageSize: 10,
         numberOfPages: 1
     },
+    
+    searchQuery: {
+        page: 1,
+        language: null,
+        meta: [],
+        title: [],
+    },
+    isSearching: false,
 };
 
 export const search = (state=initialState, action) => {
@@ -28,7 +36,9 @@ export const search = (state=initialState, action) => {
             results.sort(sortObjectsByKey('title'));
             return {...state, results, resultMeta};
         case UPDATE_SEARCH_QUERY:
-            return {...state, ...action.payload};
+            return {...state, searchQuery: {...action.payload}};
+        case UPDATE_IS_SEARCH:
+            return {...state, isSearching: action.payload};
         default:
             return state;
     }

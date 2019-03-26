@@ -16,7 +16,7 @@ const classes = new BEMHelper({
     prefix: 'c-',
 });
 
-const ListHeader = ({resultCount, values, options, onRemoveTag, isSearching, onDelete, t}) => {
+const ListHeader = ({resultCount, values, options, onRemoveTag, isSearching, t}) => {
     const tags = [];
     values.forEach(value => {
        const meta = options.find(x => x.languageVariation === value);

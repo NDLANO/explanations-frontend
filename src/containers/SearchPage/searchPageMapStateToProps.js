@@ -25,7 +25,8 @@ export const mapStateToProps = state =>{
         subjects: subjects,
         meta: state.cacheFromServer.meta,
         categories: state.cacheFromServer.categories,
-        imageApi: new ImageApi()
+        imageApi: new ImageApi(),
+        isSearching: state.search.isSearching,
     })
 };
 
