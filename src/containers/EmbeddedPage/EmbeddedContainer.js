@@ -37,8 +37,9 @@ class EmbeddedContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            message: "loadingMessage.default",
-            error: false
+            message: "embeddingPage.validatingToken",
+            error: false,
+            isValidatingToken: true
         };
     }
 
@@ -60,21 +61,21 @@ class EmbeddedContainer extends React.Component {
             accessToken = accessTokenFromStore;
 
         if (isTokenExpired(accessToken)) {
-            this.setState({message: 'embeddingPage.tokenIsExpired', error: true});
+            this.setState({message: 'embeddingPage.tokenIsExpired'});
             logoutSuccess();
-            return;
-        }
-
-        const creds = authenticationService.createCredentials(accessToken);
-        if (creds) {
-            loginSuccess(creds);
         }else {
-            this.setState({message: 'embeddingPage.notVerifiedToken', error: true});
+            const creds = authenticationService.createCredentials(accessToken);
+            if (creds) {
+                loginSuccess(creds);
+                this.setState({message: ''})
+            }else {
+                this.setState({message: 'embeddingPage.notVerifiedToken'});
+            }
         }
     }
 
     render() {
-        if (this.state.error)
+        if (this.state.message)
             return <Loading message={this.state.message} t={this.props.t} />;
         return (
             <div {...classes()}>

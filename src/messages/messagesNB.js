@@ -210,8 +210,9 @@ const NB = {
     },
     embeddingPage: {
         notVerifiedToken: "Klarte ikke å validere token",
-        tokenIsExpired: "Token er utgått"
+        tokenIsExpired: "Token er utgått",
+        validatingToken: "Validerer token"
     }
-}
+};
 
 export default NB;

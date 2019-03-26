@@ -7,7 +7,7 @@
  */
 
 import {SEVERITY} from "../../components/FlashMessage";
-import {createRoute, editConceptRoute} from "../../utilities/routeHelper";
+import {createRoute, editRoute} from "../../utilities/routeHelper";
 import ImageApi from "../../services/imageApiService";
 import AudioApi from "../../services/audioApiService";
 import VideoApi from "../../services/videoApiService";
@@ -19,7 +19,7 @@ export const submitSuccessHandler = (data, {titleMessage, actionType, history, i
     message['severity'] = SEVERITY.success;
     message['title'] = titleMessage;
     updateFlashMessageFunction(actionType, message);
-    history.push(createRoute(match, editConceptRoute(id)));
+    history.push(createRoute(match, editRoute(id)));
 
     try{
         window.parent.postMessage({conceptId: id}, config.EXTERNAL_URL.postMessage);

@@ -50,6 +50,9 @@ import ConfirmModal from "../../components/ConfirmModal";
 import {loginSuccess} from "../Login";
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
 
+
+import 'url-search-params-polyfill';
+
 class ConceptPageContainer extends React.Component {
     constructor(props) {
         super(props);
@@ -159,7 +162,7 @@ class ConceptPageContainer extends React.Component {
     }
 
     initDataForNewConcept() {
-        const {locale, meta} = this.props;
+        const {locale, meta, history} = this.props;
         const data = {};
 
         const language = meta.find(x => x.abbreviation === locale);
@@ -169,6 +172,10 @@ class ConceptPageContainer extends React.Component {
             data['meta_language'] = language.languageVariation;
         if(licence)
             data['meta_license'] = licence.languageVariation;
+
+        const urlParams = new URLSearchParams(history.location.search);
+        if (urlParams.get('title'))
+            data['title'] = urlParams.get('title');
         return data;
     }
 
