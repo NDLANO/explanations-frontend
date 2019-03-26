@@ -50,10 +50,8 @@ class SearchContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            values: [],
             metaIdMap: _.chain(props.meta).keyBy('languageVariation').mapValues('id').value(),
             showFilter: window.innerWidth - 300 > 768,
-            searchLanguage: props.locale,
             term: ''
         };
         this.onPageClick = this.onPageClick.bind(this);
@@ -74,16 +72,16 @@ class SearchContainer extends React.Component {
         const searchParam = new URLSearchParams(history.location.search);
 
         if (searchParam.get('term'))
-            this.setState({term: searchParam.get('term')}, () => this.loadFilterData(this.state.searchLanguage));
+            this.setState({term: searchParam.get('term')}, () => this.loadFilterData());
         else
-            this.loadFilterData(this.state.searchLanguage)
+            this.loadFilterData()
     }
 
-    loadFilterData(locale) {
-        const {apiService, loadMeta, loadCategories} = this.props;
+    loadFilterData() {
+        const {apiService, loadMeta, loadCategories, searchQuery: {language}} = this.props;
 
         const searchParams = new URLSearchParams();
-        searchParams.append('language', locale);
+        searchParams.append('language', language);
         searchParams.append('pageSize', '100');
         searchParams.append('page', '1');
 
@@ -92,28 +90,42 @@ class SearchContainer extends React.Component {
         apiService.get(apiService.endpoints.meta, param).then(data => loadMeta(data.results));
         apiService.get(apiService.endpoints.category, param).then(data => loadCategories(data.results));
 
-        this.searchConcepts(this.state);
+        this.search();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(prevProps.meta[0] && this.props.meta[0] && prevProps.meta[0].language.id !== this.props.meta[0].language.id) {
             this.setState({metaIdMap: _.chain(this.props.meta).keyBy('languageVariation').mapValues('id').value()})
         }
+
+        const languageIsChanged = prevProps.searchQuery.language !== this.props.searchQuery.language;
+        const titleIsChanged = prevProps.searchQuery.title !== this.props.searchQuery.title;
+        const metaIsChanged =  prevProps.searchQuery.meta.length !== this.props.searchQuery.meta.length
+                            || prevProps.searchQuery.meta.filter(x => !this.props.searchQuery.meta.includes(x)).length > 0;
+
+
+        if (languageIsChanged) {
+            this.loadFilterData();
+        } else if(titleIsChanged || metaIsChanged) {
+            this.search();
+        }
     }
 
 
     searchConcepts() {
+        const {apiService,  searchQuery: {language, meta, page, pageSize}} = this.props;
         this.props.updateIsSearching(true);
 
         const query = new URLSearchParams();
-        query.append("language", this.state.searchLanguage);
-        query.append("page", this.state.page);
+        query.append("language", language);
+        query.append("page", page);
+        query.append("pageSize", pageSize);
         if (this.state.term)
             query.append("title", this.state.term);
-        this.state.values.forEach(meta => query.append("meta", this.state.metaIdMap[meta]));
+        meta.forEach(meta => query.append("meta", this.state.metaIdMap[meta]));
 
         // TODO this.props.updateSearchQuery();
-        this.props.apiService.searchForConcepts(query.toString())
+        apiService.searchForConcepts(query.toString())
             .then(({results, ...rest}) => {
 
                 this.props.updateIsSearching(false);
@@ -149,19 +161,21 @@ class SearchContainer extends React.Component {
     }
 
     onPageClick({page}) {
-        this.setState({page}, this.search)
+        this.props.updateSearchQuery({page}); // TODO search
     }
 
     onChange(values, value) {
-        this.setState({values, page: 1}, this.search);
+        this.props.updateSearchQuery({meta: values, page: 1}); // TODO search
     }
 
     onTermChange(newTerm) {
-        this.setState({term: newTerm, page: 1}, this.search);
+        this.props.updateSearchQuery({title: newTerm, page: 1}); // TODO search
     }
 
     onRemoveTag(languageVariation) {
-        this.setState(prev => ({values: prev.values.filter(x => x !== languageVariation)}), this.search)
+        const {searchQuery: {meta}} = this.props;
+
+        this.props.updateSearchQuery({meta: meta.filter(x => x !== languageVariation), page: 1}); // TODO search
     }
 
     onToggleFilter() {
@@ -169,12 +183,12 @@ class SearchContainer extends React.Component {
     }
 
     onLanguageChange(abbreviation) {
-        this.setState({searchLanguage: abbreviation}, this.loadFilterData.bind(null, abbreviation));
+        this.props.updateSearchQuery({language: abbreviation, page: 1});
     }
 
     render(){
-        const {values, showFilter, term} = this.state;
-        const {categories, meta, t, locale, match, isSearching, searchResult: {items, page, numberOfPages, totalItems}} = this.props;
+        const {showFilter, term} = this.state;
+        const {categories, meta, t, match, isSearching, searchResult: {items, page, numberOfPages, totalItems}, searchQuery} = this.props;
         const languages = meta.filter(x => x.category.typeGroup.name.toLowerCase() === "language").map(x => ({...x, title: x.name, value: x.languageVariation}));
         const options   = meta.filter(x => x.category.typeGroup.name.toLowerCase() !== "language").map(x => ({...x, title: x.abbreviation || x.name, value: x.languageVariation}));
         const breadCrumbs = [
@@ -187,14 +201,14 @@ class SearchContainer extends React.Component {
 
                 <Helmet title={t('searchPage.title')} />
                 <Content>
-                    {Boolean(languages.length) && <MetaFilter values={values}
+                    {Boolean(languages.length) && <MetaFilter values={searchQuery.meta}
                                                               t={t}
                                                               onChange={this.onChange}
                                                               categories={categories.filter(x => x.typeGroup.name.toLowerCase() !== "language") || []}
                                                               options={options}
                                                               onChangeLanguage={this.onLanguageChange}
                                                               languageOptions={languages}
-                                                              languageDefault={languages.find(x => x.abbreviation === locale)}
+                                                              languageDefault={languages.find(x => x.abbreviation === searchQuery.language)}
                                                               isOpen={showFilter}/>}
 
                     <div {...classes('content')}>
@@ -218,7 +232,7 @@ class SearchContainer extends React.Component {
                             </div>
                             <ListHeader resultCount={totalItems}
                                         isSearching={isSearching}
-                                        values={values}
+                                        values={searchQuery.meta}
                                         options={options}
                                         sidebarOpen={!showFilter}
                                         onRemoveTag={this.onRemoveTag}
@@ -240,7 +254,6 @@ class SearchContainer extends React.Component {
 SearchContainer.defaultProps = {
     categories: [],
     meta: [],
-    searchResult: [],
 
     isSearching: false,
 };
@@ -249,7 +262,6 @@ SearchContainer.defaultProps = {
 SearchContainer.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
-    locale: PropTypes.string.isRequired,
     history: PropTypes.shape(historyProps).isRequired,
     subjects: PropTypes.array.isRequired,
     languages: PropTypes.array.isRequired,
@@ -260,7 +272,13 @@ SearchContainer.propTypes = {
     loadCategories: PropTypes.func.isRequired,
     imageApi :PropTypes.instanceOf(ImageApi).isRequired,
     match: PropTypes.shape(matchProps).isRequired,
-
+    searchQuery: PropTypes.shape({
+        meta: PropTypes.arrayOf(PropTypes.string),
+        page: PropTypes.number.isRequired,
+        title: PropTypes.string.isRequired,
+        language: PropTypes.string.isRequired,
+    }).isRequired,
+    updateSearchQuery: PropTypes.func.isRequired,
     updateIsSearching: PropTypes.func.isRequired,
     searchResult: PropTypes.shape({
         items: PropTypes.arrayOf(PropTypes.shape(conceptProps)),

@@ -19,11 +19,12 @@ const initialState = {
         numberOfPages: 1,
     },
     
-    searchQuery: {
+    query: {
         page: 1,
-        language: null,
+        pageSize: 10,
+        language: '',
         meta: [],
-        title: [],
+        title: '',
     },
     isSearching: false,
 };
@@ -35,7 +36,7 @@ export const search = (state=initialState, action) => {
             items.sort(sortObjectsByKey('title'));
             return {...state, result: {items, ...rest}};
         case UPDATE_SEARCH_QUERY:
-            return {...state, searchQuery: {...action.payload}};
+            return {...state, query: {...state.query, ...action.payload}};
         case UPDATE_IS_SEARCH:
             return {...state, isSearching: action.payload};
         default:

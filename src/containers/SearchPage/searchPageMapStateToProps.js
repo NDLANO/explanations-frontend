@@ -17,9 +17,14 @@ export const mapStateToProps = state =>{
     const subjects = getMetaByCategory(state.cacheFromServer.meta, "subject");
     const languages = getMetaByCategory(state.cacheFromServer.meta, "language");
 
+    const searchQuery = {...state.search.query};
+    if (!searchQuery.language)
+        searchQuery['language'] = state.locale;
+
     return  ({
         locale: state.locale,
         searchResult: state.search.result,
+        searchQuery,
         languages: languages,
         subjects: subjects,
         meta: state.cacheFromServer.meta,
