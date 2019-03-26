@@ -26,11 +26,11 @@ import ListView from "../../components/ListView";
 import ListHeader from "./components/ListHeader";
 import withApiService from "../../components/HOC/withApiService";
 
-import {updateIsSearching, updateSearchResult} from "./searchPageActions";
+import {updateIsSearching, updateSearchQuery, updateSearchResult} from "./searchPageActions";
 import {mapStateToProps} from "./searchPageMapStateToProps";
 import ApiService from "../../services/apiService";
 
-import {categoryProps, historyProps, matchProps, metaProps} from "../../utilities/commonProps";
+import {categoryProps, conceptProps, historyProps, matchProps, metaProps} from "../../utilities/commonProps";
 import withAuthenticationService from "../../components/HOC/withAuthenticationService";
 import {loadCategories, loadMeta} from "../App/actions";
 
@@ -50,11 +50,7 @@ class SearchContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            page: 1,
-            numberOfPages: 0,
-            totalItems: 0,
             values: [],
-            items: [],
             metaIdMap: _.chain(props.meta).keyBy('languageVariation').mapValues('id').value(),
             showFilter: window.innerWidth - 300 > 768,
             searchLanguage: props.locale,
@@ -116,12 +112,15 @@ class SearchContainer extends React.Component {
             query.append("title", this.state.term);
         this.state.values.forEach(meta => query.append("meta", this.state.metaIdMap[meta]));
 
+        // TODO this.props.updateSearchQuery();
         this.props.apiService.searchForConcepts(query.toString())
-            .then(({results, page, numberOfPages, totalItems}) => this.mapResultsToListView(results).then(items => {
-                this.props.updateIsSearching(false);
-                //this.props.updateSearchQuery();
-                this.setState({items, page, numberOfPages, totalItems})
-            }));
+            .then(({results, ...rest}) => {
+                this.props.updateSearchResult({items: results, ...rest});
+                this.mapResultsToListView(results).then(items => {
+                    this.props.updateIsSearching(false);
+                    this.props.updateSearchResult({items, ...rest});
+                })
+            });
 
     }
 
@@ -173,8 +172,8 @@ class SearchContainer extends React.Component {
     }
 
     render(){
-        const {values, items, page, numberOfPages, totalItems, showFilter, term} = this.state;
-        const {categories, meta, t, locale, match, searchResult, isSearching} = this.props;
+        const {values, showFilter, term} = this.state;
+        const {categories, meta, t, locale, match, isSearching, searchResult: {items, page, numberOfPages, totalItems}} = this.props;
         const languages = meta.filter(x => x.category.typeGroup.name.toLowerCase() === "language").map(x => ({...x, title: x.name, value: x.languageVariation}));
         const options   = meta.filter(x => x.category.typeGroup.name.toLowerCase() !== "language").map(x => ({...x, title: x.abbreviation || x.name, value: x.languageVariation}));
         const breadCrumbs = [
@@ -209,7 +208,7 @@ class SearchContainer extends React.Component {
                                 <AutoComplete onChange={this.onTermChange}
                                               value={term}
                                               onSelect={this.onTermChange}
-                                              items={searchResult.reduce(x => x.title, [])}
+                                              items={[]}
                                               placeholder={t("searchPage.title")}
                                 />
                                 <Button {...classes('submit-button')}>
@@ -262,10 +261,14 @@ SearchContainer.propTypes = {
     match: PropTypes.shape(matchProps).isRequired,
 
     updateIsSearching: PropTypes.func.isRequired,
+    searchResult: PropTypes.shape({
+        items: PropTypes.arrayOf(PropTypes.shape(conceptProps)),
+        page: PropTypes.number.isRequired,
+        numberOfPages: PropTypes.number.isRequired,
+        totalItems: PropTypes.number.isRequired,
+    }),
 
     // Optional
-    searchResult: PropTypes.array,
-    searchResultMeta: PropTypes.object,
     categories: PropTypes.arrayOf(PropTypes.shape(categoryProps)),
     meta: PropTypes.arrayOf(PropTypes.shape(metaProps)),
 
@@ -276,7 +279,7 @@ SearchContainer.propTypes = {
 export default compose(
     withRouter,
     withAuthenticationService,
-    connect(mapStateToProps, {loadMeta, loadCategories, updateSearchResult, loginSuccess, updateIsSearching}),
+    connect(mapStateToProps, {loadMeta, loadCategories, updateSearchResult, loginSuccess, updateIsSearching, updateSearchQuery}),
     withApiService,
     injectT,
 )(SearchContainer);
