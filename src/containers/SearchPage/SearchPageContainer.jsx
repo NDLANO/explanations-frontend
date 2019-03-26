@@ -115,11 +115,12 @@ class SearchContainer extends React.Component {
         // TODO this.props.updateSearchQuery();
         this.props.apiService.searchForConcepts(query.toString())
             .then(({results, ...rest}) => {
+
+                this.props.updateIsSearching(false);
                 this.props.updateSearchResult({items: results, ...rest});
-                this.mapResultsToListView(results).then(items => {
-                    this.props.updateIsSearching(false);
-                    this.props.updateSearchResult({items, ...rest});
-                })
+                this.mapResultsToListView(results)
+                    .then(items => this.props.updateSearchResult({items, ...rest}))
+                    .catch(() => {});
             });
 
     }
