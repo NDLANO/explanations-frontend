@@ -290,7 +290,7 @@ class ConceptPageContainer extends React.Component {
 ConceptPageContainer.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
-    match: matchProps.isRequired,
+    match: PropTypes.shape(matchProps).isRequired,
     meta: PropTypes.array.isRequired,
     history: PropTypes.shape(historyProps).isRequired,
     status: PropTypes.array.isRequired,

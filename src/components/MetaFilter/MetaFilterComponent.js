@@ -100,7 +100,7 @@ class MetaFilter extends React.Component {
 
 const metaItem = PropTypes.shape({
     title: PropTypes.string,
-    value: PropTypes.string
+    value: PropTypes.string,
 });
 
 MetaFilter.propTypes = {
@@ -112,7 +112,7 @@ MetaFilter.propTypes = {
 
     // Optional
     isOpen: PropTypes.bool,
-    values: PropTypes.string,
+    values: PropTypes.arrayOf(PropTypes.string),
     visibleFilterCount: PropTypes.number,
     options: PropTypes.arrayOf(metaItem),
     languageOptions: PropTypes.arrayOf(metaItem),

@@ -117,7 +117,7 @@ export const loadConcept = (api, id) => new Promise((resolve, reject) =>
 );
 
 
-export const dropdownFormat = ({id, name, languageVariation, ...rest}) => ({...rest, value: languageVariation, id, languageVariation, label: name});
+export const dropdownFormat = ({id, name, languageVariation, ...rest}) => ({...rest, name,id, languageVariation, value: languageVariation,  label: name});
 
 export const metaExists = ({meta}) =>  meta.length > 0;
 export const statusExists = ({status}) => status.length > 0;

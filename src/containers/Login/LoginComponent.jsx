@@ -7,6 +7,7 @@
 
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 import { OneColumn } from '@ndla/ui';
 
@@ -27,7 +28,7 @@ export const LoginComponent = ({ match: {url} }) => (
 );
 
 LoginComponent.propTypes = {
-  match: matchProps.isRequired,
+  match: PropTypes.shape(matchProps).isRequired,
 };
 
 export default LoginComponent;

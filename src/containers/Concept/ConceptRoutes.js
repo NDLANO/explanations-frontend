@@ -77,7 +77,7 @@ class ConceptRoutes extends React.Component {
 
 ConceptRoutes.propTypes = {
     // Required
-    match: matchProps.isRequired,
+    match: PropTypes.shape(matchProps).isRequired,
     history: PropTypes.shape(historyProps).isRequired,
     renderCopyPage: PropTypes.func.isRequired,
     renderEditPage: PropTypes.func.isRequired,

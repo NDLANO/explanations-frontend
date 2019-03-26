@@ -36,7 +36,7 @@ import {loadCategories, loadMeta} from "../App/actions";
 
 
 import 'url-search-params-polyfill';
-import {indexRoute} from "../../utilities/routeHelper";
+import {indexRoute, searchRoute} from "../../utilities/routeHelper";
 import AutoComplete from "../../components/AutoComplete/AutoCompleteComponent";
 import ImageApi from "../../services/imageApiService";
 import {loginSuccess} from "../Login";
@@ -174,7 +174,7 @@ class SearchContainer extends React.Component {
         const options   = meta.filter(x => x.category.typeGroup.name.toLowerCase() !== "language").map(x => ({...x, title: x.abbreviation || x.name, value: x.languageVariation}));
         const breadCrumbs = [
             {to: indexRoute(), name: t('indexPage.title')},
-            {to: indexRoute(), name: t('searchPage.title')},
+            {to: searchRoute(), name: t('searchPage.title')},
         ];
 
         return (

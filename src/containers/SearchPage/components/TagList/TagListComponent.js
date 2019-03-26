@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import BEMHelper from "react-bem-helper";
 
 import Tag from "./TagComponent";
+import {metaProps} from "../../../../utilities/commonProps";
 
 
 const classes = new BEMHelper({
@@ -19,12 +20,18 @@ const classes = new BEMHelper({
 
 const TagList = ({tags, onDelete}) => (
     <ul {...classes()}>
-        {tags.map(x => <Tag {...x} classes={classes} onDelete={onDelete} />)}
+        {tags.map(x => <Tag key={x.id} {...x} classes={classes} onDelete={onDelete} />)}
     </ul>
 );
 
 TagList.propTypes = {
-    onDelete: PropTypes.func.isRequired
+    onDelete: PropTypes.func.isRequired,
+
+    tags: PropTypes.arrayOf(PropTypes.shape(metaProps))
+};
+
+TagList.defaultProps = {
+    tags: []
 };
 
 export default TagList;

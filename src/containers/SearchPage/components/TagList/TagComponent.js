@@ -18,7 +18,7 @@ const Tag = ({title, category, classes, languageVariation, onDelete}) => (
 );
 
 Tag.propTypes = {
-    ...PropTypes.shape(conceptProps),
+    ...conceptProps,
     onDelete: PropTypes.func.isRequired
 };
 

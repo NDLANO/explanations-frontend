@@ -84,7 +84,7 @@ class Concept extends React.Component {
         if (!isUpdate) {
             const s = status.find(x => x.typeGroup.name.toLowerCase() === "archived");
             if (s)
-                changeField(CONCEPT_FORM_NAME, FIELDS.status.name, s.languageVariation)
+                changeField(CONCEPT_FORM_NAME, FIELDS.status.name, s.languageVariation);
             this.props.clearFlashMessage(UPDATE_FLASH_MESSAGE_CONCEPT);
         }
     }
@@ -348,6 +348,7 @@ Concept.propTypes = {
     t: PropTypes.func.isRequired,
     pageTitle: PropTypes.string.isRequired,
     submitButtonText: PropTypes.string.isRequired,
+    clearFlashMessage: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,

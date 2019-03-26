@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 
 import {capitalizeText} from "../../../utilities";
 import FormSelect from "../../../components/FormSelect";
+import {categoryProps} from "../../../utilities/commonProps";
 
 export const metaNamePrefix = (name) => `meta_${name}`;
 
@@ -33,13 +34,7 @@ const Meta = ({category: {canHaveMultiple,isRequired, label, typeGroup: {name}},
 Meta.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
-    category: PropTypes.shape({
-        typeGroup: PropTypes.shape({
-            name: PropTypes.string.isRequired,
-        }).isRequired,
-        canHaveMultiple: PropTypes.bool.isRequired,
-        name: PropTypes.string.isRequired,
-    }).isRequired,
+    category: PropTypes.shape(categoryProps).isRequired,
     className: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
 

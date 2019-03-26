@@ -10,9 +10,8 @@ import {string, array, number} from 'prop-types';
 
 const listItemShape = {
     // Required
-    id: string.isRequired,
+    id: number.isRequired,
     title: string.isRequired,
-    link: string.isRequired,
 
     // Optional
     tags: array,
