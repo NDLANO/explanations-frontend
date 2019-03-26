@@ -9,6 +9,8 @@
 import BEMHelper from "react-bem-helper";
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Link} from "react-router-dom";
+
 import {listItemShape} from "./ListItemShape";
 import {trimTextToX} from "../utilities";
 import {createRoute, editConceptRoute} from "../../../utilities/routeHelper";
@@ -41,9 +43,9 @@ class ListItemComponent extends  React.Component {
                 <div {...classes('content')}>
                     <div {...classes('top')}>
                         <h1 {...classes('title')}>
-                            <a href={createRoute(match, editConceptRoute(id))} target="_blank" rel="noopener noreferrer">
+                            <Link to={createRoute(match, editConceptRoute(id))} >
                                 {title}
-                            </a>
+                            </Link>
                         </h1>
                         <div {...classes('author')}>
                             {author}

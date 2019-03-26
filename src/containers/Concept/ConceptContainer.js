@@ -38,7 +38,7 @@ import {
     editConceptRoute,
     indexRoute,
     routeIsAllowed,
-    createConceptRoute, createRoute
+    createConceptRoute, createRoute, searchRoute
 } from "../../utilities/routeHelper";
 
 import Concept from "./components/Concept";
@@ -196,6 +196,7 @@ class ConceptPageContainer extends React.Component {
         } = this.props;
         const breadCrumbs = [
             {to: indexRoute(), name: t('indexPage.title')},
+            {to: searchRoute(), name: t('searchPage.title')},
         ];
         if (id)
             breadCrumbs.push({to: createRoute(match,route(id)), name: t(pageTitle)});
