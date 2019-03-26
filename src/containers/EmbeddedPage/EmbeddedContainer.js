@@ -12,6 +12,7 @@ import {compose} from "redux";
 import {withRouter} from "react-router-dom";
 import {injectT} from "@ndla/i18n";
 import {Switch} from "react-router";
+import BEMHelper from "react-bem-helper";
 
 import 'url-search-params-polyfill';
 
@@ -27,6 +28,10 @@ import {logoutSuccess} from "../LogoutPage";
 import RoutesContainer from "../Routes/RoutesContainer";
 import Loading from "../../components/Loading/LoadingComponent";
 
+const classes = new BEMHelper({
+    name: 'embedded-page',
+    prefix: 'c-',
+});
 
 class EmbeddedContainer extends React.Component {
     constructor(props) {
@@ -72,9 +77,11 @@ class EmbeddedContainer extends React.Component {
         if (this.state.error)
             return <Loading message={this.state.message} t={this.props.t} />;
         return (
-            <Switch>
-                <RoutesContainer />
-            </Switch>
+            <div {...classes()}>
+                <Switch>
+                    <RoutesContainer />
+                </Switch>
+            </div>
         )
     }
 }
