@@ -321,13 +321,13 @@ class Concept extends React.Component {
 
 
     render() {
-        const { t, handleSubmit, submitButtonText} = this.props;
+        const { t, handleSubmit, pageTitle} = this.props;
         const submit = handleSubmit(this.onSubmit);
 
         return (
             <React.Fragment>
 
-                <Helmet title={t(submitButtonText)} />
+                <Helmet title={t(pageTitle)} />
                 <form onSubmit={submit} {...classes()}>
                     {this.renderFieldsSection()}
 
@@ -346,6 +346,7 @@ class Concept extends React.Component {
 Concept.propTypes = {
     // Required
     t: PropTypes.func.isRequired,
+    pageTitle: PropTypes.string.isRequired,
     submitButtonText: PropTypes.string.isRequired,
     locale: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,

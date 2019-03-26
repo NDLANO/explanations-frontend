@@ -224,6 +224,7 @@ class ConceptPageContainer extends React.Component {
                          locale={locale}
                          isReadOnly={this.isReadOnly()}
                          status={status}
+                         pageTitle={pageTitle}
                          submitMessages={messages}
                          submitConcept={isUpdate ? this.updateConcept : this.createConcept}
                          submitButtonText={submitButtonText}
