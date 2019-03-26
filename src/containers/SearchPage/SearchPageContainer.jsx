@@ -78,8 +78,9 @@ class SearchContainer extends React.Component {
         const searchParam = new URLSearchParams(history.location.search);
 
         if (searchParam.get('term'))
-            this.setState({term: searchParam.get('term')});
-        this.loadFilterData(this.state.searchLanguage);
+            this.setState({term: searchParam.get('term')}, () => this.loadFilterData(this.state.searchLanguage));
+        else
+            this.loadFilterData(this.state.searchLanguage)
     }
 
     loadFilterData(locale) {
