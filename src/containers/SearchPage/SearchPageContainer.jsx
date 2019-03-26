@@ -52,7 +52,6 @@ class SearchContainer extends React.Component {
         this.state = {
             metaIdMap: _.chain(props.meta).keyBy('languageVariation').mapValues('id').value(),
             showFilter: window.innerWidth - 300 > 768,
-            term: ''
         };
         this.onPageClick = this.onPageClick.bind(this);
         this.onTermChange = this.onTermChange.bind(this);
@@ -70,11 +69,18 @@ class SearchContainer extends React.Component {
         const {history} = this.props;
 
         const searchParam = new URLSearchParams(history.location.search);
+        this.loadFilterData();
 
-        if (searchParam.get('term'))
-            this.setState({term: searchParam.get('term')}, () => this.loadFilterData());
-        else
-            this.loadFilterData()
+        if (searchParam.get('term')){
+            this.props.updateSearchQuery({title: searchParam.get('term'), page: 1});
+            searchParam.delete('term');
+            history.push({
+                pathname: history.location.pathname,
+                search: "?" + searchParam.toString()
+            })
+        }else {
+            this.search();
+        }
     }
 
     loadFilterData() {
@@ -89,8 +95,6 @@ class SearchContainer extends React.Component {
 
         apiService.get(apiService.endpoints.meta, param).then(data => loadMeta(data.results));
         apiService.get(apiService.endpoints.category, param).then(data => loadCategories(data.results));
-
-        this.search();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -98,36 +102,38 @@ class SearchContainer extends React.Component {
             this.setState({metaIdMap: _.chain(this.props.meta).keyBy('languageVariation').mapValues('id').value()})
         }
 
+
+        // SearchQuery is changed
         const languageIsChanged = prevProps.searchQuery.language !== this.props.searchQuery.language;
         const titleIsChanged = prevProps.searchQuery.title !== this.props.searchQuery.title;
         const metaIsChanged =  prevProps.searchQuery.meta.length !== this.props.searchQuery.meta.length
                             || prevProps.searchQuery.meta.filter(x => !this.props.searchQuery.meta.includes(x)).length > 0;
-
+        const pageIsChanged = prevProps.searchQuery.page !== this.props.searchQuery.page;
 
         if (languageIsChanged) {
             this.loadFilterData();
-        } else if(titleIsChanged || metaIsChanged) {
+        }
+
+        if(languageIsChanged || titleIsChanged || metaIsChanged || pageIsChanged) {
             this.search();
         }
     }
 
 
     searchConcepts() {
-        const {apiService,  searchQuery: {language, meta, page, pageSize}} = this.props;
+        const {apiService,  searchQuery: {language, meta, page, pageSize, title}} = this.props;
         this.props.updateIsSearching(true);
 
         const query = new URLSearchParams();
         query.append("language", language);
         query.append("page", page);
         query.append("pageSize", pageSize);
-        if (this.state.term)
-            query.append("title", this.state.term);
+        if (title)
+            query.append("title", title);
         meta.forEach(meta => query.append("meta", this.state.metaIdMap[meta]));
 
-        // TODO this.props.updateSearchQuery();
         apiService.searchForConcepts(query.toString())
             .then(({results, ...rest}) => {
-
                 this.props.updateIsSearching(false);
                 this.props.updateSearchResult({items: results, ...rest});
                 this.mapResultsToListView(results)
@@ -161,21 +167,21 @@ class SearchContainer extends React.Component {
     }
 
     onPageClick({page}) {
-        this.props.updateSearchQuery({page}); // TODO search
+        this.props.updateSearchQuery({page});
     }
 
     onChange(values, value) {
-        this.props.updateSearchQuery({meta: values, page: 1}); // TODO search
+        this.props.updateSearchQuery({meta: values, page: 1});
     }
 
     onTermChange(newTerm) {
-        this.props.updateSearchQuery({title: newTerm, page: 1}); // TODO search
+        this.props.updateSearchQuery({title: newTerm, page: 1});
     }
 
     onRemoveTag(languageVariation) {
         const {searchQuery: {meta}} = this.props;
 
-        this.props.updateSearchQuery({meta: meta.filter(x => x !== languageVariation), page: 1}); // TODO search
+        this.props.updateSearchQuery({meta: meta.filter(x => x !== languageVariation), page: 1});
     }
 
     onToggleFilter() {
@@ -187,7 +193,6 @@ class SearchContainer extends React.Component {
     }
 
     render(){
-        const {showFilter, term} = this.state;
         const {categories, meta, t, match, isSearching, searchResult: {items, page, numberOfPages, totalItems}, searchQuery} = this.props;
         const languages = meta.filter(x => x.category.typeGroup.name.toLowerCase() === "language").map(x => ({...x, title: x.name, value: x.languageVariation}));
         const options   = meta.filter(x => x.category.typeGroup.name.toLowerCase() !== "language").map(x => ({...x, title: x.abbreviation || x.name, value: x.languageVariation}));
@@ -209,19 +214,19 @@ class SearchContainer extends React.Component {
                                                               onChangeLanguage={this.onLanguageChange}
                                                               languageOptions={languages}
                                                               languageDefault={languages.find(x => x.abbreviation === searchQuery.language)}
-                                                              isOpen={showFilter}/>}
+                                                              isOpen={this.state.showFilter}/>}
 
                     <div {...classes('content')}>
 
                         <div {...classes('menu-toggle')}>
-                            {showFilter ?  <Cross onClick={this.onToggleFilter} /> : <Filter onClick={this.onToggleFilter} />}
+                            {this.state.showFilter ?  <Cross onClick={this.onToggleFilter} /> : <Filter onClick={this.onToggleFilter} />}
                         </div>
                         <OneColumn>
 
                             <Breadcrumb items={breadCrumbs}/>
                             <div {...classes('search-field')}>
                                 <AutoComplete onChange={this.onTermChange}
-                                              value={term}
+                                              value={searchQuery.title}
                                               onSelect={this.onTermChange}
                                               items={[]}
                                               placeholder={t("searchPage.title")}
@@ -234,7 +239,7 @@ class SearchContainer extends React.Component {
                                         isSearching={isSearching}
                                         values={searchQuery.meta}
                                         options={options}
-                                        sidebarOpen={!showFilter}
+                                        sidebarOpen={!this.state.showFilter}
                                         onRemoveTag={this.onRemoveTag}
                                         t={t}/>
                         </OneColumn>
@@ -254,7 +259,6 @@ class SearchContainer extends React.Component {
 SearchContainer.defaultProps = {
     categories: [],
     meta: [],
-
     isSearching: false,
 };
 
@@ -290,8 +294,6 @@ SearchContainer.propTypes = {
     // Optional
     categories: PropTypes.arrayOf(PropTypes.shape(categoryProps)),
     meta: PropTypes.arrayOf(PropTypes.shape(metaProps)),
-
-
     isSearching: PropTypes.bool,
 };
 

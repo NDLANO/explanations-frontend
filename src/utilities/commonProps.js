@@ -126,6 +126,8 @@ export const mediaProps = {
     source: PropTypes.string.isRequired,
     externalId: PropTypes.string.isRequired,
     mediaType: PropTypes.shape(mediaTypeProps).isRequired,
+    created: PropTypes.string.isRequired,
+    updated: PropTypes.string.isRequired,
 };
 
 
@@ -133,7 +135,21 @@ export const conceptProps = {
     title: PropTypes.string,
     category: PropTypes.shape(categoryProps),
     meta: PropTypes.arrayOf(PropTypes.shape(metaProps)),
-    media: PropTypes.arrayOf(mediaProps),
+    media: PropTypes.arrayOf(PropTypes.shape(mediaProps)),
+    authorName: PropTypes.string,
+    content: PropTypes.string,
+    created: PropTypes.string,
+    deletedBy: PropTypes.string,
+    externalId: PropTypes.string,
+    groupId: PropTypes.string,
+    id: PropTypes.number,
+    language: PropTypes.shape(languageProps),
+    languageVariation: PropTypes.string,
+    source: PropTypes.string,
+    sourceAuthor: PropTypes.string,
+    status: PropTypes.shape(statusProps),
+    updated: PropTypes.string,
+    urlToContent: PropTypes.string,
 };
 
 export const fieldInputShape = shape(fieldInputProps);
