@@ -124,7 +124,7 @@ MetaFilter.defaultProps = {
     options: [],
     language: [],
     isOpen: false,
-    visibleFilterCount: 1
+    visibleFilterCount: 0
 };
 
 
