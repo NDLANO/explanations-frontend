@@ -55,7 +55,7 @@ FooterWrapper.propTypes = {
 
 
 FooterWrapper.defaultProps = {
-    editorChief: 'Christer Gundersen',
+    editorChief: 'Sigurd Trageton',
     editorManaging: 'Pål Frønsdal'
 };
 
