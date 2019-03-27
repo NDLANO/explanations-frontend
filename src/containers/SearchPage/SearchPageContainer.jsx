@@ -235,6 +235,7 @@ class SearchContainer extends React.Component {
                                     <Search />
                                 </Button>
                             </div>
+                            <p {...classes('search-tip')}>{t('searchPage.tips')}</p>
                             <ListHeader resultCount={totalItems}
                                         isSearching={isSearching}
                                         values={searchQuery.meta}

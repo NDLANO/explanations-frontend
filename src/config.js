@@ -15,7 +15,7 @@ const serverConfig = {
             redirectUri:        getEnvironment('AUTH0__REDIRECT_URI'),
             responseType:       getEnvironment('AUTH0__RESPONSE_TYPE'),
             audience:           getEnvironment('AUTH0__AUDIENCE'),
-            scope:              getEnvironment('AUTH0__SCOPE'),
+            scope:              '',//getEnvironment('AUTH0__SCOPE'),
             usernameKey:        getEnvironment('AUTH0__ACCESS_TOKEN_USERNAME_KEY'),
         },
         EXTERNAL_URL: {

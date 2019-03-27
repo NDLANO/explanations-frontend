@@ -28,6 +28,10 @@
         margin: 20px 20px 0;
     }
 
+    &__search-tip {
+        margin-top: 0;
+    }
+
     &__search-field {
         padding-top: 10px;
         display: flex;

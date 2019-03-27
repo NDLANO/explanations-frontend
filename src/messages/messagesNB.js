@@ -66,7 +66,7 @@ const NB = {
             delete: "Slett begrep",
             copy: "Kopier begrep",
             createNewLanguageVariation: "Opprett ny språkvariant",
-            submit: "Large oppdateringer"
+            submit: "Lagre oppdateringer"
         },
         submitMessage: {
             success:  "Begrepet er oppdatert!",
@@ -84,7 +84,7 @@ const NB = {
             error: "Klarte ikke å opprette begrep"
         },
         button: {
-            submit: "Large nytt begrep"
+            submit: "Lagre nytt begrep"
         },
     },
     createConceptLanguageVariationPage: {
@@ -94,7 +94,7 @@ const NB = {
             error: "Klarte ikke å opprette språkvariant"
         },
         button: {
-            submit: "Large ny språkvariant"
+            submit: "Lagre ny språkvariant"
         },
     },
     copyConceptPage: {
@@ -104,7 +104,7 @@ const NB = {
             error: "Klarte ikke å opprette begrep",
         },
         button: {
-            submit: "Large nytt begrep"
+            submit: "Lagre nytt begrep"
         },
     },
     deleteConcept: {
@@ -170,7 +170,8 @@ const NB = {
         resultsFor: "Treff på",
         resultCount:  "Antall begrep funnet",
         searching: "Søker...",
-        title: "Søk etter begrep"
+        title: "Søk etter begrep",
+        tips: "Bruk grunnstammen av ordet for rikt søk",
 
     },
     indexPage: {
