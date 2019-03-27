@@ -36,23 +36,24 @@
     }
 
     img {
-
-
+        max-height: 300px;
         @media (--mobile-viewport) {
-            height: 250px;
+           height: 100%;
         }
+
         @media (--tablet-viewport) {
-            width: 300px;
-            height: 300px;
-            padding-right: 20px;
+            max-width: 400px;
         }
         @media (--desktop-viewport) {
-            height: 290px;
-            width: 410px;
+            max-width: 500px;
         }
         @media (--wide-viewport) {
-            width: 400px;
+            max-width: 500px;
         }
+        @media (--very-wide-viewport) {
+            max-width: 600px;
+        }
+
     }
 
     &__title {

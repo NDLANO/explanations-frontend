@@ -51,7 +51,7 @@ const NB = {
             error: "Fikk ikke hentet data fra server."
         },
         button: {
-            chooseConcept: "Velg begrep"
+            chooseConcept: "Knytt til fagtekst"
         }
     },
     editConceptPage: {
