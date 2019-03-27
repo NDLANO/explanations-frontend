@@ -49,6 +49,9 @@ const NB = {
     conceptPage: {
         loadDataMessage: {
             error: "Fikk ikke hentet data fra server."
+        },
+        button: {
+            chooseConcept: "Velg begrep"
         }
     },
     editConceptPage: {

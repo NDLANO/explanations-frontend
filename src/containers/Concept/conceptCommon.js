@@ -12,7 +12,6 @@ import ImageApi from "../../services/imageApiService";
 import AudioApi from "../../services/audioApiService";
 import VideoApi from "../../services/videoApiService";
 import {metaNamePrefix} from "./components/Meta";
-import {config} from '../../config';
 
 export const submitSuccessHandler = (data, {titleMessage, actionType, history, id, match}, updateFlashMessageFunction) => {
     const message = {};
@@ -20,11 +19,6 @@ export const submitSuccessHandler = (data, {titleMessage, actionType, history, i
     message['title'] = titleMessage;
     updateFlashMessageFunction(actionType, message);
     history.push(createRoute(match, editRoute(id)));
-
-    try{
-        window.parent.postMessage({conceptId: id}, config.EXTERNAL_URL.postMessage);
-    }catch(e){}
-
     return data;
 };
 

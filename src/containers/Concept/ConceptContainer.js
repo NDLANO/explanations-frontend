@@ -38,6 +38,7 @@ import {
     editConceptRoute,
     indexRoute,
     routeIsAllowed,
+    embeddedRoute,
     createConceptRoute, createRoute, searchRoute
 } from "../../utilities/routeHelper";
 
@@ -61,7 +62,9 @@ class ConceptPageContainer extends React.Component {
         this.createConcept = this.createConcept.bind(this);
         this.renderDeleteButton = this.renderDeleteButton.bind(this);
         this.renderConceptRoutes = this.renderConceptRoutes.bind(this);
+        this.sendPostMessage = this.sendPostMessage.bind(this);
         this.navigate = this.navigate.bind(this);
+        this.renderChooseConceptForEmbedding = this.renderChooseConceptForEmbedding.bind(this);
         this.renderCopyPage = this.renderPage.bind(this, {
             pageTitle: "copyConceptPage.title",
             submitButtonText: "copyConceptPage.button.submit",
@@ -189,6 +192,24 @@ class ConceptPageContainer extends React.Component {
             </Button>);
     }
 
+    renderChooseConceptForEmbedding(id) {
+        if (this.props.match.path.indexOf(embeddedRoute()) === -1)
+            return null;
+
+        return (
+            <Button className="form-button"
+                    onClick={this.sendPostMessage.bind(this, id)}>
+                {this.props.t("conceptPage.button.chooseConcept")}
+            </Button>
+        );
+    }
+
+    sendPostMessage(id) {
+        try{
+            window.parent.postMessage({conceptId: id}, config.EXTERNAL_URL.postMessage);
+        }catch(e){}
+    }
+
     renderPage({pageTitle, submitButtonText, useInitialValues=true, isLanguageVariation=false, isUpdate=false, messages={success :'', error: ''}, route}, id=null) {
         const {t,
             meta,
@@ -233,6 +254,8 @@ class ConceptPageContainer extends React.Component {
                          isLanguageVariation={isLanguageVariation}
                          clearFlashMessage={clearFlashMessage}
                 >
+
+                    {isUpdate && this.renderChooseConceptForEmbedding(id)}
                     {isUpdate && !this.isReadOnly() && (
                         <React.Fragment>
                             <Button className="form-button"
