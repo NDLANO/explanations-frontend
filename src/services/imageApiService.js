@@ -12,22 +12,30 @@ export default class ImageApi {
     constructor(baseUrl=config.EXTERNAL_URL.ndlaApi) {
         this.baseUrl = `${baseUrl}/image-api`;
         this.apiById = `${this.baseUrl}/v2/images`;
-        this.apiByName = `${baseUrl}/image-api/raw`;
+        this.rawImage = `${baseUrl}/image-api/raw`;
+    }
+
+    isValidId(id) {
+        try {
+            return parseInt(Number(id).toString(), 10)
+        }catch(e){
+            return null;
+        }
     }
 
 
-    getById = (id) => axios.get(`${this.apiUrl}/${id}`).then(x => x.data);
+    getById = (id) => {
+        if (this.isValidId(id))
+            return axios.get(`${this.apiById}/${id}`).then(x => x.data);
+        else
+            return {};
+    };
     getByQuery = (query, page, locale) => axios.get(this.apiById, {params: {query, page, locale}}).then(x => x.data);
 
     getPreviewLink = (id, width=400) => {
-        let externalId = null;
-        try {
-            externalId = parseInt(Number(id).toString(), 10)
-        }catch(e){}
-
-        if (externalId)
-            return `${this.baseUrl}/raw/id/${id.replace("?width=1024", "")}?width=${width}`;
+        if (this.isValidId(id))
+            return `${this.rawImage}/id/${id.replace("?width=1024", "")}?width=${width}`;
         else
-            return `${this.baseUrl}/raw/${id.replace("?width=1024", "")}?width=${width}`;
+            return `${this.rawImage}/${id.replace("?width=1024", "")}?width=${width}`;
     }
 }
