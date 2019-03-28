@@ -24,7 +24,7 @@ class ListHeader extends React.Component {
     getTitleFeedback(){
         const {searchResult, searchQuery, t} = this.props;
         if(searchQuery.title.length > 0 && !searchResult.items.some(x => x.title.indexOf(searchQuery.title) > -1)) {
-            return <QueryFeedbackItem id={searchQuery.title} t={t} text={searchQuery.title} />;
+            return <QueryFeedbackItem  key={searchQuery.title} t={t} text={searchQuery.title} />;
         }
         return null;
     }
@@ -33,7 +33,7 @@ class ListHeader extends React.Component {
         if(!searchResult.items.some(x => x.meta.some(m => m.abbreviation === searchQuery.language))) {
             const languageMeta = meta.find(x => x.abbreviation === searchQuery.language);
             if (languageMeta) {
-                return <QueryFeedbackItem id={languageMeta.id} t={t} text={languageMeta.name} />;
+                return <QueryFeedbackItem key={languageMeta.id} t={t} text={languageMeta.name} />;
             }
         }
     }
@@ -44,7 +44,7 @@ class ListHeader extends React.Component {
             if (!searchResult.items.some(x => x.meta.some(m => m.languageVariation === metaLanguageVariation))) {
                 const m = meta.find(x => x.languageVariation === metaLanguageVariation);
                 if (m)
-                    metaFeedback.push(<QueryFeedbackItem id={m.id} t={t} text={m.abbreviation || m.name} />);
+                    metaFeedback.push(<QueryFeedbackItem key={m.id} t={t} text={m.abbreviation || m.name} />);
             }
         });
         return metaFeedback;
@@ -107,8 +107,7 @@ ListHeader.propTypes = {
     t: PropTypes.func.isRequired,
     onRemoveTag: PropTypes.func.isRequired,
     isSearching: PropTypes.bool.isRequired,
-    meta: PropTypes.arrayOf(metaProps).isRequired,
-    resultCount: PropTypes.number.isRequired,
+    meta: PropTypes.arrayOf(PropTypes.shape(metaProps)).isRequired,
     options: PropTypes.arrayOf(PropTypes.shape(metaProps)).isRequired,
     values: PropTypes.arrayOf(PropTypes.string).isRequired,
 
