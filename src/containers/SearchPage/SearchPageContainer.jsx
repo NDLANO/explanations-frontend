@@ -193,7 +193,7 @@ class SearchContainer extends React.Component {
     }
 
     render(){
-        const {categories, meta, t, match, isSearching, searchResult: {items, page, numberOfPages, totalItems}, searchQuery} = this.props;
+        const {categories, meta, t, match, isSearching, searchResult, searchQuery} = this.props;
         const languages = meta.filter(x => x.category.typeGroup.name.toLowerCase() === "language").map(x => ({...x, title: x.name, value: x.languageVariation}));
         const options   = meta.filter(x => x.category.typeGroup.name.toLowerCase() !== "language").map(x => ({...x, title: x.abbreviation || x.name, value: x.languageVariation}));
         const breadCrumbs = [
@@ -236,7 +236,9 @@ class SearchContainer extends React.Component {
                                 </Button>
                             </div>
                             <p {...classes('search-tip')}>{t('searchPage.tips')}</p>
-                            <ListHeader resultCount={totalItems}
+                            <ListHeader searchResult={searchResult}
+                                        searchQuery={searchQuery}
+                                        meta={meta}
                                         isSearching={isSearching}
                                         values={searchQuery.meta}
                                         options={options}
@@ -244,9 +246,9 @@ class SearchContainer extends React.Component {
                                         onRemoveTag={this.onRemoveTag}
                                         t={t}/>
                         </OneColumn>
-                        <ListView items={items}
-                                  page={page}
-                                  lastPage={numberOfPages}
+                        <ListView items={searchResult.items}
+                                  page={searchResult.page}
+                                  lastPage={searchResult.numberOfPages}
                                   match={match}
                                   onPagerClick={this.onPageClick} />
                     </div>
@@ -256,6 +258,20 @@ class SearchContainer extends React.Component {
     }
 }
 
+
+export const searchResultProps = {
+    items: PropTypes.arrayOf(PropTypes.shape(conceptProps)),
+    page: PropTypes.number.isRequired,
+    numberOfPages: PropTypes.number.isRequired,
+    totalItems: PropTypes.number.isRequired,
+};
+
+export const searchQueryProps = {
+    meta: PropTypes.arrayOf(PropTypes.string),
+    page: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    language: PropTypes.string.isRequired,
+};
 
 SearchContainer.defaultProps = {
     categories: [],
@@ -277,20 +293,10 @@ SearchContainer.propTypes = {
     loadCategories: PropTypes.func.isRequired,
     imageApi :PropTypes.instanceOf(ImageApi).isRequired,
     match: PropTypes.shape(matchProps).isRequired,
-    searchQuery: PropTypes.shape({
-        meta: PropTypes.arrayOf(PropTypes.string),
-        page: PropTypes.number.isRequired,
-        title: PropTypes.string.isRequired,
-        language: PropTypes.string.isRequired,
-    }).isRequired,
+    searchQuery: PropTypes.shape(searchQueryProps).isRequired,
     updateSearchQuery: PropTypes.func.isRequired,
     updateIsSearching: PropTypes.func.isRequired,
-    searchResult: PropTypes.shape({
-        items: PropTypes.arrayOf(PropTypes.shape(conceptProps)),
-        page: PropTypes.number.isRequired,
-        numberOfPages: PropTypes.number.isRequired,
-        totalItems: PropTypes.number.isRequired,
-    }),
+    searchResult: PropTypes.shape(searchResultProps).isRequired,
 
     // Optional
     categories: PropTypes.arrayOf(PropTypes.shape(categoryProps)),

@@ -166,7 +166,7 @@ const NB = {
     },
     searchPage: {
         resultHits: 'treff',
-        notResultsWith: 'Ingen treff på',
+        noResultsFor: 'Ingen treff på',
         resultsFor: "Treff på",
         resultCount:  "Antall begrep funnet",
         searching: "Søker...",
