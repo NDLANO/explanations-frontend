@@ -72,8 +72,13 @@ export const mapDataFromAPieToMedia = (conceptMedia) => new Promise((resolve, re
             const mediaObject = {...conceptMedia[index]};
             switch(mediaType.toLowerCase()) {
                 case 'image':
+                    // TODO IMAGE_ID_NOT_VALID_BUG fix when all media ids from old list api is valid ids..
+                    if (conceptMedia[index].source)
+                        mediaObject.previewUrl = conceptMedia[index].source;
+                    else
+                        mediaObject.previewUrl = m.imageUrl;
+
                     mediaObject.title = m.title.title;
-                    mediaObject.previewUrl = m.imageUrl;
                     mediaObject.altText = m.alttext.alttext;
                     break;
                 case 'audio':
