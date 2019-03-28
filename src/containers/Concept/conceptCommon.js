@@ -54,15 +54,7 @@ export const getMetasFromApiResult = concept => {
 export const getMediaFromApies = (media) => media.map(x => {
     switch(x.mediaType.typeGroup.name.toLowerCase()) {
         case 'image':
-            // TODO IMAGE_ID_NOT_VALID_BUG fix when all media ids from old list api is valid ids..
-            let externalId = null;
-            try {
-                externalId = parseInt(Number(x.externalId).toString(), 10)
-            }catch(e){}
-            if (externalId)
-                return new ImageApi().getById(x.externalId);
-            else
-                return ({imageUrl: x.source, alttext: {alttext: "no alternative text"}, title: {title: "Empty title"}});
+            return new ImageApi().getById(x.externalId);
         case 'audio':
             return new AudioApi().getById(x.externalId);
         case 'video':
@@ -80,9 +72,9 @@ export const mapDataFromAPieToMedia = (conceptMedia) => new Promise((resolve, re
             const mediaObject = {...conceptMedia[index]};
             switch(mediaType.toLowerCase()) {
                 case 'image':
-                    mediaObject.previewUrl = m.imageUrl;
-                    mediaObject.title = m.title.title;
-                    mediaObject.altText = m.alttext.alttext;
+                    mediaObject.previewUrl = new ImageApi().getPreviewLink(conceptMedia[index].externalId, 1000);
+                    mediaObject.title = m.title ? m.title.title : "";
+                    mediaObject.altText = m.alttext ? m.alttext.alttext : "";
                     break;
                 case 'audio':
                     mediaObject.title = m.title.title;

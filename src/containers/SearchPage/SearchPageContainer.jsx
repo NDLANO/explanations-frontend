@@ -157,25 +157,11 @@ class SearchContainer extends React.Component {
 
 
             // TODO IMAGE_ID_NOT_VALID_BUG fix when all media ids from old list api is valid ids..
-            let externalId = null;
-            try {
-                externalId = parseInt(Number(image.externalId).toString(), 10)
-            }catch(e){}
-
-            if (externalId)
-                this.props.imageApi.getById(image.externalId)
-                    .then(x => resolve({
-                            ...concept,
-                            previewImage: x.imageUrl,
-                            previewAltText: x.alttext.alttext,
-                        }))
-                    .catch(x => resolve(concept));
-            else
-                resolve({
-                    ...concept,
-                    previewImage: image.source,
-                    previewAltText: "no alternative text",
-                })
+            resolve({
+                ...concept,
+                previewImage: this.props.imageApi.getPreviewLink(image.externalId),
+                previewAltText: "no alt text",
+            })
         })));
     }
 
