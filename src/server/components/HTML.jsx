@@ -10,6 +10,7 @@ import Helmet from 'react-helmet';
 import serialize from 'serialize-javascript';
 import { renderToString } from 'react-dom/server';
 
+
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST); // eslint-disable-line import/no-dynamic-require
 const head = Helmet.rewind();
 
@@ -75,7 +76,7 @@ HTML.propTypes = {
 
 HTML.defaultProps = {
     // Optional
-    favicon: '/static/ndla-favicon.png'
+    favicon: '/ndla-favicon.png'
 };
 
 
