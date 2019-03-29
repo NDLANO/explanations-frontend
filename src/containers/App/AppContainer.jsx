@@ -51,21 +51,11 @@ Moment.globalFormat = 'lll';
 class App extends React.Component {
     componentDidMount() {
         const {apiService, loadStatus, loadMeta, loadMediaTypes, locale} = this.props;
-        this.loadData(apiService, loadStatus, loadMeta, loadMediaTypes, locale);
+
+        apiService.getByNext(apiService.endpoints.status, locale, loadStatus);
+        apiService.getByNext(apiService.endpoints.mediaType, locale, loadMediaTypes);
+        apiService.getByNext(apiService.endpoints.meta, locale, loadMeta);
     }
-
-    loadData(apiService, loadStatus, loadMeta, loadMediaTypes, locale) {
-        const searchParams = new URLSearchParams();
-        searchParams.append('language', locale);
-        searchParams.append('pageSize', '100');
-        searchParams.append('page', '1');
-        const param = searchParams.toString();
-
-        apiService.get(apiService.endpoints.status, param).then(data => loadStatus(data.results));
-        apiService.get(apiService.endpoints.mediaType, param).then(data => loadMediaTypes(data.results));
-        apiService.get(apiService.endpoints.meta, param).then(data => loadMeta(data.results));
-    }
-
 
     render() {
         return (

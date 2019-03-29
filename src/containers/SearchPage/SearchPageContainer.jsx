@@ -86,15 +86,8 @@ class SearchContainer extends React.Component {
     loadFilterData() {
         const {apiService, loadMeta, loadCategories, searchQuery: {language}} = this.props;
 
-        const searchParams = new URLSearchParams();
-        searchParams.append('language', language);
-        searchParams.append('pageSize', '100');
-        searchParams.append('page', '1');
-
-        const param = searchParams.toString();
-
-        apiService.get(apiService.endpoints.meta, param).then(data => loadMeta(data.results));
-        apiService.get(apiService.endpoints.category, param).then(data => loadCategories(data.results));
+        apiService.getByNext(apiService.endpoints.category, language, loadCategories);
+        apiService.getByNext(apiService.endpoints.meta, language, loadMeta);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

@@ -29,6 +29,7 @@ export default class ApiService {
         };
 
         this.searchCancellationToken = this.getCancellationToken();
+        this.defaultPageSize = 100;
     }
 
     getData = response => {
@@ -103,6 +104,37 @@ export default class ApiService {
             resolve();
         }
     });
+
+    getUrlParams(locale, page) {
+        const searchParams = new URLSearchParams();
+        searchParams.append('language', locale);
+        searchParams.append('pageSize', this.defaultPageSize.toString());
+        searchParams.append('page', page.toString());
+        return searchParams;
+    }
+
+    getByNext(url, locale, callback) {
+        return this
+            .get(url, this.getUrlParams(locale, 1).toString())
+            .then(data => this.getByNextPage(url, data, locale, callback));
+    }
+
+    getByNextPage(url, {numberOfPages, results}, locale, callback) {
+
+        new Promise((resolve, reject) => {
+            const promises = [];
+
+            for(let i = 2; i<numberOfPages; i++) {
+                promises.push(new Promise((res, rej) => {
+                    this.get(url, this.getUrlParams(locale, i).toString())
+                        .then(data => res(data.results))
+                        .catch(() => {});
+                }))
+            }
+            Promise.all(promises).then(items => resolve(results.concat(items.flat())));
+        }).then(items => callback(items))
+            .catch(() => {});
+    }
 
     getById    = (id, url) =>           this.api.get(`${url}/${id}`, this.getRequestConfig()).then(this.getData).catch(this.rejected);
     get        = (url, params='') =>    this.api.get(`${url}?${params}`, this.getRequestConfig()).then(this.getData).catch(this.rejected);

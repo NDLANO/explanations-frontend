@@ -56,6 +56,7 @@ class Concept extends React.Component {
         this.onChangeLanguage = this.onChangeLanguage.bind(this);
         this.updateStatus = this.updateStatus.bind(this);
         this.updateMeta = this.updateMeta.bind(this);
+        this.updateCategory = this.updateCategory.bind(this);
         this.submitFailed = this.submitFailed.bind(this);
         this.updateLanguageVariation = this.updateLanguageVariation.bind(this);
     }
@@ -96,25 +97,21 @@ class Concept extends React.Component {
             status: []
         });
         const {apiService} = this.props;
-        const searchParams = new URLSearchParams();
-        searchParams.append('language', language);
-        searchParams.append('pageSize', '100');
-        searchParams.append('page', '1');
-        const param = searchParams.toString();
 
-        apiService.get(apiService.endpoints.status, param).then(this.updateStatus);
+        apiService.getByNext(apiService.endpoints.status, language, this.updateStatus);
+        apiService.getByNext(apiService.endpoints.category, language, this.updateCategory);
+        apiService.getByNext(apiService.endpoints.meta, language, this.updateMeta);
 
-        Promise.all([
-            apiService.get(apiService.endpoints.category, param),
-            apiService.get(apiService.endpoints.meta, param)
-        ]).then(this.updateMeta);
     }
 
-    updateStatus({results: status}) {
+    updateStatus(status) {
         this.setState({status: status.map(x => dropdownFormat(x))});
     }
-    updateMeta([{results: categories}, {results: meta}]) {
-        this.setState({meta: meta.map(x => dropdownFormat(x)), categories: categories.map(x => dropdownFormat(x))});
+    updateMeta(meta) {
+        this.setState({meta: meta.map(x => dropdownFormat(x))});
+    }
+    updateCategory(categories) {
+        this.setState({categories: categories.map(x => dropdownFormat(x))});
     }
 
     onSubmit(values) {
