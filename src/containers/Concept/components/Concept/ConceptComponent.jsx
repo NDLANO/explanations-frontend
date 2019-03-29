@@ -284,7 +284,10 @@ class Concept extends React.Component {
                         mediaTypes={this.props.mediaTypes}
                     />
                 }
-                {!this.isDisabled() && <Plus onClick={() => this.openMediaModal()} className="c-icon--large" />}
+                {!this.isDisabled() &&
+                <div {...classes('add-media')}>{t('conceptForm.button.media')}
+                    <Plus onClick={() => this.openMediaModal()} className="c-icon--large" />
+                </div>}
             </React.Fragment>
         )
     }
@@ -295,7 +298,7 @@ class Concept extends React.Component {
 
         return (
             <React.Fragment>
-                {Boolean(fields.length === 0) && <p {...classes('message')}>{this.props.t('conceptForm.noMedia')}</p>}
+                {Boolean(fields.length === 0) && this.isDisabled() && <p {...classes('message')}>{this.props.t('conceptForm.noMedia')}</p>}
 
                 {fields.map((mediaName, index) => {
                     const media = fields.get(index);

@@ -62,7 +62,8 @@ export default class ApiService {
         return new Promise((resolve, reject) => {
             if (!response)
                 this.history.push(notFoundRoute());
-
+            if (!response.status)
+                reject();
             switch(response.status) {
                 case 401:
                     this.history.push(loginRoute());

@@ -66,7 +66,8 @@ const NB = {
             delete: "Slett forklaring",
             copy: "Kopier forklaring",
             createNewLanguageVariation: "Opprett ny språkvariant",
-            submit: "Lagre oppdateringer"
+            submit: "Lagre oppdateringer",
+            media: "Legg til media"
         },
         submitMessage: {
             success:  "Begrepet er oppdatert!",
@@ -84,7 +85,7 @@ const NB = {
             error: "Klarte ikke å opprette forklaring"
         },
         button: {
-            submit: "Lagre nytt forklaring"
+            submit: "Lagre ny forklaring"
         },
     },
     createConceptLanguageVariationPage: {
@@ -104,7 +105,7 @@ const NB = {
             error: "Klarte ikke å opprette forklaring",
         },
         button: {
-            submit: "Lagre nytt forklaring"
+            submit: "Lagre ny forklaring"
         },
     },
     deleteConcept: {
@@ -134,7 +135,7 @@ const NB = {
         isLanguageVariation: "Er språkvariant",
         urlToContent: "Link til artikkel",
         button: {
-            addMeta: "Legg til ",
+            addMeta: "Legg til media",
         },
         noMedia: "Ingen medier er lagt til"
     },
