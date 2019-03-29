@@ -32,7 +32,7 @@ export default class ImageApi {
     };
     getByQuery = (query, page, locale) => axios.get(this.apiById, {params: {query, page, locale}}).then(x => x.data);
 
-    getPreviewLink = (id, width=400) => {
+    getPreviewLink = (id, width=300) => {
         if (this.isValidId(id))
             return `${this.rawImage}/id/${id.replace("?width=1024", "")}?width=${width}`;
         else

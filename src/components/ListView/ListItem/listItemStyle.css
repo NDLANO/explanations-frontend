@@ -35,27 +35,6 @@
         width: 1000px;
     }
 
-    img {
-        max-height: 300px;
-        @media (--mobile-viewport) {
-           height: 100%;
-        }
-
-        @media (--tablet-viewport) {
-            max-width: 400px;
-        }
-        @media (--desktop-viewport) {
-            max-width: 500px;
-        }
-        @media (--wide-viewport) {
-            max-width: 500px;
-        }
-        @media (--very-wide-viewport) {
-            max-width: 600px;
-        }
-
-    }
-
     &__title {
         text-align: left;
         text-transform: capitalize;
