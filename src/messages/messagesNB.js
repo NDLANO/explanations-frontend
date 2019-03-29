@@ -7,7 +7,7 @@
 
 const NB = {
     header: {
-        title: "Forklaringstjeneste",
+        title: "Forklaring",
         login: "Logg inn",
         logout: "Logg ut"
     },
