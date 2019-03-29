@@ -22,9 +22,9 @@ const NB = {
         create: "Opprett"
     },
     search: {
-        title: "Søk etter begrep",
+        title: "Søk etter forklaring",
         input: {
-            placeholder: "Skriv inn begrep tittel",
+            placeholder: "Skriv inn forklaring tittel",
         },
         subject: {
             placeholder: "Fag",
@@ -55,16 +55,16 @@ const NB = {
         }
     },
     editConceptPage: {
-        title: "Oppdater begrep",
+        title: "Oppdater forklaring",
         confirmModal: {
             delete: {
                 title: "Bekreft arkivering",
-                action: "Er du sikker på at du vil arkivere begrepet?"
+                action: "Er du sikker på at du vil arkivere forklaringen?"
             }
         },
         button: {
-            delete: "Slett begrep",
-            copy: "Kopier begrep",
+            delete: "Slett forklaring",
+            copy: "Kopier forklaring",
             createNewLanguageVariation: "Opprett ny språkvariant",
             submit: "Lagre oppdateringer"
         },
@@ -74,17 +74,17 @@ const NB = {
         },
         deleteMessage: {
             success: "Begrepet er arkivert!",
-            error: "Klarte ikke å arkivere begrep",
+            error: "Klarte ikke å arkivere forklaring",
         }
     },
     createConceptPage: {
-        title: "Opprett begrep",
+        title: "Opprett forklaring",
         submitMessage: {
             success: "Begrepet er opprettet!",
-            error: "Klarte ikke å opprette begrep"
+            error: "Klarte ikke å opprette forklaring"
         },
         button: {
-            submit: "Lagre nytt begrep"
+            submit: "Lagre nytt forklaring"
         },
     },
     createConceptLanguageVariationPage: {
@@ -98,24 +98,24 @@ const NB = {
         },
     },
     copyConceptPage: {
-        title: "Kopier begrep",
+        title: "Kopier forklaring",
         submitMessage: {
             success: "Begrepet er opprettet!",
-            error: "Klarte ikke å opprette begrep",
+            error: "Klarte ikke å opprette forklaring",
         },
         button: {
-            submit: "Lagre nytt begrep"
+            submit: "Lagre nytt forklaring"
         },
     },
     deleteConcept: {
         title: "Slett (arkiver)"
     },
     pageTitles: {
-        "cloneConcept": "Klon - begrep NDLA",
-        "updateConcept": "Oppdater - begrep NDLA",
-        "createConcept": "Opprett - begrep NDLA",
-        "searchForConcept": "Søk - begrep NDLA",
-        "default": "Begrepstjeneste - NDLA",
+        "cloneConcept": "Klon - forklaring NDLA",
+        "updateConcept": "Oppdater - forklaring NDLA",
+        "createConcept": "Opprett - forklaring NDLA",
+        "searchForConcept": "Søk - forklaring NDLA",
+        "default": "Forklaring - NDLA",
         "login": "Logg inn - NDLA",
         "logout": "Logg ut - NDLA"
     },
@@ -168,9 +168,9 @@ const NB = {
         resultHits: 'treff',
         noResultsFor: 'Ingen treff på',
         resultsFor: "Treff på",
-        resultCount:  "Antall begrep funnet",
+        resultCount:  "Antall forklaring funnet",
         searching: "Søker...",
-        title: "Søk etter begrep",
+        title: "Søk etter forklaring",
         tips: "Bruk grunnstammen av ordet for rikt søk",
 
     },
