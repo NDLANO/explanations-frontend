@@ -5,207 +5,214 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-
 const NB = {
     header: {
-        title: "Explanations service",
-        login: "Log in",
-        logout: "Log out"
+        title: "Term",
+        login: "Login",
+        logout: "Logout"
     },
     meta: {
         description: "description"
     },
     logo: {
-        label: "National digital learning arena"
+        label: "Nasjonal digital læringsarena \"Norwegian National Digital Learning Arena\""
     },
     subNavigation: {
-        search: "Search",
-        create: "Create"
+        search: "Søk",
+        create: "Opprett"
     },
     search: {
-        title: "Søk etter begrep",
+        title: "Search for term",
         input: {
-            placeholder: "Skriv inn begrep tittel",
+            placeholder: "Enter the term"
         },
         subject: {
-            placeholder: "Fag",
-            title: "Fag"
+            placeholder: "Subject",
+            title: "Subject",
         },
         language: {
-            placeholder: "Språk",
-            title: "Språk"
+            placeholder: "Language",
+            title: "Language",
         }
     },
     loginProviders: {
-        description: "Logg inn i NDLA med",
-        consent_before_link: "Ved å logge på denne tjenesten aksepterer jeg herved vilkårene i NDLAs",
-        consent_link: "personvernpolicy",
-        consent_after_link: ", og jeg gir mitt samtykke til at NDLA bruker min personlige informasjon."
+        description: "Login to NDLA with ",
+        consent_before_link: "By signing in to this service I accept the terms and conditions of NDLA’s",
+        consent_link: "privacy policy",
+        consent_after_link: "and I consent to NDLA using my personal information."
     },
-
     dropdown: {
-        placeholder: "Velg..."
+        placeholder: "Select"
     },
-
-    updateConcept: {
-        title: "Oppdater begrep",
-        confirmModal: {
-            delete: {
-                title: "Bekreft sletting",
-                action: "Er du sikker på at du vil slette begrepet?"
-            }
+    conceptPage: {
+        loadDataMessage: {
+            error: "Failed to retrieve data from server"
         },
         button: {
-            delete: "Slett begrep",
-            clone: "Klon begrep"
-        },
-        submitMessage: {
-            success: {
-                title: "Begrepet er oppdatert!"
-            },
-            error: {
-                title: "Klarte ikke å sende inn skjemaet",
-            }
-        },
-        deleteMessage: {
-            success: {
-                title: "Begrepet er arkivert!"
-            },
-            error: {
-                title: "Klarte ikke å slette begrep",
-            }
-        },
-        loadDataMessage: {
-            error: {
-                title: "Fikk ikke hentet data fra server."
-            }
+            chooseConcept: "Connect to text"
         }
     },
-    createConcept: {
-        title: "Opprett begrep",
+    editConceptPage: {
+        title: "Update term",
+       confirmModal: {
+           delete: {
+               title: "Confirm archiving",
+               action: "Are you sure you want to archive the term?"
+           },
+       },
+       button: {
+           delete: "Delete term",
+           copy: "Copy term",
+           createNewLanguageVariation: "Create new language variant",
+           submit: "Save changes",
+           media: "Add media"
+       },
+       submitMessage: {
+           success: "The term is updated!",
+           error: "Failed to submit form"
+       },
+       deleteMessage: {
+           success: "The term is archived!",
+           error: "Failed to archive term"
+       }
+   },
+    createConceptPage: {
+        title: "Create term",
         submitMessage: {
-            success: {
-                title: "Begrepet er opprettet!"
-            },
-            error: {
-                title: "Klarte ikke å opprette begrep"
-            }
-        }
-    },
-    cloneConcept: {
-        title: "Klon begrep",
-        submitMessage: {
-            success: {
-                title: "Begrepet er klonet og opprettet!"
-            },
-            error: {
-                title: "Klarte ikke å clone og opprette begrep",
-            }
-        },
-        loadDataMessage: {
-            error: {
-                title: "Fikk ikke hentet data fra server."
-            }
-        }
-    },
-    deleteConcept: {
-        title: "Slett (arkiver)"
-    },
-    pageTitles: {
-        "cloneConcept": "Klon - begrep NDLA",
-        "updateConcept": "Oppdater - begrep NDLA",
-        "createConcept": "Opprett - begrep NDLA",
-        "searchForConcept": "Søk - begrep NDLA",
-        "default": "Begrepstjeneste - NDLA",
-        "login": "Logg inn - NDLA",
-        "logout": "Logg ut - NDLA"
-    },
-
-    conceptForm: {
-        title: "Tittel",
-        content: "Innhold",
-        addButton: "Legg til ",
-        source: "Kilde",
-        externalId: "Ekstern id",
-        status: "Status",
-        author: "Opphaver til tekst",
-        created: "Opprettet",
-        updated: "Oppdatert",
-        requiredField: "Dette feltet er obligatorisk",
+           success: "The term is created!",
+           error: "Failed to create term",
+       },
         button: {
-            addMeta: "Legg til ",
+            submit: "Save new term"
         },
-        noMedia: "Ingen medier er lagt til"
+    },
+    createConceptLanguageVariationPage: {
+        title: "Create language variant",
+       submitMessage: {
+           success: "Language variant is created!",
+           error: "Failed to create language variant"
+       },
+        button: {
+            submit: "Save new language variant"
+        },
+    },
+    copyConceptPage: {
+        title: "Copy term",
+       submitMessage: {
+           success: "The term is created!",
+           error: "Failed to create term"
+       },
+        button: {
+            submit: "Save new term"
+        },
+    },
+        deleteConcept: {
+            title: "Delete (archive)",
+        },
+        pageTitles: {
+            "cloneConcept": "Clone – term NDLA",
+            "updateConcept": "Update – term NDLA",
+            "createConcept": "Create – term NDLA",
+            "searchForConcept": "Search – term NDLA",
+            "default": "Term glossary – NDLA",
+            "login": "Login – NDLA",
+            "logout": "Logout – NDLA",
+            },
+        conceptForm: {
+            title: "Title",
+            content: "Content",
+            add: "Add ",
+            source: "Source",
+            externalId: "External id",
+            status: "Status",
+            author: "Opphaver til tekst",
+            created: "Created",
+            updated: "Updated",
+            requiredField: "This field is required",
+            isLanguageVariation: "Is språkvariant",
+            urlToContent: "Link to article",
+            button: {
+                addMeta: "Add media",
+            },
+            noMedia: "No media present"
     },
     confirmModal: {
-        default: {
-            title: "Bekreft handling",
-            action: "Er du sikker på at du vil gjøre dette?",
-            button: {
-                close: "lukk",
-                cancel: "Avbryt",
-                confirm: "Bekreft"
-            },
+    default: {
+            title: "confirm action",
+               action: "Are you sure you want to do this",
+               button: {
+                   close: "close",
+                   cancel: "Cancel",
+                   confirm: "Confirm"
+               },
         }
     },
     notFound: {
-        description: "Fant dessverre ikke det du letet etter..."
+        description: "We could not find what you were looking for"
     },
     loadingMessage: {
-        default: 'Laster ...',
-        loadingMeta: 'Laster inn metadata ...',
-        loadingSubjects: 'Laster inn fag ...',
-        loadingLanguages: 'Laster inn språk ...',
-        loadingStatus: 'Laster inn status ...',
-        initializingForm: 'Henter data ...',
-        loadingConfig: 'Henter konfigurasjonsdata ...',
+        default: "Loading",
+        loadingMeta:"Loading metadata",
+        loadingSubjects:  "Loading subject",
+        loadingLanguages: "Loading language",
+            loadingStatus:  "loading status",
+           initializingForm: "Retrieving data",
+           loadingConfig: "Retrieving configuration data",
     },
     forbiddenPage: {
-        description: "Her har du ikke tilgang..."
+        description:  "you do not have access here"
     },
     searchPage: {
-        resultHits: 'treff',
-        notResultsWith: 'Ingen treff på',
-        resultsFor: "Treff på"
+        resultHits: "results",
+       notResultsWith: "No results found for",
+        resultsFor: "Results for",
+        resultCount:  "Number of terms found",
+        searching: "Searching...",
+        title: "Search for term",
+        tips: "Bruk grunnstammen av ordet for rich search",
     },
     indexPage: {
-        title: "Hjem"
+        title: "Home"
     },
     flashMessage: {
-        dismiss: "Lukk"
+        dismiss: "Close"
     },
     searchMedia: {
-        audioTitle: "Søk etter lydklipp",
-        videoTitle: "Søk etter video",
-        imageTitle: "Søk etter bilder",
-        searchButtonTitle: "Søk",
-        use: "Bruk",
-        noResults: "Ingen resultater",
-        loadMore: "Last flere",
-        preview: "Forhåndsvis",
-        publishedDate: "Publisert",
-        duration: "Varighet",
-        views: "Visninger"
+        audioTitle: "Search for audio clips",
+        videoTitle: "Search for video",
+        imageTitle:  "Search for images",
+        searchButtonTitle: "Search",
+       use: "Use",
+       noResults: "No results",
+       loadMore: "Load more",
+       preview: "Preview",
+       publishedDate: "Published",
+       duration: "Duration",
+       views: "Views",
     },
     phrases: {
-        audio: "Lyd",
-        video: "Film",
-        image: "Bilde",
-        preview: "Forhåndsvis",
-        delete: "Slett",
-        language: "Språk",
-        subject: "Fag",
-        license: "Lisens",
-        draft: "Utkast",
-        allSubjects: "Alle fag",
-        allLanguages: "Alle språk"
+        audio: "Audio",
+        video: "Video",
+        image: "Image",
+        preview: "Preview",
+        delete: "Delete",
+        language: "Language",
+        subject: "Subject",
+        license: "License",
+        draft: "Draft",
+        allSubjects: "All subjects",
+        allLanguages:  "All languages",
+        choose: "select",
+        show: "Show",
+        hide: "Hide"
     },
     sentence: {
-        previewNotSupported: "Støtter ikke fohåndsvisining av dette formatet"
+        previewNotSupported: "Preview is not supported for this file type"
     },
     embeddingPage: {
-        notVerifiedToken: "Klarte ikke å validere token",
-        tokenIsExpired: "Token er utgått"
+        notVerifiedToken: "Failed to validate the token",
+       tokenIsExpired:  "Token is expired",
+        validatingToken: "Validating token"
     }
 };
 

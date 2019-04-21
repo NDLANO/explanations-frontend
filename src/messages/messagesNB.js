@@ -34,7 +34,6 @@ const NB = {
             placeholder: "Språk",
             title: "Språk"
         },
-
     },
     loginProviders: {
         description: "Logg inn i NDLA med",
@@ -42,7 +41,6 @@ const NB = {
         consent_link: "personvernpolicy",
         consent_after_link: ", og jeg gir mitt samtykke til at NDLA bruker min personlige informasjon."
     },
-
     dropdown: {
         placeholder: "Velg..."
     },
@@ -70,18 +68,18 @@ const NB = {
             media: "Legg til media"
         },
         submitMessage: {
-            success:  "Begrepet er oppdatert!",
+            success:  "Forklaringen er oppdatert!",
             error: "Klarte ikke å sende inn skjemaet",
         },
         deleteMessage: {
-            success: "Begrepet er arkivert!",
+            success: "Forklaringen er arkivert!",
             error: "Klarte ikke å arkivere forklaring",
         }
     },
     createConceptPage: {
         title: "Opprett forklaring",
         submitMessage: {
-            success: "Begrepet er opprettet!",
+            success: "Forklaringen er opprettet!",
             error: "Klarte ikke å opprette forklaring"
         },
         button: {
@@ -101,7 +99,7 @@ const NB = {
     copyConceptPage: {
         title: "Kopier forklaring",
         submitMessage: {
-            success: "Begrepet er opprettet!",
+            success: "Forklaringen er opprettet!",
             error: "Klarte ikke å opprette forklaring",
         },
         button: {
@@ -120,7 +118,6 @@ const NB = {
         "login": "Logg inn - NDLA",
         "logout": "Logg ut - NDLA"
     },
-
     conceptForm: {
         title: "Tittel",
         content: "Innhold",
@@ -173,7 +170,6 @@ const NB = {
         searching: "Søker...",
         title: "Søk etter forklaring",
         tips: "Bruk grunnstammen av ordet for rikt søk",
-
     },
     indexPage: {
         title: "Hjem"
