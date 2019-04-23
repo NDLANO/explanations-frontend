@@ -64,7 +64,7 @@ const NN = {
             delete: "Slett omgrep",
             copy: "Kopier omgrep",
             createNewLanguageVariation: "Opprett ny språkvariant",
-            submit: "Lagre oppdateringer",
+            submit: "Lagre oppdateringar",
             media: "Legg til media"
         },
         submitMessage: {
@@ -169,7 +169,7 @@ const NN = {
         resultCount:  "Antall omgrep funnet",
         searching: "Søker...",
         title: "Søk etter omgrep",
-        tips: "Bruk grunnstammen av ordet for rikt søk",
+        tips: "Bruk grunnstamma av ordet for å søke breiare",
     },
     indexPage: {
         title: "Heim"
@@ -204,7 +204,7 @@ const NN = {
         allLanguages: "Alle språk",
         choose: "Vel",
         show: "Vis",
-        hide: "Gjem"
+        hide: "Gøym"
     },
     sentence: {
         previewNotSupported: "Støttar ikkje førehandsvising av dette formatet"

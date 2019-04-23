@@ -169,7 +169,7 @@ const NB = {
         resultCount:  "Number of terms found",
         searching: "Searching...",
         title: "Search for term",
-        tips: "Bruk grunnstammen av ordet for rich search",
+        tips: "Use root form of word to widen search",
     },
     indexPage: {
         title: "Home"
