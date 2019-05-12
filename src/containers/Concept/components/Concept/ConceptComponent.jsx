@@ -126,7 +126,7 @@ class Concept extends React.Component {
         const meta_from_list = all_meta.filter(x => Array.isArray(x)).reduce((a, b) => a.concat(b), []);
         const meta_from_objects =  all_meta.filter(x => !Array.isArray(x));
 
-        const meta = getMetaIds(meta_from_objects).concat(getMetaIds(meta_from_list));
+        const meta = getMetaIds(meta_from_objects).concat(getMetaIds(meta_from_list)).filter(x => x !== null);
         const {
             externalId = -1,
             statusId: statusLanguageVariation,
@@ -285,7 +285,7 @@ class Concept extends React.Component {
                     />
                 }
                 {!this.isDisabled() &&
-                <div {...classes('add-media')}>{t('conceptForm.button.media')}
+                <div {...classes('add-media')}>{t('conceptForm.button.addMeta')}
                     <Plus onClick={() => this.openMediaModal()} className="c-icon--large" />
                 </div>}
             </React.Fragment>
